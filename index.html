@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Male 360 — Bienestar & Gym</title>
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+  <style>
+    /* Estilos de app nativa móvil */
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea {
+      user-select: text;
+    }
+    /* Scroll suave */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased font-sans pb-24 md:pb-6">
+
+  <!-- CONTENEDOR PRINCIPAL TIPO APP MÓVIL (MAX WIDTH TABLET/DESKTOP) -->
+  <div class="max-w-xl mx-auto min-h-screen flex flex-col justify-between">
+
+    <!-- TOP BAR DE ESTADO -->
+    <header class="sticky top-0 z-30 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 p-4 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-lg shadow-md shadow-rose-900/30">
+          🌸
+        </div>
+        <div>
+          <h1 class="text-sm font-black text-white tracking-tight flex items-center gap-1.5">
+            <span>Male 360</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          </h1>
+          <p class="text-[10px] text-slate-400 font-medium" id="live-header-date">
+            Martes 22 de Septiembre
+          </p>
+        </div>
+      </div>
+
+      <!-- SWITCH MODO (MALE / LAURA) -->
+      <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-[11px] font-bold">
+        <button onclick="setRole('male')" id="btn-role-male" class="px-2.5 py-1 rounded-lg transition bg-rose-600 text-white">
+          Male
+        </button>
+        <button onclick="setRole('laura')" id="btn-role-laura" class="px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white">
+          Coach
+        </button>
+      </div>
+    </header>
+
+    <!-- ÁREA DE CONTENIDO DINÁMICO (VISTAS) -->
+    <main class="flex-1 p-4 space-y-4">
+
+      <!-- ============================================== -->
+      <!-- VISTA 1: CHAT CON EL COACH EN VIVO (PRINCIPAL) -->
+      <!-- ============================================== -->
+      <div id="view-chat" class="view-panel space-y-4">
+        
+        <!-- CARD DE ESTADO HOY RÁPIDO -->
+        <div class="bg-gradient-to-r from-rose-950/60 via-slate-900 to-purple-950/60 border border-rose-800/40 rounded-3xl p-4 shadow-lg space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] uppercase font-bold text-rose-300 tracking-wider bg-rose-950/80 px-2.5 py-0.5 rounded-full border border-rose-800/60">
+              ⚡ Hoy: Martes Activo
+            </span>
+            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/60">
+              🏋️ Gym Mañana ✔️
+            </span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed font-medium">
+            Entraste a las 10:00 hs y liquidaste el <strong>Día 1 de Glúteo (+12 reps extras)</strong>. Tu tarde queda libre para descansar.
+          </p>
+          <div class="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[11px]">
+            <span class="text-slate-400">💧 Creatina Día 18: <strong class="text-purple-300">Saturación 100%</strong></span>
+            <span class="text-slate-400">Agua: <strong id="quick-water-count">1.5L / 2.5L</strong></span>
+          </div>
+        </div>
+
+        <!-- HISTORIAL DE MENSAJES (BURBUJAS) -->
+        <div id="chat-messages-container" class="space-y-3 min-h-[300px] max-h-[460px] overflow-y-auto p-1">
+          <!-- Se cargan en tiempo real desde Firebase -->
+        </div>
+
+        <!-- CHIPS DE ACCIÓN RÁPIDA (PARA TOCAR Y ENVIAR) -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px]">
+          <button onclick="sendQuickPrompt('Hoy salgo a las 15:30 de la facu')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
+            ⏰ Salgo 15:30
+          </button>
+          <button onclick="sendQuickPrompt('¿Qué me recomendás para merendar post-gym hoy?')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
+            🥪 ¿Qué meriendo hoy?
+          </button>
+          <button onclick="sendQuickPrompt('¿Cómo sigue mi semana entre cursada y gym?')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
+            🗓️ ¿Cómo sigue mi semana?
+          </button>
+          <button onclick="sendQuickPrompt('Tomé la creatina con el desayuno')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
+            ⚡ Tomé creatina hoy
+          </button>
+        </div>
+
+        <!-- INPUT DE MENSAJE -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-2 flex items-center gap-2 shadow-xl focus-within:border-rose-500 transition">
+          <input type="text" id="chat-user-input" placeholder="Escribile a tu Coach / Copiloto..."
+            onkeydown="if(event.key === 'Enter') handleSendMessage()"
+            class="flex-1 bg-transparent px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none">
+          <button onclick="handleSendMessage()" id="btn-send-chat" class="w-8 h-8 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 flex items-center justify-center text-white text-xs shadow-md transition hover:scale-105 active:scale-95">
+            ➔
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ============================================== -->
+      <!-- VISTA 2: MI DÍA DE HOY (TIMELINE ADAPTATIVO)  -->
+      <!-- ============================================== -->
+      <div id="view-dia" class="view-panel hidden space-y-4">
+        <div class="border-b border-slate-800 pb-2">
+          <h2 class="text-base font-extrabold text-white">Cronograma Adaptado de Hoy</h2>
+          <p class="text-xs text-slate-400">Actualizado según lo que fuiste charlando con el Coach.</p>
+        </div>
+
+        <!-- TIMELINE VERTICAL -->
+        <div class="relative pl-6 space-y-4 border-l-2 border-slate-800 ml-3">
+          
+          <!-- BLOQUE 1: DESAYUNO Y CREATINA -->
+          <div class="relative group">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-slate-950"></span>
+            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
+              <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">07:30 a 08:15 hs • Hecho ✔️</span>
+              <h4 class="font-bold text-white text-xs">Desayuno Completo en Casa + Creatina</h4>
+              <p class="text-[11px] text-slate-400">Carbohidratos para transporte insulínico + 5g de creatina monohidrato (Día 18).</p>
+            </div>
+          </div>
+
+          <!-- BLOQUE 2: GYM SESIÓN 1 -->
+          <div class="relative group">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-slate-950"></span>
+            <div class="bg-slate-900/90 border border-emerald-900/50 p-3 rounded-2xl space-y-1">
+              <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">08:30 a 09:45 hs • ¡Liquidado! ✔️</span>
+              <h4 class="font-bold text-white text-xs">Gimnasio: Día 1 Glúteo & Cadena Posterior</h4>
+              <p class="text-[11px] text-slate-400">RDL 14kg (11,11,11) • Sumo 30kg (9,9) • Hip Thrust 20kg (12,12) • Abductores (63kg).</p>
+            </div>
+          </div>
+
+          <!-- BLOQUE 3: FACULTAD -->
+          <div class="relative group">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-slate-950"></span>
+            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
+              <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">10:00 a 16:00 hs • En Curso</span>
+              <h4 class="font-bold text-white text-xs">Facultad de Odontología</h4>
+              <p class="text-[11px] text-slate-400">Entrada tardía por examen ya aprobado. Clases y regreso en transporte.</p>
+            </div>
+          </div>
+
+          <!-- BLOQUE 4: TARDE LIBRE Y MERIENDA -->
+          <div class="relative group">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-rose-500 ring-4 ring-slate-950"></span>
+            <div class="bg-slate-900/90 border border-rose-900/40 p-3 rounded-2xl space-y-1">
+              <span class="text-[10px] text-rose-400 font-bold uppercase tracking-wider">16:30 a 20:00 hs • Tarde Libre</span>
+              <h4 class="font-bold text-white text-xs">Llegada a Casa, Merienda Rica & Desconexión</h4>
+              <p class="text-[11px] text-slate-400">Ducha caliente, desconexión sin culpa. Como el gym ya se hizo a la mañana, cero pendientes.</p>
+            </div>
+          </div>
+
+          <!-- BLOQUE 5: DESCANSO NOCTURNO -->
+          <div class="relative group">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-purple-500 ring-4 ring-slate-950"></span>
+            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
+              <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider">22:15 hs</span>
+              <h4 class="font-bold text-white text-xs">A Dormir (Mínimo 7.5 hs de sueño)</h4>
+              <p class="text-[11px] text-slate-400">Cuerpo listo para la guardia de mañana y la cirugía del jueves.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- VISTA 3: MI RUTINA DE GYM (SOBRECARGA RP)      -->
+      <!-- ============================================== -->
+      <div id="view-gym" class="view-panel hidden space-y-4">
+        <div class="border-b border-slate-800 pb-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-extrabold text-white">Mesociclo 1 — Semana 2 (RIR 2)</h2>
+              <p class="text-xs text-slate-400">Mismos kilos que la semana 1, sumando 1 a 2 repeticiones.</p>
+            </div>
+            <span class="text-xs bg-rose-950 text-rose-300 border border-rose-800 px-2.5 py-1 rounded-xl font-bold">
+              Glúteo & Piernas
+            </span>
+          </div>
+        </div>
+
+        <!-- SELECTOR DE DÍA GYM -->
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="renderGymRoutine('dia1')" id="btn-gym-dia1" class="py-2 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-md">
+            Día 1 (Hecho ✔️)
+          </button>
+          <button onclick="renderGymRoutine('dia2')" id="btn-gym-dia2" class="py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+            Día 2 (Próximo)
+          </button>
+          <button onclick="renderGymRoutine('dia3')" id="btn-gym-dia3" class="py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+            Día 3 (Finde)
+          </button>
+        </div>
+
+        <!-- LISTA DE EJERCICIOS RENDERIZADA -->
+        <div id="gym-exercise-list" class="space-y-3">
+          <!-- Cargado con JS -->
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- VISTA 4: HÁBITOS & RECUPERACIÓN (CREATINA)     -->
+      <!-- ============================================== -->
+      <div id="view-habitos" class="view-panel hidden space-y-4">
+        <div class="border-b border-slate-800 pb-2">
+          <h2 class="text-base font-extrabold text-white">Hábitos Clave & Suplementación</h2>
+          <p class="text-xs text-slate-400">Puntales de rendimiento para Odontología y gimnasio.</p>
+        </div>
+
+        <!-- CARD CREATINA -->
+        <div class="bg-gradient-to-br from-purple-950/60 to-slate-900 border border-purple-800/60 rounded-3xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span>⚡</span> Creatina Monohidrato
+            </span>
+            <span class="text-xs font-bold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded-full border border-emerald-800">
+              Día 18 (100% Sat.)
+            </span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Tomar siempre a la mañana con el <strong>desayuno en casa (con carbohidratos)</strong>. Esto garantiza la absorción insulínica perfecta.
+          </p>
+          <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800/80 flex items-center justify-between">
+            <span class="text-xs text-slate-300 font-medium">¿Tomada hoy en el desayuno?</span>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="chk-habito-creatina" onchange="toggleHabitoCreatina(this.checked)" class="w-5 h-5 rounded text-purple-600 focus:ring-purple-500 cursor-pointer">
+              <span class="text-xs font-bold text-purple-300" id="label-chk-creatina">¡Sí, tomada!</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- CARD AGUA / HIDRATACIÓN -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>💧</span> Hidratación Celular
+            </span>
+            <span class="text-xs font-bold text-blue-300" id="water-stat-display">1.5 / 2.5 Litros</span>
+          </div>
+          <p class="text-xs text-slate-300">
+            Con la creatina activa, el músculo retiene más agua intracelular. Meta diaria mínima: 2.5 Litros.
+          </p>
+          <div class="flex items-center justify-between gap-2 pt-1">
+            <button onclick="addWater(-250)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold">
+              - 250ml
+            </button>
+            <div class="flex-1 bg-slate-950 rounded-xl h-4 overflow-hidden border border-slate-800 p-0.5">
+              <div id="water-bar" class="bg-blue-500 h-full rounded-lg transition-all" style="width: 60%;"></div>
+            </div>
+            <button onclick="addWater(250)" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold">
+              + 250ml
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD POWER NAP -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-2">
+          <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span>💤</span> Protocolo Power Nap (Jueves y Viernes)
+          </span>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Siestas de <strong>20 a 25 minutos exactos</strong> post-cirugía (13:45 a 14:15 hs). Evita la inercia del sueño y restaura el sistema nervioso.
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR (FIJA TIPO APP NATIVA) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 p-2 max-w-xl mx-auto flex items-center justify-around">
+      <button onclick="switchView('chat')" id="nav-btn-chat" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-rose-400 font-bold transition">
+        <span class="text-lg">💬</span>
+        <span class="text-[10px]">Coach</span>
+      </button>
+      <button onclick="switchView('dia')" id="nav-btn-dia" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
+        <span class="text-lg">📅</span>
+        <span class="text-[10px]">Mi Día</span>
+      </button>
+      <button onclick="switchView('gym')" id="nav-btn-gym" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
+        <span class="text-lg">🏋️</span>
+        <span class="text-[10px]">Gym</span>
+      </button>
+      <button onclick="switchView('habitos')" id="nav-btn-habitos" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
+        <span class="text-lg">⚡</span>
+        <span class="text-[10px]">Hábitos</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURACIÓN DE FIREBASE Y GEMINI
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFUAfIjjff9Luw2-1uaznN7bK0ZuHmGEk",
+      authDomain: "male-app.firebaseapp.com",
+      databaseURL: "https://male-app-default-rtdb.firebaseio.com",
+      projectId: "male-app",
+      storageBucket: "male-app.firebasestorage.app",
+      messagingSenderId: "82609798929",
+      appId: "1:82609798929:web:ddb6851a1894fb652fd6b0",
+      measurementId: "G-TYSRXXCY3Y"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Clave de API de Gemini 3.6 Flash
+    const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
+
+    // ESTADO LOCAL DE LA APLICACIÓN
+    let activeRole = 'male'; // 'male' o 'laura'
+    let currentGymDay = 'dia1';
+    let waterMl = parseInt(localStorage.getItem('water_ml') || '1500');
+
+    // DATOS DE GYM
+    const GYM_ROUTINE = {
+      dia1: [
+        { nombre: "Peso Muerto Rumano (RDL)", carga: "14 kg", s1: "11", s2: "11", s3: "11", meta: "11, 11, 10-11", status: "¡Superado! 🚀 +4 reps" },
+        { nombre: "Sentadilla Sumo Mancuerna", carga: "30 kg", s1: "9", s2: "9", meta: "9 - 10 reps", status: "¡Cumplido! 🎯 +2 reps" },
+        { nombre: "Hip Thrust en Máquina", carga: "20 kg", s1: "12", s2: "12", meta: "11 - 12 reps", status: "¡Tope de rango! 🔥 +4 reps" },
+        { nombre: "Hiperextensiones a 45°", carga: "Disco 10 kg", s1: "16", s2: "15", s3: "15", meta: "16 reps", status: "¡Superado! 🚀 +2 reps" },
+        { nombre: "Abductores en Máquina", carga: "45 / 63 kg", s1: "16", s2: "11", s3: "10", meta: "63kg pesado", status: "Glúteo medio salvado 💡" }
+      ],
+      dia2: [
+        { nombre: "Prensa Inclinada", carga: "100 kg", meta: "11, 9, 9 reps (Sem 1: 10, 8, 8)", tip: "Bajar profundo sin despegar pelvis." },
+        { nombre: "SLDL Mancuernas", carga: "14 kg", meta: "10-11, 9, 9 reps", tip: "Semiflexión fija de rodilla, cadera alta." },
+        { nombre: "Sillón de Extensión", carga: "32 kg", meta: "13, 13, 11-12 reps", tip: "Frenar la bajada 2 a 3 segundos." },
+        { nombre: "Seated Leg Curl", carga: "20 - 23 kg", meta: "10 - 12 reps @ RIR 2", tip: "Cuidar rótula: subir solo 1 pin, cadera pegada." },
+        { nombre: "Máquina de Aductores", carga: "36 kg", meta: "15 reps con pausa 1s", tip: "Pausa en máxima contracción." }
+      ],
+      dia3: [
+        { nombre: "Extensión Cuádriceps", carga: "32 kg", meta: "13 - 14 reps", tip: "Activación suave." },
+        { nombre: "Sentadilla Hack Inversa", carga: "15 kg x lado", meta: "11, 11, 11 reps", tip: "Empuje firme con talones." },
+        { nombre: "Step Up Hack Inversa", carga: "10 kg x lado", meta: "10, 10, 10 reps", tip: "Todo el peso en pierna delantera." },
+        { nombre: "Good Mornings Hack", carga: "10 kg x lado", meta: "11, 11, 11 reps", tip: "Bisagra de cadera guiada." },
+        { nombre: "Seated Leg Curl", carga: "20 - 23 kg", meta: "10 - 12 reps @ RIR 2", tip: "1 pin más para RIR 2 cuidando rótula." },
+        { nombre: "Patada de Glúteo (Atrás)", carga: "6.8 kg", meta: "15 - 16 reps", tip: "Extensión sin quebrar lumbares." }
+      ]
+    };
+
+    // PROMPT DE SISTEMA PARA GEMINI (LA VOZ DEL COACH)
+    const COACH_SYSTEM_PROMPT = `
+Sos el Coach y Copiloto de entrenamiento y bienestar de Male.
+Contexto de Male:
+- Estudia Odontología (cursadas de 10 horas, fatiga de pies, guardia los miércoles para buscar paciente de cirugía, y cirugía los jueves a la mañana con paciente real).
+- Regla sagrada innegociable: NUNCA se salta el desayuno en casa; SIEMPRE desayuna en su casa con carbohidratos y ahí mismo toma religiosamente sus 5g de creatina monohidrato (va por el Día 18, saturación celular al 100%).
+- Mesociclo de Gym: Semana 2 de 5 con metodología RP Strength (RIR 2). Hoy martes completó el Día 1 a la mañana con números brutales: RDL 14kg 3x11, Sumo 30kg 2x9, Hip Thrust 20kg 2x12, Hiperextensiones 16,15,15, Abductores 63kg.
+- Próxima sesión: Día 2 (Prensa 100kg, SLDL 14kg, Seated Leg Curl 20-23kg cuidando rótula sin rebotes, Aductores 36kg).
+- Sesión del fin de semana en pareja: Día 3 (Hack Inversa en Fiter Grande sin apuro a la mañana).
+- Protocolos: Power Nap de 25 min los jueves y viernes al mediodía (13:45 a 14:15 hs). Meta de agua: 2.5 Litros.
+
+Tu estilo de respuesta:
+- Hablale de forma cálida, cercana, motivadora y con fundamento deportivo y empático (como un entrenador de primer nivel que además la apoya en su carrera).
+- Si te cuenta que sale antes de la facu (ej: "salgo 15:30"), felicitala, decile que aproveche esa ventana para merendar rico y relajarse.
+- Si te pregunta qué merendar: recomendale carbohidratos complejos + proteína (ej: tostadas con huevos revueltos, o yogur griego con frutas y granola, o licuado con frutos secos).
+- Si menciona cansancio de cirugía: recordale la Power Nap de 25' y que la salud del SNC es lo primero.
+- Respuestas concisas (máximo 2 a 3 párrafos cortos), con emojis sutiles y al punto.
+`;
+
+    // ==========================================
+    // INICIALIZACIÓN Y EVENTOS
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      initChatListener();
+      renderGymRoutine('dia1');
+      updateWaterUI();
+      
+      const chkCreatina = document.getElementById('chk-habito-creatina');
+      chkCreatina.checked = localStorage.getItem('creatina_hoy') === 'true';
+    });
+
+    // NAVEGACIÓN DE VISTAS (TABS BOTTOM)
+    function switchView(viewName) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.nav-item').forEach(b => {
+        b.classList.remove('text-rose-400', 'font-bold');
+        b.classList.add('text-slate-500', 'font-medium');
+      });
+
+      document.getElementById(`view-${viewName}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-btn-${viewName}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-500', 'font-medium');
+        activeNav.classList.add('text-rose-400', 'font-bold');
+      }
+    }
+
+    // CAMBIO DE ROL (MALE / LAURA)
+    function setRole(role) {
+      activeRole = role;
+      const btnM = document.getElementById('btn-role-male');
+      const btnL = document.getElementById('btn-role-laura');
+
+      if (role === 'male') {
+        btnM.className = 'px-2.5 py-1 rounded-lg transition bg-rose-600 text-white';
+        btnL.className = 'px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white';
+      } else {
+        btnL.className = 'px-2.5 py-1 rounded-lg transition bg-purple-600 text-white';
+        btnM.className = 'px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white';
+      }
+    }
+
+    // ==========================================
+    // SISTEMA DE CHAT CON FIREBASE & GEMINI
+    // ==========================================
+    function initChatListener() {
+      const messagesRef = db.ref('chat_messages');
+      messagesRef.limitToLast(30).on('value', (snapshot) => {
+        const data = snapshot.val();
+        const container = document.getElementById('chat-messages-container');
+        container.innerHTML = '';
+
+        if (!data) {
+          // Mensaje inicial del coach
+          container.innerHTML = `
+            <div class="flex items-start gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-xs shrink-0">
+                🏋️
+              </div>
+              <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-none p-3 text-xs text-slate-200 space-y-1 max-w-[85%]">
+                <span class="text-[10px] font-bold text-rose-400 block">Coach Male</span>
+                <p>¡Hola Male! Felicitaciones por el entreno de hoy a la mañana: clavaste 11 reps en RDL, 12 en Hip Thrust y salvaste el glúteo medio con abductores. ¿A qué hora estás saliendo hoy de la facu?</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        Object.keys(data).forEach(key => {
+          const msg = data[key];
+          const isUser = msg.sender === 'Male';
+          const isCoach = msg.sender === 'Coach';
+
+          const bubble = document.createElement('div');
+          bubble.className = isUser ? 'flex justify-end' : 'flex items-start gap-2.5';
+
+          if (isUser) {
+            bubble.innerHTML = `
+              <div class="bg-rose-600 text-white rounded-2xl rounded-tr-none p-3 text-xs shadow-md max-w-[85%] space-y-0.5">
+                <span class="text-[9px] text-rose-200 font-bold block">Male</span>
+                <p>${escapeHtml(msg.text)}</p>
+                <span class="text-[9px] text-rose-200/70 text-right block">${msg.time || ''}</span>
+              </div>
+            `;
+          } else {
+            bubble.innerHTML = `
+              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-xs shrink-0">
+                🏋️
+              </div>
+              <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-none p-3 text-xs text-slate-200 space-y-1 max-w-[85%] shadow-md">
+                <span class="text-[10px] font-bold text-purple-300 block">Coach Male</span>
+                <p class="leading-relaxed whitespace-pre-wrap">${escapeHtml(msg.text)}</p>
+                <span class="text-[9px] text-slate-500 text-right block">${msg.time || ''}</span>
+              </div>
+            `;
+          }
+          container.appendChild(bubble);
+        });
+
+        // Scroll al final
+        container.scrollTop = container.scrollHeight;
+      });
+    }
+
+    async function handleSendMessage() {
+      const input = document.getElementById('chat-user-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // Guardar mensaje de Male en Firebase
+      const newMsgRef = db.ref('chat_messages').push();
+      await newMsgRef.set({
+        sender: 'Male',
+        text: text,
+        time: timeStr,
+        timestamp: Date.now()
+      });
+
+      // Llamar a Gemini API
+      callGeminiCoach(text);
+    }
+
+    function sendQuickPrompt(promptText) {
+      document.getElementById('chat-user-input').value = promptText;
+      handleSendMessage();
+    }
+
+    async function callGeminiCoach(userMessage) {
+      const typingIndicator = showTypingIndicator();
+
+      try {
+        const payload = {
+          contents: [
+            {
+              role: "user",
+              parts: [
+                { text: `${COACH_SYSTEM_PROMPT}\n\nMale dice: "${userMessage}"` }
+              ]
+            }
+          ]
+        };
+
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        removeTypingIndicator(typingIndicator);
+
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+          const coachReply = data.candidates[0].content.parts[0].text;
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          // Guardar respuesta del Coach en Firebase
+          await db.ref('chat_messages').push({
+            sender: 'Coach',
+            text: coachReply,
+            time: timeStr,
+            timestamp: Date.now()
+          });
+        }
+      } catch (err) {
+        removeTypingIndicator(typingIndicator);
+        console.error("Error llamando a Gemini:", err);
+      }
+    }
+
+    function showTypingIndicator() {
+      const container = document.getElementById('chat-messages-container');
+      const el = document.createElement('div');
+      el.id = 'typing-indicator';
+      el.className = 'flex items-center gap-2 text-xs text-slate-500 italic p-2';
+      el.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        <span>Coach escribiendo...</span>
+      `;
+      container.appendChild(el);
+      container.scrollTop = container.scrollHeight;
+      return el;
+    }
+
+    function removeTypingIndicator(el) {
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+
+    // ==========================================
+    // RUTINA GYM Y HÁBITOS
+    // ==========================================
+    function renderGymRoutine(dayKey) {
+      currentGymDay = dayKey;
+      ['dia1', 'dia2', 'dia3'].forEach(d => {
+        const btn = document.getElementById(`btn-gym-${d}`);
+        if (d === dayKey) {
+          btn.className = 'py-2 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-md';
+        } else {
+          btn.className = 'py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800';
+        }
+      });
+
+      const list = document.getElementById('gym-exercise-list');
+      list.innerHTML = '';
+
+      GYM_ROUTINE[dayKey].forEach((ej, idx) => {
+        const item = document.createElement('div');
+        item.className = 'bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl space-y-1.5';
+        
+        let subText = '';
+        if (dayKey === 'dia1') {
+          subText = `<div class="flex items-center justify-between text-xs pt-1">
+            <span class="text-slate-300 font-bold">${ej.carga} ➔ [${ej.s1}, ${ej.s2}${ej.s3 ? ', ' + ej.s3 : ''}]</span>
+            <span class="text-emerald-400 font-bold text-[11px]">${ej.status}</span>
+          </div>`;
+        } else {
+          subText = `<div class="text-xs pt-1 space-y-0.5">
+            <div class="text-rose-300 font-bold">Meta: ${ej.carga} ➔ ${ej.meta}</div>
+            <p class="text-[11px] text-slate-400 italic">💡 Tip: ${ej.tip}</p>
+          </div>`;
+        }
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white text-xs">${idx + 1}. ${ej.nombre}</h4>
+          </div>
+          ${subText}
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function addWater(amount) {
+      waterMl = Math.max(0, waterMl + amount);
+      localStorage.setItem('water_ml', waterMl);
+      updateWaterUI();
+    }
+
+    function updateWaterUI() {
+      const display = document.getElementById('water-stat-display');
+      const quick = document.getElementById('quick-water-count');
+      const bar = document.getElementById('water-bar');
+      
+      const liters = (waterMl / 1000).toFixed(1);
+      if (display) display.innerText = `${liters} / 2.5 Litros`;
+      if (quick) quick.innerText = `${liters}L / 2.5L`;
+      if (bar) {
+        const pct = Math.min(100, (waterMl / 2500) * 100);
+        bar.style.width = `${pct}%`;
+      }
+    }
+
+    function toggleHabitoCreatina(checked) {
+      localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
+      const label = document.getElementById('label-chk-creatina');
+      if (label) {
+        label.innerText = checked ? '¡Sí, tomada!' : 'Pendiente';
+        label.className = checked ? 'text-xs font-bold text-purple-300' : 'text-xs font-medium text-slate-500';
+      }
+    }
+
+    function escapeHtml(string) {
+      const entityMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+    }
+  </script>
+</body>
+</html>
