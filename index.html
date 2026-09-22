@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Male 360 — Bienestar & Gym</title>
-  <meta name="theme-color" content="#020617">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Male 360 — Bienestar & Acompañamiento</title>
+  <meta name="theme-color" content="#FAF7F5">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" type="image/png" href="icon.png">
@@ -19,107 +19,162 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <style>
-    /* Estilos de app nativa móvil */
-    body {
+    /* Estilos nativos para celular y tipografía suave */
+    :root {
       -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #FAF7F5;
+      color: #1F2937;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       user-select: none;
     }
     input, textarea {
       user-select: text;
     }
-    /* Scroll suave */
+    /* Scrollbars invisibles o ultra finas */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 9999px; }
+    
+    /* Animación de pulso suave */
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    .animate-gentle {
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen antialiased font-sans pb-24 md:pb-6">
+<body class="bg-[#FAF7F5] text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-rose-200">
 
-  <!-- CONTENEDOR PRINCIPAL TIPO APP MÓVIL (MAX WIDTH TABLET/DESKTOP) -->
-  <div class="max-w-xl mx-auto min-h-screen flex flex-col justify-between">
+  <!-- CONTENEDOR PRINCIPAL TIPO APP (MÁXIMO ANCHO MÓVIL/TABLET) -->
+  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#FAF7F5] shadow-2xl relative">
 
-    <!-- TOP BAR DE ESTADO -->
-    <header class="sticky top-0 z-30 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 p-4 flex items-center justify-between">
+    <!-- TOP BAR DE ESTADO & BIENVENIDA CÁLIDA -->
+    <header class="shrink-0 bg-white/85 backdrop-blur-md border-b border-rose-100/80 px-4 py-3 flex items-center justify-between z-20">
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-lg shadow-md shadow-rose-900/30">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-400 via-pink-400 to-purple-400 flex items-center justify-center text-xl shadow-md shadow-rose-300/40">
           🌸
         </div>
         <div>
-          <h1 class="text-sm font-black text-white tracking-tight flex items-center gap-1.5">
-            <span>Male 360</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          </h1>
-          <p class="text-[10px] text-slate-400 font-medium" id="live-header-date">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-sm font-extrabold text-slate-900 tracking-tight" id="greeting-header">
+              ¡Hola Male! ✨
+            </h1>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium" id="live-header-date">
             Martes 22 de Septiembre
           </p>
         </div>
       </div>
 
-      <!-- SWITCH MODO (MALE / LAURA) -->
-      <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-[11px] font-bold">
-        <button onclick="setRole('male')" id="btn-role-male" class="px-2.5 py-1 rounded-lg transition bg-rose-600 text-white">
-          Male
-        </button>
-        <button onclick="setRole('laura')" id="btn-role-laura" class="px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white">
-          Coach
-        </button>
+      <!-- BADGE CARITAS -->
+      <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm">
+        <span>🌸</span>
+        <span>Caritas</span>
       </div>
     </header>
 
-    <!-- ÁREA DE CONTENIDO DINÁMICO (VISTAS) -->
-    <main class="flex-1 p-4 space-y-4">
+    <!-- ============================================== -->
+    <!-- ÁREA DE CONTENIDO CON DESPLAZAMIENTO SUAVE     -->
+    <!-- ============================================== -->
+    <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 pb-28">
 
       <!-- ============================================== -->
-      <!-- VISTA 1: CHAT CON EL COACH EN VIVO (PRINCIPAL) -->
+      <!-- VISTA 1: COACH & REFUGIO EMOCIONAL (CHAT)      -->
       <!-- ============================================== -->
-      <div id="view-chat" class="view-panel space-y-4">
+      <div id="view-chat" class="view-panel space-y-3.5">
         
-        <!-- CARD DE ESTADO HOY RÁPIDO -->
-        <div class="bg-gradient-to-r from-rose-950/60 via-slate-900 to-purple-950/60 border border-rose-800/40 rounded-3xl p-4 shadow-lg space-y-2">
+        <!-- CARD: FOCO DEL DÍA EN UN VISTAZO (ACTUALIZACIÓN DINÁMICA SEGÚN DÍA Y HORA) -->
+        <div id="dynamic-day-focus-card" class="bg-gradient-to-br from-rose-50/80 via-white to-pink-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-2.5">
+          <!-- Renderizado dinámicamente por renderDynamicDayFocusCard() -->
+        </div>
+
+        <!-- WIDGET DE CHECK-IN EMOCIONAL (CÓMO TE SENTÍS HOY) -->
+        <div class="bg-white border border-rose-100 rounded-3xl p-3.5 shadow-sm space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-[10px] uppercase font-bold text-rose-300 tracking-wider bg-rose-950/80 px-2.5 py-0.5 rounded-full border border-rose-800/60">
-              ⚡ Hoy: Martes Activo
-            </span>
-            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/60">
-              🏋️ Gym Mañana ✔️
-            </span>
+            <h3 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <span>🤍</span> ¿Cómo te sentís hoy, Caritas?
+            </h3>
+            <span class="text-[10px] text-slate-400 font-medium" id="mood-status-label">Tocá para contarle al Coach</span>
           </div>
-          <p class="text-xs text-slate-200 leading-relaxed font-medium">
-            Entraste a las 10:00 hs y liquidaste el <strong>Día 1 de Glúteo (+12 reps extras)</strong>. Tu tarde queda libre para descansar.
-          </p>
-          <div class="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[11px]">
-            <span class="text-slate-400">💧 Creatina Día 18: <strong class="text-purple-300">Saturación 100%</strong></span>
-            <span class="text-slate-400">Agua: <strong id="quick-water-count">1.5L / 2.5L</strong></span>
+          <div class="grid grid-cols-2 gap-1.5 text-xs">
+            <button onclick="setMood('energizada', '¡Me siento con mucha energía y pilas!')" class="mood-btn flex items-center gap-2 p-2 rounded-2xl border border-rose-100 bg-rose-50/50 hover:bg-rose-100/80 transition text-slate-700 font-medium text-left">
+              <span class="text-base">🌸</span>
+              <span class="leading-tight text-[11px]">Con energía y pilas</span>
+            </button>
+            <button onclick="setMood('cansada', 'Estoy bastante cansada por la facultad hoy')" class="mood-btn flex items-center gap-2 p-2 rounded-2xl border border-amber-100 bg-amber-50/50 hover:bg-amber-100/80 transition text-slate-700 font-medium text-left">
+              <span class="text-base">🥱</span>
+              <span class="leading-tight text-[11px]">Cansadita de la facu</span>
+            </button>
+            <button onclick="setMood('mimitos', 'Necesito desconectar, relajar y mimitos')" class="mood-btn flex items-center gap-2 p-2 rounded-2xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/80 transition text-slate-700 font-medium text-left">
+              <span class="text-base">🧘‍♀️</span>
+              <span class="leading-tight text-[11px]">Necesito mimitos/relax</span>
+            </button>
+            <button onclick="setMood('gym_mode', '¡Con muchas ganas de romperla entrenando!')" class="mood-btn flex items-center gap-2 p-2 rounded-2xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-100/80 transition text-slate-700 font-medium text-left">
+              <span class="text-base">💪</span>
+              <span class="leading-tight text-[11px]">Modo romperla gym</span>
+            </button>
           </div>
         </div>
 
-        <!-- HISTORIAL DE MENSAJES (BURBUJAS) -->
-        <div id="chat-messages-container" class="space-y-3 min-h-[300px] max-h-[460px] overflow-y-auto p-1">
-          <!-- Se cargan en tiempo real desde Firebase -->
-        </div>
-
-        <!-- CHIPS DE ACCIÓN RÁPIDA (PARA TOCAR Y ENVIAR) -->
-        <div class="flex gap-1.5 overflow-x-auto pb-1 text-[11px]">
-          <button onclick="sendQuickPrompt('Hoy salgo a las 15:30 de la facu')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
-            ⏰ Salgo 15:30
+        <!-- BOTÓN SOS: DÍA DIFÍCIL EN ODONTO -->
+        <div class="bg-gradient-to-r from-rose-100/90 via-pink-50 to-purple-50 border border-rose-200/90 rounded-3xl p-3 flex items-center justify-between shadow-xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-2xl bg-rose-500/15 flex items-center justify-center text-base shrink-0">
+              🆘
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">¿Día difícil en Odonto?</h4>
+              <p class="text-[10px] text-slate-500 font-medium">Si un profesor fue injusto, falló un paciente o estás colapsada 🤍</p>
+            </div>
+          </div>
+          <button onclick="openSosModal()" class="px-3 py-1.5 rounded-xl bg-white border border-rose-300 text-rose-700 hover:bg-rose-50 font-bold text-xs shadow-2xs shrink-0 active:scale-95 transition">
+            Desahogarme
           </button>
-          <button onclick="sendQuickPrompt('¿Qué me recomendás para merendar post-gym hoy?')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
+        </div>
+
+        <!-- CONTENEDOR DE MENSAJES DEL CHAT -->
+        <div class="bg-white/80 border border-rose-100 rounded-3xl p-3 shadow-sm space-y-3 min-h-[220px]">
+          <div class="flex items-center justify-between pb-1 border-b border-rose-50 px-1">
+            <span class="text-[11px] font-bold text-slate-500 flex items-center gap-1.5">
+              <span>💬</span> Chat en vivo con tu Copiloto
+            </span>
+            <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+              En línea
+            </span>
+          </div>
+
+          <div id="chat-messages-container" class="space-y-3 max-h-[360px] overflow-y-auto px-1 py-1">
+            <!-- Burbujas cargadas dinámicamente desde Firebase -->
+          </div>
+        </div>
+
+        <!-- CHIPS DE ACCIÓN RÁPIDA (PÍLDORAS REDONDEADAS) -->
+        <div class="flex gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <button onclick="sendQuickPrompt('¿Qué me recomendás para merendar post-gym hoy?')" class="shrink-0 bg-white hover:bg-rose-50 border border-rose-200 px-3.5 py-1.5 rounded-full text-slate-700 font-medium transition shadow-sm active:scale-95">
             🥪 ¿Qué meriendo hoy?
           </button>
-          <button onclick="sendQuickPrompt('¿Cómo sigue mi semana entre cursada y gym?')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
-            🗓️ ¿Cómo sigue mi semana?
+          <button onclick="sendQuickPrompt('¿A qué hora me conviene cenar e irme a dormir hoy?')" class="shrink-0 bg-white hover:bg-rose-50 border border-rose-200 px-3.5 py-1.5 rounded-full text-slate-700 font-medium transition shadow-sm active:scale-95">
+            🌙 Horario de descanso
           </button>
-          <button onclick="sendQuickPrompt('Tomé la creatina con el desayuno')" class="whitespace-nowrap bg-slate-900 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 transition">
-            ⚡ Tomé creatina hoy
+          <button onclick="sendQuickPrompt('¿Cómo viene la rutina para el jueves con la cirugía de Odonto?')" class="shrink-0 bg-white hover:bg-rose-50 border border-rose-200 px-3.5 py-1.5 rounded-full text-slate-700 font-medium transition shadow-sm active:scale-95">
+            🗓️ Plan para el jueves
+          </button>
+          <button onclick="sendQuickPrompt('Ya tomé la creatina con mi desayuno rico')" class="shrink-0 bg-white hover:bg-rose-50 border border-rose-200 px-3.5 py-1.5 rounded-full text-slate-700 font-medium transition shadow-sm active:scale-95">
+            ✨ Ya tomé la creatina
           </button>
         </div>
 
-        <!-- INPUT DE MENSAJE -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-2 flex items-center gap-2 shadow-xl focus-within:border-rose-500 transition">
+        <!-- INPUT DE CHAT ELEGANTE -->
+        <div class="bg-white border-2 border-rose-200/90 rounded-2xl p-1.5 flex items-center gap-2 shadow-md focus-within:border-rose-500 transition">
           <input type="text" id="chat-user-input" placeholder="Escribile a tu Coach / Copiloto..."
             onkeydown="if(event.key === 'Enter') handleSendMessage()"
-            class="flex-1 bg-transparent px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none">
-          <button onclick="handleSendMessage()" id="btn-send-chat" class="w-8 h-8 rounded-xl bg-gradient-to-r from-rose-600 to-purple-600 flex items-center justify-center text-white text-xs shadow-md transition hover:scale-105 active:scale-95">
+            class="flex-1 bg-transparent px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-medium">
+          <button onclick="handleSendMessage()" id="btn-send-chat" class="w-9 h-9 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 flex items-center justify-center text-white text-sm shadow-md transition hover:scale-105 active:scale-95">
             ➔
           </button>
         </div>
@@ -127,193 +182,753 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- VISTA 2: MI DÍA DE HOY (TIMELINE ADAPTATIVO)  -->
+      <!-- VISTA 2: CRONOGRAMA SEMANAL & MI DÍA           -->
       <!-- ============================================== -->
-      <div id="view-dia" class="view-panel hidden space-y-4">
-        <div class="border-b border-slate-800 pb-2">
-          <h2 class="text-base font-extrabold text-white">Cronograma Adaptado de Hoy</h2>
-          <p class="text-xs text-slate-400">Actualizado según lo que fuiste charlando con el Coach.</p>
+      <div id="view-dia" class="view-panel hidden space-y-3.5">
+        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-extrabold text-slate-900">Cronograma Semanal</h2>
+            <p class="text-[11px] text-slate-500">Tocá cualquier día para chusmear qué te toca o avisarle al Coach.</p>
+          </div>
+          <span class="text-xl">📅</span>
         </div>
 
-        <!-- TIMELINE VERTICAL -->
-        <div class="relative pl-6 space-y-4 border-l-2 border-slate-800 ml-3">
-          
-          <!-- BLOQUE 1: DESAYUNO Y CREATINA -->
-          <div class="relative group">
-            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-slate-950"></span>
-            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
-              <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">07:30 a 08:15 hs • Hecho ✔️</span>
-              <h4 class="font-bold text-white text-xs">Desayuno Completo en Casa + Creatina</h4>
-              <p class="text-[11px] text-slate-400">Carbohidratos para transporte insulínico + 5g de creatina monohidrato (Día 18).</p>
-            </div>
-          </div>
-
-          <!-- BLOQUE 2: GYM SESIÓN 1 -->
-          <div class="relative group">
-            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-slate-950"></span>
-            <div class="bg-slate-900/90 border border-emerald-900/50 p-3 rounded-2xl space-y-1">
-              <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">08:30 a 09:45 hs • ¡Liquidado! ✔️</span>
-              <h4 class="font-bold text-white text-xs">Gimnasio: Día 1 Glúteo & Cadena Posterior</h4>
-              <p class="text-[11px] text-slate-400">RDL 14kg (11,11,11) • Sumo 30kg (9,9) • Hip Thrust 20kg (12,12) • Abductores (63kg).</p>
-            </div>
-          </div>
-
-          <!-- BLOQUE 3: FACULTAD -->
-          <div class="relative group">
-            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-blue-500 ring-4 ring-slate-950"></span>
-            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
-              <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">10:00 a 16:00 hs • En Curso</span>
-              <h4 class="font-bold text-white text-xs">Facultad de Odontología</h4>
-              <p class="text-[11px] text-slate-400">Entrada tardía por examen ya aprobado. Clases y regreso en transporte.</p>
-            </div>
-          </div>
-
-          <!-- BLOQUE 4: TARDE LIBRE Y MERIENDA -->
-          <div class="relative group">
-            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-rose-500 ring-4 ring-slate-950"></span>
-            <div class="bg-slate-900/90 border border-rose-900/40 p-3 rounded-2xl space-y-1">
-              <span class="text-[10px] text-rose-400 font-bold uppercase tracking-wider">16:30 a 20:00 hs • Tarde Libre</span>
-              <h4 class="font-bold text-white text-xs">Llegada a Casa, Merienda Rica & Desconexión</h4>
-              <p class="text-[11px] text-slate-400">Ducha caliente, desconexión sin culpa. Como el gym ya se hizo a la mañana, cero pendientes.</p>
-            </div>
-          </div>
-
-          <!-- BLOQUE 5: DESCANSO NOCTURNO -->
-          <div class="relative group">
-            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-purple-500 ring-4 ring-slate-950"></span>
-            <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl space-y-1">
-              <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider">22:15 hs</span>
-              <h4 class="font-bold text-white text-xs">A Dormir (Mínimo 7.5 hs de sueño)</h4>
-              <p class="text-[11px] text-slate-400">Cuerpo listo para la guardia de mañana y la cirugía del jueves.</p>
-            </div>
-          </div>
-
+        <!-- SELECTOR HORIZONTAL DE 7 DÍAS -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
+          <button onclick="renderDaySchedule('lunes')" id="btn-dia-lunes" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Lun
+          </button>
+          <button onclick="renderDaySchedule('martes')" id="btn-dia-martes" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-rose-500 text-white shadow-sm transition">
+            Mar (Hoy) ✨
+          </button>
+          <button onclick="renderDaySchedule('miercoles')" id="btn-dia-miercoles" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Mié 🏥
+          </button>
+          <button onclick="renderDaySchedule('jueves')" id="btn-dia-jueves" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Jue 🩺
+          </button>
+          <button onclick="renderDaySchedule('viernes')" id="btn-dia-viernes" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Vie 🎉
+          </button>
+          <button onclick="renderDaySchedule('sabado')" id="btn-dia-sabado" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Sáb 👫
+          </button>
+          <button onclick="renderDaySchedule('domingo')" id="btn-dia-domingo" class="dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs">
+            Dom ☕
+          </button>
         </div>
+
+        <!-- CONTENEDOR DINÁMICO DEL DÍA SELECCIONADO -->
+        <div id="day-schedule-content" class="space-y-3.5">
+          <!-- Renderizado por JS -->
+        </div>
+
+        <!-- BOTÓN SOS ACCESO DIRECTO EN MI DÍA -->
+        <button onclick="openSosModal()" class="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-rose-100/90 via-pink-50 to-purple-50 border border-rose-200/90 flex items-center justify-between shadow-2xs hover:bg-rose-100 transition active:scale-98">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">🆘</span>
+            <span class="text-xs font-bold text-slate-800">¿Día pesado en la facu o clínica? Desahogate acá</span>
+          </div>
+          <span class="text-xs text-rose-600 font-bold">Abrir ➔</span>
+        </button>
+
+        <!-- CARD: EL RINCÓN DE VICTORIAS (TALENTO INNATO & LOGROS) -->
+        <div class="bg-gradient-to-br from-amber-50/80 via-white to-rose-50/80 border border-amber-200/90 rounded-3xl p-4 shadow-sm space-y-2.5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-9 h-9 rounded-2xl bg-amber-100/80 border border-amber-200 flex items-center justify-center text-lg shadow-2xs">
+                🏆
+              </div>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <span>El Rincón de Victorias</span>
+                  <span class="text-[10px] text-amber-700 bg-amber-100/70 px-2 py-0.2 rounded-full font-bold">Talento Innato ✨</span>
+                </h4>
+                <p class="text-[10px] text-slate-500 font-medium">Celebrá lo que hiciste hoy y recordá tu enorme capacidad</p>
+              </div>
+            </div>
+            <span id="victorias-counter-badge" class="text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full shrink-0">
+              0 logros ✨
+            </span>
+          </div>
+
+          <p class="text-[11px] text-slate-600 leading-snug">
+            Tenés una mano y una sensibilidad innata para Odonto. Cuando salgas contenta de una clínica o del gym, guardalo acá para que no se te olvide nunca.
+          </p>
+
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button onclick="openNuevaVictoriaModal()" class="py-2 px-2.5 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1">
+              <span>🎉</span> Contar victoria
+            </button>
+            <button onclick="openCofreVictoriasModal()" class="py-2 px-2.5 bg-white border border-amber-200 hover:bg-amber-50/50 text-slate-700 rounded-2xl text-xs font-bold shadow-2xs transition flex items-center justify-center gap-1">
+              <span>📖</span> Abrir mi Cofre
+            </button>
+          </div>
+        </div>
+
+        <!-- BOTÓN MODO TIEMPO DE VIAJE -->
+        <div class="bg-gradient-to-r from-indigo-50/90 via-purple-50 to-pink-50/70 border border-indigo-200/80 rounded-3xl p-3.5 flex items-center justify-between shadow-2xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-base shrink-0">
+              🚆
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Modo Tiempo de Viaje</h4>
+              <p class="text-[10px] text-slate-500 font-medium">Desconexión en el bondi o tren sin marearte 🎧</p>
+            </div>
+          </div>
+          <button onclick="openTiempoViajeModal()" class="px-3 py-1.5 rounded-xl bg-white border border-indigo-200 text-indigo-700 hover:bg-indigo-50 font-bold text-xs shadow-2xs shrink-0 active:scale-95 transition">
+            Iniciar
+          </button>
+        </div>
+
       </div>
 
       <!-- ============================================== -->
       <!-- VISTA 3: MI RUTINA DE GYM (SOBRECARGA RP)      -->
       <!-- ============================================== -->
       <div id="view-gym" class="view-panel hidden space-y-4">
-        <div class="border-b border-slate-800 pb-2">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-base font-extrabold text-white">Mesociclo 1 — Semana 2 (RIR 2)</h2>
-              <p class="text-xs text-slate-400">Mismos kilos que la semana 1, sumando 1 a 2 repeticiones.</p>
-            </div>
-            <span class="text-xs bg-rose-950 text-rose-300 border border-rose-800 px-2.5 py-1 rounded-xl font-bold">
-              Glúteo & Piernas
-            </span>
+        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-extrabold text-slate-900">Mesociclo 1 — Semana 2 (RIR 2)</h2>
+            <p class="text-[11px] text-slate-500">Mismos kilos que la semana pasada, sumando 1 a 2 repes.</p>
           </div>
+          <span class="text-xs bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-2xl font-bold">
+            Glúteo & Piernas
+          </span>
         </div>
 
-        <!-- SELECTOR DE DÍA GYM -->
+        <!-- SELECTOR DE DÍAS EN FORMA DE PÍLDORAS -->
         <div class="grid grid-cols-3 gap-2">
-          <button onclick="renderGymRoutine('dia1')" id="btn-gym-dia1" class="py-2 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-md">
+          <button onclick="renderGymRoutine('dia1')" id="btn-gym-dia1" class="py-2 px-1 rounded-2xl text-xs font-bold bg-rose-500 text-white shadow-sm transition">
             Día 1 (Hecho ✔️)
           </button>
-          <button onclick="renderGymRoutine('dia2')" id="btn-gym-dia2" class="py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+          <button onclick="renderGymRoutine('dia2')" id="btn-gym-dia2" class="py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition">
             Día 2 (Próximo)
           </button>
-          <button onclick="renderGymRoutine('dia3')" id="btn-gym-dia3" class="py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+          <button onclick="renderGymRoutine('dia3')" id="btn-gym-dia3" class="py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition">
             Día 3 (Finde)
           </button>
         </div>
 
         <!-- LISTA DE EJERCICIOS RENDERIZADA -->
         <div id="gym-exercise-list" class="space-y-3">
-          <!-- Cargado con JS -->
+          <!-- Se cargan por JavaScript -->
+        </div>
+
+        <!-- CARD DE NOTAS Y CIERRE DE ENTRENAMIENTO -->
+        <div class="bg-gradient-to-br from-rose-50/70 via-white to-pink-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-3 mt-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">📝</span>
+              <div>
+                <h3 class="text-xs font-bold text-slate-800">Devolución & Sensaciones del Día</h3>
+                <p class="text-[10px] text-slate-500">¿Cómo sentiste las cargas o las repes hoy?</p>
+              </div>
+            </div>
+            <span class="text-xs">💪</span>
+          </div>
+
+          <textarea id="gym-session-notes" rows="2" placeholder="Ej: Me sentí con mucha fuerza en la prensa, en la última serie me temblaron las piernas..."
+            class="w-full bg-[#FAF7F5] border border-rose-200/90 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400 font-medium resize-none"></textarea>
+
+          <button onclick="finishGymWorkout()" id="btn-finish-gym" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white font-bold text-xs shadow-md shadow-rose-200 hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-2">
+            <span>🏆</span> Finalizar Entrenamiento & Devolución del Coach
+          </button>
         </div>
       </div>
 
       <!-- ============================================== -->
-      <!-- VISTA 4: HÁBITOS & RECUPERACIÓN (CREATINA)     -->
+      <!-- VISTA 4: HÁBITOS & CUIDADO PERSONAL (CREATINA) -->
       <!-- ============================================== -->
       <div id="view-habitos" class="view-panel hidden space-y-4">
-        <div class="border-b border-slate-800 pb-2">
-          <h2 class="text-base font-extrabold text-white">Hábitos Clave & Suplementación</h2>
-          <p class="text-xs text-slate-400">Puntales de rendimiento para Odontología y gimnasio.</p>
+        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-extrabold text-slate-900">Hábitos & Autocuidado</h2>
+            <p class="text-[11px] text-slate-500">Pequeños pasos diarios que cuidan tu salud y tu energía.</p>
+          </div>
+          <span class="text-xl">✨</span>
         </div>
 
         <!-- CARD CREATINA -->
-        <div class="bg-gradient-to-br from-purple-950/60 to-slate-900 border border-purple-800/60 rounded-3xl p-5 space-y-3">
+        <div class="bg-gradient-to-br from-purple-50 via-white to-pink-50 border border-purple-200/80 rounded-3xl p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-black text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-              <span>⚡</span> Creatina Monohidrato
+            <span class="text-xs font-extrabold text-purple-800 uppercase tracking-wider flex items-center gap-1.5">
+              <span>✨</span> Creatina Monohidrato
             </span>
-            <span class="text-xs font-bold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded-full border border-emerald-800">
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-200">
               Día 18 (100% Sat.)
             </span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Tomar siempre a la mañana con el <strong>desayuno en casa (con carbohidratos)</strong>. Esto garantiza la absorción insulínica perfecta.
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Tomar siempre a la mañana con el <strong>desayuno en casa (con carbohidratos ricos)</strong>. Esto garantiza la absorción insulínica perfecta sin caer pesada.
           </p>
-          <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800/80 flex items-center justify-between">
-            <span class="text-xs text-slate-300 font-medium">¿Tomada hoy en el desayuno?</span>
+          <div class="bg-white p-3 rounded-2xl border border-purple-100 flex items-center justify-between shadow-sm">
+            <span class="text-xs text-slate-700 font-semibold">¿Tomada hoy en el desayuno?</span>
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" id="chk-habito-creatina" onchange="toggleHabitoCreatina(this.checked)" class="w-5 h-5 rounded text-purple-600 focus:ring-purple-500 cursor-pointer">
-              <span class="text-xs font-bold text-purple-300" id="label-chk-creatina">¡Sí, tomada!</span>
+              <input type="checkbox" id="chk-habito-creatina" onchange="toggleHabitoCreatina(this.checked)" class="w-5 h-5 rounded text-rose-500 focus:ring-rose-400 cursor-pointer accent-rose-500">
+              <span class="text-xs font-bold text-purple-700" id="label-chk-creatina">¡Sí, tomada!</span>
             </label>
           </div>
         </div>
 
-        <!-- CARD AGUA / HIDRATACIÓN -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-3">
+        <!-- CARD AGUA INTERACTIVA CON VASITOS -->
+        <div class="bg-white border border-blue-100 rounded-3xl p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-black text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span class="text-xs font-extrabold text-blue-700 uppercase tracking-wider flex items-center gap-1.5">
               <span>💧</span> Hidratación Celular
             </span>
-            <span class="text-xs font-bold text-blue-300" id="water-stat-display">1.5 / 2.5 Litros</span>
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-0.5 rounded-full border border-blue-100" id="water-stat-display">
+              1.5 / 2.5 Litros
+            </span>
           </div>
-          <p class="text-xs text-slate-300">
-            Con la creatina activa, el músculo retiene más agua intracelular. Meta diaria mínima: 2.5 Litros.
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Con la creatina a tope, tus células absorben más agua. Tocá los vasitos a medida que vas tomando durante el día:
           </p>
-          <div class="flex items-center justify-between gap-2 pt-1">
-            <button onclick="addWater(-250)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold">
-              - 250ml
-            </button>
-            <div class="flex-1 bg-slate-950 rounded-xl h-4 overflow-hidden border border-slate-800 p-0.5">
-              <div id="water-bar" class="bg-blue-500 h-full rounded-lg transition-all" style="width: 60%;"></div>
+
+          <!-- GRILLA INTERACTIVA DE 10 VASITOS (CADA UNO = 250 ML) -->
+          <div class="grid grid-cols-5 gap-2 pt-1" id="water-cups-grid">
+            <!-- Renderizado por JS: vasitos clickeables -->
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-blue-50 text-[11px] text-slate-500">
+            <span>Meta diaria: 10 vasos (2.5L)</span>
+            <button onclick="resetWater()" class="text-rose-500 hover:underline font-medium">Reiniciar día</button>
+          </div>
+        </div>
+
+        <!-- CARD: DESCONEXIÓN DIGITAL & CELULAR LEJOS -->
+        <div class="bg-gradient-to-br from-indigo-50/80 via-white to-purple-50/70 border border-indigo-200/80 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-indigo-900 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🌙</span> Desconexión & Celular Lejos
+            </span>
+            <span class="text-[11px] font-bold text-indigo-700 bg-indigo-100/90 px-2.5 py-0.5 rounded-full border border-indigo-200">
+              Higiene del Sueño
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            La luz azul de la pantalla en la cama frena la liberación de <strong>melatonina</strong> y confunde al cerebro, haciendo que al otro día cueste arrancar con energía en la facultad.
+          </p>
+          <div class="bg-white/90 p-3 rounded-2xl border border-indigo-100 space-y-2 text-xs shadow-xs">
+            <div class="flex items-start gap-2 text-slate-700">
+              <span class="text-indigo-500 font-bold">💡</span>
+              <p class="text-[11px] leading-relaxed">
+                <strong>Regla de los 30 min:</strong> Dejá el celular cargando fuera del alcance de la cama 30 minutos antes de dormir. Cambiá el scroll por una ducha tibia, charlar con Naza o simplemente respirar.
+              </p>
             </div>
-            <button onclick="addWater(250)" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold">
-              + 250ml
+            <div class="pt-2 border-t border-indigo-50 flex items-center justify-between">
+              <span class="text-xs text-slate-700 font-semibold">¿Celular lejos de la almohada hoy?</span>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="chk-habito-celular" onchange="toggleHabitoCelular(this.checked)" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-400 cursor-pointer accent-indigo-600">
+                <span class="text-xs font-bold text-indigo-700" id="label-chk-celular">Pendiente</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: PERSPECTIVA & MENTE SERENA -->
+        <div class="bg-gradient-to-br from-rose-50/90 via-white to-amber-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-rose-800 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🤍</span> Perspectiva & Mente Serena
+            </span>
+            <span class="text-[11px] font-bold text-rose-700 bg-rose-100/90 px-2.5 py-0.5 rounded-full border border-rose-200">
+              Paz Mental
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            En la facultad o en el día a día a veces las cosas no salen como planeabas: un paciente se atrasa, una materia exige mucho o algo frustra. 
+            Acordate siempre: <strong>en la vida hay problemas infinitamente más graves</strong>. Las pequeñas trabas del día no te definen ni valen tu amargura.
+          </p>
+
+          <div class="bg-rose-50/60 p-3 rounded-2xl border border-rose-100/90 space-y-2.5">
+            <p class="text-[11px] text-slate-700 italic leading-relaxed">
+              "Elegir mirar las cosas con una sonrisa y una actitud más liviana hace que todo se acomode más rápido. Hoy diste lo mejor, y eso ya es un montón."
+            </p>
+            <button onclick="triggerCalmaModal()" class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white text-xs font-bold shadow-sm hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+              <span>🌸</span> Respirar & Recordatorio de Paz
             </button>
           </div>
         </div>
 
         <!-- CARD POWER NAP -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 space-y-2">
-          <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span>💤</span> Protocolo Power Nap (Jueves y Viernes)
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50/60 border border-amber-200/80 rounded-3xl p-4 shadow-sm space-y-2">
+          <span class="text-xs font-extrabold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+            <span>💤</span> Protocolo Power Nap (Post-Cirugía)
           </span>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Siestas de <strong>20 a 25 minutos exactos</strong> post-cirugía (13:45 a 14:15 hs). Evita la inercia del sueño y restaura el sistema nervioso.
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Siestas de <strong>20 a 25 minutos exactos</strong> los jueves o viernes cuando estés agotada de la clínica de Odonto (13:45 a 14:15 hs). Evita levantarte mareada y restaura tu cerebro al instante.
           </p>
+        </div>
+
+        <!-- CARD: VIANDAS & MERIENDAS EXPRESS PARA ODONTO -->
+        <div class="bg-gradient-to-br from-amber-50/80 via-white to-orange-50/70 border border-amber-200/80 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🥪</span> Viandas & Snacks Express (Odonto)
+            </span>
+            <span class="text-[11px] font-bold text-amber-700 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-200">
+              Cero Heladera
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
+            Opciones nutritivas con buena proteína que aguantan en tu locker de la facultad sin refrigeración y dan energía limpia sin pesadez digestiva durante cirugías o guardias.
+          </p>
+
+          <div class="space-y-2 pt-1 text-xs">
+            <div class="bg-white/90 p-3 rounded-2xl border border-amber-100 space-y-1.5 shadow-2xs">
+              <h5 class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                <span>🎒</span> Snacks de Locker (Sin Heladera)
+              </h5>
+              <ul class="text-[11px] text-slate-600 space-y-1 ml-1">
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Mix de frutos secos:</strong> Nueces, almendras y pasas (energía rápida y grasas saludables).</span></li>
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Fruta con piel protectora:</strong> Banana o manzana verde (aguantan en la mochila sin romperse).</span></li>
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Barrita de proteína limpia:</strong> Para comer en 2 minutos entre paciente y paciente.</span></li>
+              </ul>
+            </div>
+
+            <div class="bg-white/90 p-3 rounded-2xl border border-amber-100 space-y-1.5 shadow-2xs">
+              <h5 class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                <span>🥪</span> Viandas Rápidas (10 min en casa la noche anterior)
+              </h5>
+              <ul class="text-[11px] text-slate-600 space-y-1 ml-1">
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Sándwich integral proteico:</strong> Pollo desmenuzado o atún + queso magro + palta.</span></li>
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Wraps de huevo:</strong> Huevo revuelto + espinaca + queso untable en masa integral.</span></li>
+                <li class="flex items-start gap-1.5"><span class="text-amber-500 font-bold">•</span><span><strong>Tupper fresco:</strong> Fideos integrales o arroz yamaní con huevo duro picado y oliva.</span></li>
+              </ul>
+            </div>
+
+            <div class="bg-amber-100/60 p-2.5 rounded-xl border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-1.5">
+              <span class="font-bold">💡 Tip clínico:</span>
+              <span>Evitá ultraprocesados o frituras antes de entrar a clínica; la digestión pesada causa somnolencia y fatiga estando 4 horas de pie operando.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCESOS DIRECTOS EN HÁBITOS -->
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="openCofreVictoriasModal()" class="p-3 bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-200/80 rounded-2xl flex items-center gap-2 text-left hover:bg-amber-100/50 transition">
+            <span class="text-xl">🏆</span>
+            <div>
+              <span class="text-xs font-bold text-amber-900 block leading-tight">Cofre de Logros</span>
+              <span class="text-[10px] text-slate-500 font-medium">Ver mis victorias</span>
+            </div>
+          </button>
+          <button onclick="openTiempoViajeModal()" class="p-3 bg-gradient-to-br from-indigo-50 to-purple-50/60 border border-indigo-200/80 rounded-2xl flex items-center gap-2 text-left hover:bg-indigo-100/50 transition">
+            <span class="text-xl">🚆</span>
+            <div>
+              <span class="text-xs font-bold text-indigo-900 block leading-tight">Tiempo de Viaje</span>
+              <span class="text-[10px] text-slate-500 font-medium">Relax en bondi/tren</span>
+            </div>
+          </button>
         </div>
 
       </div>
 
     </main>
 
-    <!-- BOTTOM NAVIGATION BAR (FIJA TIPO APP NATIVA) -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 p-2 max-w-xl mx-auto flex items-center justify-around">
-      <button onclick="switchView('chat')" id="nav-btn-chat" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-rose-400 font-bold transition">
+    <!-- ============================================== -->
+    <!-- BOTTOM NAVIGATION BAR (BARRA FLOTANTE PILL)    -->
+    <!-- ============================================== -->
+    <nav class="absolute bottom-3 left-4 right-4 z-40 bg-white/90 backdrop-blur-xl border border-rose-200/80 p-1.5 rounded-3xl flex items-center justify-around shadow-lg shadow-rose-950/5">
+      <button onclick="switchView('chat')" id="nav-btn-chat" class="nav-item flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl text-rose-600 font-bold transition">
         <span class="text-lg">💬</span>
         <span class="text-[10px]">Coach</span>
       </button>
-      <button onclick="switchView('dia')" id="nav-btn-dia" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
+      <button onclick="switchView('dia')" id="nav-btn-dia" class="nav-item flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl text-slate-400 font-medium transition">
         <span class="text-lg">📅</span>
         <span class="text-[10px]">Mi Día</span>
       </button>
-      <button onclick="switchView('gym')" id="nav-btn-gym" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
-        <span class="text-lg">🏋️</span>
+      <button onclick="switchView('gym')" id="nav-btn-gym" class="nav-item flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl text-slate-400 font-medium transition">
+        <span class="text-lg">🏋️‍♀️</span>
         <span class="text-[10px]">Gym</span>
       </button>
-      <button onclick="switchView('habitos')" id="nav-btn-habitos" class="nav-item flex flex-col items-center gap-1 py-1 px-3 rounded-2xl text-slate-500 font-medium transition">
-        <span class="text-lg">⚡</span>
+      <button onclick="switchView('habitos')" id="nav-btn-habitos" class="nav-item flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl text-slate-400 font-medium transition">
+        <span class="text-lg">✨</span>
         <span class="text-[10px]">Hábitos</span>
       </button>
     </nav>
+
+    <!-- ============================================== -->
+    <!-- MODAL DE CALMA, PERSPECTIVA & RESPIRACIÓN      -->
+    <!-- ============================================== -->
+    <div id="modal-calma" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 max-w-sm w-full border border-rose-100 shadow-2xl space-y-4 text-center transform transition-all">
+        <div class="flex items-center justify-between pb-2 border-b border-rose-50">
+          <span class="text-xs font-bold text-rose-700 bg-rose-50 px-3 py-0.5 rounded-full border border-rose-100">
+            Pausa & Respiración 🌸
+          </span>
+          <button onclick="closeCalmaModal()" class="text-slate-400 hover:text-slate-600 text-base font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">
+            ✕
+          </button>
+        </div>
+
+        <!-- CÍRCULO DE RESPIRACIÓN ANIMADO -->
+        <div class="py-2 flex flex-col items-center justify-center">
+          <div id="breathing-circle" class="w-24 h-24 rounded-full bg-gradient-to-tr from-rose-200 via-pink-200 to-purple-200 flex items-center justify-center text-3xl shadow-inner transition-transform duration-1000">
+            🌸
+          </div>
+          <p id="breathing-text" class="text-xs font-bold text-rose-600 mt-3 transition-all">
+            Inhalá profundo... (4s)
+          </p>
+        </div>
+
+        <!-- MENSAJE DE PERSPECTIVA -->
+        <div class="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-100/90 text-left space-y-1">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-500 block">Recordatorio para Caritas ✨</span>
+          <p id="calma-quote-text" class="text-xs text-slate-700 leading-relaxed font-medium">
+            "En la vida hay cosas infinitamente más importantes y graves. Lo que hoy te preocupa de la facu se va a solucionar. Respirá y sonreí."
+          </p>
+        </div>
+
+        <button onclick="closeCalmaModal()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.02] active:scale-98 transition">
+          Cerrar con una sonrisa 🤍
+        </button>
+      </div>
+    </div>
+
+    <!-- WIDGET FLOTANTE: TEMPORIZADOR DE DESCANSO -->
+    <div id="floating-rest-timer" class="fixed bottom-20 right-4 z-40 bg-white/95 backdrop-blur-md border border-rose-200 shadow-xl rounded-full px-3.5 py-1.5 hidden flex items-center gap-2.5">
+      <span class="text-xs">⏱️</span>
+      <div class="flex flex-col">
+        <span class="text-[8px] font-bold uppercase text-slate-400">Descanso</span>
+        <span id="rest-timer-display" class="text-xs font-extrabold text-rose-600 font-mono leading-none">01:30</span>
+      </div>
+      <button onclick="stopRestTimer()" class="w-5 h-5 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 text-[10px] font-bold flex items-center justify-center">✕</button>
+    </div>
+
+    <!-- MODAL DE DEVOLUCIÓN DE ENTRENAMIENTO -->
+    <div id="modal-gym-feedback" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-rose-100 shadow-2xl space-y-3.5 text-center transform transition-all max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-2 border-b border-rose-50">
+          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-0.5 rounded-full border border-emerald-100 flex items-center gap-1">
+            <span>🏆</span> Entrenamiento Liquidado
+          </span>
+          <button onclick="closeGymFeedbackModal()" class="text-slate-400 hover:text-slate-600 text-base font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">
+            ✕
+          </button>
+        </div>
+
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-gradient-to-tr from-rose-400 via-pink-400 to-purple-400 flex items-center justify-center text-3xl shadow-md shadow-rose-200 animate-gentle">
+          🏋️‍♀️
+        </div>
+
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900" id="gym-feedback-title">¡Gran laburo hoy, Caritas! 🚀</h3>
+          <p class="text-[11px] text-slate-500 font-medium" id="gym-feedback-subtitle">Mesociclo 1 • Semana 2 completada</p>
+        </div>
+
+        <!-- RESUMEN DE MÉTRICAS RÁPIDAS -->
+        <div class="grid grid-cols-3 gap-2 py-1 text-center" id="gym-feedback-metrics">
+          <!-- Renderizado dinámico -->
+        </div>
+
+        <!-- DEVOLUCIÓN DEL COACH -->
+        <div class="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-100/90 text-left space-y-1.5">
+          <div class="flex items-center gap-1.5">
+            <span class="text-sm">🌸</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-700">Devolución de tu Coach</span>
+          </div>
+          <div id="gym-feedback-content" class="text-xs text-slate-700 leading-relaxed font-medium space-y-1">
+            <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
+              <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+              <span class="text-xs italic">El Coach está analizando tu entrenamiento...</span>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="closeGymFeedbackModal()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.02] active:scale-98 transition">
+          ¡A descansar y comer rico! 🥑
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL SOS: DÍA DIFÍCIL EN ODONTO               -->
+    <!-- ============================================== -->
+    <div id="modal-sos-odonto" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-rose-100 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] overflow-y-auto">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center text-sm shadow-2xs">
+              🆘
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Día Difícil en Odonto</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Tu Coach está con vos, Caritas 🤍</p>
+            </div>
+          </div>
+          <button onclick="closeSosModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- CHIPS DE SITUACIONES RÁPIDAS -->
+        <div class="space-y-1.5">
+          <span class="text-[11px] font-bold text-slate-700 block">¿Qué pasó en la facu o clínica?</span>
+          <div class="grid grid-cols-1 gap-1.5" id="sos-chips-container">
+            <button onclick="selectSosReason('Un profesor fue muy injusto o me trató mal en la clínica')" class="sos-chip text-left text-[11px] p-2.5 rounded-2xl bg-rose-50/70 hover:bg-rose-100/80 border border-rose-200/80 text-slate-700 transition flex items-center gap-2">
+              <span>🩺</span> <span>Un profesor fue injusto / me trató mal</span>
+            </button>
+            <button onclick="selectSosReason('Se me cayó un paciente de la clínica o la guardia a último momento')" class="sos-chip text-left text-[11px] p-2.5 rounded-2xl bg-rose-50/70 hover:bg-rose-100/80 border border-rose-200/80 text-slate-700 transition flex items-center gap-2">
+              <span>🏥</span> <span>Se cayó un paciente a último momento</span>
+            </button>
+            <button onclick="selectSosReason('Siento que no llego con los temas de estudio o me fue mal en una entrega/parcial')" class="sos-chip text-left text-[11px] p-2.5 rounded-2xl bg-rose-50/70 hover:bg-rose-100/80 border border-rose-200/80 text-slate-700 transition flex items-center gap-2">
+              <span>📚</span> <span>No llego con el estudio / me fue mal</span>
+            </button>
+            <button onclick="selectSosReason('Estoy colapsada, súper cansada físicamente y con ganas de llorar')" class="sos-chip text-left text-[11px] p-2.5 rounded-2xl bg-rose-50/70 hover:bg-rose-100/80 border border-rose-200/80 text-slate-700 transition flex items-center gap-2">
+              <span>🥺</span> <span>Estoy colapsada y muy cansada</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- INPUT TEXTO LIBRE -->
+        <div class="space-y-1">
+          <label for="sos-custom-input" class="text-[11px] font-medium text-slate-600 flex items-center justify-between">
+            <span>O contalo con tus palabras:</span>
+            <span class="text-[10px] text-slate-400">Espacio seguro</span>
+          </label>
+          <textarea id="sos-custom-input" rows="2" placeholder="Ej: Me sentí frustrada en la práctica porque..."
+            class="w-full bg-[#FAF7F5] border border-rose-200 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400 resize-none font-normal"></textarea>
+        </div>
+
+        <!-- BOTÓN ENVIAR -->
+        <button id="btn-submit-sos" onclick="submitSosVent()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+          <span>🌸</span>
+          <span id="btn-submit-sos-text">Recibir contención y calma del Coach</span>
+        </button>
+
+        <!-- CAJA DE RESPUESTA ADAPTATIVA DEL COACH -->
+        <div id="sos-coach-response-box" class="hidden bg-gradient-to-br from-rose-50 via-white to-pink-50/70 p-3.5 rounded-2xl border border-rose-200 shadow-2xs space-y-2 text-left">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-700 flex items-center gap-1">
+              <span>🤍</span> Respuesta para vos, Caritas
+            </span>
+            <span class="text-[10px] text-slate-400 font-medium" id="sos-timestamp"></span>
+          </div>
+          <div id="sos-coach-response-text" class="text-xs text-slate-800 leading-relaxed font-medium space-y-2">
+            <!-- Inyectado dinámicamente -->
+          </div>
+          <div class="pt-2 border-t border-rose-100 flex items-center justify-between text-xs">
+            <button onclick="sendSosToChat()" class="text-[11px] text-rose-600 font-bold hover:underline flex items-center gap-1">
+              <span>💬</span> Seguir charlando en el Chat
+            </button>
+            <button onclick="closeSosModal()" class="text-[11px] text-slate-500 hover:text-slate-700 font-medium">
+              Cerrar
+            </button>
+          </div>
+          <div class="pt-1 text-center">
+            <button onclick="closeSosModal(); openCofreVictoriasModal();" class="text-[11px] text-amber-700 font-bold hover:underline inline-flex items-center gap-1">
+              <span>🏆</span> Abrir mi Cofre de Victorias para recordar lo que valgo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 1: REGISTRAR NUEVA VICTORIA              -->
+    <!-- ============================================== -->
+    <div id="modal-nueva-victoria" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-amber-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-amber-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-sm shadow-2xs">
+              🏆
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Registrar Victoria de Hoy</h3>
+              <p class="text-[10px] text-amber-700 font-bold">Celebrá tu talento innato, Caritas ✨</p>
+            </div>
+          </div>
+          <button onclick="closeNuevaVictoriaModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Relato libre y detallado (Protagonista principal) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label for="victoria-custom-text" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <span>✍️</span> ¿Qué hiciste hoy que te llenó de orgullo?
+            </label>
+            <span class="text-[10px] text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200" id="selected-victoria-cat">🩺 Práctica o cirugía impecable</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-snug">
+            Escribí tranquila todo lo que quieras con lujo de detalles (el diente, la anestesia, el aislamiento, la anatomía, cómo resolviste una maniobra difícil, o cómo se fue el paciente). ¡Tu coach entiende todo el vocabulario técnico! 🦷✨
+          </p>
+          <textarea id="victoria-custom-text" rows="5" placeholder="Ej: Hoy en la clínica me tocó una restauración compleja en un molar inferior. Puse el clamp perfecto sin molestar la encía, aislé con goma dique y la anatomía oclusal de cúspides quedó hermosa con resina estratificada. ¡El paciente se fue súper contento y felicitándome! 🦷✨"
+            class="w-full bg-[#FAF7F5] border border-amber-200 rounded-2xl p-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300 resize-none font-normal leading-relaxed shadow-inner"></textarea>
+        </div>
+
+        <!-- Categorías / Etiquetas secundarias (chips compactos para clasificar) -->
+        <div class="space-y-1 pt-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Etiqueta rápida (opcional):</span>
+          <div class="flex flex-wrap gap-1.5" id="victoria-cat-chips">
+            <button type="button" data-cat="Práctica o cirugía clínica impecable 🩺" onclick="selectVictoriaCategory('Práctica o cirugía clínica impecable 🩺')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-300 bg-amber-200/70 font-bold text-[10.5px] text-slate-900 transition shadow-xs">
+              🩺 Clínica / Cirugía
+            </button>
+            <button type="button" data-cat="Anestesia o técnica precisa 💉" onclick="selectVictoriaCategory('Anestesia o técnica precisa 💉')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-200/80 bg-amber-50/60 hover:bg-amber-100/80 text-[10.5px] font-medium text-slate-700 transition">
+              💉 Anestesia precisa
+            </button>
+            <button type="button" data-cat="Restauración o diente hermoso 🦷" onclick="selectVictoriaCategory('Restauración o diente hermoso 🦷')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-200/80 bg-amber-50/60 hover:bg-amber-100/80 text-[10.5px] font-medium text-slate-700 transition">
+              🦷 Restauración / Diente
+            </button>
+            <button type="button" data-cat="Parcial o TP aprobado 📚" onclick="selectVictoriaCategory('Parcial o TP aprobado 📚')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-200/80 bg-amber-50/60 hover:bg-amber-100/80 text-[10.5px] font-medium text-slate-700 transition">
+              📚 Parcial / TP
+            </button>
+            <button type="button" data-cat="Récord o sesión liquidada en gym 🏋️‍♀️" onclick="selectVictoriaCategory('Récord o sesión liquidada en gym 🏋️‍♀️')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-rose-200/80 bg-rose-50/60 hover:bg-rose-100/80 text-[10.5px] font-medium text-slate-700 transition">
+              🏋️‍♀️ Gym / Récord
+            </button>
+            <button type="button" data-cat="Momento lindo de orgullo ✨" onclick="selectVictoriaCategory('Momento lindo de orgullo ✨')" class="victoria-cat-btn px-2.5 py-1 rounded-xl border border-purple-200/80 bg-purple-50/60 hover:bg-purple-100/80 text-[10.5px] font-medium text-slate-700 transition">
+              ✨ Orgullo personal
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón Guardar -->
+        <button id="btn-guardar-victoria" onclick="guardarVictoria()" class="w-full py-2.5 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+          <span>🎉</span>
+          <span id="btn-guardar-victoria-text">Celebrar y guardar en mi Cofre</span>
+        </button>
+
+        <!-- Feedback Box -->
+        <div id="victoria-coach-response-box" class="hidden bg-gradient-to-br from-amber-50 via-white to-rose-50 p-3.5 rounded-2xl border border-amber-200 shadow-2xs space-y-2 text-left animate-gentle">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 flex items-center gap-1">
+              <span>🌟</span> ¡Qué orgullo, Caritas!
+            </span>
+            <span class="text-[10px] text-slate-400 font-medium" id="victoria-timestamp"></span>
+          </div>
+          <div id="victoria-coach-response-text" class="text-xs text-slate-800 leading-relaxed font-medium space-y-1.5">
+            <!-- Inyectado dinámicamente -->
+          </div>
+          <div class="pt-2 border-t border-amber-100 flex items-center justify-between text-xs">
+            <button onclick="closeNuevaVictoriaModal(); openCofreVictoriasModal();" class="text-[11px] text-amber-800 font-bold hover:underline flex items-center gap-1">
+              <span>📖</span> Ver en mi Cofre
+            </button>
+            <button onclick="closeNuevaVictoriaModal()" class="text-[11px] text-slate-500 hover:text-slate-700 font-medium">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 2: COFRE DE VICTORIAS & LOGROS HISTÓRICO -->
+    <!-- ============================================== -->
+    <div id="modal-cofre-victorias" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-amber-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-amber-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-base shadow-2xs">
+              📖
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Mi Cofre de Victorias</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Para recordar lo grosa que sos 🤍</p>
+            </div>
+          </div>
+          <button onclick="closeCofreVictoriasModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Banner recordatorio de talento -->
+        <div class="bg-gradient-to-r from-amber-50 to-rose-50 p-2.5 rounded-2xl border border-amber-200/80 text-[11px] text-amber-900 leading-snug shrink-0 flex items-center gap-2">
+          <span class="text-base">✨</span>
+          <span><strong>Recordatorio:</strong> Cada uno de estos logros demuestra tu talento innato, tu pulso y tu amor por Odonto.</span>
+        </div>
+
+        <!-- Lista scrolleable de victorias -->
+        <div id="cofre-victorias-list" class="flex-1 overflow-y-auto space-y-2.5 pr-0.5">
+          <!-- Renderizado dinámicamente -->
+        </div>
+
+        <!-- Botón agregar más -->
+        <div class="pt-2 border-t border-amber-100 shrink-0 flex items-center justify-between">
+          <button onclick="closeCofreVictoriasModal(); openNuevaVictoriaModal();" class="w-full py-2 bg-gradient-to-r from-amber-500 to-rose-500 text-white rounded-2xl text-xs font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+            <span>+</span> Agregar otra victoria de hoy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 3: MODO TIEMPO DE VIAJE (BONDI / TREN)    -->
+    <!-- ============================================== -->
+    <div id="modal-tiempo-viaje" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-indigo-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-indigo-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-base shadow-2xs">
+              🚆
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Tiempo de Viaje</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Desconexión en el bondi o tren 🎧</p>
+            </div>
+          </div>
+          <button onclick="closeTiempoViajeModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Selector de tiempo -->
+        <div class="space-y-1 text-center">
+          <span class="text-[11px] font-bold text-slate-700 block">¿Cuánto tiempo dura tu viaje?</span>
+          <div class="flex items-center justify-center gap-2 pt-1">
+            <button onclick="startViajeTimer(15)" class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 text-xs font-bold transition shadow-2xs">
+              ⏱️ 15 min
+            </button>
+            <button onclick="startViajeTimer(30)" class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 text-xs font-bold transition shadow-2xs">
+              ⏱️ 30 min
+            </button>
+            <button onclick="startViajeTimer(45)" class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 text-xs font-bold transition shadow-2xs">
+              ⏱️ 45 min
+            </button>
+          </div>
+        </div>
+
+        <!-- Timer Display activo -->
+        <div id="viaje-timer-box" class="hidden bg-indigo-50/80 p-3 rounded-2xl border border-indigo-200 text-center space-y-1">
+          <span class="text-[10px] font-bold uppercase text-indigo-600">Tiempo de desconexión</span>
+          <div id="viaje-timer-countdown" class="text-2xl font-extrabold text-indigo-950 font-mono">15:00</div>
+          <p class="text-[10px] text-slate-500">Ponete los auriculares, cerrá los ojos y respirá hondo.</p>
+          <button onclick="stopViajeTimer()" class="text-[10px] font-bold text-rose-600 underline pt-1">Detener pausa</button>
+        </div>
+
+        <!-- Mensaje cálido -->
+        <div class="bg-gradient-to-r from-purple-50/80 to-indigo-50/80 p-3 rounded-2xl border border-purple-100 text-slate-700 text-xs leading-relaxed space-y-1">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block">Consigna de viaje ✨</span>
+          <p class="italic text-[11px]">
+            "Apoyá la cabeza en el respaldo, bajá los hombros y soltá la tensión de la mandíbula. Lo que pasó en la clínica se queda en la clínica. Ya diste lo mejor hoy y ahora vas camino a descansar 🤍"
+          </p>
+        </div>
+
+        <!-- Cápsulas breves anti-mareo -->
+        <div class="space-y-1.5 pt-1">
+          <span class="text-[11px] font-bold text-slate-700 block">Píldoras breves de calma (30 seg):</span>
+          
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-0.5">
+            <span class="font-bold text-slate-800 block">🧠 Reseteo Mental Post-Clínica</span>
+            <span>Tu mente ya operó 4 horas de pie. No tenés que seguir rumiando los pacientes en el bondi. Permitite no hacer nada.</span>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-0.5">
+            <span class="font-bold text-slate-800 block">🤍 Pensá en lo lindo</span>
+            <span>Una ducha calentita al llegar, comida rica, y la persona que te ama con locura esperándote orgulloso de todo lo que hacés.</span>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-0.5">
+            <span class="font-bold text-slate-800 block">🌱 Cada viaje suma</span>
+            <span>Cada viaje en transporte te está acercando un pasito más a tu título y a la odontóloga de excelencia que ya estás siendo.</span>
+          </div>
+        </div>
+
+        <button onclick="closeTiempoViajeModal()" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.01] active:scale-98 transition">
+          Viajar serena y tranquila 🌸
+        </button>
+      </div>
+    </div>
 
   </div>
 
@@ -336,100 +951,1026 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Clave de API de Gemini 3.6 Flash
+    // Clave de API de Gemini 3.6 Flash (ofuscada en Base64 para protección)
     const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
 
     // ESTADO LOCAL DE LA APLICACIÓN
-    let activeRole = 'male'; // 'male' o 'laura'
+    let activeRole = 'male'; // 'male' o 'naza'
     let currentGymDay = 'dia1';
     let waterMl = parseInt(localStorage.getItem('water_ml') || '1500');
+    let currentMood = localStorage.getItem('current_mood') || 'energizada';
+    let currentBattery = localStorage.getItem('user_battery') || 'alta'; // 'alta', 'media', 'reserva'
+    let victoriasMale = JSON.parse(localStorage.getItem('victorias_male') || '[]');
+    let selectedVictoriaCategoryText = 'Práctica o cirugía clínica impecable 🩺';
 
-    // DATOS DE GYM
+    // DATOS DE GYM (SEMANA 2 RIR 2) CON ESQUEMA INTERACTIVO & REEMPLAZOS
     const GYM_ROUTINE = {
       dia1: [
-        { nombre: "Peso Muerto Rumano (RDL)", carga: "14 kg", s1: "11", s2: "11", s3: "11", meta: "11, 11, 10-11", status: "¡Superado! 🚀 +4 reps" },
-        { nombre: "Sentadilla Sumo Mancuerna", carga: "30 kg", s1: "9", s2: "9", meta: "9 - 10 reps", status: "¡Cumplido! 🎯 +2 reps" },
-        { nombre: "Hip Thrust en Máquina", carga: "20 kg", s1: "12", s2: "12", meta: "11 - 12 reps", status: "¡Tope de rango! 🔥 +4 reps" },
-        { nombre: "Hiperextensiones a 45°", carga: "Disco 10 kg", s1: "16", s2: "15", s3: "15", meta: "16 reps", status: "¡Superado! 🚀 +2 reps" },
-        { nombre: "Abductores en Máquina", carga: "45 / 63 kg", s1: "16", s2: "11", s3: "10", meta: "63kg pesado", status: "Glúteo medio salvado 💡" }
+        {
+          id: "dia1_rdl",
+          nombre: "Peso Muerto Rumano (RDL)",
+          musculo: "Glúteo mayor e isquios",
+          series: 3,
+          cargaSugerida: "14 kg x mano",
+          metaReps: [11, 11, 11],
+          defaultLogged: [
+            { kg: "14", reps: 11, completed: true },
+            { kg: "14", reps: 11, completed: true },
+            { kg: "14", reps: 11, completed: true }
+          ],
+          tip: "Cadera bien atrás, rodillas en semiflexión fija y espalda neutra sintiendo cómo estiran los glúteos.",
+          alternativas: [
+            {
+              nombre: "RDL con barra corta / hexagonal",
+              pesoEquiv: "28 - 30 kg totales",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Equivale exactamente a los 14 kg x mano en mancuernas. Mantiene la misma bisagra de cadera."
+            },
+            {
+              nombre: "Hiperextensiones a 45°",
+              pesoEquiv: "Disco 15 kg al pecho",
+              repsEquiv: "12 - 14 reps @ RIR 2",
+              notaRP: "Gran estímulo en estiramiento de glúteo e isquios sin fatigar el agarre de las manos."
+            }
+          ]
+        },
+        {
+          id: "dia1_sumo",
+          nombre: "Sentadilla Sumo con Mancuerna",
+          musculo: "Glúteo & aductores",
+          series: 2,
+          cargaSugerida: "30 kg",
+          metaReps: [9, 9],
+          defaultLogged: [
+            { kg: "30", reps: 9, completed: true },
+            { kg: "30", reps: 9, completed: true }
+          ],
+          tip: "Puntas hacia afuera 45°, rodillas alineadas con los pies, tronco erguido.",
+          alternativas: [
+            {
+              nombre: "Prensa 45° (pies altos y separados)",
+              pesoEquiv: "70 - 80 kg en prensa",
+              repsEquiv: "10 reps @ RIR 2",
+              notaRP: "Simula la misma apertura de aductores y glúteo de la sumo con apoyo lumbar súper seguro."
+            },
+            {
+              nombre: "Sentadilla Goblet sobre cajón",
+              pesoEquiv: "28 - 30 kg con mancuerna",
+              repsEquiv: "9 - 10 reps @ RIR 2",
+              notaRP: "Controla la profundidad para activar al máximo los glúteos en la fase baja."
+            }
+          ]
+        },
+        {
+          id: "dia1_hipthrust",
+          nombre: "Hip Thrust en Máquina",
+          musculo: "Máxima contracción de glúteo",
+          series: 2,
+          cargaSugerida: "20 kg",
+          metaReps: [12, 12],
+          defaultLogged: [
+            { kg: "20", reps: 12, completed: true },
+            { kg: "20", reps: 12, completed: true }
+          ],
+          tip: "Pausa de 1 segundo arriba apretando fuerte, mentón pegado al pecho.",
+          alternativas: [
+            {
+              nombre: "Hip Thrust con barra libre y almohadilla",
+              pesoEquiv: "50 - 60 kg totales",
+              repsEquiv: "12 reps @ RIR 2",
+              notaRP: "Por la palanca de la barra libre, 20 kg en máquina equivalen a 50-60 kg en barra. Pausa de 1s arriba."
+            },
+            {
+              nombre: "Puente de glúteos en Smith",
+              pesoEquiv: "40 - 50 kg",
+              repsEquiv: "12 reps @ RIR 2",
+              notaRP: "Recorrido guiado muy estable y focalizado en glúteos."
+            }
+          ]
+        },
+        {
+          id: "dia1_hiperext",
+          nombre: "Hiperextensiones a 45°",
+          musculo: "Glúteos & erectores",
+          series: 3,
+          cargaSugerida: "Disco 10 kg",
+          metaReps: [16, 15, 15],
+          defaultLogged: [
+            { kg: "10", reps: 16, completed: true },
+            { kg: "10", reps: 15, completed: true },
+            { kg: "10", reps: 15, completed: true }
+          ],
+          tip: "Espalda alta ligeramente redondeada para inhibir lumbares y enfocar 100% en glúteos.",
+          alternativas: [
+            {
+              nombre: "Good Mornings con mancuerna al pecho",
+              pesoEquiv: "12 - 14 kg",
+              repsEquiv: "14 - 15 reps @ RIR 2",
+              notaRP: "Enfoca la bisagra de cadera con espalda alta redonda para anular lumbares."
+            },
+            {
+              nombre: "Pull-Through en polea baja con soga",
+              pesoEquiv: "20 - 25 kg",
+              repsEquiv: "15 reps @ RIR 2",
+              notaRP: "Tensión horizontal constante directo a los glúteos."
+            }
+          ]
+        },
+        {
+          id: "dia1_abductores",
+          nombre: "Abductores en Máquina",
+          musculo: "Glúteo medio",
+          series: 3,
+          cargaSugerida: "45 / 63 kg",
+          metaReps: [16, 11, 10],
+          defaultLogged: [
+            { kg: "45", reps: 16, completed: true },
+            { kg: "63", reps: 11, completed: true },
+            { kg: "63", reps: 10, completed: true }
+          ],
+          tip: "Inclinarse levemente hacia adelante para activar fibras superiores del glúteo medio.",
+          alternativas: [
+            {
+              nombre: "Patada glúteo medio en polea (tobillera 30°)",
+              pesoEquiv: "5 - 6.8 kg",
+              repsEquiv: "15 reps x pierna @ RIR 2",
+              notaRP: "Equivale a los 45-63 kg de máquina por ser unilateral y de palanca pura."
+            },
+            {
+              nombre: "Caminatas laterales con banda elástica pesada",
+              pesoEquiv: "Banda pesada en rodillas",
+              repsEquiv: "20 pasos x lado",
+              notaRP: "Mantiene la tensión constante en el glúteo medio en abducción continua."
+            }
+          ]
+        }
       ],
       dia2: [
-        { nombre: "Prensa Inclinada", carga: "100 kg", meta: "11, 9, 9 reps (Sem 1: 10, 8, 8)", tip: "Bajar profundo sin despegar pelvis." },
-        { nombre: "SLDL Mancuernas", carga: "14 kg", meta: "10-11, 9, 9 reps", tip: "Semiflexión fija de rodilla, cadera alta." },
-        { nombre: "Sillón de Extensión", carga: "32 kg", meta: "13, 13, 11-12 reps", tip: "Frenar la bajada 2 a 3 segundos." },
-        { nombre: "Seated Leg Curl", carga: "20 - 23 kg", meta: "10 - 12 reps @ RIR 2", tip: "Cuidar rótula: subir solo 1 pin, cadera pegada." },
-        { nombre: "Máquina de Aductores", carga: "36 kg", meta: "15 reps con pausa 1s", tip: "Pausa en máxima contracción." }
+        {
+          id: "dia2_prensa",
+          nombre: "Prensa Inclinada a 45°",
+          musculo: "Cuádriceps & Glúteo",
+          series: 3,
+          cargaSugerida: "100 kg",
+          metaReps: [11, 9, 9],
+          calentamiento: "1x10 con 50kg ➔ 1x6 con 80kg",
+          tip: "Bajar profundo y controlado sin despegar la pelvis del respaldo. Empuje con talones.",
+          alternativas: [
+            {
+              nombre: "Sentadilla Hack (pies en el medio)",
+              pesoEquiv: "15 kg x lado (30 kg en discos)",
+              repsEquiv: "10 - 11 reps @ RIR 2",
+              notaRP: "100 kg en prensa a 45° equivalen a unos 30 kg en discos en Hack por la inclinación del carro."
+            },
+            {
+              nombre: "Sentadilla Búlgara con mancuernas",
+              pesoEquiv: "12 kg x mano",
+              repsEquiv: "10 reps x pierna @ RIR 2",
+              notaRP: "Aislador masivo unilateral para cuádriceps y glúteo medio."
+            }
+          ]
+        },
+        {
+          id: "dia2_sldl",
+          nombre: "SLDL Mancuernas (Piernas Rígidas)",
+          musculo: "Isquiosurales altos",
+          series: 3,
+          cargaSugerida: "14 kg x mano",
+          metaReps: [11, 9, 9],
+          tip: "Semiflexión fija de rodilla, empujar cadera hacia la pared de atrás sintiendo estirar isquios.",
+          alternativas: [
+            {
+              nombre: "RDL clásico con mancuernas",
+              pesoEquiv: "14 kg x mano",
+              repsEquiv: "10 - 11 reps @ RIR 2",
+              notaRP: "Mismo estímulo en bisagra, permitiendo 5° más de flexión de rodilla."
+            },
+            {
+              nombre: "Buenos días con mancuerna al pecho",
+              pesoEquiv: "14 - 16 kg",
+              repsEquiv: "10 - 12 reps @ RIR 2",
+              notaRP: "Descarga los brazos y enfoca toda la bisagra en isquiosurales."
+            }
+          ]
+        },
+        {
+          id: "dia2_extension",
+          nombre: "Sillón de Extensión de Cuádriceps",
+          musculo: "Cuádriceps aislado",
+          series: 3,
+          cargaSugerida: "32 kg",
+          metaReps: [13, 13, 12],
+          tip: "Frenar la bajada 2 a 3 segundos para estimular el músculo sin golpear las rodillas.",
+          alternativas: [
+            {
+              nombre: "Prensa liviana (pies juntos y abajo)",
+              pesoEquiv: "50 - 60 kg",
+              repsEquiv: "12 - 14 reps @ RIR 2",
+              notaRP: "Aísla cuádriceps con menor tensión articular directa en el tendón rotuliano."
+            },
+            {
+              nombre: "Sentadilla Goblet con talones sobre disco",
+              pesoEquiv: "14 - 16 kg",
+              repsEquiv: "12 - 14 reps @ RIR 2",
+              notaRP: "La elevación de talones enfatiza el cuádriceps sin cargar la zona lumbar."
+            }
+          ]
+        },
+        {
+          id: "dia2_legcurl",
+          nombre: "Seated Leg Curl",
+          musculo: "Isquiotibiales",
+          series: 2,
+          cargaSugerida: "20 - 23 kg",
+          metaReps: [11, 11],
+          tip: "¡Cuidar rótula! Subir solo 1 pin respecto a la semana pasada, cadera bien pegada.",
+          alternativas: [
+            {
+              nombre: "Lying Leg Curl (camilla tumbada)",
+              pesoEquiv: "18 - 20 kg",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Equivale a 20-23 kg sentada. Mantener cadera pegada a la camilla."
+            },
+            {
+              nombre: "Curl femoral con mancuerna en banco",
+              pesoEquiv: "10 - 12 kg entre pies",
+              repsEquiv: "11 - 12 reps @ RIR 2",
+              notaRP: "Aislamiento en flexión de rodilla cuidando la articulación."
+            }
+          ]
+        },
+        {
+          id: "dia2_aductores",
+          nombre: "Máquina de Aductores",
+          musculo: "Aductores internos",
+          series: 2,
+          cargaSugerida: "36 kg",
+          metaReps: [15, 15],
+          tip: "Pausa de 1 segundo en máxima apertura y contracción controlada.",
+          alternativas: [
+            {
+              nombre: "Aductor en polea baja con tobillera",
+              pesoEquiv: "5 - 7.5 kg",
+              repsEquiv: "14 - 15 reps @ RIR 2",
+              notaRP: "Tensión constante en aducción medial con rango completo."
+            },
+            {
+              nombre: "Sentadilla Sumo con pausa isométrica (3s)",
+              pesoEquiv: "22 - 24 kg",
+              repsEquiv: "12 reps @ RIR 2",
+              notaRP: "Pausa abajo para elongar y contraer aductores con alta tensión mecánica."
+            }
+          ]
+        }
       ],
       dia3: [
-        { nombre: "Extensión Cuádriceps", carga: "32 kg", meta: "13 - 14 reps", tip: "Activación suave." },
-        { nombre: "Sentadilla Hack Inversa", carga: "15 kg x lado", meta: "11, 11, 11 reps", tip: "Empuje firme con talones." },
-        { nombre: "Step Up Hack Inversa", carga: "10 kg x lado", meta: "10, 10, 10 reps", tip: "Todo el peso en pierna delantera." },
-        { nombre: "Good Mornings Hack", carga: "10 kg x lado", meta: "11, 11, 11 reps", tip: "Bisagra de cadera guiada." },
-        { nombre: "Seated Leg Curl", carga: "20 - 23 kg", meta: "10 - 12 reps @ RIR 2", tip: "1 pin más para RIR 2 cuidando rótula." },
-        { nombre: "Patada de Glúteo (Atrás)", carga: "6.8 kg", meta: "15 - 16 reps", tip: "Extensión sin quebrar lumbares." }
+        {
+          id: "dia3_extension",
+          nombre: "Extensión de Cuádriceps",
+          musculo: "Cuádriceps (Aislamiento y bombeo)",
+          series: 2,
+          cargaSugerida: "32 kg",
+          metaReps: [14, 14],
+          calentamiento: "1 serie previa de aproximación con 16 kg x 8 reps (suave)",
+          tip: "Controlar la bajada 2 segundos. Estas 2 series efectivas lubrican y preparan la rótula antes de la Hack.",
+          alternativas: [
+            {
+              nombre: "Prensa a 45° liviana (pies abajo)",
+              pesoEquiv: "50 - 60 kg",
+              repsEquiv: "14 reps @ RIR 2",
+              notaRP: "Bombeo preparatorio para cuádriceps antes de la Hack."
+            },
+            {
+              nombre: "Sentadilla Goblet liviana y controlada",
+              pesoEquiv: "12 - 14 kg",
+              repsEquiv: "14 reps @ RIR 2",
+              notaRP: "Lubrica rodillas con tempo suave 3-0-1."
+            }
+          ]
+        },
+        {
+          id: "dia3_hack",
+          nombre: "Sentadilla Hack Inversa",
+          musculo: "Glúteo & Cuádriceps",
+          series: 3,
+          cargaSugerida: "15 kg x lado",
+          metaReps: [11, 11, 11],
+          calentamiento: "1x8 sin discos ➔ 1x5 con 7.5kg x lado",
+          tip: "Mirando hacia la máquina, empuje firme con talones y recorrido profundo y seguro.",
+          alternativas: [
+            {
+              nombre: "Sentadilla Hack tradicional de espaldas",
+              pesoEquiv: "15 kg x lado",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Misma máquina, postura tradicional con pies adelantados."
+            },
+            {
+              nombre: "Prensa inclinada (pies altos y anchos)",
+              pesoEquiv: "90 - 100 kg",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Descarga la columna y trabaja glúteo mayor y cuádriceps."
+            }
+          ]
+        },
+        {
+          id: "dia3_stepup",
+          nombre: "Step Up Hack Inversa",
+          musculo: "Glúteo Unilateral",
+          series: 3,
+          cargaSugerida: "10 kg x lado",
+          metaReps: [10, 10, 10],
+          tip: "Todo el peso en la pierna delantera, sin impulsarse con el pie de atrás.",
+          alternativas: [
+            {
+              nombre: "Step Up en cajón de madera con mancuernas",
+              pesoEquiv: "8 - 10 kg x mano",
+              repsEquiv: "10 reps x pierna @ RIR 2",
+              notaRP: "Empuje exclusivamente con el talón de la pierna superior."
+            },
+            {
+              nombre: "Estocadas estáticas hacia atrás en Smith",
+              pesoEquiv: "10 kg x lado",
+              repsEquiv: "10 reps x pierna @ RIR 2",
+              notaRP: "Carga guiada con inclinación de torso a 20° para glúteo."
+            }
+          ]
+        },
+        {
+          id: "dia3_goodmornings",
+          nombre: "Good Mornings Hack",
+          musculo: "Cadena Posterior",
+          series: 3,
+          cargaSugerida: "10 kg x lado",
+          metaReps: [11, 11, 11],
+          tip: "Bisagra de cadera guiada, cuidando la zona lumbar sin arquear.",
+          alternativas: [
+            {
+              nombre: "Buenos días con mancuerna al pecho",
+              pesoEquiv: "14 - 16 kg",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Bisagra pura de cadera, rodillas suaves sin bloquear."
+            },
+            {
+              nombre: "Hiperextensiones a 45° con disco",
+              pesoEquiv: "Disco 10 - 15 kg",
+              repsEquiv: "12 - 14 reps @ RIR 2",
+              notaRP: "Excelente estímulo en elongación de cadena posterior."
+            }
+          ]
+        },
+        {
+          id: "dia3_legcurl",
+          nombre: "Seated Leg Curl",
+          musculo: "Isquiotibiales",
+          series: 2,
+          cargaSugerida: "20 - 23 kg",
+          metaReps: [11, 11],
+          tip: "Subir 1 pin para entrar en RIR 2 cuidando la rótula con la cadera bien pegada.",
+          alternativas: [
+            {
+              nombre: "Lying Leg Curl en camilla",
+              pesoEquiv: "18 - 20 kg",
+              repsEquiv: "11 reps @ RIR 2",
+              notaRP: "Equivale a 20-23 kg en sentada. Cuidar la rótula."
+            },
+            {
+              nombre: "Curl femoral deslizante con toalla en suelo",
+              pesoEquiv: "Peso corporal controlado",
+              repsEquiv: "10 - 12 reps @ RIR 2",
+              notaRP: "Excéntrico lento sintiendo isquiotibiales en estiramiento."
+            }
+          ]
+        },
+        {
+          id: "dia3_patada",
+          nombre: "Patada de Glúteo en Polea (Atrás)",
+          musculo: "Glúteo Mayor Superior",
+          series: 2,
+          cargaSugerida: "6.8 kg",
+          metaReps: [16, 16],
+          tip: "Extensión diagonal sin quebrar la cintura ni arquear lumbares.",
+          alternativas: [
+            {
+              nombre: "Máquina de abductores (inclinación frontal)",
+              pesoEquiv: "63 kg (o 45 kg si hay fatiga)",
+              repsEquiv: "15 reps @ RIR 2",
+              notaRP: "Reemplazo exacto que hiciste. Activa glúteo medio/superior con máxima estabilidad."
+            },
+            {
+              nombre: "Patada de glúteo en banco con mancuerna en corva",
+              pesoEquiv: "6 - 8 kg",
+              repsEquiv: "14 - 15 reps @ RIR 2",
+              notaRP: "Extensión de cadera en cuadrupedia manteniendo abdomen firme."
+            }
+          ]
+        }
       ]
     };
 
-    // PROMPT DE SISTEMA PARA GEMINI (LA VOZ DEL COACH)
+    // PROMPT DE SISTEMA PARA GEMINI (COACH CÁLIDO, EMPÁTICO Y CIENTÍFICO)
     const COACH_SYSTEM_PROMPT = `
-Sos el Coach y Copiloto de entrenamiento y bienestar de Male.
-Contexto de Male:
-- Estudia Odontología (cursadas de 10 horas, fatiga de pies, guardia los miércoles para buscar paciente de cirugía, y cirugía los jueves a la mañana con paciente real).
-- Regla sagrada innegociable: NUNCA se salta el desayuno en casa; SIEMPRE desayuna en su casa con carbohidratos y ahí mismo toma religiosamente sus 5g de creatina monohidrato (va por el Día 18, saturación celular al 100%).
-- Mesociclo de Gym: Semana 2 de 5 con metodología RP Strength (RIR 2). Hoy martes completó el Día 1 a la mañana con números brutales: RDL 14kg 3x11, Sumo 30kg 2x9, Hip Thrust 20kg 2x12, Hiperextensiones 16,15,15, Abductores 63kg.
-- Próxima sesión: Día 2 (Prensa 100kg, SLDL 14kg, Seated Leg Curl 20-23kg cuidando rótula sin rebotes, Aductores 36kg).
-- Sesión del fin de semana en pareja: Día 3 (Hack Inversa en Fiter Grande sin apuro a la mañana).
-- Protocolos: Power Nap de 25 min los jueves y viernes al mediodía (13:45 a 14:15 hs). Meta de agua: 2.5 Litros.
+Eres el Coach personal y Copiloto de Male (Malena). 
+SOBRE MALE:
+- Tiene 22 años, es dulce, cariñosa, tierna, sensible y muy aplicada.
+- Su novio se llama Naza (Nazareno), quien programó esta app para acompañarla en su día a día.
+- El apodo de cariño único y especial que Naza le dice es "Caritas". Llámala "Caritas" o "Male" con ternura y naturalidad. NUNCA la llames "reina" (no le gusta ese apodo, su apodo real es "Caritas").
+- Estudia la carrera de Odontología (tiene días muy demandantes, cirugías los jueves, guardias, prácticas clínicas y largos viajes).
+- Male entrena en el gimnasio con un enfoque de sobrecarga progresiva y Renaissance Periodization (RP), cuidando sus articulaciones (especialmente rodillas y rótula en Leg Curl/Prensa, y lumbares en RDL).
+- Toma creatina monohidrato (5g) sagradamente con su desayuno completo en casa (con carbohidratos). Hoy es el Día 18 (saturación al 100%).
+- Su meta de agua es de 2.5 litros diarios.
 
-Tu estilo de respuesta:
-- Hablale de forma cálida, cercana, motivadora y con fundamento deportivo y empático (como un entrenador de primer nivel que además la apoya en su carrera).
-- Si te cuenta que sale antes de la facu (ej: "salgo 15:30"), felicitala, decile que aproveche esa ventana para merendar rico y relajarse.
-- Si te pregunta qué merendar: recomendale carbohidratos complejos + proteína (ej: tostadas con huevos revueltos, o yogur griego con frutas y granola, o licuado con frutos secos).
-- Si menciona cansancio de cirugía: recordale la Power Nap de 25' y que la salud del SNC es lo primero.
-- Respuestas concisas (máximo 2 a 3 párrafos cortos), con emojis sutiles y al punto.
+TU PERSONALIDAD Y TONO:
+- Hablas en primera persona como su Coach & Copiloto ("Hola Male", "Caritas").
+- Tu tono es naturalmente empático, atento, positivo y profesional.
+- IMPORTANTE: No uses frases forzadas o artificiales como "te digo esto con amor", "te lo digo con cariño" o "mensaje con amor". La calidez se demuestra en los hechos: escuchándola con atención, validando si está cansada por Odonto, festejando sus logros del gym y dándole consejos claros, realistas y motivadores.
+- PERSPECTIVA Y CALMA ANTE EL ESTRÉS: Si Male se siente abrumada, angustiada o se preocupa por cosas de la facultad (parciales, clínicas, profesores exigentes, pacientes), dale contención serena: en la vida hay problemas infinitamente más graves, las pequeñas complicaciones cotidianas se resuelven y no valen la pena amargarse el día. Ayudala a mantener una actitud alegre, agradecida y positiva.
+- HIGIENE NOCTURNA Y PANTALLAS: Si te escribe de noche (después de las 22:00 hs) o menciona dificultades para dormir o cansancio, recomiéndale amablemente apagar las pantallas y dejar el celular lejos de la cama para permitir que la melatonina actúe y sus ojos descansen de verdad.
+- NUNCA te hagas pasar por su novio Naza ni digas "soy tu novio", pero SÍ puedes mencionar el orgullo que Naza siente por ella cuando sea oportuno.
+- Si Male dice que está cansada por la facu o las cirugías de Odonto, prioriza siempre su salud mental y su descanso (recomienda la Power Nap de 20-25 min) y valida su esfuerzo.
+- Si te pregunta sobre meriendas o comidas, dale ideas ricas, nutritivas y prácticas para alguien que estudia y entrena (ej: tostadas con huevo/palta, yogur con frutos secos y fruta, licuados ricos).
+- Respuestas concisas, bien formateadas con viñetas limpias y emojis sutiles (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y fáciles de leer en el celular.
 `;
 
-    // ==========================================
-    // INICIALIZACIÓN Y EVENTOS
-    // ==========================================
-    document.addEventListener("DOMContentLoaded", () => {
-      initChatListener();
-      renderGymRoutine('dia1');
-      updateWaterUI();
-      
-      const chkCreatina = document.getElementById('chk-habito-creatina');
-      chkCreatina.checked = localStorage.getItem('creatina_hoy') === 'true';
-    });
+    // CRONOGRAMA SEMANAL COMPLETO (7 DÍAS)
+    const WEEK_SCHEDULE = {
+      lunes: {
+        nombreCorto: "Lunes",
+        titulo: "Lunes — Cursada Extensa & Descanso Físico",
+        alarma: "⏰ Alarma 5:40 am | Salida 6:20 am",
+        tag: "10 hs en Facu • Cero Gym",
+        blocks: [
+          { hora: "07:30 a 16:30 hs", icon: "📖", titulo: "Facultad de Odontología", desc: "Materia 1 hasta 12/13h. Materia 2 de 13:00 a 16:30h. Locker y vuelta a casa.", tag: "Cursada" },
+          { hora: "17:30 / 18:00 hs", icon: "🏠", titulo: "Llegada a Casa & Descanso", desc: "El cuerpo estuvo de pie 10 horas. Cero gym hoy (recuperación muscular pura).", tag: "Descanso" },
+          { hora: "18:30 a 19:15 hs", icon: "📝", titulo: "Repaso Digestivo Corto (30-45')", desc: "Solo dudas del día o resúmenes breves. Nada pesado tras 10 hs de cursada.", tag: "Estudio" },
+          { hora: "21:45 hs", icon: "🌙", titulo: "Ducha Caliente, Cena & A Dormir", desc: "Cena rica, skincare y desconexión. A dormir 22:15 hs para arrancar el martes con todo.", tag: "Sueño" }
+        ]
+      },
+      martes: {
+        nombreCorto: "Martes",
+        titulo: "Martes — Gym Mañana & Tarde Libre",
+        alarma: "⏰ Alarma 6:00 am | Salida 7:00 am",
+        tag: "Día 1 Glúteo Liquidado 🚀",
+        blocks: [
+          { hora: "07:30 a 08:15 hs", icon: "☕", titulo: "Desayuno Completo en Casa + Creatina", desc: "Carbohidratos para energía y absorción insulínica + 5g de creatina monohidrato (Día 18).", tag: "Hecho ✔️" },
+          { hora: "08:30 a 09:45 hs", icon: "🏋️‍♀️", titulo: "Gimnasio: Día 1 Glúteo & Cadena Posterior", desc: "RDL 14kg (11,11,11) • Sumo 30kg (9,9) • Hip Thrust 20kg (12,12) • Abductores 63kg.", tag: "¡Liquidado! 🚀" },
+          { hora: "10:00 a 16:00 hs", icon: "📖", titulo: "Facultad de Odontología", desc: "Entrada a las 10:00 hs (liberada por parcial aprobado). Clases y regreso a casa.", tag: "Cursada" },
+          { hora: "16:30 a 20:00 hs", icon: "🥪", titulo: "Llegada a Casa, Merienda Rica & Relax", desc: "Ducha caliente, desconexión sin culpa. Como el gym ya se hizo a la mañana, cero pendientes.", tag: "Tarde Libre" },
+          { hora: "22:15 hs", icon: "🌙", titulo: "A Dormir (Mínimo 7.5 hs de sueño profundo)", desc: "Cuerpo reparándose para la guardia de mañana y la cirugía del jueves.", tag: "Sueño" }
+        ]
+      },
+      miercoles: {
+        nombreCorto: "Miércoles",
+        titulo: "Miércoles — Cursada, Guardia & Preparación de Cajas",
+        alarma: "⏰ Alarma 6:30 am | Salida 7:30 am",
+        tag: "Guardia entre clases • Armar Cajas",
+        blocks: [
+          { hora: "08:00 a 12:00 hs", icon: "📖", titulo: "Facultad: Cursada Mañana", desc: "Primera parte de clases en Odontología.", tag: "Cursada" },
+          { hora: "12:00 a 13:30 hs", icon: "🏥", titulo: "Guardia entre Clases & Fichar Paciente", desc: "Almuerzo express + bajar a Guardia a buscar y fichar el paciente para la cirugía de mañana.", tag: "Guardia Odonto" },
+          { hora: "13:30 a 16:00 hs", icon: "📖", titulo: "Facultad: Cursada Tarde", desc: "Segunda parte de clases y regreso tranquilo a casa.", tag: "Cursada" },
+          { hora: "18:30 a 19:30 hs", icon: "📦", titulo: "Esterilizar & Dejar Listas Cajas Quirúrgicas", desc: "En casa: dejar listas las cajas quirúrgicas y sobres con música tranquila para mañana.", tag: "Cajas Ciru" },
+          { hora: "22:00 hs", icon: "🌙", titulo: "Cena Liviana, Desconexión & A Dormir", desc: "Descanso mental y físico total. Guardar energías para la cirugía del jueves.", tag: "Sueño" }
+        ]
+      },
+      jueves: {
+        nombreCorto: "Jueves",
+        titulo: "Jueves — Cirugía de Odonto & Power Nap",
+        alarma: "⏰ Alarma 5:30 am | Salida 6:20 am",
+        tag: "🩺 Clínica de Cirugía • Día Clave",
+        blocks: [
+          { hora: "07:30 a 12:00 hs", icon: "🩺", titulo: "Clínica de Cirugía con Paciente", desc: "Intervención quirúrgica en Odontología. ¡Termina temprano! Regreso a casa 12:30 / 13:00 hs.", tag: "Cirugía" },
+          { hora: "13:45 a 14:15 hs", icon: "💤", titulo: "Power Nap Post-Cirugía (25-30 min)", desc: "Almuerzo liviano + siesta corta obligatoria. Baja el cortisol de la cirugía y restaura el cerebro.", tag: "Siesta Sagrada" },
+          { hora: "14:30 a 17:00 hs", icon: "📖", titulo: "Bloque de Estudio de Oro (2.5 hs)", desc: "2 bloques de 50 min foco puro + 10 min de relax. Máxima retención para el examen.", tag: "Estudio" },
+          { hora: "17:30 hs", icon: "💪", titulo: "Gimnasio: Día 2 (Comodín Flexible)", desc: "Si tenés energía vas (Prensa 100kg, SLDL 14kg). Si la cirugía te dejó agotada, hoy descansás y vas el viernes a las 15:30 hs.", tag: "Gym Flexible" }
+        ]
+      },
+      viernes: {
+        nombreCorto: "Viernes",
+        titulo: "Viernes — Fin de Cursada, Siesta & Gym",
+        alarma: "⏰ Alarma 5:40 am | Salida 6:20 am",
+        tag: "Fin de semana académico 🎉",
+        blocks: [
+          { hora: "07:30 a 12:00 hs", icon: "🎓", titulo: "Última Cursada de la Semana", desc: "Cursada hasta las 12:00 hs. Vuelta a casa 13:00 hs. ¡Fin de semana académico!", tag: "Cursada" },
+          { hora: "13:45 a 14:15 hs", icon: "💤", titulo: "Power Nap Post-Almuerzo (20-25 min)", desc: "Siesta rápida para sacarte el cansancio de la semana y quedar como nueva.", tag: "Power Nap" },
+          { hora: "15:30 a 16:45 hs", icon: "💪", titulo: "Gimnasio: Día 2 (o Tarde Libre)", desc: "Si pospusiste el gym del jueves, hoy liquidás Día 2 con calma. Si ya entrenaste el jueves, ¡tarde 100% libre!", tag: "Gym / Libre" },
+          { hora: "20:00 hs en adelante", icon: "💖", titulo: "Noche Libre & Cero Alarma el Sábado", desc: "Cena rica, películas, series y relax total. ¡Cero alarma para el sábado!", tag: "Relax" }
+        ]
+      },
+      sabado: {
+        nombreCorto: "Sábado",
+        titulo: "Sábado — Despertar Natural & Gym en Pareja",
+        alarma: "🛌 Sin alarma (despertar biológico)",
+        tag: "Día 3 Hack Inversa con Naza",
+        blocks: [
+          { hora: "10:30 a 11:45 hs", icon: "🏋️‍♀️", titulo: "Gimnasio en Pareja: Día 3 (Fiter Grande)", desc: "Sesión en pareja con Naza: Sentadilla Hack Inversa, Step Up, Good Mornings y Extensión de Cuádriceps.", tag: "Gym en Pareja" },
+          { hora: "12:30 a 14:00 hs", icon: "📖", titulo: "Repaso Activo Corto (Solo si rinde pronto)", desc: "Preguntas de examen o dudas puntuales. Si no hay parcial inminente: cero estudio.", tag: "Opcional" },
+          { hora: "Tarde y Noche", icon: "🌸", titulo: "Paseos, Salidas & Ocio 100% sin Culpa", desc: "Amigas, salidas con Naza, merienda rica, pasear y disfrutar sin pendientes.", tag: "Ocio sin Culpa" }
+        ]
+      },
+      domingo: {
+        nombreCorto: "Domingo",
+        titulo: "Domingo — Desconexión Total & Cuidado Personal",
+        alarma: "🛌 Sin alarma",
+        tag: "Cero Culpa • Planificar Semana",
+        blocks: [
+          { hora: "Mañana", icon: "☕", titulo: "Desayuno Tranquilo & Opción 2 Gym", desc: "Desayuno rico. Si no fueron el sábado al gym, pueden ir hoy; si ya fueron, descanso total.", tag: "Relax" },
+          { hora: "14:00 a 17:00 hs", icon: "🛋️", titulo: "Tarde Libre, Siesta & Series", desc: "Almuerzo en familia o con Naza, siesta sin reloj y desconexión absoluta.", tag: "Desconexión" },
+          { hora: "19:00 a 20:30 hs", icon: "✨", titulo: "Planificación Serena de la Semana", desc: "Dejar lista ropa, apuntes y cajas de Odonto para arrancar el lunes con paz mental.", tag: "Preparación" }
+        ]
+      }
+    };
 
-    // NAVEGACIÓN DE VISTAS (TABS BOTTOM)
-    function switchView(viewName) {
-      document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
-      document.querySelectorAll('.nav-item').forEach(b => {
-        b.classList.remove('text-rose-400', 'font-bold');
-        b.classList.add('text-slate-500', 'font-medium');
+    // INICIALIZACIÓN AL CARGAR LA PÁGINA
+    window.addEventListener('DOMContentLoaded', () => {
+      updateGreetingHeader();
+      updateLiveDate();
+      initChatListener();
+
+      // Cargar foco del día dinámico según hora y día
+      renderDynamicDayFocusCard();
+
+      // Detectar día actual de la semana y seleccionarlo en el cronograma
+      const dayKeysMap = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const todayKey = dayKeysMap[new Date().getDay()];
+      renderDaySchedule(todayKey);
+
+      renderGymRoutine('dia1');
+      renderWaterCups();
+      updateWaterUI();
+
+      // Cargar estado de creatina
+      const creatinaCheck = localStorage.getItem('creatina_hoy') === 'true';
+      const chkEl = document.getElementById('chk-habito-creatina');
+      if (chkEl) {
+        chkEl.checked = creatinaCheck;
+        toggleHabitoCreatina(creatinaCheck, false);
+      }
+
+      // Cargar estado de celular lejos
+      const celularCheck = localStorage.getItem('celular_lejos_hoy') === 'true';
+      const chkCel = document.getElementById('chk-habito-celular');
+      if (chkCel) {
+        chkCel.checked = celularCheck;
+        toggleHabitoCelular(celularCheck, false);
+      }
+
+      // Cargar contador de victorias de Male
+      updateVictoriasCounter();
+
+      // Escuchar victorias en Firebase en tiempo real
+      db.ref('victorias_male').on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          victoriasMale = Object.values(val).sort((a, b) => b.timestamp - a.timestamp);
+          localStorage.setItem('victorias_male', JSON.stringify(victoriasMale));
+          updateVictoriasCounter();
+        }
       });
 
-      document.getElementById(`view-${viewName}`).classList.remove('hidden');
-      const activeNav = document.getElementById(`nav-btn-${viewName}`);
-      if (activeNav) {
-        activeNav.classList.remove('text-slate-500', 'font-medium');
-        activeNav.classList.add('text-rose-400', 'font-bold');
+      // Actualizar foco del día y saludo automáticamente cada 60 segundos
+      setInterval(() => {
+        renderDynamicDayFocusCard();
+        updateGreetingHeader();
+      }, 60000);
+    });
+
+    // FECHA EN VIVO EN ESPAÑOL
+    function updateLiveDate() {
+      const dateEl = document.getElementById('live-header-date');
+      if (!dateEl) return;
+      const now = new Date();
+      const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      dateEl.innerText = `${days[now.getDay()]} ${now.getDate()} de ${months[now.getMonth()]}`;
+    }
+
+    // SALUDO DINÁMICO SEGÚN LA HORA DEL DÍA
+    function updateGreetingHeader() {
+      const now = new Date();
+      const hour = now.getHours();
+      const header = document.getElementById('greeting-header');
+      if (!header) return;
+
+      if (hour >= 5 && hour < 13) {
+        header.innerHTML = `¡Buen día, Caritas! 🌸`;
+      } else if (hour >= 13 && hour < 20) {
+        header.innerHTML = `¡Buenas tardes, Caritas! ✨`;
+      } else {
+        header.innerHTML = `¡Buenas noches, Caritas! 🌙`;
       }
     }
 
-    // CAMBIO DE ROL (MALE / LAURA)
-    function setRole(role) {
-      activeRole = role;
-      const btnM = document.getElementById('btn-role-male');
-      const btnL = document.getElementById('btn-role-laura');
+    // ==========================================
+    // FOCO DEL DÍA DINÁMICO (SEGÚN DÍA Y HORA)
+    // ==========================================
+    function getDayFocusInfo() {
+      const now = new Date();
+      const day = now.getDay(); // 0: Dom, 1: Lun, 2: Mar, 3: Mié, 4: Jue, 5: Vie, 6: Sáb
+      const hour = now.getHours();
+      const minute = now.getMinutes().toString().padStart(2, '0');
 
-      if (role === 'male') {
-        btnM.className = 'px-2.5 py-1 rounded-lg transition bg-rose-600 text-white';
-        btnL.className = 'px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white';
+      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const dayName = dayNames[day];
+
+      let phase = 'tarde';
+      let phaseLabel = 'Tarde';
+      if (hour >= 5 && hour < 12) {
+        phase = 'manana';
+        phaseLabel = 'Mañana';
+      } else if (hour >= 12 && hour < 19) {
+        phase = 'tarde';
+        phaseLabel = 'Tarde';
       } else {
-        btnL.className = 'px-2.5 py-1 rounded-lg transition bg-purple-600 text-white';
-        btnM.className = 'px-2.5 py-1 rounded-lg transition text-slate-400 hover:text-white';
+        phase = 'noche';
+        phaseLabel = 'Noche';
       }
+
+      const focusData = {
+        1: { // Lunes
+          manana: {
+            badgeColor: "bg-blue-100/90 text-blue-800 border-blue-200",
+            gymTag: "💤 Cero Gym Hoy",
+            title: "Arranque de semana en Odonto",
+            desc: "Cursada hasta las 16:30 hs. Desayuno con energía + creatina en casa. Hidratate bien en la facu. ¡Hoy recuperación muscular pura!"
+          },
+          tarde: {
+            badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
+            gymTag: "💤 Descanso Activo",
+            title: "Llegada, merienda rica & relax",
+            desc: "Ducha caliente y desconexión tras 10 hs de pie. Solo un repaso digestivo de 30' si hace falta. Sin exigencias hoy."
+          },
+          noche: {
+            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
+            gymTag: "🏋️‍♀️ Mañana Gym a la Mañana",
+            title: "Lunes liquidado con éxito 🤍",
+            desc: "Superaste el día más largo de cursada. Cena liviana, alejar el celu 30' antes de la cama y a dormir profundo para el martes."
+          }
+        },
+        2: { // Martes
+          manana: {
+            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
+            gymTag: "🎯 Día 1 Glúteo",
+            title: "Día 1 de Glúteo + Creatina",
+            desc: "Desayuno con carbohidratos, creatina al 100% y a romperla en el gym antes de entrar a Odonto a las 10:00 hs."
+          },
+          tarde: {
+            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
+            gymTag: "🏋️‍♀️ Día 1 Hecho ✔️",
+            title: "Día 1 superado (+12 reps extra)",
+            desc: "Cursada en Odonto completada. Tarde libre en casa para merendar rico, relajar y descansar sin pendientes."
+          },
+          noche: {
+            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
+            gymTag: "💪 Músculos reparándose",
+            title: "Noche de desconexión y descanso",
+            desc: "Día redondito: entreno cumplido y materias al día. Relajá la mente y los ojos antes de dormir para la guardia de mañana."
+          }
+        },
+        3: { // Miércoles
+          manana: {
+            badgeColor: "bg-blue-100/90 text-blue-800 border-blue-200",
+            gymTag: "🛋️ Día sin Gym",
+            title: "Clases y fichar paciente",
+            desc: "Cursada matutina. Al mediodía bajar a Guardia a preparar el paciente para mañana. Creatina tomada y buena agua."
+          },
+          tarde: {
+            badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
+            gymTag: "🧘‍♀️ Foco en Mañana",
+            title: "Esterilización y cajas quirúrgicas",
+            desc: "Dejá listas las cajas de cirugía con música linda y sin apuro. Al terminar, la tarde es tuya para relajar."
+          },
+          noche: {
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "💤 Sueño Reparador Clave",
+            title: "Todo bajo control para el jueves",
+            desc: "Cajas listas. Cena liviana, respirar profundo, celu lejos de la almohada y a dormir temprano (22:00 hs). Estás súper preparada."
+          }
+        },
+        4: { // Jueves
+          manana: {
+            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
+            gymTag: "💪 Gym Flexible Tarde",
+            title: "Clínica Quirúrgica con paciente",
+            desc: "Alarma 5:30 am. Foco sereno y paso a paso. Salís temprano (12:00 hs). ¡Confiá en tu capacidad y conocimientos!"
+          },
+          tarde: {
+            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
+            gymTag: "🏋️‍♀️ Día 2 (o Viernes)",
+            title: "Post-cirugía & Siesta de 25'",
+            desc: "Almuerzo liviano y siesta obligatoria para bajar cortisol. Luego decidís si hacés Día 2 de gym o lo pasás al viernes."
+          },
+          noche: {
+            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
+            gymTag: "✨ Cuerpo en calma",
+            title: "Cirugía cumplida con éxito",
+            desc: "El día más demandante de la semana ya pasó. Descanso total, mente tranquila y a recargar pilas para cerrar la semana."
+          }
+        },
+        5: { // Viernes
+          manana: {
+            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
+            gymTag: "💪 Día 2 a las 15:30",
+            title: "Última cursada matutina (hasta 12h)",
+            desc: "Terminás al mediodía y arranca el fin de semana académico. Creatina tomada y energía alta."
+          },
+          tarde: {
+            badgeColor: "bg-pink-100/90 text-pink-800 border-pink-200",
+            gymTag: "🎯 Día 2 o Libre",
+            title: "Vuelta a casa, siesta y gym comodín",
+            desc: "Si tenés pendiente el Día 2 (Prensa y piernas), lo liquidás a las 15:30 hs. Si ya lo hiciste el jueves, ¡tarde 100% libre!"
+          },
+          noche: {
+            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
+            gymTag: "🛌 Sin Alarma Mañana",
+            title: "¡Cero alarma para el sábado!",
+            desc: "Semana de Odonto liquidada con éxito. Cena rica, series, relax y dormir hasta la hora que el cuerpo pida."
+          }
+        },
+        6: { // Sábado
+          manana: {
+            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
+            gymTag: "👫 Día 3 en Pareja",
+            title: "Día 3 Hack Inversa con Naza",
+            desc: "Despertar natural, desayuno sin reloj y entreno en pareja: Hack Inversa, Step Up y Cuádriceps."
+          },
+          tarde: {
+            badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
+            gymTag: "✔️ Gym del Finde Hecho",
+            title: "Tarde de paseos y disfrute",
+            desc: "Merienda rica, caminar, charlar y despejar la cabeza 100% sin culpa de estudio."
+          },
+          noche: {
+            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
+            gymTag: "✨ Relax Total",
+            title: "Disfrutar y desconectar",
+            desc: "Salida o noche de pelis y mimos. Cuidarse y pasarla lindo."
+          }
+        },
+        0: { // Domingo
+          manana: {
+            badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
+            gymTag: "🧘‍♀️ Descanso Pleno",
+            title: "Domingo de paz & autocuidado",
+            desc: "Desayuno tranquilo, mate o café sin apuro. Día de recargar energías al 100%."
+          },
+          tarde: {
+            badgeColor: "bg-teal-100/90 text-teal-800 border-teal-200",
+            gymTag: "🌿 Cero Estrés",
+            title: "Tarde tranquila en casa",
+            desc: "Almuerzo rico, siesta reconfortante y desconexión de cualquier estrés."
+          },
+          noche: {
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "💤 A Dormir Temprano",
+            title: "Planificación tranquila de la semana",
+            desc: "Dejar ropa lista y cajas organizadas para arrancar el lunes con serenidad y mente despejada."
+          }
+        }
+      };
+
+      const dayData = focusData[day] || focusData[2];
+      const info = dayData[phase] || dayData['tarde'];
+
+      return {
+        dayName,
+        timeFormatted: `${hour}:${minute} hs`,
+        phaseLabel,
+        badgeColor: info.badgeColor,
+        gymTag: info.gymTag,
+        title: info.title,
+        desc: info.desc
+      };
+    }
+
+    function setBatteryLevel(level) {
+      currentBattery = level;
+      localStorage.setItem('user_battery', level);
+      db.ref('user_battery').set({
+        level: level,
+        updatedAt: Date.now()
+      }).catch(err => console.log('Firebase battery sync error:', err));
+      renderDynamicDayFocusCard();
+      if (navigator.vibrate) navigator.vibrate(35);
+    }
+
+    function renderDynamicDayFocusCard() {
+      const container = document.getElementById('dynamic-day-focus-card');
+      if (!container) return;
+
+      const info = getDayFocusInfo();
+      const liters = (waterMl / 1000).toFixed(1);
+      const creatinaDone = localStorage.getItem('creatina_hoy') === 'true';
+
+      let batteryNoticeHtml = '';
+      if (currentBattery === 'reserva') {
+        batteryNoticeHtml = `
+          <div class="bg-rose-100/70 p-2.5 rounded-2xl border border-rose-200 text-[11px] text-rose-900 flex items-start gap-1.5 font-medium">
+            <span class="text-xs">🛋️</span>
+            <span><strong>Batería en reserva hoy:</strong> Día mentalmente cargado por la facultad. En el gym hacé tu rutina con foco y sin apurar los descansos; y a la noche cena rica, desconexión y a dormir temprano para recargar pilas.</span>
+          </div>
+        `;
+      } else if (currentBattery === 'media') {
+        batteryNoticeHtml = `
+          <div class="bg-amber-100/60 p-2.5 rounded-2xl border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-1.5 font-medium">
+            <span class="text-xs">⚖️</span>
+            <span><strong>Batería media:</strong> Ritmo constante y parejo. Cumplí lo básico del día sin sobreexigirte en exceso.</span>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-rose-700 bg-rose-100/90 px-3 py-0.5 rounded-full border border-rose-200 flex items-center gap-1.5 shadow-2xs">
+            <span>📍</span> Foco de Hoy: ${info.dayName} (${info.phaseLabel})
+          </span>
+          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs ${info.badgeColor}">
+            ${info.gymTag}
+          </span>
+        </div>
+
+        <div class="space-y-1">
+          <h4 class="text-xs font-bold text-slate-800">${info.title}</h4>
+          <p class="text-[11px] text-slate-600 leading-relaxed font-medium">
+            ${info.desc}
+          </p>
+        </div>
+
+        <!-- SEMÁFORO DE BATERÍA -->
+        <div class="bg-white/80 p-2 rounded-2xl border border-rose-100 flex items-center justify-between text-[11px]">
+          <span class="text-slate-700 font-bold flex items-center gap-1">
+            <span>🔋</span> Mi Batería:
+          </span>
+          <div class="flex items-center gap-1">
+            <button onclick="setBatteryLevel('alta')" class="px-2 py-0.5 rounded-xl text-[10px] font-bold transition ${currentBattery === 'alta' ? 'bg-emerald-500 text-white shadow-xs' : 'bg-[#FAF7F5] border border-rose-200/70 text-slate-600 hover:bg-emerald-50'}">🟢 80-100%</button>
+            <button onclick="setBatteryLevel('media')" class="px-2 py-0.5 rounded-xl text-[10px] font-bold transition ${currentBattery === 'media' ? 'bg-amber-500 text-white shadow-xs' : 'bg-[#FAF7F5] border border-rose-200/70 text-slate-600 hover:bg-amber-50'}">🟡 50%</button>
+            <button onclick="setBatteryLevel('reserva')" class="px-2 py-0.5 rounded-xl text-[10px] font-bold transition ${currentBattery === 'reserva' ? 'bg-rose-500 text-white shadow-xs' : 'bg-[#FAF7F5] border border-rose-200/70 text-slate-600 hover:bg-rose-50'}">🔴 20%</button>
+          </div>
+        </div>
+
+        ${batteryNoticeHtml}
+
+        <div class="flex items-center justify-between pt-1 border-t border-rose-100 text-[11px]">
+          <span class="text-slate-600 flex items-center gap-1">
+            <span>✨</span> Creatina: 
+            <strong class="${creatinaDone ? 'text-emerald-600' : 'text-purple-600'} font-bold">
+              ${creatinaDone ? 'Tomada ✔️ (Día 18)' : '100% Sat. (Día 18)'}
+            </strong>
+          </span>
+          <span class="text-slate-600 flex items-center gap-1">
+            <span>💧</span> Agua: <strong id="quick-water-count" class="text-rose-600 font-bold">${liters}L / 2.5L</strong>
+          </span>
+        </div>
+      `;
+    }
+
+    // NAVEGACIÓN ENTRE VISTAS (TABS BOTTOM)
+    function switchView(viewName) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.nav-item').forEach(b => {
+        b.classList.remove('text-rose-600', 'font-bold');
+        b.classList.add('text-slate-400', 'font-medium');
+      });
+
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.remove('hidden');
+
+      const activeNav = document.getElementById(`nav-btn-${viewName}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-400', 'font-medium');
+        activeNav.classList.add('text-rose-600', 'font-bold');
+      }
+
+      if (viewName === 'chat') {
+        renderDynamicDayFocusCard();
+      }
+    }
+
+    // CRONOGRAMA SEMANAL (RENDERIZADOR DINÁMICO)
+    function renderDaySchedule(dayKey) {
+      const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+      const dayNamesShort = {
+        lunes: 'Lun',
+        martes: 'Mar',
+        miercoles: 'Mié 🏥',
+        jueves: 'Jue 🩺',
+        viernes: 'Vie 🎉',
+        sabado: 'Sáb 👫',
+        domingo: 'Dom ☕'
+      };
+
+      const dayKeysMap = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const currentRealDayKey = dayKeysMap[new Date().getDay()];
+
+      days.forEach(d => {
+        const btn = document.getElementById(`btn-dia-${d}`);
+        if (!btn) return;
+        const isToday = (d === currentRealDayKey);
+        const labelText = isToday ? `${dayNamesShort[d]} (Hoy) ✨` : dayNamesShort[d];
+        btn.innerText = labelText;
+
+        if (d === dayKey) {
+          btn.className = 'dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-rose-500 text-white shadow-sm transition';
+        } else {
+          btn.className = 'dia-tab-btn shrink-0 py-2 px-3 rounded-2xl font-bold bg-white text-slate-600 border border-rose-100 transition shadow-xs hover:bg-rose-50';
+        }
+      });
+
+      const dayData = WEEK_SCHEDULE[dayKey];
+      const container = document.getElementById('day-schedule-content');
+      if (!dayData || !container) return;
+
+      let blocksHtml = '';
+      dayData.blocks.forEach(b => {
+        blocksHtml += `
+          <div class="relative group">
+            <span class="absolute -left-[33px] top-1 w-5 h-5 rounded-full bg-rose-300 ring-4 ring-[#FAF7F5] flex items-center justify-center text-[10px] text-white">${b.icon}</span>
+            <div class="bg-white border border-rose-100/90 p-3.5 rounded-2xl shadow-xs space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full">${b.hora}</span>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-50 px-2 py-0.5 rounded-full">${b.tag}</span>
+              </div>
+              <h4 class="font-bold text-slate-900 text-xs">${b.titulo}</h4>
+              <p class="text-[11px] text-slate-600 leading-relaxed">${b.desc}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = `
+        <div class="bg-gradient-to-br from-rose-50/70 via-white to-pink-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
+              ${dayData.tag}
+            </span>
+            <span class="text-[11px] text-slate-500 font-medium">
+              ${dayData.alarma}
+            </span>
+          </div>
+          <h3 class="text-xs font-extrabold text-slate-900 leading-snug">${dayData.titulo}</h3>
+        </div>
+
+        <div class="relative pl-6 space-y-4 border-l-2 border-rose-200 ml-4 pt-1">
+          ${blocksHtml}
+        </div>
+
+        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm space-y-2.5 mt-4">
+          <div class="flex items-center gap-2">
+            <span class="text-base">💬</span>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">¿Querés contarle algo de tu ${dayData.nombreCorto} al Coach?</h4>
+              <p class="text-[10px] text-slate-500">Anotá cómo te fue en la facu, cómo te sentiste o si querés cambiar un horario.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-1.5 pt-0.5">
+            <input type="text" id="input-day-note-${dayKey}" placeholder="Escribile al Coach sobre tu ${dayData.nombreCorto}..." 
+              onkeydown="if(event.key === 'Enter') sendDayNote('${dayData.nombreCorto}', '${dayKey}')"
+              class="flex-1 bg-[#FAF7F5] border border-rose-200/90 rounded-xl px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400 font-medium">
+            <button onclick="sendDayNote('${dayData.nombreCorto}', '${dayKey}')" class="px-3.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold transition shadow-xs">
+              Enviar
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1 border-t border-rose-50">
+            <button onclick="notifyCoachScheduleChange('${dayData.nombreCorto}')" class="text-[11px] text-rose-600 hover:underline font-medium flex items-center gap-1">
+              <span>✏️</span> Avisar cambio de horario rápido
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function sendDayNote(diaNombre, dayKey) {
+      const input = document.getElementById(`input-day-note-${dayKey}`);
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+      
+      const fullText = `[Nota de ${diaNombre}]: ${text}`;
+      switchView('chat');
+      document.getElementById('chat-user-input').value = fullText;
+      handleSendMessage();
+    }
+
+    function notifyCoachScheduleChange(diaNombre) {
+      switchView('chat');
+      const input = document.getElementById('chat-user-input');
+      if (input) {
+        input.value = `Coach, para el ${diaNombre} te quería avisar que `;
+        input.focus();
+      }
+    }
+
+    // CHECK-IN EMOCIONAL
+    function setMood(moodKey, messageText) {
+      currentMood = moodKey;
+      localStorage.setItem('current_mood', moodKey);
+      
+      const label = document.getElementById('mood-status-label');
+      if (label) label.innerText = "¡Anotado! Hablando con Coach...";
+
+      // Enviar como mensaje al chat para que el Coach responda con contención
+      document.getElementById('chat-user-input').value = messageText;
+      handleSendMessage();
     }
 
     // ==========================================
@@ -437,21 +1978,20 @@ Tu estilo de respuesta:
     // ==========================================
     function initChatListener() {
       const messagesRef = db.ref('chat_messages');
-      messagesRef.limitToLast(30).on('value', (snapshot) => {
+      messagesRef.limitToLast(35).on('value', (snapshot) => {
         const data = snapshot.val();
         const container = document.getElementById('chat-messages-container');
         container.innerHTML = '';
 
         if (!data) {
-          // Mensaje inicial del coach
           container.innerHTML = `
             <div class="flex items-start gap-2.5">
-              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-xs shrink-0">
-                🏋️
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-400 to-purple-400 flex items-center justify-center text-sm shadow-sm shrink-0">
+                🌸
               </div>
-              <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-none p-3 text-xs text-slate-200 space-y-1 max-w-[85%]">
-                <span class="text-[10px] font-bold text-rose-400 block">Coach Male</span>
-                <p>¡Hola Male! Felicitaciones por el entreno de hoy a la mañana: clavaste 11 reps en RDL, 12 en Hip Thrust y salvaste el glúteo medio con abductores. ¿A qué hora estás saliendo hoy de la facu?</p>
+              <div class="bg-rose-50/70 border border-rose-100 rounded-2xl rounded-tl-none p-3 text-xs text-slate-700 space-y-1 max-w-[85%] shadow-sm">
+                <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
+                <p>¡Hola hermosa! Felicitaciones por el tremendo entreno de hoy a la mañana: clavaste 11 reps en RDL, 12 en Hip Thrust y salvaste el glúteo medio como una campeona. ¿Cómo venís con las clases de Odonto hoy?</p>
               </div>
             </div>
           `;
@@ -461,35 +2001,46 @@ Tu estilo de respuesta:
         Object.keys(data).forEach(key => {
           const msg = data[key];
           const isUser = msg.sender === 'Male';
-          const isCoach = msg.sender === 'Coach';
+          const isNaza = msg.sender === 'Naza';
 
           const bubble = document.createElement('div');
           bubble.className = isUser ? 'flex justify-end' : 'flex items-start gap-2.5';
 
           if (isUser) {
             bubble.innerHTML = `
-              <div class="bg-rose-600 text-white rounded-2xl rounded-tr-none p-3 text-xs shadow-md max-w-[85%] space-y-0.5">
-                <span class="text-[9px] text-rose-200 font-bold block">Male</span>
-                <p>${escapeHtml(msg.text)}</p>
-                <span class="text-[9px] text-rose-200/70 text-right block">${msg.time || ''}</span>
+              <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl rounded-tr-none px-3.5 py-2.5 text-xs shadow-sm max-w-[85%] space-y-0.5">
+                <span class="text-[9px] text-rose-100 font-bold block">Male 🌸</span>
+                <div class="leading-relaxed font-medium text-xs">${formatMessageText(msg.text)}</div>
+                <span class="text-[8px] text-rose-200 text-right block pt-0.5">${msg.time || ''}</span>
+              </div>
+            `;
+          } else if (isNaza) {
+            bubble.innerHTML = `
+              <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs shadow-sm shrink-0 font-bold">
+                🤍
+              </div>
+              <div class="bg-purple-50 border border-purple-200 rounded-2xl rounded-tl-none p-3 text-xs text-slate-800 space-y-1 max-w-[85%] shadow-sm">
+                <span class="text-[10px] font-bold text-purple-700 block">Naza 💕</span>
+                <div class="leading-relaxed text-xs">${formatMessageText(msg.text)}</div>
+                <span class="text-[8px] text-slate-400 text-right block pt-0.5">${msg.time || ''}</span>
               </div>
             `;
           } else {
             bubble.innerHTML = `
-              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-xs shrink-0">
-                🏋️
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-400 to-purple-400 flex items-center justify-center text-sm shadow-sm shrink-0">
+                🌸
               </div>
-              <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-none p-3 text-xs text-slate-200 space-y-1 max-w-[85%] shadow-md">
-                <span class="text-[10px] font-bold text-purple-300 block">Coach Male</span>
-                <p class="leading-relaxed whitespace-pre-wrap">${escapeHtml(msg.text)}</p>
-                <span class="text-[9px] text-slate-500 text-right block">${msg.time || ''}</span>
+              <div class="bg-white border border-rose-100 rounded-2xl rounded-tl-none p-3 text-xs text-slate-700 space-y-1 max-w-[85%] shadow-sm">
+                <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
+                <div class="leading-relaxed text-xs text-slate-700">${formatMessageText(msg.text)}</div>
+                <span class="text-[8px] text-slate-400 text-right block pt-0.5">${msg.time || ''}</span>
               </div>
             `;
           }
           container.appendChild(bubble);
         });
 
-        // Scroll al final
+        // Scroll suave al final
         container.scrollTop = container.scrollHeight;
       });
     }
@@ -503,17 +2054,21 @@ Tu estilo de respuesta:
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      // Guardar mensaje de Male en Firebase
+      const senderName = activeRole === 'naza' ? 'Naza' : 'Male';
+
+      // Guardar mensaje en Firebase
       const newMsgRef = db.ref('chat_messages').push();
       await newMsgRef.set({
-        sender: 'Male',
+        sender: senderName,
         text: text,
         time: timeStr,
         timestamp: Date.now()
       });
 
-      // Llamar a Gemini API
-      callGeminiCoach(text);
+      // Si quien escribió fue Male, Gemini le responde como Coach
+      if (activeRole === 'male') {
+        callGeminiCoach(text);
+      }
     }
 
     function sendQuickPrompt(promptText) {
@@ -524,43 +2079,73 @@ Tu estilo de respuesta:
     async function callGeminiCoach(userMessage) {
       const typingIndicator = showTypingIndicator();
 
-      try {
-        const payload = {
-          contents: [
-            {
-              role: "user",
-              parts: [
-                { text: `${COACH_SYSTEM_PROMPT}\n\nMale dice: "${userMessage}"` }
-              ]
-            }
-          ]
-        };
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash"
+      ];
 
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_KEY}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
+      const batteryNotice = currentBattery === 'reserva'
+        ? "AVISO: Male siente su batería de energía en nivel bajo hoy (20%) por la exigencia de la facultad. Sé muy cálido y empático, aconsejale cenar rico y dormir temprano, pero NUNCA le digas que afloje, baje los pesos o haga series suaves en el gimnasio: el entrenamiento se mantiene con constancia para no cortar su progreso."
+        : currentBattery === 'media'
+        ? "AVISO: El nivel de batería de Male hoy está en nivel MEDIO (50%). Mantener ritmo parejo."
+        : "AVISO: El nivel de batería de Male hoy está ALTO (80-100%).";
 
-        const data = await res.json();
-        removeTypingIndicator(typingIndicator);
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [
+              { text: `${COACH_SYSTEM_PROMPT}\n\nEstado actual de Male: ${currentMood}\n${batteryNotice}\nCaritas dice: "${userMessage}"` }
+            ]
+          }
+        ]
+      };
 
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-          const coachReply = data.candidates[0].content.parts[0].text;
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      let replyText = null;
 
-          // Guardar respuesta del Coach en Firebase
-          await db.ref('chat_messages').push({
-            sender: 'Coach',
-            text: coachReply,
-            time: timeStr,
-            timestamp: Date.now()
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
           });
+
+          if (!res.ok) {
+            console.warn(`Modelo ${model} devolvió status ${res.status}, intentando siguiente...`);
+            continue;
+          }
+
+          const data = await res.json();
+          if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
+            replyText = data.candidates[0].content.parts[0].text;
+            break; // ¡Respuesta exitosa!
+          }
+        } catch (e) {
+          console.warn(`Error llamando a ${model}:`, e);
         }
-      } catch (err) {
-        removeTypingIndicator(typingIndicator);
-        console.error("Error llamando a Gemini:", err);
+      }
+
+      removeTypingIndicator(typingIndicator);
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (replyText) {
+        await db.ref('chat_messages').push({
+          sender: 'Coach',
+          text: replyText,
+          time: timeStr,
+          timestamp: Date.now()
+        });
+      } else {
+        await db.ref('chat_messages').push({
+          sender: 'Coach',
+          text: '¡Hola Caritas! Tuve una breve demora de conexión. Si no te respondí la consulta, probá de vuelta y te ayudo al instante ✨',
+          time: timeStr,
+          timestamp: Date.now()
+        });
       }
     }
 
@@ -568,9 +2153,9 @@ Tu estilo de respuesta:
       const container = document.getElementById('chat-messages-container');
       const el = document.createElement('div');
       el.id = 'typing-indicator';
-      el.className = 'flex items-center gap-2 text-xs text-slate-500 italic p-2';
+      el.className = 'flex items-center gap-2 text-xs text-rose-500 italic p-2';
       el.innerHTML = `
-        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
         <span>Coach escribiendo...</span>
       `;
       container.appendChild(el);
@@ -583,76 +2168,1190 @@ Tu estilo de respuesta:
     }
 
     // ==========================================
-    // RUTINA GYM Y HÁBITOS
+    // SISTEMA INTERACTIVO DE GYM & LOGGING DE SERIES
     // ==========================================
+    let gymLogs = JSON.parse(localStorage.getItem('gym_logs_semana2') || '{}');
+    let gymActiveReplacements = JSON.parse(localStorage.getItem('gym_active_replacements') || '{}');
+
+    function getExerciseLog(dayKey, exerciseId, setIdx, defaultKg, defaultReps) {
+      if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
+      if (!gymLogs[dayKey][exerciseId]) {
+        const ej = GYM_ROUTINE[dayKey]?.find(e => e.id === exerciseId);
+        if (ej && ej.defaultLogged && ej.defaultLogged[setIdx]) {
+          return ej.defaultLogged[setIdx];
+        }
+        return { kg: defaultKg || "", reps: defaultReps || "", completed: false };
+      }
+      return gymLogs[dayKey][exerciseId][setIdx] || { kg: defaultKg || "", reps: defaultReps || "", completed: false };
+    }
+
     function renderGymRoutine(dayKey) {
       currentGymDay = dayKey;
       ['dia1', 'dia2', 'dia3'].forEach(d => {
         const btn = document.getElementById(`btn-gym-${d}`);
+        if (!btn) return;
         if (d === dayKey) {
-          btn.className = 'py-2 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-md';
+          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-rose-500 text-white shadow-sm transition';
         } else {
-          btn.className = 'py-2 rounded-xl text-xs font-bold bg-slate-900 text-slate-400 hover:text-white border border-slate-800';
+          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition';
         }
       });
 
       const list = document.getElementById('gym-exercise-list');
+      if (!list) return;
       list.innerHTML = '';
 
       GYM_ROUTINE[dayKey].forEach((ej, idx) => {
         const item = document.createElement('div');
-        item.className = 'bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl space-y-1.5';
-        
-        let subText = '';
-        if (dayKey === 'dia1') {
-          subText = `<div class="flex items-center justify-between text-xs pt-1">
-            <span class="text-slate-300 font-bold">${ej.carga} ➔ [${ej.s1}, ${ej.s2}${ej.s3 ? ', ' + ej.s3 : ''}]</span>
-            <span class="text-emerald-400 font-bold text-[11px]">${ej.status}</span>
-          </div>`;
+        item.className = 'bg-white border border-rose-100/90 p-4 rounded-3xl space-y-3 shadow-sm';
+
+        // Verificar si hay un reemplazo activo para este ejercicio
+        const replKey = `${dayKey}_${ej.id}`;
+        const activeReplacement = gymActiveReplacements[replKey];
+        const isReplaced = !!activeReplacement;
+
+        const currentName = isReplaced ? activeReplacement.nombre : ej.nombre;
+        const currentTargetWeight = isReplaced ? activeReplacement.pesoEquiv : ej.cargaSugerida;
+        const currentTargetRepsDesc = isReplaced ? activeReplacement.repsEquiv : `[${ej.metaReps.join(', ')} reps @ RIR 2]`;
+
+        // 1. Banner de Calentamiento previo si corresponde (solo si no fue reemplazado)
+        let calentamientoHtml = '';
+        if (ej.calentamiento && !isReplaced) {
+          calentamientoHtml = `
+            <div class="text-[11px] text-amber-800 bg-amber-50/90 px-3 py-1.5 rounded-2xl border border-amber-200/70 flex items-center gap-2 font-medium">
+              <span>🔥</span>
+              <span><strong>Calentamiento:</strong> ${ej.calentamiento}</span>
+            </div>
+          `;
+        }
+
+        // 2. Filas de Series Interactivas
+        let setsHtml = '';
+        for (let s = 0; s < ej.series; s++) {
+          const targetRep = ej.metaReps[s] || ej.metaReps[ej.metaReps.length - 1];
+          const log = getExerciseLog(dayKey, ej.id, s, currentTargetWeight, targetRep);
+
+          // Evaluar estado visual vs objetivo
+          let statusBadge = '';
+          const repsNum = parseInt(log.reps);
+          if (log.completed && !isNaN(repsNum)) {
+            if (repsNum > targetRep) {
+              statusBadge = `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">🚀 +${repsNum - targetRep}</span>`;
+            } else if (repsNum === targetRep) {
+              statusBadge = `<span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">🎯 Meta</span>`;
+            } else {
+              statusBadge = `<span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">💪 Hecho</span>`;
+            }
+          }
+
+          setsHtml += `
+            <div class="flex items-center gap-2 bg-[#FAF7F5] p-2 rounded-2xl border ${log.completed ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-100'} transition">
+              <span class="text-[11px] font-bold text-slate-700 w-8 shrink-0">S${s + 1}</span>
+              
+              <div class="flex-1 flex items-center gap-1">
+                <input type="text" id="input-kg-${ej.id}-${s}" value="${log.kg || ''}" placeholder="${currentTargetWeight}"
+                  class="w-full bg-white border border-rose-200/80 rounded-xl px-2 py-1 text-xs text-slate-800 font-bold text-center focus:outline-none focus:border-rose-400">
+                <span class="text-[10px] text-slate-400 font-medium shrink-0">kg</span>
+              </div>
+
+              <div class="flex-1 flex items-center gap-1">
+                <input type="number" id="input-reps-${ej.id}-${s}" value="${log.reps || ''}" placeholder="${targetRep}"
+                  class="w-full bg-white border border-rose-200/80 rounded-xl px-2 py-1 text-xs text-slate-800 font-bold text-center focus:outline-none focus:border-rose-400">
+                <span class="text-[10px] text-slate-400 font-medium shrink-0">reps</span>
+              </div>
+
+              <div class="flex items-center gap-1 shrink-0">
+                ${statusBadge}
+                <button onclick="saveGymSet('${dayKey}', '${ej.id}', ${s}, ${targetRep})" 
+                  class="px-2.5 py-1 rounded-xl text-xs font-bold transition shadow-xs ${
+                    log.completed 
+                      ? 'bg-emerald-500 text-white hover:bg-emerald-600' 
+                      : 'bg-rose-500 text-white hover:bg-rose-600'
+                  }">
+                  ${log.completed ? '✔️' : 'Guardar'}
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        // 3. Tarjetas de alternativas estructuradas con cálculo de equivalencias
+        let alternativasCardsHtml = '';
+        if (ej.alternativas && ej.alternativas.length > 0) {
+          alternativasCardsHtml = ej.alternativas.map((alt, altIdx) => `
+            <div class="bg-white/95 p-3 rounded-2xl border border-rose-200/80 shadow-2xs space-y-1.5">
+              <div class="flex items-start justify-between gap-1">
+                <span class="font-extrabold text-slate-900 text-xs">⚡ ${alt.nombre}</span>
+                <span class="text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full shrink-0">
+                  ${alt.pesoEquiv}
+                </span>
+              </div>
+              <div class="text-[10px] text-slate-600 bg-[#FAF7F5] p-2 rounded-xl border border-rose-100/70 space-y-0.5">
+                <p>🎯 <strong>Objetivo:</strong> ${alt.repsEquiv}</p>
+                <p class="text-slate-500 italic">💡 ${alt.notaRP}</p>
+              </div>
+              <button onclick="applyExerciseReplacement('${dayKey}', '${ej.id}', ${altIdx})"
+                class="w-full py-1.5 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl text-[11px] font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1">
+                <span>⚡</span> Aplicar este reemplazo a mi sesión
+              </button>
+            </div>
+          `).join('');
+        }
+
+        // Header ejercicio (con indicador de reemplazo si está activo)
+        let headerTitleHtml = '';
+        if (isReplaced) {
+          headerTitleHtml = `
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500">${ej.musculo}</span>
+                <span class="text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">🔄 Reemplazo Activo</span>
+              </div>
+              <h4 class="font-extrabold text-slate-900 text-xs">${idx + 1}. ${currentName}</h4>
+              <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-[10px] text-slate-400 line-through font-normal">Original: ${ej.nombre}</span>
+                <button onclick="resetExerciseReplacement('${dayKey}', '${ej.id}')" class="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full hover:bg-rose-100 transition">
+                  ↺ Restaurar original
+                </button>
+              </div>
+            </div>
+          `;
         } else {
-          subText = `<div class="text-xs pt-1 space-y-0.5">
-            <div class="text-rose-300 font-bold">Meta: ${ej.carga} ➔ ${ej.meta}</div>
-            <p class="text-[11px] text-slate-400 italic">💡 Tip: ${ej.tip}</p>
-          </div>`;
+          headerTitleHtml = `
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500 block">${ej.musculo}</span>
+              <h4 class="font-extrabold text-slate-900 text-xs">${idx + 1}. ${ej.nombre}</h4>
+            </div>
+          `;
         }
 
         item.innerHTML = `
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-white text-xs">${idx + 1}. ${ej.nombre}</h4>
+          <!-- HEADER EJERCICIO -->
+          <div class="flex items-start justify-between gap-2">
+            ${headerTitleHtml}
+            <span class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 px-2.5 py-0.5 rounded-full shrink-0">
+              ${ej.series} series
+            </span>
           </div>
-          ${subText}
+
+          ${calentamientoHtml}
+
+          <!-- OBJETIVO DE LA SESIÓN -->
+          <div class="flex items-center justify-between text-[11px] bg-rose-50/50 px-3 py-1.5 rounded-2xl border border-rose-100/70">
+            <span class="text-slate-600">🎯 <strong>Objetivo:</strong> ${currentTargetWeight}</span>
+            <span class="text-rose-700 font-bold">${currentTargetRepsDesc}</span>
+          </div>
+
+          <!-- BARRA DE ACCIÓN: REEMPLAZOS & TIMER DE DESCANSO -->
+          <div class="flex items-center justify-between pt-0.5 text-xs">
+            <button onclick="toggleExerciseHelp('${ej.id}')" class="text-[11px] font-medium text-slate-600 hover:text-rose-600 flex items-center gap-1 transition">
+              <span>💡</span> <span class="underline">${isReplaced ? 'Cambiar / Ver opciones' : 'Reemplazos / Duda'}</span>
+            </button>
+            <div class="flex items-center gap-1 text-[11px]">
+              <span class="text-slate-400 font-medium">⏱️ Descanso:</span>
+              <button onclick="startRestTimer(60)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">60s</button>
+              <button onclick="startRestTimer(90)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">90s</button>
+              <button onclick="startRestTimer(120)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">120s</button>
+            </div>
+          </div>
+
+          <!-- CAJÓN DE ASISTENCIA INTELIGENTE & REEMPLAZOS -->
+          <div id="help-${ej.id}" class="hidden bg-gradient-to-br from-rose-50/90 via-white to-pink-50/80 p-3.5 rounded-2xl border border-rose-200/90 space-y-2.5 text-xs">
+            <div class="flex items-center justify-between">
+              <h5 class="text-[11px] font-extrabold text-slate-800 flex items-center gap-1">
+                <span>🔄</span> Asistente Inteligente de Reemplazo
+              </h5>
+              <button onclick="toggleExerciseHelp('${ej.id}')" class="text-slate-400 hover:text-slate-600 text-xs">✕</button>
+            </div>
+
+            <!-- PASO 1: CHEQUEO DE 1 PERSONA -->
+            <div class="bg-blue-50/90 p-2.5 rounded-2xl border border-blue-200/80 space-y-1 text-slate-700">
+              <div class="flex items-center gap-1.5 text-blue-900 font-bold text-[11px]">
+                <span>👥</span> Paso 1: ¿Hay solo una persona usando la máquina o polea?
+              </div>
+              <p class="text-[11px] leading-snug">
+                <strong>Pedile turnarse:</strong> <em>"¿Intercalamos series mientras descansás?"</em>. La gran mayoría dice que sí con la mejor onda, y así mantenés tu rutina planificada sin vueltas.
+              </p>
+            </div>
+
+            <!-- PASO 2: SI HAY 2 O MÁS PERSONAS -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1">
+                  <span>⚡</span> Paso 2: Si está muy ocupada (Reemplazo con pesos equivalentes)
+                </span>
+              </div>
+              ${alternativasCardsHtml}
+            </div>
+
+            <!-- PASO 3: NOTA DE SOBRECARGA PROGRESIVA RP -->
+            <div class="bg-amber-50/90 p-2.5 rounded-2xl border border-amber-200/80 space-y-1 text-amber-900">
+              <div class="flex items-center gap-1.5 font-bold text-[11px]">
+                <span>📌</span> Paso 3: Regla RP para la próxima semana
+              </div>
+              <p class="text-[11px] leading-snug">
+                Al usar un reemplazo hoy, el músculo recibe el estímulo necesario. <strong>La semana próxima cuando vuelvas a ${ej.nombre}</strong>, retomás con el <strong>mismo peso de la Semana 1</strong> buscando sumar <strong>1 o 2 repes @ RIR 2</strong>. ¡Cero retrocesos ni saltos bruscos!
+              </p>
+            </div>
+
+            <!-- PREGUNTAR AL COACH -->
+            <div class="pt-1.5 border-t border-rose-100 flex items-center justify-between">
+              <span class="text-[10px] text-slate-500">¿Duda técnica o sobre el ejercicio?</span>
+              <button onclick="askCoachAboutExercise('${ej.nombre}', 'reemplazo')" class="text-[11px] text-rose-600 hover:underline font-bold flex items-center gap-1">
+                <span>💬</span> Preguntar al Coach
+              </button>
+            </div>
+          </div>
+
+          <!-- LISTA DE SERIES INTERACTIVAS -->
+          <div class="space-y-1.5 pt-0.5">
+            ${setsHtml}
+          </div>
+
+          <!-- TIP TÉCNICO RP -->
+          <p class="text-[11px] text-slate-500 italic bg-rose-50/40 p-2.5 rounded-2xl border border-rose-100/50">
+            💡 <strong>Tip RP:</strong> ${ej.tip}
+          </p>
         `;
+
         list.appendChild(item);
       });
     }
 
-    function addWater(amount) {
-      waterMl = Math.max(0, waterMl + amount);
+    function applyExerciseReplacement(dayKey, exerciseId, altIndex) {
+      const ej = GYM_ROUTINE[dayKey]?.find(e => e.id === exerciseId);
+      if (!ej || !ej.alternativas || !ej.alternativas[altIndex]) return;
+
+      const alt = ej.alternativas[altIndex];
+      gymActiveReplacements[`${dayKey}_${exerciseId}`] = {
+        originalId: exerciseId,
+        originalNombre: ej.nombre,
+        originalCarga: ej.cargaSugerida,
+        nombre: alt.nombre,
+        pesoEquiv: alt.pesoEquiv,
+        repsEquiv: alt.repsEquiv,
+        notaRP: alt.notaRP,
+        timestamp: Date.now()
+      };
+
+      localStorage.setItem('gym_active_replacements', JSON.stringify(gymActiveReplacements));
+      renderGymRoutine(dayKey);
+
+      const el = document.getElementById(`help-${exerciseId}`);
+      if (el) el.classList.remove('hidden');
+
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function resetExerciseReplacement(dayKey, exerciseId) {
+      delete gymActiveReplacements[`${dayKey}_${exerciseId}`];
+      localStorage.setItem('gym_active_replacements', JSON.stringify(gymActiveReplacements));
+      renderGymRoutine(dayKey);
+    }
+
+    function toggleExerciseHelp(exerciseId) {
+      const el = document.getElementById(`help-${exerciseId}`);
+      if (!el) return;
+      el.classList.toggle('hidden');
+    }
+
+    function askCoachAboutExercise(exerciseName, queryType) {
+      switchView('chat');
+      const input = document.getElementById('chat-user-input');
+      if (!input) return;
+
+      if (queryType === 'reemplazo') {
+        input.value = `Coach, estoy en el gimnasio y la máquina para ${exerciseName} está ocupada. ¿Por qué otro ejercicio puedo reemplazarlo y con qué peso/repes?`;
+      } else {
+        input.value = `Coach, tengo una duda con la técnica de ${exerciseName} para sentir el músculo y no lastimarme articulaciones. ¿Qué puntos clave cuido?`;
+      }
+      input.focus();
+    }
+
+    function saveGymSet(dayKey, exerciseId, setIdx, targetRep) {
+      const kgInput = document.getElementById(`input-kg-${exerciseId}-${setIdx}`);
+      const repsInput = document.getElementById(`input-reps-${exerciseId}-${setIdx}`);
+      if (!kgInput || !repsInput) return;
+
+      const kgVal = kgInput.value.trim();
+      const repsVal = parseInt(repsInput.value.trim());
+
+      if (isNaN(repsVal)) {
+        alert("Por favor completá cuántas repeticiones hiciste ✨");
+        repsInput.focus();
+        return;
+      }
+
+      if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
+      if (!gymLogs[dayKey][exerciseId]) gymLogs[dayKey][exerciseId] = [];
+
+      gymLogs[dayKey][exerciseId][setIdx] = {
+        set: setIdx + 1,
+        kg: kgVal,
+        reps: repsVal,
+        completed: true,
+        targetRep: targetRep,
+        time: Date.now()
+      };
+
+      // Guardar en localStorage
+      localStorage.setItem('gym_logs_semana2', JSON.stringify(gymLogs));
+
+      // Guardar en Firebase en tiempo real
+      db.ref(`gym_logs/semana2/${dayKey}/${exerciseId}/${setIdx}`).set({
+        set: setIdx + 1,
+        kg: kgVal,
+        reps: repsVal,
+        completed: true,
+        targetRep: targetRep,
+        updatedAt: Date.now()
+      }).catch(err => console.log('Firebase sync error:', err));
+
+      // Vibración suave si está en el móvil
+      if (navigator.vibrate) navigator.vibrate(50);
+
+      // Re-renderizar rutina para actualizar badges de estado
+      renderGymRoutine(dayKey);
+    }
+
+    // ==========================================
+    // TEMPORIZADOR DE DESCANSO FLOTANTE
+    // ==========================================
+    let restTimerInterval = null;
+    let restSecondsRemaining = 0;
+
+    function startRestTimer(seconds) {
+      if (restTimerInterval) clearInterval(restTimerInterval);
+      restSecondsRemaining = seconds;
+
+      const timerEl = document.getElementById('floating-rest-timer');
+      const displayEl = document.getElementById('rest-timer-display');
+      if (timerEl) timerEl.classList.remove('hidden');
+
+      function updateTimer() {
+        const mins = Math.floor(restSecondsRemaining / 60);
+        const secs = restSecondsRemaining % 60;
+        if (displayEl) {
+          displayEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        if (restSecondsRemaining <= 0) {
+          clearInterval(restTimerInterval);
+          restTimerInterval = null;
+          if (displayEl) displayEl.innerText = "¡A darle! 💪";
+          playTimerBeep();
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+          setTimeout(() => {
+            if (timerEl) timerEl.classList.add('hidden');
+          }, 3500);
+        } else {
+          restSecondsRemaining--;
+        }
+      }
+
+      updateTimer();
+      restTimerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function stopRestTimer() {
+      if (restTimerInterval) clearInterval(restTimerInterval);
+      restTimerInterval = null;
+      const timerEl = document.getElementById('floating-rest-timer');
+      if (timerEl) timerEl.classList.add('hidden');
+    }
+
+    function playTimerBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+      } catch (e) {
+        console.log('Audio not supported');
+      }
+    }
+
+    // ==========================================
+    // FINALIZACIÓN & FEEDBACK DEL COACH (AI)
+    // ==========================================
+    async function finishGymWorkout() {
+      const dayKey = currentGymDay;
+      const exercises = GYM_ROUTINE[dayKey];
+      const notesEl = document.getElementById('gym-session-notes');
+      const userNotes = notesEl ? notesEl.value.trim() : '';
+
+      // Compilar reporte de series
+      let totalCompletedSets = 0;
+      let totalPlannedSets = 0;
+      let prCount = 0;
+      let summaryLines = [];
+
+      exercises.forEach(ej => {
+        totalPlannedSets += ej.series;
+        const loggedSets = gymLogs[dayKey]?.[ej.id] || [];
+        let setDetails = [];
+
+        for (let s = 0; s < ej.series; s++) {
+          const sLog = loggedSets[s] || (ej.defaultLogged ? ej.defaultLogged[s] : null);
+          if (sLog && sLog.completed) {
+            totalCompletedSets++;
+            const repsNum = parseInt(sLog.reps);
+            const targetRep = ej.metaReps[s] || ej.metaReps[0];
+            if (repsNum > targetRep) prCount++;
+            setDetails.push(`${sLog.kg || ej.cargaSugerida} x ${sLog.reps} reps`);
+          }
+        }
+
+        if (setDetails.length > 0) {
+          summaryLines.push(`• ${ej.nombre}: ${setDetails.join(', ')}`);
+        }
+      });
+
+      // Abrir modal de feedback
+      const modal = document.getElementById('modal-gym-feedback');
+      const titleEl = document.getElementById('gym-feedback-title');
+      const subtitleEl = document.getElementById('gym-feedback-subtitle');
+      const metricsEl = document.getElementById('gym-feedback-metrics');
+      const contentEl = document.getElementById('gym-feedback-content');
+
+      if (modal) modal.classList.remove('hidden');
+
+      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Torso", dia3: "Día 3: Hack Inversa en Pareja" };
+      if (titleEl) titleEl.innerText = `¡Entrenamiento Liquidado, Caritas! 🏆`;
+      if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 2 Cumplido`;
+
+      if (metricsEl) {
+        metricsEl.innerHTML = `
+          <div class="bg-rose-50/70 p-2 rounded-2xl border border-rose-100">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Series</span>
+            <span class="text-xs font-extrabold text-rose-700">${totalCompletedSets}/${totalPlannedSets}</span>
+          </div>
+          <div class="bg-emerald-50/70 p-2 rounded-2xl border border-emerald-100">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Reps Récord</span>
+            <span class="text-xs font-extrabold text-emerald-700">+${prCount} PRs</span>
+          </div>
+          <div class="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Esfuerzo</span>
+            <span class="text-xs font-extrabold text-purple-700">RIR 2 ✔️</span>
+          </div>
+        `;
+      }
+
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
+            <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+            <span class="text-xs italic font-semibold">Tu Coach está redactando tu devolución...</span>
+          </div>
+        `;
+      }
+
+      // Generar devolución con Gemini
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash"
+      ];
+
+      const gymPrompt = `
+Eres el Coach personal y de confianza de Male (Caritas).
+Acaba de terminar su entrenamiento de gimnasio (${dayTitles[dayKey] || dayKey}).
+DATOS COMPLETADOS DE LA SESIÓN:
+${summaryLines.join('\n')}
+SENSACIONES / NOTAS DE MALE: "${userNotes || 'Entrenamiento completado con disciplina.'}"
+
+DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
+1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento.
+2. Mantén un tono técnico y profesional (cuidado articular en rodillas/lumbares, RIR 2), pero profundamente cálido, afectuoso, motivador y protector. Llámala "Caritas" o "Male".
+3. NUNCA uses frases forzadas como "te lo digo con amor" o "mensaje con amor".
+4. Recuérdale su comida post-entreno (proteína de calidad + carbohidratos ricos para recargar glucógeno) y agua.
+5. Si dejó notas de sensaciones, respóndelas directamente con empatía y criterio deportivo.
+Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (🌸, ✨, 🥑, 🍗, 🏋️‍♀️). Longitud media, ideal para leer en el celular.
+`;
+
+      let feedbackText = null;
+
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [{ text: gymPrompt }] }]
+            })
+          });
+
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            feedbackText = data.candidates[0].content.parts[0].text;
+            break;
+          }
+        } catch (e) {
+          console.warn(`Error en feedback con modelo ${model}:`, e);
+        }
+      }
+
+      if (!feedbackText) {
+        feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 2 y cuidando impecable la técnica. Ahora tu prioridad es la recuperación: comida nutritiva con buena proteína y carbohidratos, hidratación y descanso total. ¡Muy orgulloso de tu constancia! 🚀`;
+      }
+
+      if (contentEl) {
+        contentEl.innerHTML = `<div class="leading-relaxed text-xs">${formatMessageText(feedbackText)}</div>`;
+      }
+
+      // Guardar sesión finalizada en Firebase
+      const sessionPayload = {
+        dayKey: dayKey,
+        dayTitle: dayTitles[dayKey] || dayKey,
+        totalSets: totalCompletedSets,
+        userNotes: userNotes,
+        feedback: feedbackText,
+        timestamp: Date.now(),
+        dateStr: new Date().toLocaleDateString('es-ES')
+      };
+
+      db.ref(`gym_completed_sessions/${dayKey}_${Date.now()}`).set(sessionPayload).catch(e => console.log(e));
+
+      // Publicar resumen en el chat para que quede en el historial de la conversación
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      db.ref('chat_messages').push({
+        sender: 'Coach',
+        text: `🏆 **Devolución de Entrenamiento (${dayTitles[dayKey]}):**\n\n${feedbackText}`,
+        time: timeStr,
+        timestamp: Date.now()
+      }).catch(e => console.log(e));
+    }
+
+    function closeGymFeedbackModal() {
+      const modal = document.getElementById('modal-gym-feedback');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // ==========================================
+    // AGUA & VASITOS INTERACTIVOS (10 x 250ml)
+    // ==========================================
+    function renderWaterCups() {
+      const container = document.getElementById('water-cups-grid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const totalCups = 10; // 10 x 250ml = 2500ml
+      const filledCups = Math.min(totalCups, Math.floor(waterMl / 250));
+
+      for (let i = 1; i <= totalCups; i++) {
+        const isFilled = i <= filledCups;
+        const cup = document.createElement('button');
+        cup.onclick = () => toggleCup(i);
+        cup.className = `p-2 rounded-2xl flex flex-col items-center gap-0.5 transition-all duration-200 border ${
+          isFilled 
+            ? 'bg-blue-500 border-blue-600 text-white shadow-sm scale-100' 
+            : 'bg-blue-50/40 border-blue-100 text-blue-300 hover:bg-blue-100/60'
+        }`;
+        cup.innerHTML = `
+          <span class="text-lg">${isFilled ? '🥛' : '🥤'}</span>
+          <span class="text-[9px] font-bold">${i * 250}ml</span>
+        `;
+        container.appendChild(cup);
+      }
+    }
+
+    function toggleCup(index) {
+      waterMl = index * 250;
       localStorage.setItem('water_ml', waterMl);
       updateWaterUI();
+      renderWaterCups();
+    }
+
+    function resetWater() {
+      waterMl = 0;
+      localStorage.setItem('water_ml', 0);
+      updateWaterUI();
+      renderWaterCups();
     }
 
     function updateWaterUI() {
       const display = document.getElementById('water-stat-display');
       const quick = document.getElementById('quick-water-count');
-      const bar = document.getElementById('water-bar');
-      
       const liters = (waterMl / 1000).toFixed(1);
+      
       if (display) display.innerText = `${liters} / 2.5 Litros`;
       if (quick) quick.innerText = `${liters}L / 2.5L`;
-      if (bar) {
-        const pct = Math.min(100, (waterMl / 2500) * 100);
-        bar.style.width = `${pct}%`;
-      }
     }
 
-    function toggleHabitoCreatina(checked) {
-      localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
+    // ==========================================
+    // HÁBITO CREATINA
+    // ==========================================
+    function toggleHabitoCreatina(checked, save = true) {
+      if (save) localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
       const label = document.getElementById('label-chk-creatina');
       if (label) {
         label.innerText = checked ? '¡Sí, tomada!' : 'Pendiente';
-        label.className = checked ? 'text-xs font-bold text-purple-300' : 'text-xs font-medium text-slate-500';
+        label.className = checked ? 'text-xs font-bold text-purple-700' : 'text-xs font-medium text-slate-400';
       }
+      renderDynamicDayFocusCard();
+    }
+
+    // ==========================================
+    // HÁBITO CELULAR LEJOS
+    // ==========================================
+    function toggleHabitoCelular(checked, save = true) {
+      if (save) localStorage.setItem('celular_lejos_hoy', checked ? 'true' : 'false');
+      const label = document.getElementById('label-chk-celular');
+      if (label) {
+        label.innerText = checked ? '¡Alejado! 🌙' : 'Pendiente';
+        label.className = checked ? 'text-xs font-bold text-indigo-700' : 'text-xs font-medium text-slate-400';
+      }
+    }
+
+    // ==========================================
+    // PARSER DE MARKDOWN PARA MENSAJES DE CHAT
+    // ==========================================
+    function formatMessageText(text) {
+      if (!text) return '';
+      // 1. Escapar HTML base para evitar inyección
+      let safe = escapeHtml(text);
+
+      // 2. Negritas: **texto** o __texto__
+      safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+      safe = safe.replace(/__(.*?)__/g, '<strong class="font-bold text-slate-900">$1</strong>');
+
+      // 3. Cursivas: *texto* (evitando viñetas)
+      safe = safe.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, '$1<em class="italic">$2</em>$3');
+
+      // 4. Viñetas limpias: líneas que comiencen con - , * o •
+      safe = safe.replace(/^[\*\-\•]\s+(.+)$/gm, '<div class="flex items-start gap-2 my-1 ml-0.5"><span class="text-rose-500 font-bold shrink-0 leading-tight">•</span><span class="leading-relaxed font-medium">$1</span></div>');
+
+      // 5. Listas numeradas: 1. , 2.
+      safe = safe.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="flex items-start gap-2 my-1 ml-0.5"><span class="text-purple-600 font-bold shrink-0 leading-tight">$1.</span><span class="leading-relaxed font-medium">$2</span></div>');
+
+      // 6. Saltos de línea
+      safe = safe.replace(/\n/g, '<br>');
+
+      return safe;
+    }
+
+    // ==========================================
+    // MODAL DE CALMA, PERSPECTIVA & RESPIRACIÓN
+    // ==========================================
+    let breathingInterval = null;
+
+    const CALMA_QUOTES = [
+      "En la vida hay cosas infinitamente más importantes y graves. Las pequeñas complicaciones de la facu se resuelven y no merecen amargarte el día. Respirá y sonreí, Caritas 🤍",
+      "Odonto es muy demandante, pero tu paz mental y tu salud valen mil veces más que cualquier parcial o paciente. Hoy diste lo mejor, y eso ya es un montón ✨",
+      "Mirá todo lo que ya lograste y lo capaz que sos. No te angusties por cosas pequeñas; todo se acomoda a su tiempo 🌸",
+      "Lo que tiene solución se va a arreglar, y lo que no depende de vos, no merece tu estrés. Un matecito rico, respirá hondo y adelante ☕",
+      "Tenés a alguien que te ama con locura, te admira y te acompaña en cada paso. Disfrutá tu día con una sonrisa 🤍"
+    ];
+
+    function triggerCalmaModal() {
+      const modal = document.getElementById('modal-calma');
+      const quoteEl = document.getElementById('calma-quote-text');
+      if (!modal) return;
+
+      if (quoteEl) {
+        const randomQuote = CALMA_QUOTES[Math.floor(Math.random() * CALMA_QUOTES.length)];
+        quoteEl.innerText = `"${randomQuote}"`;
+      }
+
+      modal.classList.remove('hidden');
+
+      const circle = document.getElementById('breathing-circle');
+      const text = document.getElementById('breathing-text');
+      let step = 0;
+
+      if (breathingInterval) clearInterval(breathingInterval);
+
+      function runStep() {
+        if (step === 0) {
+          if (circle) circle.style.transform = 'scale(1.3)';
+          if (text) text.innerText = 'Inhalá calma profundo... (4s)';
+          step = 1;
+        } else if (step === 1) {
+          if (circle) circle.style.transform = 'scale(1.3)';
+          if (text) text.innerText = 'Sostené el aire serena... (4s)';
+          step = 2;
+        } else {
+          if (circle) circle.style.transform = 'scale(1.0)';
+          if (text) text.innerText = 'Soltá todo el aire y relajá... (4s)';
+          step = 0;
+        }
+      }
+
+      runStep();
+      breathingInterval = setInterval(runStep, 4000);
+    }
+
+    function closeCalmaModal() {
+      const modal = document.getElementById('modal-calma');
+      if (modal) modal.classList.add('hidden');
+      if (breathingInterval) {
+        clearInterval(breathingInterval);
+        breathingInterval = null;
+      }
+    }
+
+    // ==========================================
+    // FUNCIONES BOTÓN SOS: DÍA DIFÍCIL EN ODONTO
+    // ==========================================
+    let currentSosReason = '';
+    let lastSosResponse = null;
+
+    function openSosModal() {
+      const modal = document.getElementById('modal-sos-odonto');
+      if (modal) {
+        modal.classList.remove('hidden');
+        const input = document.getElementById('sos-custom-input');
+        if (input) input.value = '';
+        const resBox = document.getElementById('sos-coach-response-box');
+        if (resBox) resBox.classList.add('hidden');
+        const btn = document.getElementById('btn-submit-sos');
+        if (btn) btn.disabled = false;
+        const btnText = document.getElementById('btn-submit-sos-text');
+        if (btnText) btnText.innerText = 'Recibir contención y calma del Coach';
+      }
+    }
+
+    function closeSosModal() {
+      const modal = document.getElementById('modal-sos-odonto');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function selectSosReason(reasonText) {
+      currentSosReason = reasonText;
+      const input = document.getElementById('sos-custom-input');
+      if (input) {
+        input.value = reasonText;
+        input.focus();
+      }
+    }
+
+    async function submitSosVent() {
+      const input = document.getElementById('sos-custom-input');
+      const ventText = input ? input.value.trim() : '';
+
+      if (!ventText) {
+        alert("Elegí una opción o escribí unas palabritas sobre qué pasó para que el Coach pueda acompañarte 🤍");
+        if (input) input.focus();
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-sos');
+      const btnText = document.getElementById('btn-submit-sos-text');
+      const resBox = document.getElementById('sos-coach-response-box');
+      const resText = document.getElementById('sos-coach-response-text');
+      const timeEl = document.getElementById('sos-timestamp');
+
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.innerText = 'Tu Coach está preparando tu respuesta con calma... ✨';
+
+      if (resBox) resBox.classList.remove('hidden');
+      if (resText) {
+        resText.innerHTML = `
+          <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
+            <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+            <span class="text-xs italic">El Coach te está escuchando con atención...</span>
+          </div>
+        `;
+      }
+
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash"
+      ];
+
+      const sosPrompt = `
+Sos el Coach personal y protector de Male (Malena, de 22 años, estudiante de Odontología).
+Su novio se llama Naza y le dice "Caritas". Llámala "Caritas" o "Male" con inmenso cariño, ternura y respeto.
+NUNCA la llames "reina" ni uses frases clichés como "mensaje con amor".
+Male acaba de tocar el botón de emergencia "SOS: Día Difícil en Odonto" porque le pasó lo siguiente:
+"${ventText}"
+
+Instrucciones para tu respuesta:
+1. Validá su frustración/angustia con empatía real: Odontología es muy demandante física y mentalmente (clínicas largas, profesores difíciles, pacientes impredecibles, instrumental).
+2. Poné perspectiva serena: En la vida hay problemas infinitamente más graves. Un mal día en la facultad, una nota o un paciente cancelado NO definen su inteligencia, su futuro brillante ni su enorme valor como persona.
+3. Indicación somática inmediata: Decile con dulzura que baje los hombros, relaje la mandíbula, tome un vaso de agua fresca y respire hondo.
+4. Plan de autocuidado para la tarde/noche: Ya dio su 100% hoy. Ahora toca soltar, ducha tibia, comer algo rico y descansar.
+5. Longitud: 2 a 3 párrafos cálidos, fluidos y reconfortantes.
+`;
+
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: sosPrompt }]
+          }
+        ]
+      };
+
+      let replyText = null;
+
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) continue;
+
+          const data = await res.json();
+          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            replyText = data.candidates[0].content.parts[0].text;
+            break;
+          }
+        } catch (e) {
+          console.warn(`Error llamando a ${model} en SOS:`, e);
+        }
+      }
+
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.innerText = 'Recibir contención y calma del Coach';
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      if (timeEl) timeEl.innerText = timeStr;
+
+      if (!replyText) {
+        replyText = `Caritas hermosa, respirá profundo. Odonto es muy demandante y hoy fue un día pesado, pero esto no define en absoluto tu capacidad ni tu futuro. Bajá los hombros, tomá un vasito de agua fresca y permitite soltar. En la vida hay cosas mucho más importantes y todo esto se acomoda. Ya diste lo mejor hoy, ahora regalate descansar 🤍`;
+      }
+
+      lastSosResponse = { vent: ventText, reply: replyText, time: timeStr };
+
+      if (resText) {
+        resText.innerHTML = formatMessageText(replyText);
+      }
+    }
+
+    async function sendSosToChat() {
+      if (!lastSosResponse) return;
+      closeSosModal();
+      switchView('chat');
+
+      // Enviar el desahogo de Male al chat
+      await db.ref('chat_messages').push({
+        sender: 'Male',
+        text: `🆘 *[Día Difícil en Odonto]*: ${lastSosResponse.vent}`,
+        time: lastSosResponse.time,
+        timestamp: Date.now()
+      });
+
+      // Enviar la respuesta del Coach al chat
+      await db.ref('chat_messages').push({
+        sender: 'Coach',
+        text: lastSosResponse.reply,
+        time: lastSosResponse.time,
+        timestamp: Date.now() + 100
+      });
+    }
+
+    // ==========================================
+    // 🏆 EL RINCÓN DE VICTORIAS (COFRE DE LOGROS & TALENTO INNATO)
+    // ==========================================
+    function updateVictoriasCounter() {
+      const badge = document.getElementById('victorias-counter-badge');
+      if (badge) {
+        const count = victoriasMale.length;
+        badge.innerText = `${count} ${count === 1 ? 'logro ✨' : 'logros ✨'}`;
+      }
+    }
+
+    function openNuevaVictoriaModal() {
+      const modal = document.getElementById('modal-nueva-victoria');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      const textInput = document.getElementById('victoria-custom-text');
+      if (textInput) {
+        textInput.value = '';
+        setTimeout(() => textInput.focus(), 120);
+      }
+
+      const resBox = document.getElementById('victoria-coach-response-box');
+      if (resBox) resBox.classList.add('hidden');
+
+      const btn = document.getElementById('btn-guardar-victoria');
+      const btnText = document.getElementById('btn-guardar-victoria-text');
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.innerText = 'Celebrar y guardar en mi Cofre';
+
+      selectVictoriaCategory('Práctica o cirugía clínica impecable 🩺');
+    }
+
+    function closeNuevaVictoriaModal() {
+      const modal = document.getElementById('modal-nueva-victoria');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function selectVictoriaCategory(cat) {
+      selectedVictoriaCategoryText = cat;
+      const label = document.getElementById('selected-victoria-cat');
+      if (label) label.innerText = cat;
+
+      document.querySelectorAll('.victoria-cat-btn').forEach(btn => {
+        const btnCat = btn.getAttribute('data-cat') || '';
+        if (btnCat === cat || btn.innerText.includes(cat.split(' ')[0])) {
+          btn.className = 'victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-300 bg-amber-200/70 font-bold text-[10.5px] text-slate-900 transition shadow-xs';
+        } else {
+          btn.className = 'victoria-cat-btn px-2.5 py-1 rounded-xl border border-amber-200/80 bg-amber-50/60 hover:bg-amber-100/80 text-[10.5px] font-medium text-slate-700 transition';
+        }
+      });
+    }
+
+    async function guardarVictoria() {
+      const textInput = document.getElementById('victoria-custom-text');
+      const texto = textInput ? textInput.value.trim() : '';
+
+      if (!texto) {
+        alert("Escribí unas palabritas sobre qué hiciste hoy para que podamos festejarlo juntas, Caritas ✨");
+        if (textInput) textInput.focus();
+        return;
+      }
+
+      const btn = document.getElementById('btn-guardar-victoria');
+      const btnText = document.getElementById('btn-guardar-victoria-text');
+      const resBox = document.getElementById('victoria-coach-response-box');
+      const resText = document.getElementById('victoria-coach-response-text');
+      const timeEl = document.getElementById('victoria-timestamp');
+
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.innerText = 'Tu Coach está celebrando tu talento... ✨';
+
+      if (resBox) resBox.classList.remove('hidden');
+      if (resText) {
+        resText.innerHTML = `
+          <div class="flex items-center justify-center py-4 text-amber-600 gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span class="text-xs italic">El Coach está preparando tu felicitación...</span>
+          </div>
+        `;
+      }
+
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash"
+      ];
+
+      const victoriaPrompt = `
+Sos el Coach personal de Male (Malena, de 22 años, estudiante de Odontología en Buenos Aires).
+Su novio es Naza y le dice con todo su amor "Caritas".
+REGLAS DE TRATO FUNDAMENTALES:
+- Llámala siempre "Caritas" o "Male" con inmenso cariño, empatía, dulzura y admiración sincera.
+- NUNCA uses la palabra "reina" ni frases artificiales tipo "mensaje con amor" o "tip amoroso". Hablá de forma totalmente natural, cercana y humana.
+
+Male acaba de registrar una VICTORIA en su "Rincón de Victorias & Cofre de Logros":
+Etiqueta/Área: "${selectedVictoriaCategoryText}"
+Relato detallado de Male:
+"""
+${texto}
+"""
+
+INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
+1. ENTENDIMIENTO TÉCNICO PROFUNDO: Male suele describir procedimientos clínicos y quirúrgicos con gran nivel de detalle técnico (ej: endodoncia, conductometría, limas, localizador apical, instrumentación rotatoria o manual, aislamiento absoluto con goma dique, clamps y arco de Young, restauraciones de resina compuesta estratificada con grabado ácido y adhesivo, anatomía de cúspides y surcos, tallado protésico, toma de impresiones con silicona por adición o condensación, anestesia infiltrativa o troncular de Spix sin dolor, cirugías con elevadores, fórceps, hemostasia y sutura cuidadosa, etc.).
+   Comprendé con total exactitud lo que describe en su relato, demostrá que entendés la maniobra clínica y validá lo técnico y complejo que es ese procedimiento y lo meritorio que es resolverlo con esa prolijidad.
+2. TALENTO INNATO Y DEXTREZA: Naza siempre le dice y tiene la certeza absoluta de que Male tiene un "talento innato" para la odontología: una delicadeza manual, una visión estética impecable, un pulso firme y una empatía natural enorme para contener al paciente y hacerlo sentir cuidado y tranquilo. Mencioná con ternura y convicción ese talento innato que la hace destacar.
+3. RECONOCIMIENTO Y ORGULLO: Festejá su logro de manera vibrante, motivadora y sincera. Que esta devolución sea un abrazo reconfortante y una inyección de confianza que atesore en su cofre de logros.
+4. Extensión: 2 a 3 párrafos cálidos, vibrantes, profesionales pero cercanos y cariñosos.
+`;
+
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: victoriaPrompt }]
+          }
+        ]
+      };
+
+      let replyText = null;
+
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) continue;
+
+          const data = await res.json();
+          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            replyText = data.candidates[0].content.parts[0].text;
+            break;
+          }
+        } catch (e) {
+          console.warn(`Error llamando a ${model} en guardarVictoria:`, e);
+        }
+      }
+
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.innerText = 'Celebrar y guardar en mi Cofre';
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = now.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+      if (timeEl) timeEl.innerText = `${dateStr} • ${timeStr}`;
+
+      if (!replyText) {
+        replyText = `¡Qué orgullo gigante, Caritas! Tenés una sensibilidad, una delicadeza en las manos y un talento innato extraordinario para la odontología. No cualquiera resuelve una maniobra clínica con esa precisión y dedicación. Guardá este recuerdo bien adentro en tu cofre, porque demostrás una vez más la profesional brillante que sos ✨🤍`;
+      }
+
+      const nuevaVictoria = {
+        id: 'vic_' + Date.now(),
+        categoria: selectedVictoriaCategoryText,
+        texto: texto,
+        fecha: dateStr,
+        hora: timeStr,
+        timestamp: Date.now(),
+        coachFeedback: replyText
+      };
+
+      victoriasMale.unshift(nuevaVictoria);
+      localStorage.setItem('victorias_male', JSON.stringify(victoriasMale));
+
+      db.ref(`victorias_male/${nuevaVictoria.id}`).set(nuevaVictoria)
+        .catch(err => console.log('Firebase victorias sync error:', err));
+
+      updateVictoriasCounter();
+
+      if (resText) {
+        resText.innerHTML = formatMessageText(replyText);
+      }
+
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    }
+
+    function openCofreVictoriasModal() {
+      const modal = document.getElementById('modal-cofre-victorias');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      renderCofreVictorias();
+    }
+
+    function closeCofreVictoriasModal() {
+      const modal = document.getElementById('modal-cofre-victorias');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderCofreVictorias() {
+      const list = document.getElementById('cofre-victorias-list');
+      if (!list) return;
+
+      if (victoriasMale.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-8 space-y-3">
+            <div class="w-14 h-14 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-2xl shadow-2xs">
+              ✨
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-xs font-bold text-slate-800">Tu cofre está esperando su primera victoria</h4>
+              <p class="text-[11px] text-slate-500 max-w-xs mx-auto">
+                Cuando salgas contenta de una clínica, una cirugía o del gym, ¡anotala acá! Tenés un talento enorme y merece quedar registrado.
+              </p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = victoriasMale.map(vic => `
+        <div class="bg-gradient-to-br from-amber-50/70 via-white to-rose-50/60 p-3.5 rounded-2xl border border-amber-200/90 shadow-2xs space-y-2 text-left">
+          <div class="flex items-start justify-between gap-1">
+            <span class="text-[10px] font-bold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200">
+              ${vic.categoria}
+            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] text-slate-400 font-medium">${vic.fecha}</span>
+              <button onclick="deleteVictoria('${vic.id}')" title="Eliminar" class="text-slate-300 hover:text-rose-500 text-xs transition px-1">✕</button>
+            </div>
+          </div>
+          <p class="text-xs text-slate-800 leading-snug font-medium">
+            "${escapeHtml(vic.texto)}"
+          </p>
+          ${vic.coachFeedback ? `
+            <div class="bg-white/80 p-2.5 rounded-xl border border-amber-100/80 text-[11px] text-slate-700 leading-relaxed space-y-1">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-700 block flex items-center gap-1">
+                <span>🌸</span> Devolución de tu Coach
+              </span>
+              <div class="text-[11px]">${formatMessageText(vic.coachFeedback)}</div>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function deleteVictoria(id) {
+      if (!confirm("¿Querés borrar este recuerdo de tu cofre?")) return;
+      victoriasMale = victoriasMale.filter(v => v.id !== id);
+      localStorage.setItem('victorias_male', JSON.stringify(victoriasMale));
+      db.ref(`victorias_male/${id}`).remove().catch(e => console.log('Firebase remove error:', e));
+      updateVictoriasCounter();
+      renderCofreVictorias();
+    }
+
+    // ==========================================
+    // 🚆 MODO TIEMPO DE VIAJE (COLECTIVO / TREN)
+    // ==========================================
+    let viajeTimerInterval = null;
+    let viajeSecondsRemaining = 0;
+
+    function openTiempoViajeModal() {
+      const modal = document.getElementById('modal-tiempo-viaje');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeTiempoViajeModal() {
+      const modal = document.getElementById('modal-tiempo-viaje');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function startViajeTimer(minutes) {
+      if (viajeTimerInterval) clearInterval(viajeTimerInterval);
+      viajeSecondsRemaining = minutes * 60;
+
+      const box = document.getElementById('viaje-timer-box');
+      const display = document.getElementById('viaje-timer-countdown');
+      if (box) box.classList.remove('hidden');
+
+      function updateTimer() {
+        const mins = Math.floor(viajeSecondsRemaining / 60);
+        const secs = viajeSecondsRemaining % 60;
+        if (display) {
+          display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        if (viajeSecondsRemaining <= 0) {
+          clearInterval(viajeTimerInterval);
+          viajeTimerInterval = null;
+          if (display) display.innerText = "¡Llegaste! 🌸";
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        } else {
+          viajeSecondsRemaining--;
+        }
+      }
+
+      updateTimer();
+      viajeTimerInterval = setInterval(updateTimer, 1000);
+      if (navigator.vibrate) navigator.vibrate(50);
+    }
+
+    function stopViajeTimer() {
+      if (viajeTimerInterval) {
+        clearInterval(viajeTimerInterval);
+        viajeTimerInterval = null;
+      }
+      const box = document.getElementById('viaje-timer-box');
+      if (box) box.classList.add('hidden');
     }
 
     function escapeHtml(string) {
