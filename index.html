@@ -52,6 +52,34 @@
   <!-- CONTENEDOR PRINCIPAL TIPO APP (MÁXIMO ANCHO MÓVIL/TABLET) -->
   <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#FAF7F5] shadow-2xl relative">
 
+    <!-- BANNER FLOTANTE DE RECORDATORIO DE AGUA (INTELIGENTE) -->
+    <div id="water-reminder-floating-banner" class="absolute top-3 left-3 right-3 z-50 transform -translate-y-32 transition-all duration-500 ease-out hidden">
+      <div class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 text-white p-3.5 rounded-3xl shadow-xl border border-sky-300/40 flex items-center justify-between gap-3 backdrop-blur-md">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-xl shrink-0 backdrop-blur-sm animate-bounce">
+            💧
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-xs font-extrabold text-white" id="water-banner-title">Hora de tu vasito, Caritas 🌸</span>
+              <span class="text-[9px] bg-white/25 px-2 py-0.2 rounded-full font-bold uppercase tracking-wider" id="water-banner-tag">Hidratación</span>
+            </div>
+            <p class="text-[11px] text-sky-100 font-medium leading-snug line-clamp-2" id="water-banner-text">
+              Tomar 250ml ahora mantiene tu energía, foco y piel al 100%. ¡Salud!
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button onclick="tomarVasoDesdeBanner()" class="py-1.5 px-2.5 bg-white hover:bg-sky-50 text-blue-700 rounded-2xl text-xs font-extrabold shadow-sm active:scale-95 transition">
+            ¡Tomé! +250ml
+          </button>
+          <button onclick="cerrarWaterBanner()" class="w-7 h-7 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-xs font-bold transition">
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- TOP BAR DE ESTADO & BIENVENIDA CÁLIDA -->
     <header class="shrink-0 bg-white/85 backdrop-blur-md border-b border-rose-100/80 px-4 py-3 flex items-center justify-between z-20">
       <div class="flex items-center gap-2.5">
@@ -91,6 +119,25 @@
         <!-- CARD: FOCO DEL DÍA EN UN VISTAZO (ACTUALIZACIÓN DINÁMICA SEGÚN DÍA Y HORA) -->
         <div id="dynamic-day-focus-card" class="bg-gradient-to-br from-rose-50/80 via-white to-pink-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-2.5">
           <!-- Renderizado dinámicamente por renderDynamicDayFocusCard() -->
+        </div>
+
+        <!-- BANNER SOLICITAR NOTIFICACIONES EN CELULAR (SE OCULTA AUTOMÁTICAMENTE SI YA ESTÁN ACTIVAS O DESCARTADAS) -->
+        <div id="banner-solicitar-notificaciones" class="hidden bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 text-white p-3 rounded-3xl shadow-md border border-sky-300/40 flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="text-xl shrink-0">🔔</span>
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold leading-tight">¿Activamos tus recordatorios de agua?</div>
+              <div class="text-[10.5px] text-sky-100 font-medium leading-tight">Para avisarte en la barra de tu celu cada 90 min ✨</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="activarNotificacionesDesdeBanner()" class="py-1.5 px-3 bg-white hover:bg-sky-50 text-blue-700 rounded-2xl text-xs font-extrabold shadow-xs active:scale-95 transition">
+              Activar ✨
+            </button>
+            <button onclick="dismissNotificationBanner()" class="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-xs font-bold transition">
+              ✕
+            </button>
+          </div>
         </div>
 
         <!-- WIDGET DE CHECK-IN EMOCIONAL (CÓMO TE SENTÍS HOY) -->
@@ -223,6 +270,77 @@
           <!-- Renderizado por JS -->
         </div>
 
+        <!-- CARD: AGENDA & FECHAS CLAVE (PARCIALES, MÉDICOS, CLINICAS) -->
+        <div class="bg-gradient-to-br from-purple-50/90 via-white to-pink-50/70 border border-purple-200/90 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-9 h-9 rounded-2xl bg-purple-100/90 border border-purple-200 flex items-center justify-center text-lg shadow-2xs">
+                📅
+              </div>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <span>Agenda & Fechas Clave</span>
+                  <span id="badge-proximas-fechas" class="text-[10px] text-purple-700 bg-purple-100 px-2 py-0.2 rounded-full font-bold">0 próximas</span>
+                </h4>
+                <p class="text-[10px] text-slate-500 font-medium">Parciales, clínicas, médicos y momentos clave</p>
+              </div>
+            </div>
+            <button onclick="openNuevaFechaModal()" class="w-7 h-7 rounded-full bg-purple-100 hover:bg-purple-200 text-purple-700 font-bold flex items-center justify-center text-sm shadow-2xs transition active:scale-95" title="Agregar fecha">+</button>
+          </div>
+
+          <!-- Próximos eventos destacados -->
+          <div id="proximas-fechas-list" class="space-y-2">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button onclick="openNuevaFechaModal()" class="py-2 px-2.5 bg-gradient-to-r from-purple-600 via-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1">
+              <span>➕</span> Nueva fecha
+            </button>
+            <button onclick="openAgendaCompletaModal()" class="py-2 px-2.5 bg-white border border-purple-200 hover:bg-purple-50/50 text-slate-700 rounded-2xl text-xs font-bold shadow-2xs transition flex items-center justify-center gap-1">
+              <span>📋</span> Ver agenda
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD: PACIENTES & CLÍNICAS DE ODONTO (GESTOR DE TURNOS & WHATSAPP) -->
+        <div class="bg-gradient-to-br from-teal-50/90 via-white to-emerald-50/70 border border-teal-200/90 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-9 h-9 rounded-2xl bg-teal-100/90 border border-teal-200 flex items-center justify-center text-lg shadow-2xs">
+                🩺
+              </div>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <span>Pacientes de Clínica</span>
+                  <span id="badge-pacientes-contador" class="text-[10px] text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full font-bold">0 pacientes</span>
+                </h4>
+                <p class="text-[10px] text-slate-500 font-medium">Recordatorios 48h/24h, WhatsApp e indicaciones</p>
+              </div>
+            </div>
+            <button onclick="openNuevoPacienteModal()" class="w-7 h-7 rounded-full bg-teal-100 hover:bg-teal-200 text-teal-800 font-bold flex items-center justify-center text-sm shadow-2xs transition active:scale-95" title="Nuevo Paciente">+</button>
+          </div>
+
+          <!-- BANNER DE AVISOS URGENTES / PENDIENTES -->
+          <div id="pacientes-alerta-banner" class="hidden">
+            <!-- Inyectado dinámicamente si hay avisos pendientes -->
+          </div>
+
+          <!-- LISTA RESUMIDA DE PRÓXIMOS PACIENTES -->
+          <div id="pacientes-preview-list" class="space-y-2">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button onclick="openNuevoPacienteModal()" class="py-2 px-2.5 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-500 text-white rounded-2xl text-xs font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1">
+              <span>➕</span> Nuevo paciente
+            </button>
+            <button onclick="openPacientesClinicaModal()" class="py-2 px-2.5 bg-white border border-teal-200 hover:bg-teal-50/50 text-slate-700 rounded-2xl text-xs font-bold shadow-2xs transition flex items-center justify-center gap-1">
+              <span>📋</span> Ver todos & Avisos
+            </button>
+          </div>
+        </div>
+
         <!-- BOTÓN SOS ACCESO DIRECTO EN MI DÍA -->
         <button onclick="openSosModal()" class="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-rose-100/90 via-pink-50 to-purple-50 border border-rose-200/90 flex items-center justify-between shadow-2xs hover:bg-rose-100 transition active:scale-98">
           <div class="flex items-center gap-2">
@@ -332,8 +450,16 @@
           <textarea id="gym-session-notes" rows="2" placeholder="Ej: Me sentí con mucha fuerza en la prensa, en la última serie me temblaron las piernas..."
             class="w-full bg-[#FAF7F5] border border-rose-200/90 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400 font-medium resize-none"></textarea>
 
+          <!-- RECORDATORIO SNACK EN MOCHILA -->
+          <div class="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-2.5 flex items-center gap-2 text-left">
+            <span class="text-sm">🥪</span>
+            <p class="text-[10.5px] text-amber-900 leading-snug font-medium">
+              <strong>Snack post-gym:</strong> Si salís directo a la facu, ¡llevate un sanguchito de huevo/queso, tupper de huevos duros o snack casero para no pasar horas en ayuno!
+            </p>
+          </div>
+
           <button onclick="finishGymWorkout()" id="btn-finish-gym" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white font-bold text-xs shadow-md shadow-rose-200 hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-2">
-            <span>🏆</span> Finalizar Entrenamiento & Devolución del Coach
+            <span>✨</span> Finalizar Sesión o Consultar al Coach
           </button>
         </div>
       </div>
@@ -356,8 +482,8 @@
             <span class="text-xs font-extrabold text-purple-800 uppercase tracking-wider flex items-center gap-1.5">
               <span>✨</span> Creatina Monohidrato
             </span>
-            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-200">
-              Día 18 (100% Sat.)
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-0.5 rounded-full border border-emerald-200" id="creatina-stat-badge">
+              Día 19 (100% Sat.)
             </span>
           </div>
           <p class="text-xs text-slate-600 leading-relaxed font-medium">
@@ -372,27 +498,97 @@
           </div>
         </div>
 
-        <!-- CARD AGUA INTERACTIVA CON VASITOS -->
-        <div class="bg-white border border-blue-100 rounded-3xl p-4 shadow-sm space-y-3">
+        <!-- CARD AGUA INTERACTIVA CON VASITOS & RECORDATORIOS -->
+        <div class="bg-white border border-blue-100 rounded-3xl p-4 shadow-sm space-y-3.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-blue-700 uppercase tracking-wider flex items-center gap-1.5">
               <span>💧</span> Hidratación Celular
             </span>
             <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-0.5 rounded-full border border-blue-100" id="water-stat-display">
-              1.5 / 2.5 Litros
+              0.0 / 2.5 Litros
             </span>
           </div>
-          <p class="text-xs text-slate-600 leading-relaxed">
+
+          <p class="text-xs text-slate-600 leading-relaxed font-medium">
             Con la creatina a tope, tus células absorben más agua. Tocá los vasitos a medida que vas tomando durante el día:
           </p>
 
+          <!-- INDICADOR DE RITMO DEL DÍA -->
+          <div id="water-pacing-indicator" class="text-xs">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
           <!-- GRILLA INTERACTIVA DE 10 VASITOS (CADA UNO = 250 ML) -->
-          <div class="grid grid-cols-5 gap-2 pt-1" id="water-cups-grid">
+          <div class="grid grid-cols-5 gap-2 pt-0.5" id="water-cups-grid">
             <!-- Renderizado por JS: vasitos clickeables -->
           </div>
 
-          <div class="flex items-center justify-between pt-2 border-t border-blue-50 text-[11px] text-slate-500">
-            <span>Meta diaria: 10 vasos (2.5L)</span>
+          <!-- PANEL DE RECORDATORIOS AUTOMÁTICOS INTELIGENTES -->
+          <div class="bg-gradient-to-br from-sky-50/80 via-blue-50/40 to-indigo-50/60 p-3 rounded-2xl border border-sky-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">🔔</span>
+                <span class="text-xs font-bold text-slate-800">Recordatorios Automáticos</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="chk-water-reminders" onchange="toggleWaterReminders(this.checked)" class="sr-only peer">
+                <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+
+            <!-- Frecuencia y estado -->
+            <div class="flex items-center justify-between text-[11px] text-slate-600 pt-0.5">
+              <span id="water-next-reminder-time" class="font-bold text-sky-800">Próximo aviso: ~15:00 hs</span>
+              <div class="flex gap-1" id="water-interval-buttons">
+                <button type="button" onclick="setWaterInterval(60)" data-min="60" class="btn-interval px-2 py-0.5 rounded-lg border text-[10px] font-bold transition">60m</button>
+                <button type="button" onclick="setWaterInterval(90)" data-min="90" class="btn-interval px-2 py-0.5 rounded-lg border text-[10px] font-bold transition bg-blue-600 text-white border-blue-600">90m ✨</button>
+                <button type="button" onclick="setWaterInterval(120)" data-min="120" class="btn-interval px-2 py-0.5 rounded-lg border text-[10px] font-bold transition">120m</button>
+              </div>
+            </div>
+
+            <!-- Badge Diagnóstico de Permiso en Android -->
+            <div id="notification-perm-badge" class="text-[10px] py-1.5 px-2.5 rounded-xl flex items-center justify-between font-bold bg-amber-50 text-amber-800 border border-amber-200">
+              <span id="perm-status-text">🔔 Permiso en celular: Pendiente</span>
+              <button type="button" onclick="testWaterNotification()" class="underline font-extrabold text-blue-700">Activar</button>
+            </div>
+
+            <!-- Botones de acción: Probar y Ver Horarios -->
+            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-sky-100">
+              <button onclick="testWaterNotification()" class="py-1.5 px-2 bg-white hover:bg-sky-50 text-blue-700 border border-sky-200 rounded-xl text-[10.5px] font-bold flex items-center justify-center gap-1 transition shadow-2xs active:scale-95">
+                <span>📲</span> Probar en mi celu
+              </button>
+              <button onclick="toggleWaterScheduleDetails()" class="py-1.5 px-2 bg-white hover:bg-sky-50 text-slate-700 border border-sky-200 rounded-xl text-[10.5px] font-bold flex items-center justify-center gap-1 transition shadow-2xs">
+                <span>⏱️</span> Ver 10 horarios
+              </button>
+            </div>
+
+            <!-- Sincronizar con calendario nativo de Android (Google Calendar / Alarma offline) -->
+            <button onclick="exportWaterScheduleToCalendar()" class="w-full py-1.5 px-2 bg-gradient-to-r from-blue-50 to-sky-50 hover:from-blue-100 hover:to-sky-100 text-blue-800 border border-blue-200 rounded-xl text-[10.5px] font-bold flex items-center justify-center gap-1.5 transition shadow-2xs active:scale-98">
+              <span>📅</span> Sincronizar 10 alarmas con mi Calendario
+            </button>
+
+            <!-- Detalle desplegable de los 10 horarios modelo -->
+            <div id="water-schedule-details" class="hidden pt-2 border-t border-sky-100 space-y-1.5 text-[10.5px] text-slate-600">
+              <div class="grid grid-cols-2 gap-1.5">
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>08:00</strong> • Desayuno + Creatina ☕</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>09:30</strong> • Media mañana 📖</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>11:00</strong> • Pausa clínica 🩺</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>12:30</strong> • Almuerzo 🥗</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>14:00</strong> • Tarde / Siesta 💤</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>15:30</strong> • Media tarde 📚</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>17:00</strong> • Merienda rica 🥪</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>18:30</strong> • Vuelta a casa 🏠</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>20:00</strong> • Cena 🍽️</div>
+                <div class="bg-white/90 p-1.5 rounded-lg border border-sky-100"><strong>21:30</strong> • Cierre antes de dormir 🌙</div>
+              </div>
+              <p class="text-[10px] text-slate-500 italic text-center pt-0.5">
+                Tomar cada 90 min permite absorción renal perfecta sin sobrecargar la vejiga.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1 border-t border-blue-50 text-[11px] text-slate-500">
+            <span>Meta: 10 vasos (2.5L)</span>
             <button onclick="resetWater()" class="text-rose-500 hover:underline font-medium">Reiniciar día</button>
           </div>
         </div>
@@ -635,6 +831,27 @@
               <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
               <span class="text-xs italic">El Coach está analizando tu entrenamiento...</span>
             </div>
+          </div>
+        </div>
+
+        <!-- ALERTA PROTEICA POST-ENTRENO (FACULTAD / CLÍNICA) -->
+        <div class="bg-gradient-to-br from-amber-50/90 to-orange-50/70 p-3 rounded-2xl border border-amber-200/90 text-left space-y-2 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">🥪</span>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800">
+                ¿Salís directo a la facu? ¡Proteína en la mochila!
+              </span>
+            </div>
+            <button type="button" onclick="cambiarIdeaSnackPostGym()" class="text-[10px] text-amber-800 hover:text-amber-950 font-bold bg-amber-200/70 hover:bg-amber-200 px-2 py-0.5 rounded-full border border-amber-300 transition flex items-center gap-1 shadow-2xs active:scale-95">
+              <span>🔄</span> Otra idea
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-700 leading-relaxed font-normal">
+            Si terminás tipo 9:00 hs y esperás hasta el mediodía para almorzar, pasan casi 5 horas sin nutrientes. En las mujeres, ese ayuno largo post-gym sube el cortisol y frena el crecimiento del glúteo. ¡Meté algo casero en la mochila para no gastar de más en el kiosco!
+          </p>
+          <div id="snack-post-gym-card" class="bg-white/95 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+            <!-- Renderizado dinámico de snacks caseros económicos -->
           </div>
         </div>
 
@@ -930,9 +1147,350 @@
       </div>
     </div>
 
+    <!-- ============================================== -->
+    <!-- MODAL 4: AGREGAR NUEVA FECHA CLAVE / PARCIAL   -->
+    <!-- ============================================== -->
+    <div id="modal-nueva-fecha" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-purple-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-purple-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-base shadow-2xs">
+              📅
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Agregar Fecha a tu Agenda</h3>
+              <p class="text-[10px] text-purple-700 font-bold">Parcial, clínica, médico o evento ✨</p>
+            </div>
+          </div>
+          <button onclick="closeNuevaFechaModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Tipo / Categoría -->
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-slate-800 block">Tipo de fecha o evento:</label>
+          <div class="grid grid-cols-2 gap-1.5" id="fecha-tipo-chips">
+            <button type="button" data-tipo="Parcial / Final 📚" onclick="selectFechaTipo('Parcial / Final 📚')" class="fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-300 bg-purple-100/90 font-bold text-[11px] text-purple-900 transition text-center shadow-xs">
+              📚 Parcial / Final
+            </button>
+            <button type="button" data-tipo="Clínica / Quirófano 🩺" onclick="selectFechaTipo('Clínica / Quirófano 🩺')" class="fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/70 text-[11px] font-medium text-slate-700 transition text-center">
+              🩺 Clínica / Cirugía
+            </button>
+            <button type="button" data-tipo="Turno Médico 🏥" onclick="selectFechaTipo('Turno Médico 🏥')" class="fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/70 text-[11px] font-medium text-slate-700 transition text-center">
+              🏥 Turno Médico
+            </button>
+            <button type="button" data-tipo="Entrega / TP 📝" onclick="selectFechaTipo('Entrega / TP 📝')" class="fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/70 text-[11px] font-medium text-slate-700 transition text-center">
+              📝 Entrega / TP
+            </button>
+            <button type="button" data-tipo="Personal / Evento 🌸" onclick="selectFechaTipo('Personal / Evento 🌸')" class="fecha-tipo-btn col-span-2 py-1.5 px-2 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/70 text-[11px] font-medium text-slate-700 transition text-center">
+              🌸 Personal / Evento especial
+            </button>
+          </div>
+        </div>
+
+        <!-- Título / Materia -->
+        <div class="space-y-1">
+          <label for="fecha-input-titulo" class="text-xs font-bold text-slate-800 block">¿Qué tenés ese día? (Materia o motivo):</label>
+          <input type="text" id="fecha-input-titulo" placeholder="Ej: Parcial de Cirugía Bucal / Dra. Gómez"
+            class="w-full bg-[#FAF7F5] border border-purple-200 rounded-2xl px-3 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-300">
+        </div>
+
+        <!-- Fecha y Hora -->
+        <div class="grid grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <label for="fecha-input-date" class="text-xs font-bold text-slate-800 block">Fecha:</label>
+            <input type="date" id="fecha-input-date"
+              class="w-full bg-[#FAF7F5] border border-purple-200 rounded-2xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-purple-400">
+          </div>
+          <div class="space-y-1">
+            <label for="fecha-input-time" class="text-xs font-bold text-slate-800 block">Hora (opcional):</label>
+            <input type="time" id="fecha-input-time"
+              class="w-full bg-[#FAF7F5] border border-purple-200 rounded-2xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-purple-400">
+          </div>
+        </div>
+
+        <!-- Notas / Temas -->
+        <div class="space-y-1">
+          <label for="fecha-input-notas" class="text-xs font-bold text-slate-800 block">Notas o recordatorio (opcional):</label>
+          <textarea id="fecha-input-notas" rows="2" placeholder="Ej: Unidades 1 a 3, llevar instrumental quirúrgico y caja esterilizada..."
+            class="w-full bg-[#FAF7F5] border border-purple-200 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-purple-400 resize-none"></textarea>
+        </div>
+
+        <!-- Botón Guardar -->
+        <button onclick="guardarNuevaFecha()" class="w-full py-2.5 bg-gradient-to-r from-purple-600 via-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+          <span>📅</span> Guardar en mi Agenda
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 5: AGENDA COMPLETA & FECHAS ESPECIALES   -->
+    <!-- ============================================== -->
+    <div id="modal-agenda-completa" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-purple-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-purple-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-base shadow-2xs">
+              📋
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Agenda & Fechas Clave</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Tus exámenes, médicos y momentos clave 🌸</p>
+            </div>
+          </div>
+          <button onclick="closeAgendaCompletaModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Botón rápida adición -->
+        <div class="flex items-center justify-between shrink-0">
+          <span class="text-[11px] font-bold text-slate-600" id="agenda-total-contador">Fechas guardadas</span>
+          <button onclick="closeAgendaCompletaModal(); openNuevaFechaModal();" class="py-1 px-2.5 bg-purple-100 text-purple-800 hover:bg-purple-200 rounded-xl text-xs font-bold flex items-center gap-1 transition">
+            <span>➕</span> Agregar fecha
+          </button>
+        </div>
+
+        <!-- Lista scrollable de todas las fechas -->
+        <div id="agenda-completa-items" class="space-y-2.5 overflow-y-auto flex-1 pr-0.5">
+          <!-- Renderizado dinámicamente -->
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-2 border-t border-purple-100 shrink-0">
+          <button onclick="closeAgendaCompletaModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 6: NUEVO PACIENTE DE CLÍNICA (ODONTO)    -->
+    <!-- ============================================== -->
+    <div id="modal-nuevo-paciente" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-teal-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-teal-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center text-base shadow-2xs">
+              🦷
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900" id="nuevo-paciente-modal-title">Cargar Paciente de Clínica</h3>
+              <p class="text-[10px] text-teal-700 font-bold">Turno, WhatsApp e indicaciones ✨</p>
+            </div>
+          </div>
+          <button onclick="closeNuevoPacienteModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <input type="hidden" id="paciente-edit-id" value="">
+
+        <!-- Nombre del Paciente -->
+        <div class="space-y-1">
+          <label for="paciente-input-nombre" class="text-xs font-bold text-slate-800 block">Nombre y Apellido del paciente:</label>
+          <input type="text" id="paciente-input-nombre" placeholder="Ej: Marta Gómez"
+            class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-300 font-medium">
+        </div>
+
+        <!-- WhatsApp / Teléfono -->
+        <div class="space-y-1">
+          <label for="paciente-input-tel" class="text-xs font-bold text-slate-800 block">WhatsApp / Teléfono:</label>
+          <div class="relative">
+            <span class="absolute left-3 top-2 text-xs text-slate-400 font-bold">📲</span>
+            <input type="tel" id="paciente-input-tel" placeholder="11 4455-6677 o 15..."
+              class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl pl-8 pr-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-300 font-medium">
+          </div>
+          <p class="text-[9.5px] text-slate-400">Podrás mandarle el mensaje directo a su WhatsApp con un toque.</p>
+        </div>
+
+        <!-- Especialidad / Tratamiento -->
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-slate-800 block">Tratamiento / Cátedra:</label>
+          <div class="grid grid-cols-2 gap-1.5" id="paciente-tratamiento-chips">
+            <button type="button" data-tipo="Cirugía / Extracción 🦷" onclick="selectPacienteTratamiento('Cirugía / Extracción 🦷')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-400 bg-teal-100/90 font-bold text-[10.5px] text-teal-900 transition text-center shadow-xs">
+              🦷 Cirugía / Extracción
+            </button>
+            <button type="button" data-tipo="Operatoria / Calce 🦷" onclick="selectPacienteTratamiento('Operatoria / Calce 🦷')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center">
+              🦷 Operatoria
+            </button>
+            <button type="button" data-tipo="Endodoncia / Conducto ⚡" onclick="selectPacienteTratamiento('Endodoncia / Conducto ⚡')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center">
+              ⚡ Endodoncia
+            </button>
+            <button type="button" data-tipo="Periodoncia / Limpieza 🪥" onclick="selectPacienteTratamiento('Periodoncia / Limpieza 🪥')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center">
+              🪥 Periodoncia
+            </button>
+            <button type="button" data-tipo="Prótesis Dental 🦷" onclick="selectPacienteTratamiento('Prótesis Dental 🦷')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center">
+              🦷 Prótesis
+            </button>
+            <button type="button" data-tipo="Guardia / Fichado 🏥" onclick="selectPacienteTratamiento('Guardia / Fichado 🏥')" class="paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center">
+              🏥 Guardia / Fichado
+            </button>
+          </div>
+        </div>
+
+        <!-- Fecha y Hora -->
+        <div class="grid grid-cols-2 gap-2">
+          <div class="space-y-1">
+            <label for="paciente-input-date" class="text-xs font-bold text-slate-800 block">Fecha:</label>
+            <input type="date" id="paciente-input-date"
+              class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-400 font-medium">
+          </div>
+          <div class="space-y-1">
+            <label for="paciente-input-time" class="text-xs font-bold text-slate-800 block">Hora del turno:</label>
+            <input type="time" id="paciente-input-time"
+              class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-teal-400 font-medium">
+          </div>
+        </div>
+
+        <!-- Cátedra / Piso / Box -->
+        <div class="space-y-1">
+          <label for="paciente-input-ubicacion" class="text-xs font-bold text-slate-800 block">Cátedra, Piso o Box/Sillón:</label>
+          <input type="text" id="paciente-input-ubicacion" placeholder="Ej: Piso 4, Cátedra de Cirugía, Sillón 12"
+            class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-400 font-medium">
+        </div>
+
+        <!-- Indicaciones especiales o alertas -->
+        <div class="space-y-1">
+          <label for="paciente-input-indicaciones" class="text-xs font-bold text-slate-800 block">Indicaciones especiales (opcional):</label>
+          <textarea id="paciente-input-indicaciones" rows="2" placeholder="Ej: Traer panorámica, no venir en ayunas, toma medicación..."
+            class="w-full bg-[#FAF7F5] border border-teal-200 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-teal-400 resize-none font-medium"></textarea>
+        </div>
+
+        <!-- Botón Guardar -->
+        <button onclick="guardarNuevoPaciente()" class="w-full py-2.5 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+          <span>💾</span> Guardar Paciente & Preparar Mensajes
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 7: LISTADO DE PACIENTES & RECORDATORIOS  -->
+    <!-- ============================================== -->
+    <div id="modal-pacientes-clinica" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-teal-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-teal-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center text-base shadow-2xs">
+              📋
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Mis Pacientes de Clínica</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Turnos, recordatorios y WhatsApp 🦷</p>
+            </div>
+          </div>
+          <button onclick="closePacientesClinicaModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Barra superior: Contador y botón nuevo -->
+        <div class="flex items-center justify-between shrink-0">
+          <span class="text-[11px] font-bold text-slate-600" id="pacientes-total-contador">0 pacientes</span>
+          <button onclick="closePacientesClinicaModal(); openNuevoPacienteModal();" class="py-1 px-2.5 bg-teal-100 text-teal-800 hover:bg-teal-200 rounded-xl text-xs font-bold flex items-center gap-1 transition">
+            <span>➕</span> Nuevo paciente
+          </button>
+        </div>
+
+        <!-- Lista scrollable de pacientes -->
+        <div id="pacientes-full-list" class="space-y-2.5 overflow-y-auto flex-1 pr-0.5">
+          <!-- Renderizado dinámicamente -->
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-2 border-t border-teal-100 shrink-0">
+          <button onclick="closePacientesClinicaModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 8: GENERADOR DE MENSAJE & WHATSAPP       -->
+    <!-- ============================================== -->
+    <div id="modal-mensaje-paciente" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-emerald-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-emerald-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-base shadow-2xs">
+              💬
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900" id="msg-paciente-nombre-header">Mensaje para Paciente</h3>
+              <p class="text-[10px] text-emerald-700 font-bold" id="msg-paciente-sub-header">Listo para enviar por WhatsApp</p>
+            </div>
+          </div>
+          <button onclick="closeMensajePacienteModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <input type="hidden" id="current-msg-paciente-id" value="">
+
+        <!-- Selector de Plantilla de Mensaje -->
+        <div class="space-y-1 shrink-0">
+          <span class="text-[11px] font-bold text-slate-700 block">Elegí el tipo de mensaje:</span>
+          <div class="grid grid-cols-2 gap-1" id="mensaje-template-chips">
+            <button type="button" data-tpl="24h" onclick="selectMensajeTemplate('24h')" class="msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-400 bg-emerald-100 text-emerald-900 font-bold text-[10px] transition text-center shadow-xs">
+              ⏰ Día Anterior (Indicaciones)
+            </button>
+            <button type="button" data-tpl="dia" onclick="selectMensajeTemplate('dia')" class="msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-100/70 text-slate-700 font-medium text-[10px] transition text-center">
+              🚨 Mismo Día (Ventanilla)
+            </button>
+            <button type="button" data-tpl="48h" onclick="selectMensajeTemplate('48h')" class="msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-100/70 text-slate-700 font-medium text-[10px] transition text-center">
+              📅 Confirmar Turno
+            </button>
+            <button type="button" data-tpl="post" onclick="selectMensajeTemplate('post')" class="msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-100/70 text-slate-700 font-medium text-[10px] transition text-center">
+              🤍 Post-Atención
+            </button>
+          </div>
+        </div>
+
+        <!-- Área de texto del mensaje (editable antes de mandar) -->
+        <div class="space-y-1 flex-1 flex flex-col min-h-0">
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="font-bold text-slate-700">Texto del mensaje (podés editarlo):</span>
+            <span class="text-emerald-700 font-bold text-[10px]" id="msg-char-counter">Editable ✨</span>
+          </div>
+          <textarea id="paciente-mensaje-preview" rows="8"
+            class="w-full flex-1 bg-[#FAF7F5] border border-emerald-200 rounded-2xl p-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-400 font-medium leading-relaxed resize-none"></textarea>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="space-y-2 shrink-0 pt-1 border-t border-emerald-100">
+          <button onclick="enviarWhatsAppPaciente()" class="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-2">
+            <span class="text-sm">📲</span> Abrir en WhatsApp & Mandar
+          </button>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="copiarMensajePaciente()" id="btn-copiar-msg" class="py-2 px-2 bg-white border border-emerald-200 hover:bg-emerald-50 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
+              <span>📋</span> Copiar texto
+            </button>
+            <button onclick="marcarEstadoRapido()" class="py-2 px-2 bg-teal-50 border border-teal-200 hover:bg-teal-100 text-teal-800 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
+              <span>✅</span> Confirmado
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
+    // ==========================================
+    // REGISTRO DE SERVICE WORKER PARA NOTIFICACIONES NATIVAS EN ANDROID PWA
+    // ==========================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => {
+            console.log('SW registrado para notificaciones:', reg.scope);
+            if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          })
+          .catch(err => {
+            console.warn('Registro sw.js falló, probando ./sw.js:', err);
+            navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW error:', e));
+          });
+      });
+    }
+
     // ==========================================
     // CONFIGURACIÓN DE FIREBASE Y GEMINI
     // ==========================================
@@ -954,14 +1512,87 @@
     // Clave de API de Gemini 3.6 Flash (ofuscada en Base64 para protección)
     const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
 
+    // ==========================================
+    // UTILIDADES DE FECHA, CREATINA Y RESET DIARIO
+    // ==========================================
+    function getTodayDateKey(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function getCreatineDay(date = new Date()) {
+      // Ancla: Martes 22 de Septiembre de 2026 fue Día 18
+      const anchor = new Date(2026, 8, 22); // Septiembre = mes 8 (0-indexed)
+      anchor.setHours(0, 0, 0, 0);
+      const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const diffTime = target.getTime() - anchor.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      return Math.max(1, 18 + diffDays);
+    }
+
     // ESTADO LOCAL DE LA APLICACIÓN
     let activeRole = 'male'; // 'male' o 'naza'
     let currentGymDay = 'dia1';
-    let waterMl = parseInt(localStorage.getItem('water_ml') || '1500');
+    let waterMl = 0; // Se inicializa y resetea dinámicamente con checkAndApplyDailyReset
+    let waterRemindersEnabled = localStorage.getItem('water_reminders_enabled') !== 'false'; // Activo por defecto
+    let waterReminderIntervalMin = parseInt(localStorage.getItem('water_reminder_interval') || '90'); // 90 min sugerido
+    let lastWaterReminderTimestamp = parseInt(localStorage.getItem('water_last_reminder_time') || '0');
+    let waterReminderIndex = parseInt(localStorage.getItem('water_reminder_msg_index') || '0');
     let currentMood = localStorage.getItem('current_mood') || 'energizada';
     let currentBattery = localStorage.getItem('user_battery') || 'alta'; // 'alta', 'media', 'reserva'
     let victoriasMale = JSON.parse(localStorage.getItem('victorias_male') || '[]');
     let selectedVictoriaCategoryText = 'Práctica o cirugía clínica impecable 🩺';
+
+    // RESET DIARIO AUTOMÁTICO (AGUA, CREATINA Y HÁBITOS CADA NUEVO DÍA)
+    function checkAndApplyDailyReset() {
+      const todayKey = getTodayDateKey();
+
+      // 1. Reset automático de agua al iniciar cada nuevo día
+      const lastWaterDate = localStorage.getItem('water_last_date');
+      if (lastWaterDate !== todayKey) {
+        waterMl = 0;
+        localStorage.setItem('water_ml', '0');
+        localStorage.setItem('water_last_date', todayKey);
+      } else {
+        waterMl = parseInt(localStorage.getItem('water_ml') || '0');
+      }
+      renderWaterCups();
+      updateWaterUI();
+
+      // 2. Reset automático de hábito creatina al iniciar nuevo día
+      const lastCreatinaDate = localStorage.getItem('creatina_last_date');
+      const chkCreatina = document.getElementById('chk-habito-creatina');
+      if (lastCreatinaDate !== todayKey) {
+        localStorage.setItem('creatina_hoy', 'false');
+        if (chkCreatina) chkCreatina.checked = false;
+        toggleHabitoCreatina(false, false);
+      } else {
+        const isTaken = localStorage.getItem('creatina_hoy') === 'true';
+        if (chkCreatina) chkCreatina.checked = isTaken;
+        toggleHabitoCreatina(isTaken, false);
+      }
+
+      // Actualizar badge visual del día de creatina
+      const creatinaBadge = document.getElementById('creatina-stat-badge');
+      if (creatinaBadge) {
+        creatinaBadge.innerText = `Día ${getCreatineDay()} (100% Sat.)`;
+      }
+
+      // 3. Reset de hábito celular lejos al iniciar nuevo día
+      const lastCelularDate = localStorage.getItem('celular_last_date');
+      const chkCel = document.getElementById('chk-habito-celular');
+      if (lastCelularDate !== todayKey) {
+        localStorage.setItem('celular_lejos_hoy', 'false');
+        if (chkCel) chkCel.checked = false;
+        toggleHabitoCelular(false, false);
+      } else {
+        const isFar = localStorage.getItem('celular_lejos_hoy') === 'true';
+        if (chkCel) chkCel.checked = isFar;
+        toggleHabitoCelular(isFar, false);
+      }
+    }
 
     // DATOS DE GYM (SEMANA 2 RIR 2) CON ESQUEMA INTERACTIVO & REEMPLAZOS
     const GYM_ROUTINE = {
@@ -1367,8 +1998,45 @@
       ]
     };
 
+    // OBTENER ESTADO REAL DINÁMICO DE GYM (SESIONES Y LOGS)
+    function getGymStatusSummary() {
+      try {
+        const logs = JSON.parse(localStorage.getItem('gym_logs_semana2') || '{}');
+        const days = [
+          { key: 'dia1', name: 'Día 1: Glúteo & Cadena Posterior' },
+          { key: 'dia2', name: 'Día 2: Cuádriceps, Isquios & Torso' },
+          { key: 'dia3', name: 'Día 3: Hack Inversa en Pareja (Fiter)' }
+        ];
+        let summaryLines = [];
+        let completedDaysCount = 0;
+        days.forEach(d => {
+          const dLog = logs[d.key];
+          let completedSets = 0;
+          if (dLog) {
+            Object.values(dLog).forEach(sets => {
+              if (Array.isArray(sets)) {
+                sets.forEach(s => { if (s && s.completed) completedSets++; });
+              }
+            });
+          }
+          if (completedSets > 0) {
+            completedDaysCount++;
+            summaryLines.push(`• ${d.name}: ${completedSets} series completadas (HECHO)`);
+          } else {
+            summaryLines.push(`• ${d.name}: 0 series registradas (PENDIENTE O SALTEADO)`);
+          }
+        });
+        return `ESTADO REAL DE LAS SESIONES DE GYM EN LA APP (Mesociclo 1 — Semana 2 RIR 2):
+${summaryLines.join('\n')}
+Total días completados: ${completedDaysCount} de 3.`;
+      } catch (e) {
+        return "ESTADO DE GYM: Mesociclo 1 — Semana 2 RIR 2.";
+      }
+    }
+
     // PROMPT DE SISTEMA PARA GEMINI (COACH CÁLIDO, EMPÁTICO Y CIENTÍFICO)
-    const COACH_SYSTEM_PROMPT = `
+    function getCoachSystemPrompt() {
+      return `
 Eres el Coach personal y Copiloto de Male (Malena). 
 SOBRE MALE:
 - Tiene 22 años, es dulce, cariñosa, tierna, sensible y muy aplicada.
@@ -1376,8 +2044,57 @@ SOBRE MALE:
 - El apodo de cariño único y especial que Naza le dice es "Caritas". Llámala "Caritas" o "Male" con ternura y naturalidad. NUNCA la llames "reina" (no le gusta ese apodo, su apodo real es "Caritas").
 - Estudia la carrera de Odontología (tiene días muy demandantes, cirugías los jueves, guardias, prácticas clínicas y largos viajes).
 - Male entrena en el gimnasio con un enfoque de sobrecarga progresiva y Renaissance Periodization (RP), cuidando sus articulaciones (especialmente rodillas y rótula en Leg Curl/Prensa, y lumbares en RDL).
-- Toma creatina monohidrato (5g) sagradamente con su desayuno completo en casa (con carbohidratos). Hoy es el Día 18 (saturación al 100%).
+- Toma creatina monohidrato (5g) sagradamente con su desayuno completo en casa (con carbohidratos). Hoy es su Día \${getCreatineDay()} (saturación al 100% sostenida).
 - Su meta de agua es de 2.5 litros diarios.
+
+AUTONOMÍA Y TOMA DE DECISIONES DEPORTIVAS (MOTOR DE PERIODIZACIÓN AUTÓNOMA):
+Tú eres el Preparador Físico y Coach de Male. Tu trabajo es LIDERAR Y DECIDIR de forma proactiva.
+MALE NO DEBE TENER QUE PLANIFICAR NI SUFRIR INCERTIDUMBRES, Y SU NOVIO NAZA NO TIENE QUE HACER DE ENTRENADOR NI INTERMEDIARIO. TÚ ASUMES LA RESPONSABILIDAD TÉCNICA TOTAL.
+
+PROTOCOLO OBLIGATORIO DE DECISIÓN AUTÓNOMA:
+Cada vez que Male mencione que no pudo ir a entrenar, que llueve, que está agotada por la facultad/exámenes, que le duele alguna parte del cuerpo, o cada vez que cierre una semana o pregunte qué hacer:
+1. CONTENCIÓN Y EMPATÍA INICIAL:
+   - Validar con dulzura absoluta ("Hiciste impecable en descansar...", "Pésimo nada, el descanso es parte del progreso...").
+   - Quitarle 100% de la culpa: explicarle que la fatiga mental reduce la producción de fuerza en un 15-20% y que no perdió nada de masa muscular (en mujeres la atrofia tarda 2 a 3 semanas de inactividad total).
+2. PASO OBLIGATORIO: DECISIÓN Y PRESCRIPCIÓN INMEDIATA (NUNCA TE QUEDES SOLO EN LA CHARLA):
+   - Inmediatamente en ese mismo mensaje, TOMAS LA DECISIÓN DEPORTIVA POR ELLA Y LE DEJAS LA HOJA DE RUTA MASTICADA.
+   - Si la semana cerró con 1 o 2 días completados (incompleta):
+     a) DECISIÓN DE MESOCICLO: Se declara la semana previa como "descarga reactiva" (reactive deload).
+     b) DECISIÓN DE RIR: NO se avanza a la siguiente semana del mesociclo (no se pasa a RIR 1). SE EJECUTA LA SEMANA 2 COMPLETA A RIR 2.
+     c) EXPLICACIÓN PEDAGÓGICA DE RIR: Siempre explicarle qué significa en criollo ("RIR 2 = entrenar con peso firme pero frenar la serie cuando sientas que te quedan 2 repeticiones en el tanque antes de fallar. Cero quemar el músculo ni deformar la postura").
+     d) HOJA DE RUTA FIJA:
+        • Lunes: Cursada pesada y descanso muscular / recuperación.
+        • Martes: Día 1 (Glúteo & Cadena Posterior: RDL, Sumo, Hip Thrust, Hiperextensiones, Abductores).
+        • Jueves/Viernes: Día 2 (Cuádriceps, Isquios & Torso: Prensa, Sillón, Leg Curl, Jalón).
+        • Fin de semana: Día 3 (Hack Inversa en Pareja con Naza en Fiter).
+     e) REGLA ANTILESIÓN DE NO-COMPENSACIÓN: Prohibir tajantemente compensar metiendo dos días de pierna seguidos o intentar meter 4 días en una semana.
+3. SI REPORTA DOLORES, MOLESTIAS FÍSICAS O SÍNTOMAS (ganglios inflamados, puntadas, decaimiento, dolor de rodilla o lumbares):
+   - Priorizar la salud: si hay ganglio o dolor al tragar, posponer el inicio del entrenamiento con pesas 24-48 horas y cero esfuerzos anaeróbicos agotadores.
+   - Si hay molestia articular (rodilla/rótula o lumbar), prescribir de forma autónoma las variantes guiadas y con menor palanca disponibles en la app (prensa liviana con pies juntos, o Hack Inversa en vez de sentadilla libre).
+4. SI PREGUNTA '¿QUÉ ENTRENO MAÑANA?' O PIDE ORIENTACIÓN:
+   - Responder con liderazgo claro, seguro y cariñoso: indicarle qué día le toca, los ejercicios clave y el RIR objetivo. Nunca devolverle la pregunta con un 'fijate vos cómo te sentís' sin haberle dado tu recomendación técnica concreta.
+
+GESTIÓN Y RECORDATORIOS DE PACIENTES DE ODONTO (EVITAR PLANTONES):
+- Male atiende pacientes reales en sus clínicas de la Facultad de Odontología (Cirugía Bucal, Operatoria, Endodoncia, Periodoncia, etc.).
+- Si un paciente falta o se olvida ("plantón"), Male pierde su crédito clínico y horas de preparación de cajas quirúrgicas.
+- Si en el contexto del mensaje ves que Male tiene pacientes agendados para hoy, mañana o en 48 hs con avisos pendientes, recuérdale con total dulzura mandarles el mensaje desde el gestor de pacientes de la app (con el botón directo de WhatsApp).
+- Recordale las pautas clave para sus pacientes: no venir en ayunas a cirugía (desayunar liviano), traer DNI y radiografías previas.
+
+DINÁMICA DE CONVERSACIÓN REAL (ESTILO WHATSAPP):
+- PROHIBIDO REPETIR SALUDOS: En un ida y vuelta de chat continuo donde se mandan mensajes seguidos, NO empieces cada mensaje con "¡Hola Caritas!" o "¡Hola Male!". En una conversación real nadie saluda 20 veces. Solo saludas al abrir la primera charla del día o si pasaron varias horas. Si ya venían hablando, responde directamente a su idea o comentario con naturalidad y soltura.
+- RESPUESTAS PROPORCIONALES: Si Male te manda una frase corta o casual ("tengo fiaca", "ya merendé", "salí de la facu"), responde con 1 a 3 oraciones naturales, fluidas y espontáneas. No armes discursos largos ni viñetas a menos que ella te pida una explicación detallada, una rutina o consejos específicos.
+- TONO CERCANO Y ARGENTINO SUTIL: Habla de "vos" con naturalidad rioplatense ("¿Cómo estás?", "Tenés razón", "Te entiendo un montón", "Tranqui", "Qué lindo", "Totalmente").
+- MOTIVACIÓN EN DÍAS DE PARCIALES O EXÁMENES: Si Male te cuenta que rinde, que tiene examen o si en su agenda hoy o en los próximos días hay un parcial o entrega, dale una inyección enorme de confianza y seguridad: recordale lo mucho que estudió, su disciplina y que confíe en su talento innato.
+
+REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
+- Mirá SIEMPRE la hora actual y el "CONTEXTO TEMPORAL EN VIVO" que acompaña el mensaje antes de contestar. Male NO te va a narrar cada minuto de su día: intuí y deducí su situación real a partir del horario y su cronograma.
+- NUNCA ASUMAS QUE NO LLEGÓ A CASA si por la hora las clases de la mañana ya terminaron hace horas (ej. a las 16:14 un jueves, Male salió a las 12:00, ya almorzó, ya descansó y hace horas está en su casa estudiando o merendando). NUNCA digas "cuando llegues a casa" en ese horario.
+- POWER NAP SOLO TEMPRANO: La siesta corta (power nap de 20-25 min) solo aplica al mediodía (13:00 a 14:30 hs post-almuerzo). A media tarde (después de las 15:30 hs) o a la noche NUNCA recomiendes siesta, porque perjudicaría el sueño nocturno.
+- SI MALE DICE QUE ESTÁ CANSADA POR LA FACU A MEDIA TARDE (ej. 16:00 a 18:00 hs):
+  1) Reconocé su esfuerzo con calidez (haber tenido cirugía o muchas horas de cursada a la mañana drena energía física y mental).
+  2) Si está en su bloque de estudio o en casa, sugerile una pausa reparadora: despegar la vista de los apuntes o pantallas, estirar un poco el cuerpo, prepararse unos ricos mates o merendar algo nutritivo (tostadita con queso y huevo, yogur, fruta), y tomar agua fresca.
+  3) Si hoy tiene "Gym flexible" en su plan (como los jueves), recordale con calma y sin culpa que hoy es comodín: si el cuerpo le pide descanso genuino tras la cirugía, no pasa absolutamente nada si hoy descansa y lo pasa al viernes a las 15:30 hs.
+- SI ESCRIBE DE NOCHE (después de las 21:30/22:00 hs): Cuidá su descanso nocturno: cena liviana, desconectar pantallas, dejar el celular lejos y a dormir profundo.
 
 TU PERSONALIDAD Y TONO:
 - Hablas en primera persona como su Coach & Copiloto ("Hola Male", "Caritas").
@@ -1386,10 +2103,11 @@ TU PERSONALIDAD Y TONO:
 - PERSPECTIVA Y CALMA ANTE EL ESTRÉS: Si Male se siente abrumada, angustiada o se preocupa por cosas de la facultad (parciales, clínicas, profesores exigentes, pacientes), dale contención serena: en la vida hay problemas infinitamente más graves, las pequeñas complicaciones cotidianas se resuelven y no valen la pena amargarse el día. Ayudala a mantener una actitud alegre, agradecida y positiva.
 - HIGIENE NOCTURNA Y PANTALLAS: Si te escribe de noche (después de las 22:00 hs) o menciona dificultades para dormir o cansancio, recomiéndale amablemente apagar las pantallas y dejar el celular lejos de la cama para permitir que la melatonina actúe y sus ojos descansen de verdad.
 - NUNCA te hagas pasar por su novio Naza ni digas "soy tu novio", pero SÍ puedes mencionar el orgullo que Naza siente por ella cuando sea oportuno.
-- Si Male dice que está cansada por la facu o las cirugías de Odonto, prioriza siempre su salud mental y su descanso (recomienda la Power Nap de 20-25 min) y valida su esfuerzo.
-- Si te pregunta sobre meriendas o comidas, dale ideas ricas, nutritivas y prácticas para alguien que estudia y entrena (ej: tostadas con huevo/palta, yogur con frutos secos y fruta, licuados ricos).
-- Respuestas concisas, bien formateadas con viñetas limpias y emojis sutiles (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y fáciles de leer en el celular.
+- Si te pregunta sobre meriendas o comidas, dale ideas caseras, ricas, nutritivas y económicas (sánguche de huevo revuelto con queso, huevos duros, yogur con avena, etc.).
+- Emojis sutiles y cálidos (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y lectura ágil en celular.
 `;
+    }
+    const COACH_SYSTEM_PROMPT = getCoachSystemPrompt();
 
     // CRONOGRAMA SEMANAL COMPLETO (7 DÍAS)
     const WEEK_SCHEDULE = {
@@ -1411,7 +2129,7 @@ TU PERSONALIDAD Y TONO:
         alarma: "⏰ Alarma 6:00 am | Salida 7:00 am",
         tag: "Día 1 Glúteo Liquidado 🚀",
         blocks: [
-          { hora: "07:30 a 08:15 hs", icon: "☕", titulo: "Desayuno Completo en Casa + Creatina", desc: "Carbohidratos para energía y absorción insulínica + 5g de creatina monohidrato (Día 18).", tag: "Hecho ✔️" },
+          { hora: "07:30 a 08:15 hs", icon: "☕", titulo: "Desayuno Completo en Casa + Creatina", desc: "Carbohidratos para energía y absorción insulínica + 5g de creatina monohidrato.", tag: "Hecho ✔️" },
           { hora: "08:30 a 09:45 hs", icon: "🏋️‍♀️", titulo: "Gimnasio: Día 1 Glúteo & Cadena Posterior", desc: "RDL 14kg (11,11,11) • Sumo 30kg (9,9) • Hip Thrust 20kg (12,12) • Abductores 63kg.", tag: "¡Liquidado! 🚀" },
           { hora: "10:00 a 16:00 hs", icon: "📖", titulo: "Facultad de Odontología", desc: "Entrada a las 10:00 hs (liberada por parcial aprobado). Clases y regreso a casa.", tag: "Cursada" },
           { hora: "16:30 a 20:00 hs", icon: "🥪", titulo: "Llegada a Casa, Merienda Rica & Relax", desc: "Ducha caliente, desconexión sin culpa. Como el gym ya se hizo a la mañana, cero pendientes.", tag: "Tarde Libre" },
@@ -1479,11 +2197,98 @@ TU PERSONALIDAD Y TONO:
       }
     };
 
+    // PARSEADOR Y CALCULADOR DE HORARIOS DE BLOQUES
+    function parseBlockHours(horaStr) {
+      if (!horaStr) return { start: 0, end: 24 * 60 };
+      const matches = [];
+      const regex = /(\d{1,2}):(\d{2})/g;
+      let m;
+      while ((m = regex.exec(horaStr)) !== null) {
+        matches.push(parseInt(m[1], 10) * 60 + parseInt(m[2], 10));
+      }
+      if (matches.length >= 2) {
+        return { start: matches[0], end: matches[1] };
+      } else if (matches.length === 1) {
+        return { start: matches[0], end: matches[0] + 90 };
+      }
+      const lower = horaStr.toLowerCase();
+      if (lower.includes('mañana')) return { start: 9 * 60, end: 13 * 60 };
+      if (lower.includes('tarde')) return { start: 14 * 60, end: 20 * 60 };
+      if (lower.includes('noche')) return { start: 20 * 60, end: 23 * 60 };
+      return { start: 0, end: 24 * 60 };
+    }
+
+    // CONTEXTO TEMPORAL EN VIVO PARA EL CHAT CON EL COACH
+    function getTemporalScheduleContext(now = new Date()) {
+      const dayKeysMap = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const dayIndex = now.getDay();
+      const dayKey = dayKeysMap[dayIndex];
+      const dayName = dayNames[dayIndex];
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      const currentMinutes = hour * 60 + minute;
+      const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} hs`;
+
+      const schedule = WEEK_SCHEDULE[dayKey];
+      if (!schedule) return `CONTEXTO TEMPORAL EN VIVO: Hoy es ${dayName} ${timeStr}.`;
+
+      const completedBlocks = [];
+      let currentBlock = null;
+      const upcomingBlocks = [];
+
+      for (const b of schedule.blocks) {
+        const times = parseBlockHours(b.hora);
+        if (currentMinutes > times.end) {
+          completedBlocks.push(`${b.icon} ${b.titulo} (${b.hora}) - [FINALIZADO]`);
+        } else if (currentMinutes >= times.start && currentMinutes <= times.end) {
+          currentBlock = `${b.icon} ${b.titulo} (${b.hora}): ${b.desc}`;
+        } else {
+          upcomingBlocks.push(`${b.icon} ${b.titulo} (${b.hora}): ${b.desc}`);
+        }
+      }
+
+      // Deducción inteligente de ubicación y estado
+      let probableLocation = "En su casa";
+      if (currentBlock && (currentBlock.includes("Facultad") || currentBlock.includes("Cursada") || currentBlock.includes("Cirugía") || currentBlock.includes("Guardia"))) {
+        probableLocation = "En la Facultad de Odontología (cursando o en clínica)";
+      } else if (currentBlock && currentBlock.includes("Gimnasio")) {
+        probableLocation = "En el Gimnasio entrenando";
+      } else if (completedBlocks.some(c => c.includes("Facultad") || c.includes("Cirugía") || c.includes("Cursada"))) {
+        probableLocation = "En su casa (ya regresó de la facultad hace horas)";
+      }
+
+      let text = `CONTEXTO TEMPORAL EN VIVO (HORA EXACTA Y SITUACIÓN DE MALE AHORA MISMO):\n`;
+      text += `- HORA ACTUAL: ${dayName} a las ${timeStr}.\n`;
+      text += `- UBICACIÓN DEDUCIDA: ${probableLocation}.\n`;
+      text += `- ENFOQUE DEL DÍA HOY: "${schedule.titulo}" (${schedule.tag || ''}).\n`;
+
+      if (completedBlocks.length > 0) {
+        text += `- ACTIVIDADES YA CUMPLIDAS HOY (PASADO - NO ASUMIR QUE SIGUE AHÍ):\n  * ` + completedBlocks.join('\n  * ') + '\n';
+      }
+      if (currentBlock) {
+        text += `- ACTIVIDAD EN CURSO SEGÚN CRONOGRAMA (PRESENTE):\n  * ${currentBlock}\n`;
+      } else {
+        text += `- ACTIVIDAD EN CURSO: En casa en pausa, estudio libre o merienda.\n`;
+      }
+      if (upcomingBlocks.length > 0) {
+        text += `- LO QUE QUEDA DEL DÍA (FUTURO):\n  * ` + upcomingBlocks.slice(0, 2).join('\n  * ') + '\n';
+      }
+
+      return text;
+    }
+
     // INICIALIZACIÓN AL CARGAR LA PÁGINA
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. Reset automático de agua, creatina y hábitos si es un nuevo día
+      checkAndApplyDailyReset();
+
       updateGreetingHeader();
       updateLiveDate();
       initChatListener();
+
+      // 2. Disparar saludo matutino automático si es de mañana (>= 5:00 am) y aún no se envió hoy
+      checkAndTriggerMorningBriefing();
 
       // Cargar foco del día dinámico según hora y día
       renderDynamicDayFocusCard();
@@ -1494,24 +2299,6 @@ TU PERSONALIDAD Y TONO:
       renderDaySchedule(todayKey);
 
       renderGymRoutine('dia1');
-      renderWaterCups();
-      updateWaterUI();
-
-      // Cargar estado de creatina
-      const creatinaCheck = localStorage.getItem('creatina_hoy') === 'true';
-      const chkEl = document.getElementById('chk-habito-creatina');
-      if (chkEl) {
-        chkEl.checked = creatinaCheck;
-        toggleHabitoCreatina(creatinaCheck, false);
-      }
-
-      // Cargar estado de celular lejos
-      const celularCheck = localStorage.getItem('celular_lejos_hoy') === 'true';
-      const chkCel = document.getElementById('chk-habito-celular');
-      if (chkCel) {
-        chkCel.checked = celularCheck;
-        toggleHabitoCelular(celularCheck, false);
-      }
 
       // Cargar contador de victorias de Male
       updateVictoriasCounter();
@@ -1526,11 +2313,51 @@ TU PERSONALIDAD Y TONO:
         }
       });
 
-      // Actualizar foco del día y saludo automáticamente cada 60 segundos
+      // Cargar y escuchar fechas clave en Firebase en tiempo real
+      renderFechasClaveUI();
+      db.ref('fechas_clave').on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          fechasClave = Object.keys(val).map(k => ({ id: k, ...val[k] }));
+        } else {
+          fechasClave = [];
+        }
+        localStorage.setItem('fechas_clave_male', JSON.stringify(fechasClave));
+        renderFechasClaveUI();
+      });
+
+      // Inicializar recordatorios de agua y ritmo del día
+      initWaterReminders();
+      updateNotificationPermissionStatusUI();
+
+      // Cargar y renderizar pacientes de clínica
+      renderPacientesPreview();
+
+      // Actualizar foco del día, resets diarios, agenda, recordatorios de agua y saludo matutino cada 60 segundos
       setInterval(() => {
+        checkAndApplyDailyReset();
+        checkAndTriggerMorningBriefing();
         renderDynamicDayFocusCard();
+        renderFechasClaveUI();
+        renderPacientesPreview();
+        checkWaterReminders();
         updateGreetingHeader();
+        updateNotificationPermissionStatusUI();
       }, 60000);
+
+      // Si la app pasa a primer plano al desbloquear el celu o volver de otra app
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          checkAndApplyDailyReset();
+          checkAndTriggerMorningBriefing();
+          renderDynamicDayFocusCard();
+          renderFechasClaveUI();
+          renderPacientesPreview();
+          checkWaterReminders();
+          updateGreetingHeader();
+          updateNotificationPermissionStatusUI();
+        }
+      });
     });
 
     // FECHA EN VIVO EN ESPAÑOL
@@ -1576,7 +2403,10 @@ TU PERSONALIDAD Y TONO:
       if (hour >= 5 && hour < 12) {
         phase = 'manana';
         phaseLabel = 'Mañana';
-      } else if (hour >= 12 && hour < 19) {
+      } else if (hour >= 12 && hour < 15) {
+        phase = 'mediodia';
+        phaseLabel = 'Mediodía';
+      } else if (hour >= 15 && hour < 19) {
         phase = 'tarde';
         phaseLabel = 'Tarde';
       } else {
@@ -1652,11 +2482,17 @@ TU PERSONALIDAD Y TONO:
             title: "Clínica Quirúrgica con paciente",
             desc: "Alarma 5:30 am. Foco sereno y paso a paso. Salís temprano (12:00 hs). ¡Confiá en tu capacidad y conocimientos!"
           },
-          tarde: {
+          mediodia: {
             badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
-            gymTag: "🏋️‍♀️ Día 2 (o Viernes)",
+            gymTag: "💤 Siesta Sagrada",
             title: "Post-cirugía & Siesta de 25'",
-            desc: "Almuerzo liviano y siesta obligatoria para bajar cortisol. Luego decidís si hacés Día 2 de gym o lo pasás al viernes."
+            desc: "Almuerzo liviano y siesta obligatoria post-cirugía para bajar cortisol y restaurar el cerebro."
+          },
+          tarde: {
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "🏋️‍♀️ Estudio & Gym Flexible",
+            title: "Estudio de Oro & Merienda Rica",
+            desc: "Cirugía liquidada con éxito. Tarde en casa con mate y estudio. Si tenés energía vas al gym; si estás agotada, hoy descansás y lo pasás al viernes."
           },
           noche: {
             badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
@@ -1672,10 +2508,16 @@ TU PERSONALIDAD Y TONO:
             title: "Última cursada matutina (hasta 12h)",
             desc: "Terminás al mediodía y arranca el fin de semana académico. Creatina tomada y energía alta."
           },
+          mediodia: {
+            badgeColor: "bg-pink-100/90 text-pink-800 border-pink-200",
+            gymTag: "💤 Siesta Reparadora",
+            title: "Fin de cursada & Siesta post-almuerzo",
+            desc: "Vuelta a casa 13:00 hs. Almuerzo rico y siesta rápida para sacarte el cansancio de la semana y quedar como nueva."
+          },
           tarde: {
             badgeColor: "bg-pink-100/90 text-pink-800 border-pink-200",
             gymTag: "🎯 Día 2 o Libre",
-            title: "Vuelta a casa, siesta y gym comodín",
+            title: "Gym Comodín (o Tarde 100% Libre)",
             desc: "Si tenés pendiente el Día 2 (Prensa y piernas), lo liquidás a las 15:30 hs. Si ya lo hiciste el jueves, ¡tarde 100% libre!"
           },
           noche: {
@@ -1812,7 +2654,7 @@ TU PERSONALIDAD Y TONO:
           <span class="text-slate-600 flex items-center gap-1">
             <span>✨</span> Creatina: 
             <strong class="${creatinaDone ? 'text-emerald-600' : 'text-purple-600'} font-bold">
-              ${creatinaDone ? 'Tomada ✔️ (Día 18)' : '100% Sat. (Día 18)'}
+              ${creatinaDone ? `Tomada ✔️ (Día ${getCreatineDay()})` : `100% Sat. (Día ${getCreatineDay()})`}
             </strong>
           </span>
           <span class="text-slate-600 flex items-center gap-1">
@@ -1841,6 +2683,9 @@ TU PERSONALIDAD Y TONO:
 
       if (viewName === 'chat') {
         renderDynamicDayFocusCard();
+      } else if (viewName === 'dia') {
+        renderPacientesPreview();
+        renderProximasFechas();
       }
     }
 
@@ -1991,7 +2836,7 @@ TU PERSONALIDAD Y TONO:
               </div>
               <div class="bg-rose-50/70 border border-rose-100 rounded-2xl rounded-tl-none p-3 text-xs text-slate-700 space-y-1 max-w-[85%] shadow-sm">
                 <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
-                <p>¡Hola hermosa! Felicitaciones por el tremendo entreno de hoy a la mañana: clavaste 11 reps en RDL, 12 en Hip Thrust y salvaste el glúteo medio como una campeona. ¿Cómo venís con las clases de Odonto hoy?</p>
+                <p>¡Hola Caritas! 🌸 Qué lindo tenerte acá. Este es tu espacio personal para acompañarte en la facu, tus clínicas de Odonto, el gym y tu descanso. ¿Cómo arrancamos el día hoy? 🤍✨</p>
               </div>
             </div>
           `;
@@ -2026,13 +2871,17 @@ TU PERSONALIDAD Y TONO:
               </div>
             `;
           } else {
+            const isMorning = msg.isMorningBriefing;
             bubble.innerHTML = `
               <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-400 to-purple-400 flex items-center justify-center text-sm shadow-sm shrink-0">
-                🌸
+                ${isMorning ? '☀️' : '🌸'}
               </div>
-              <div class="bg-white border border-rose-100 rounded-2xl rounded-tl-none p-3 text-xs text-slate-700 space-y-1 max-w-[85%] shadow-sm">
-                <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
-                <div class="leading-relaxed text-xs text-slate-700">${formatMessageText(msg.text)}</div>
+              <div class="${isMorning ? 'bg-gradient-to-br from-rose-50/90 via-white to-amber-50/80 border border-rose-200/90' : 'bg-white border border-rose-100'} rounded-2xl rounded-tl-none p-3.5 text-xs text-slate-800 space-y-1.5 max-w-[88%] shadow-sm">
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
+                  ${isMorning ? '<span class="text-[9px] font-extrabold text-amber-700 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200">🌅 Saludo de la Mañana</span>' : ''}
+                </div>
+                <div class="leading-relaxed text-xs text-slate-700 space-y-1">${formatMessageText(msg.text)}</div>
                 <span class="text-[8px] text-slate-400 text-right block pt-0.5">${msg.time || ''}</span>
               </div>
             `;
@@ -2091,12 +2940,62 @@ TU PERSONALIDAD Y TONO:
         ? "AVISO: El nivel de batería de Male hoy está en nivel MEDIO (50%). Mantener ritmo parejo."
         : "AVISO: El nivel de batería de Male hoy está ALTO (80-100%).";
 
+      // 1. Detectar si es una conversación continua activa (< 20 minutos entre mensajes)
+      let isOngoingConversation = false;
+      let conversationHistoryContext = "";
+      try {
+        const snap = await db.ref('chat_messages').limitToLast(8).once('value');
+        const msgs = snap.val();
+        if (msgs) {
+          const list = Object.values(msgs).slice(0, -1); // Excluir el mensaje actual que acaba de enviar
+          if (list.length > 0) {
+            const lastMsg = list[list.length - 1];
+            if (Date.now() - (lastMsg.timestamp || 0) < 20 * 60 * 1000) {
+              isOngoingConversation = true;
+            }
+            conversationHistoryContext = "HISTORIAL RECIENTE DEL CHAT:\n" + list.map(m => {
+              const s = m.sender === 'Male' ? 'Male' : (m.sender === 'Naza' ? 'Naza' : 'Coach');
+              return `${s}: "${m.text}"`;
+            }).join('\n') + "\n\n";
+          }
+        }
+      } catch (e) {
+        console.warn('Error leyendo historial:', e);
+      }
+
+      // 2. Extraer fechas clave próximas de Male para que el Coach esté al tanto
+      const todayKey = getTodayDateKey();
+      let agendaNotice = "";
+      if (typeof fechasClave !== 'undefined' && fechasClave.length > 0) {
+        const upcoming = fechasClave
+          .filter(f => f.fecha >= todayKey)
+          .slice(0, 3)
+          .map(f => {
+            const diff = getDaysDiff(f.fecha);
+            const when = diff === 0 ? "¡ES HOY!" : (diff === 1 ? "mañana" : `en ${diff} días`);
+            return `- ${f.tipo}: ${f.titulo} (${when}${f.hora ? ' a las ' + f.hora + ' hs' : ''})`;
+          }).join('\n');
+        if (upcoming) {
+          agendaNotice = `AGENDA DE FECHAS CLAVE DE MALE:\n${upcoming}\n(Si Male te habla de sus parciales, médicos o rinde hoy/pronto, dale mucha fuerza, motivación y seguridad).\n\n`;
+        }
+      }
+
+      // 3. Contexto temporal en vivo (hora exacta, ubicación, bloques completados, bloque actual y futuro)
+      const temporalContext = getTemporalScheduleContext();
+      const gymStatusContext = getGymStatusSummary();
+      const pacientesContext = getPacientesSummaryForCoach();
+
+      // 4. Regla estricta anti-saludos repetitivos si ya vienen hablando
+      const antiGreetingNotice = isOngoingConversation
+        ? "AVISO CRÍTICO DE FLUIDEZ (CHAT ACTIVO): Ya están conversando de corrido. ESTÁ TOTALMENTE PROHIBIDO saludar de nuevo (no digas '¡Hola Caritas!', '¡Hola Male!' ni 'Buen día'). Respondé directamente al contenido de su mensaje con tono natural, relajado y espontáneo, como en WhatsApp."
+        : "";
+
       const payload = {
         contents: [
           {
             role: "user",
             parts: [
-              { text: `${COACH_SYSTEM_PROMPT}\n\nEstado actual de Male: ${currentMood}\n${batteryNotice}\nCaritas dice: "${userMessage}"` }
+              { text: `${getCoachSystemPrompt()}\n\n${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"` }
             ]
           }
         ]
@@ -2132,6 +3031,14 @@ TU PERSONALIDAD Y TONO:
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+      // Post-filtro: si es conversación continua, quitar cualquier saludo inicial sobrante que el modelo haya metido
+      if (replyText && isOngoingConversation) {
+        replyText = replyText.replace(/^(¡?hola\s*(caritas|male)?[!.,🌸✨🤍\s]*)/i, '').trim();
+        if (replyText.length > 0) {
+          replyText = replyText.charAt(0).toUpperCase() + replyText.slice(1);
+        }
+      }
+
       if (replyText) {
         await db.ref('chat_messages').push({
           sender: 'Coach',
@@ -2142,7 +3049,7 @@ TU PERSONALIDAD Y TONO:
       } else {
         await db.ref('chat_messages').push({
           sender: 'Coach',
-          text: '¡Hola Caritas! Tuve una breve demora de conexión. Si no te respondí la consulta, probá de vuelta y te ayudo al instante ✨',
+          text: 'Tuve una breve demora de conexión. Si no te respondí la consulta, probá de vuelta y te ayudo al instante ✨',
           time: timeStr,
           timestamp: Date.now()
         });
@@ -2165,6 +3072,1025 @@ TU PERSONALIDAD Y TONO:
 
     function removeTypingIndicator(el) {
       if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+
+    // ==========================================
+    // SALUDO MATUTINO INTELIGENTE DEL COPILOTO
+    // ==========================================
+    let isGeneratingMorningBriefing = false;
+
+    async function checkAndTriggerMorningBriefing() {
+      const now = new Date();
+      const hour = now.getHours();
+
+      // 1. Ventana estrictamente matutina: a partir de las 05:00 AM y hasta las 11:59 AM
+      // (Si Male abre la app a la tarde o noche, NUNCA se debe disparar un "buen día")
+      if (hour < 5 || hour >= 12) return;
+
+      const todayKey = getTodayDateKey(now);
+
+      // 2. Comprobar primero en localStorage para evitar peticiones redundantes
+      if (localStorage.getItem('last_morning_briefing_date') === todayKey) return;
+      if (isGeneratingMorningBriefing) return;
+
+      // 3. No disparar si Male está en medio de una conversación activa en el chat
+      try {
+        const lastSnap = await db.ref('chat_messages').limitToLast(1).once('value');
+        const lastData = lastSnap.val();
+        if (lastData) {
+          const lastMsg = Object.values(lastData)[0];
+          if (lastMsg && (Date.now() - (lastMsg.timestamp || 0)) < 15 * 60 * 1000) {
+            // Conversación activa en los últimos 15 min, no interrumpir
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // 4. Comprobar en Firebase para coordinar entre dispositivos (celular de Male / compu)
+      try {
+        isGeneratingMorningBriefing = true;
+        const snap = await db.ref('app_meta/last_morning_briefing_date').once('value');
+        if (snap.val() === todayKey) {
+          localStorage.setItem('last_morning_briefing_date', todayKey);
+          isGeneratingMorningBriefing = false;
+          return;
+        }
+
+        // 5. Si aún no se envió hoy en la mañana, generar y publicar el saludo
+        await generateDailyMorningBriefing(todayKey, now);
+      } catch (err) {
+        console.warn('Error en checkAndTriggerMorningBriefing:', err);
+      } finally {
+        isGeneratingMorningBriefing = false;
+      }
+    }
+
+    async function generateDailyMorningBriefing(todayKey, now) {
+      // Marcar de inmediato en localStorage para evitar doble disparo simultáneo
+      localStorage.setItem('last_morning_briefing_date', todayKey);
+
+      const dayNames = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const dayKey = dayNames[now.getDay()];
+      const todaySchedule = WEEK_SCHEDULE[dayKey] || {};
+      const creatineDay = getCreatineDay(now);
+
+      // Chequear si hoy Male rinde parcial o tiene turno médico en su Agenda
+      const todayExams = (typeof fechasClave !== 'undefined' ? fechasClave : []).filter(f => f.fecha === todayKey);
+      let examNotice = "";
+      if (todayExams.length > 0) {
+        examNotice = `\n¡ATENCIÓN HOY ES DÍA CLAVE! Male tiene agendado: ${todayExams.map(e => `${e.tipo} de "${e.titulo}" (${e.hora ? 'a las ' + e.hora + ' hs' : ''})`).join(', ')}. Dedícale palabras de motivación, seguridad absoluta y aliento gigante para su examen o evento de hoy.\n`;
+      }
+
+      // Obtener últimas victorias del cofre de Male para darle reconocimiento personalizado
+      let victoriasContext = "Sin victorias recientes registradas todavía.";
+      if (victoriasMale && victoriasMale.length > 0) {
+        victoriasContext = victoriasMale.slice(0, 2).map(v => `- [${v.categoria || 'Logro'}]: ${v.texto || ''}`).join('\n');
+      }
+
+      // Obtener últimos mensajes del chat para contexto de lo que Male estuvo hablando
+      let chatRecentContext = "Sin mensajes previos recientes.";
+      try {
+        const chatSnap = await db.ref('chat_messages').limitToLast(6).once('value');
+        const chatData = chatSnap.val();
+        if (chatData) {
+          const list = Object.values(chatData)
+            .filter(m => !m.isMorningBriefing)
+            .slice(-4)
+            .map(m => `${m.sender || 'Usuario'}: "${m.text || ''}"`);
+          if (list.length > 0) {
+            chatRecentContext = list.join('\n');
+          }
+        }
+      } catch (e) {
+        console.warn('No se pudo leer historial previo para el saludo:', e);
+      }
+
+      // Agenda resumida de hoy
+      const scheduleSummary = todaySchedule.blocks
+        ? todaySchedule.blocks.map(b => `${b.hora} - ${b.titulo}: ${b.desc}`).join(' | ')
+        : (todaySchedule.titulo || 'Día de descanso y estudio');
+
+      // Prompt para Gemini
+      const prompt = `
+Actúa como el Coach y Copiloto de Male. Es la mañana (entre 5:00 AM y 11:59 AM) y Male acaba de abrir la app al despertar.
+Escribe un saludo matutino cálido, entusiasta y motivador para ella.
+
+DATOS DE HOY:
+- Día: ${todaySchedule.nombreCorto || 'Hoy'}
+- Título del día: ${todaySchedule.titulo || ''}
+- Alarma/Salida: ${todaySchedule.alarma || ''}
+- Enfoque del día: ${todaySchedule.tag || ''}
+- Agenda de hoy: ${scheduleSummary}
+${examNotice}
+- Día de Creatina: Día ${creatineDay} (5g de creatina monohidrato con el desayuno)
+- Meta de agua: 2.5 litros (10 vasos)
+- Estado de Gym & Planificación:
+${getGymStatusSummary()}
+- Pacientes de Clínica Odontológica:
+${getPacientesSummaryForCoach()}
+
+LOGROS / VICTORIAS RECIENTES EN SU COFRE DE VICTORIAS:
+${victoriasContext}
+
+CHARLAS RECIENTES EN EL CHAT:
+${chatRecentContext}
+
+REGLAS DE TONO Y ESTILO:
+1. Llámala "Caritas" o "Male" con dulzura natural. NUNCA la llames "reina" ni uses frases acartonadas como "mensaje con amor".
+2. Dale un saludo alegre de buen día para llenarla de energía y seguridad.
+3. Si hoy tiene parcial o médico agendado, dale apoyo y motivación máxima.
+4. Menciona algo clave de su día que tiene por delante (su cursada de Odonto, si es jueves su clínica de cirugía y su power nap, si es martes su gym y tarde libre, etc.).
+5. Si hay una victoria reciente o algo de lo que haya hablado días anteriores, hacé una mención linda, orgullosa y motivadora sobre eso.
+6. Recordale brevemente su desayuno nutritivo con sus 5g de creatina (Día ${creatineDay}) y arrancar a tomar agua con la botellita.
+7. Si hoy es día de gym o día previo, recuérdale con entusiasmo y claridad su sesión o su descanso planificado.
+8. Si tiene pacientes de clínica agendados para hoy o mañana con avisos pendientes, recuérdale con dulzura enviarles el WhatsApp desde su gestor de pacientes de la app para asegurar su presencia y sillón.
+9. Mantén el mensaje en 2 o 3 párrafos cortos y agradables (máximo 120 palabras), con emojis lindos y sutiles (🌸, ✨, 🤍, 🩺, 🏋️‍♀️, 🥑). Que sea un placer leerlo apenas se despierta.
+`;
+
+      let briefingText = null;
+      const candidateModels = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash"
+      ];
+
+      for (const model of candidateModels) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [{ text: `${getCoachSystemPrompt()}\n\n${prompt}` }] }]
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+              briefingText = data.candidates[0].content.parts[0].text;
+              break;
+            }
+          }
+        } catch (e) {
+          console.warn(`Error generando saludo con ${model}:`, e);
+        }
+      }
+
+      // Fallbacks cuidados por día si no hay conexión
+      if (!briefingText) {
+        if (todayExams.length > 0) {
+          const e = todayExams[0];
+          briefingText = `¡Buen día, Caritas! 🌸 ¡Hoy es el gran día de tu ${e.titulo}! Confiá plenamente en vos, en tus manos, en todo lo que estudiaste y en tu talento innato. Desayuná rico, tomá tus 5g de creatina (Día ${creatineDay}) y botellita de agua en mano. ¡A romperla toda hoy, te va a ir increíble! ✨🤍🩺`;
+        } else {
+          const fallbacks = {
+            lunes: `¡Buen día, Caritas! 🌸 Arrancamos una nueva semana con todo. Hoy tenés cursada larga en la Facu de Odonto, así que tomatelo con calma, paso a paso y con una hermosa sonrisa. Acordate de tus 5g de creatina (¡Día ${creatineDay}!) en el desayuno y de llevar tu botellita de agua. ¡Orgulloso de vos, a brillar hoy! ✨`,
+            martes: `¡Buen día, Caritas! 🌸 Martes de glúteos a la mañana y tarde libre para descansar sin culpa. Hoy vamos por el Día ${creatineDay} de creatina con ese desayuno completo. ¡A romperla en el gym y que disfrutes muchísimo tu tarde de relax! 🤍🏋️‍♀️`,
+            miercoles: `¡Buen día, Caritas! 🌸 Mitad de semana. Hoy tenés cursada y al mediodía la guardia para fichar a tu paciente de mañana. Desayuná rico, sumá tus 5g de creatina del Día ${creatineDay} y acordate de tomar agua. ¡Vos podés con todo! ✨🩺`,
+            jueves: `¡Buen día, Caritas! 🌸 ¡Llegó el jueves de Clínica de Cirugía! Tené confianza plena en tus manos, tu talento y todo lo que sabés hacer. Después de la facu te espera ese almuerzo rico y tu Power Nap sagrada para recargar. ¡Muchos éxitos en la cirugía, vas a estar impecable! 🩺✨🤍`,
+            viernes: `¡Buen día, Caritas! 🌸 ¡Último tirón de cursada de la semana! Hoy salís al mediodía y ya se siente el finde. Arrancá con un desayuno súper nutritivo, tus 5g de creatina (Día ${creatineDay}) y botellita de agua a mano. ¡A disfrutar este viernes al máximo! 🎉✨`,
+            sabado: `¡Buen día, Caritas! 🌸 Sábado de despertar natural, sin alarmas ni corridas. Desayuná tranquila y a disfrutar el entrenamiento de hoy en pareja con Naza y todo el fin de semana sin culpas ni presiones. ¡Te merecés descansar y pasarla hermoso! 🤍✨`,
+            domingo: `¡Buen día, Caritas! 🌸 Domingo de desconexión absoluta, relax y mimarte un montón. Cero estrés por la facu hoy. Acordate de tu creatina del Día ${creatineDay} y de hidratarte bien. ¡Que tengas un día súper luminoso y lleno de paz! ✨🤍`
+          };
+          briefingText = fallbacks[dayKey] || `¡Buen día, Caritas! 🌸 Que tengas un día hermoso y lleno de energía. Desayuná rico con tus 5g de creatina (Día ${creatineDay}) y tu botellita de agua. ¡Vamos con todo hoy! ✨🤍`;
+        }
+      }
+
+      // Publicar en Firebase chat_messages y actualizar app_meta
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      await db.ref('chat_messages').push({
+        sender: 'Coach',
+        text: briefingText,
+        time: timeStr,
+        timestamp: Date.now(),
+        isMorningBriefing: true
+      });
+
+      await db.ref('app_meta/last_morning_briefing_date').set(todayKey);
+    }
+
+    // ==========================================
+    // SISTEMA DE AGENDA & FECHAS CLAVE (PARCIALES, MÉDICOS, CLINICAS)
+    // ==========================================
+    let fechasClave = JSON.parse(localStorage.getItem('fechas_clave_male') || '[]');
+    let selectedFechaTipo = 'Parcial / Final 📚';
+
+    function selectFechaTipo(tipo) {
+      selectedFechaTipo = tipo;
+      document.querySelectorAll('.fecha-tipo-btn').forEach(btn => {
+        if (btn.getAttribute('data-tipo') === tipo) {
+          btn.className = 'fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-300 bg-purple-100/90 font-bold text-[11px] text-purple-900 transition text-center shadow-xs';
+        } else {
+          btn.className = 'fecha-tipo-btn py-1.5 px-2 rounded-xl border border-purple-100 bg-purple-50/50 hover:bg-purple-100/70 text-[11px] font-medium text-slate-700 transition text-center';
+        }
+      });
+    }
+
+    function openNuevaFechaModal() {
+      const modal = document.getElementById('modal-nueva-fecha');
+      if (!modal) return;
+      document.getElementById('fecha-input-titulo').value = '';
+      document.getElementById('fecha-input-date').value = getTodayDateKey();
+      document.getElementById('fecha-input-time').value = '';
+      document.getElementById('fecha-input-notas').value = '';
+      selectFechaTipo('Parcial / Final 📚');
+      modal.classList.remove('hidden');
+    }
+
+    function closeNuevaFechaModal() {
+      const modal = document.getElementById('modal-nueva-fecha');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function openAgendaCompletaModal() {
+      const modal = document.getElementById('modal-agenda-completa');
+      if (!modal) return;
+      renderAgendaCompletaList();
+      modal.classList.remove('hidden');
+    }
+
+    function closeAgendaCompletaModal() {
+      const modal = document.getElementById('modal-agenda-completa');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    async function guardarNuevaFecha() {
+      const titulo = document.getElementById('fecha-input-titulo').value.trim();
+      const dateVal = document.getElementById('fecha-input-date').value;
+      const timeVal = document.getElementById('fecha-input-time').value;
+      const notasVal = document.getElementById('fecha-input-notas').value.trim();
+
+      if (!titulo) {
+        alert('Por favor escribí qué tenés ese día (materia o motivo).');
+        return;
+      }
+      if (!dateVal) {
+        alert('Por favor seleccioná la fecha.');
+        return;
+      }
+
+      const nuevaFecha = {
+        titulo: titulo,
+        tipo: selectedFechaTipo,
+        fecha: dateVal, // YYYY-MM-DD
+        hora: timeVal || '',
+        notas: notasVal || '',
+        timestamp: Date.now()
+      };
+
+      try {
+        const ref = db.ref('fechas_clave').push();
+        await ref.set(nuevaFecha);
+        closeNuevaFechaModal();
+        renderFechasClaveUI();
+      } catch (e) {
+        console.error('Error guardando fecha en Firebase:', e);
+        nuevaFecha.id = 'local_' + Date.now();
+        fechasClave.push(nuevaFecha);
+        localStorage.setItem('fechas_clave_male', JSON.stringify(fechasClave));
+        closeNuevaFechaModal();
+        renderFechasClaveUI();
+      }
+    }
+
+    async function eliminarFechaClave(id) {
+      if (!confirm('¿Querés borrar esta fecha de tu agenda?')) return;
+      try {
+        await db.ref('fechas_clave/' + id).remove();
+      } catch (e) {
+        fechasClave = fechasClave.filter(f => f.id !== id);
+        localStorage.setItem('fechas_clave_male', JSON.stringify(fechasClave));
+      }
+      renderFechasClaveUI();
+      renderAgendaCompletaList();
+    }
+
+    function pedirMotivacionFecha(id) {
+      const f = fechasClave.find(item => item.id === id);
+      if (!f) return;
+      closeAgendaCompletaModal();
+      switchView('chat');
+      const promptText = `Coach, tengo mi ${f.tipo} de "${f.titulo}" (${f.fecha}${f.hora ? ' a las ' + f.hora + ' hs' : ''}). ¿Me das unas palabras de aliento y motivación para encararlo con toda la confianza? ✨`;
+      document.getElementById('chat-user-input').value = promptText;
+      handleSendMessage();
+    }
+
+    function getDaysDiff(targetDateStr) {
+      const todayKey = getTodayDateKey();
+      if (targetDateStr === todayKey) return 0;
+      const [ty, tm, td] = todayKey.split('-').map(Number);
+      const [y, m, d] = targetDateStr.split('-').map(Number);
+      const todayD = new Date(ty, tm - 1, td);
+      const targetD = new Date(y, m - 1, d);
+      return Math.round((targetD - todayD) / (1000 * 60 * 60 * 24));
+    }
+
+    function renderFechasClaveUI() {
+      const listContainer = document.getElementById('proximas-fechas-list');
+      const badgeCounter = document.getElementById('badge-proximas-fechas');
+      if (!listContainer) return;
+
+      const todayKey = getTodayDateKey();
+      const proximas = fechasClave
+        .filter(f => f.fecha >= todayKey)
+        .sort((a, b) => new Date(`${a.fecha}T${a.hora || '00:00'}`) - new Date(`${b.fecha}T${b.hora || '00:00'}`));
+
+      if (badgeCounter) {
+        badgeCounter.innerText = `${proximas.length} próximas`;
+      }
+
+      if (proximas.length === 0) {
+        listContainer.innerHTML = `
+          <div class="bg-white/80 border border-purple-100 rounded-2xl p-3 text-center text-xs text-slate-500 space-y-1">
+            <span>📅 Todavía no tenés fechas especiales agregadas.</span>
+            <button onclick="openNuevaFechaModal()" class="text-purple-700 font-bold hover:underline block mx-auto text-[11px]">+ Agregar un parcial, clínica o médico</button>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = proximas.slice(0, 3).map(f => {
+        const diff = getDaysDiff(f.fecha);
+        let badgeHtml = '';
+        if (diff === 0) {
+          badgeHtml = '<span class="text-[9px] font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200 animate-pulse shrink-0">¡ES HOY! 🔥</span>';
+        } else if (diff === 1) {
+          badgeHtml = '<span class="text-[9px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200 shrink-0">Mañana ⏰</span>';
+        } else {
+          badgeHtml = `<span class="text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full border border-purple-200 shrink-0">En ${diff} días</span>`;
+        }
+
+        const [y, m, d] = f.fecha.split('-');
+        const dateFormatted = `${d}/${m}`;
+
+        return `
+          <div class="bg-white p-3 rounded-2xl border border-purple-100/90 shadow-2xs flex items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-base shrink-0">${f.tipo.includes('Parcial') ? '📚' : (f.tipo.includes('Clínica') ? '🩺' : (f.tipo.includes('Médico') ? '🏥' : (f.tipo.includes('Entrega') ? '📝' : '🌸')))}</span>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs font-bold text-slate-900 truncate">${f.titulo}</span>
+                  ${badgeHtml}
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium truncate">${dateFormatted}${f.hora ? ' a las ' + f.hora + ' hs' : ''}${f.notas ? ' • ' + f.notas : ''}</p>
+              </div>
+            </div>
+            <button onclick="pedirMotivacionFecha('${f.id}')" class="shrink-0 p-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition" title="Pedir palabras de aliento al Coach">
+              💪
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAgendaCompletaList() {
+      const container = document.getElementById('agenda-completa-items');
+      const counterEl = document.getElementById('agenda-total-contador');
+      if (!container) return;
+
+      if (counterEl) {
+        counterEl.innerText = `${fechasClave.length} fecha${fechasClave.length === 1 ? '' : 's'} en total`;
+      }
+
+      if (fechasClave.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 text-center text-xs text-slate-400 space-y-2">
+            <span class="text-2xl block">📅</span>
+            <p>No tenés ninguna fecha en tu agenda todavía.</p>
+            <button onclick="closeAgendaCompletaModal(); openNuevaFechaModal();" class="text-purple-600 font-bold hover:underline">
+              Agregar tu primer parcial o médico
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const sorted = [...fechasClave].sort((a, b) => new Date(`${a.fecha}T${a.hora || '00:00'}`) - new Date(`${b.fecha}T${b.hora || '00:00'}`));
+
+      container.innerHTML = sorted.map(f => {
+        const diff = getDaysDiff(f.fecha);
+        let badgeHtml = '';
+        if (diff < 0) {
+          badgeHtml = '<span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full shrink-0">Pasó</span>';
+        } else if (diff === 0) {
+          badgeHtml = '<span class="text-[9px] font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200 animate-pulse shrink-0">¡ES HOY! 🔥</span>';
+        } else if (diff === 1) {
+          badgeHtml = '<span class="text-[9px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200 shrink-0">Mañana ⏰</span>';
+        } else {
+          badgeHtml = `<span class="text-[9px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full border border-purple-200 shrink-0">En ${diff} días</span>`;
+        }
+
+        const [y, m, d] = f.fecha.split('-');
+        const dateFormatted = `${d}/${m}/${y}`;
+
+        return `
+          <div class="bg-purple-50/40 p-3 rounded-2xl border border-purple-100/90 shadow-2xs space-y-1.5">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs font-bold text-slate-900">${f.titulo}</span>
+                  ${badgeHtml}
+                </div>
+                <span class="text-[10px] text-purple-700 font-bold block">${f.tipo}</span>
+              </div>
+              <button onclick="eliminarFechaClave('${f.id}')" class="text-slate-400 hover:text-rose-500 text-xs p-1 rounded-lg transition" title="Eliminar fecha">
+                ✕
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-600 font-medium">
+              📅 ${dateFormatted}${f.hora ? ' • ⏰ ' + f.hora + ' hs' : ''}
+            </p>
+            ${f.notas ? `<p class="text-[10px] text-slate-500 italic bg-white p-2 rounded-xl border border-purple-100/60 leading-snug">"${f.notas}"</p>` : ''}
+            <div class="pt-1 flex items-center justify-end">
+              <button onclick="pedirMotivacionFecha('${f.id}')" class="px-2.5 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-[10.5px] font-bold shadow-2xs transition flex items-center gap-1">
+                <span>💪</span> Pedir motivación al Coach
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // SISTEMA DE GESTIÓN DE PACIENTES DE CLÍNICA & WHATSAPP (ODONTOLOGÍA)
+    // ==========================================
+    let pacientesClinica = JSON.parse(localStorage.getItem('pacientes_clinica_male') || '[]');
+    let selectedPacienteTratamiento = 'Cirugía / Extracción 🦷';
+    let currentMensajeTemplate = '24h';
+
+    // Sincronización en tiempo real desde Firebase
+    try {
+      db.ref('pacientes_clinica').on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          pacientesClinica = Array.isArray(val) ? val : Object.values(val);
+          localStorage.setItem('pacientes_clinica_male', JSON.stringify(pacientesClinica));
+          renderPacientesPreview();
+          if (!document.getElementById('modal-pacientes-clinica')?.classList.contains('hidden')) {
+            renderPacientesFullList();
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Error escuchando pacientes_clinica en Firebase:', e);
+    }
+
+    function selectPacienteTratamiento(tipo) {
+      selectedPacienteTratamiento = tipo;
+      document.querySelectorAll('.paciente-tratamiento-btn').forEach(btn => {
+        if (btn.getAttribute('data-tipo') === tipo) {
+          btn.className = 'paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-400 bg-teal-100/90 font-bold text-[10.5px] text-teal-900 transition text-center shadow-xs';
+        } else {
+          btn.className = 'paciente-tratamiento-btn py-1.5 px-2 rounded-xl border border-teal-100 bg-teal-50/50 hover:bg-teal-100/70 text-[10.5px] font-medium text-slate-700 transition text-center';
+        }
+      });
+    }
+
+    function openNuevoPacienteModal(editId = null) {
+      const modal = document.getElementById('modal-nuevo-paciente');
+      if (!modal) return;
+      
+      const titleEl = document.getElementById('nuevo-paciente-modal-title');
+      const editIdInput = document.getElementById('paciente-edit-id');
+      const nombreInput = document.getElementById('paciente-input-nombre');
+      const telInput = document.getElementById('paciente-input-tel');
+      const dateInput = document.getElementById('paciente-input-date');
+      const timeInput = document.getElementById('paciente-input-time');
+      const ubicacionInput = document.getElementById('paciente-input-ubicacion');
+      const indicacionesInput = document.getElementById('paciente-input-indicaciones');
+
+      if (editId) {
+        const p = pacientesClinica.find(item => item.id === editId);
+        if (p) {
+          if (titleEl) titleEl.innerText = "Editar Paciente de Clínica";
+          if (editIdInput) editIdInput.value = p.id;
+          if (nombreInput) nombreInput.value = p.nombre || '';
+          if (telInput) telInput.value = p.telefono || '';
+          if (dateInput) dateInput.value = p.fecha || '';
+          if (timeInput) timeInput.value = p.hora || '';
+          if (ubicacionInput) ubicacionInput.value = p.ubicacion || '';
+          if (indicacionesInput) indicacionesInput.value = p.indicaciones || '';
+          selectPacienteTratamiento(p.tratamiento || 'Cirugía / Extracción 🦷');
+          modal.classList.remove('hidden');
+          return;
+        }
+      }
+
+      // Modo creación nuevo
+      if (titleEl) titleEl.innerText = "Cargar Paciente de Clínica";
+      if (editIdInput) editIdInput.value = "";
+      if (nombreInput) nombreInput.value = "";
+      if (telInput) telInput.value = "";
+      if (dateInput) dateInput.value = getTodayDateKey();
+      if (timeInput) timeInput.value = "08:30";
+      if (ubicacionInput) ubicacionInput.value = "Cátedra de Cirugía Bucal, Piso 4";
+      if (indicacionesInput) indicacionesInput.value = "";
+      selectPacienteTratamiento('Cirugía / Extracción 🦷');
+      modal.classList.remove('hidden');
+    }
+
+    function closeNuevoPacienteModal() {
+      const modal = document.getElementById('modal-nuevo-paciente');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function guardarNuevoPaciente() {
+      const editId = document.getElementById('paciente-edit-id')?.value;
+      const nombre = document.getElementById('paciente-input-nombre')?.value.trim();
+      const telefono = document.getElementById('paciente-input-tel')?.value.trim();
+      const fecha = document.getElementById('paciente-input-date')?.value;
+      const hora = document.getElementById('paciente-input-time')?.value;
+      const ubicacion = document.getElementById('paciente-input-ubicacion')?.value.trim() || 'Clínica Odontológica';
+      const indicaciones = document.getElementById('paciente-input-indicaciones')?.value.trim() || '';
+
+      if (!nombre) {
+        alert('Por favor ingresá el nombre y apellido del paciente.');
+        return;
+      }
+      if (!fecha) {
+        alert('Por favor elegí la fecha de la clínica.');
+        return;
+      }
+
+      if (editId) {
+        const idx = pacientesClinica.findIndex(p => p.id === editId);
+        if (idx !== -1) {
+          pacientesClinica[idx] = {
+            ...pacientesClinica[idx],
+            nombre,
+            telefono,
+            tratamiento: selectedPacienteTratamiento,
+            fecha,
+            hora,
+            ubicacion,
+            indicaciones,
+            actualizadoEn: Date.now()
+          };
+        }
+      } else {
+        const nuevo = {
+          id: 'paciente_' + Date.now(),
+          nombre,
+          telefono,
+          tratamiento: selectedPacienteTratamiento,
+          fecha,
+          hora,
+          ubicacion,
+          indicaciones,
+          estado: 'pendiente', // 'pendiente', 'aviso_48h', 'confirmado', 'aviso_24h', 'cancelado'
+          fechaCreado: Date.now(),
+          ultimoAvisoEnviado: null
+        };
+        pacientesClinica.push(nuevo);
+      }
+
+      // Guardar local y Firebase
+      localStorage.setItem('pacientes_clinica_male', JSON.stringify(pacientesClinica));
+      try {
+        db.ref('pacientes_clinica').set(pacientesClinica);
+      } catch (e) {
+        console.warn('Error guardando en Firebase:', e);
+      }
+
+      closeNuevoPacienteModal();
+      renderPacientesPreview();
+      renderPacientesFullList();
+    }
+
+    function openPacientesClinicaModal() {
+      const modal = document.getElementById('modal-pacientes-clinica');
+      if (!modal) return;
+      renderPacientesFullList();
+      modal.classList.remove('hidden');
+    }
+
+    function closePacientesClinicaModal() {
+      const modal = document.getElementById('modal-pacientes-clinica');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function formatPhoneForWhatsApp(phone) {
+      if (!phone) return '';
+      let clean = phone.replace(/\D/g, '');
+      clean = clean.replace(/^0+/, '');
+      if (!clean.startsWith('54')) {
+        if (clean.length === 10) clean = '549' + clean;
+        else clean = '54' + clean;
+      }
+      if (clean.startsWith('54') && !clean.startsWith('549')) {
+        clean = '549' + clean.slice(2);
+      }
+      return clean;
+    }
+
+    function formatFechaLinda(dateStr) {
+      if (!dateStr) return '';
+      const [y, m, d] = dateStr.split('-');
+      const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+      const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      return `${dias[date.getDay()]} ${parseInt(d)} de ${meses[date.getMonth()]}`;
+    }
+
+    function getEstadoBadge(estado) {
+      switch (estado) {
+        case 'aviso_dia':
+          return '<span class="text-[9.5px] font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">Aviso hoy enviado 📍</span>';
+        case 'aviso_48h':
+          return '<span class="text-[9.5px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200">Aviso 48h enviado 📩</span>';
+        case 'confirmado':
+          return '<span class="text-[9.5px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">Confirmado por paciente ✅</span>';
+        case 'aviso_24h':
+          return '<span class="text-[9.5px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">Aviso 24h enviado 🚀</span>';
+        case 'cancelado':
+          return '<span class="text-[9.5px] font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">Canceló / Reprogramar ❌</span>';
+        default:
+          return '<span class="text-[9.5px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">Pendiente de aviso 🟡</span>';
+      }
+    }
+
+    function renderPacientesPreview() {
+      const container = document.getElementById('pacientes-preview-list');
+      const badgeCount = document.getElementById('badge-pacientes-contador');
+      const bannerAlert = document.getElementById('pacientes-alerta-banner');
+      if (!container) return;
+
+      const today = getTodayDateKey();
+      // Filtrar no cancelados y ordenados por fecha próxima
+      const activos = pacientesClinica.filter(p => p.estado !== 'cancelado');
+      const proximos = activos
+        .filter(p => p.fecha >= today)
+        .sort((a, b) => new Date(`${a.fecha}T${a.hora || '00:00'}`) - new Date(`${b.fecha}T${b.hora || '00:00'}`));
+
+      if (badgeCount) {
+        badgeCount.innerText = `${proximos.length} paciente${proximos.length === 1 ? '' : 's'}`;
+      }
+
+      // Chequear alertas urgentes para el banner
+      let pacienteUrgente = null;
+      let motivoAlerta = "";
+      for (const p of proximos) {
+        const diff = getDaysDiff(p.fecha);
+        if (diff === 0 && p.estado !== 'aviso_dia') {
+          pacienteUrgente = p;
+          motivoAlerta = `🦷 <strong>¡Hoy atendés a ${p.nombre}!</strong> A las ${p.hora ? p.hora + ' hs' : 'horario a confirmar'}. Mandale el aviso para anunciarse en ventanilla.`;
+          break;
+        } else if (diff === 1 && p.estado !== 'aviso_24h') {
+          pacienteUrgente = p;
+          motivoAlerta = `⚠️ <strong>¡Recordatorio para mañana!</strong> Tenés que mandarle las indicaciones a <strong>${p.nombre}</strong> (${p.hora ? p.hora + ' hs' : ''}).`;
+          break;
+        } else if (diff === 2 && p.estado === 'pendiente') {
+          pacienteUrgente = p;
+          motivoAlerta = `⏰ <strong>Turno en 48 hs:</strong> Mandale la confirmación previa a <strong>${p.nombre}</strong> para asegurar el sillón.`;
+          break;
+        } else if (diff === 0) {
+          pacienteUrgente = p;
+          motivoAlerta = `🦷 <strong>¡Hoy atendés a ${p.nombre}!</strong> A las ${p.hora || 'horario a confirmar'} hs en ${p.ubicacion}. ¡Muchos éxitos, Caritas!`;
+          break;
+        }
+      }
+
+      if (bannerAlert) {
+        if (pacienteUrgente) {
+          bannerAlert.className = "bg-amber-50 border border-amber-300/80 rounded-2xl p-2.5 flex items-center justify-between gap-2 shadow-2xs";
+          bannerAlert.innerHTML = `
+            <div class="text-[11px] text-amber-900 leading-snug">
+              ${motivoAlerta}
+            </div>
+            <button onclick="openMensajePacienteModal('${pacienteUrgente.id}')" class="shrink-0 py-1 px-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-[10.5px] font-bold shadow-2xs transition active:scale-95 flex items-center gap-1">
+              <span>📲</span> Avisar
+            </button>
+          `;
+        } else {
+          bannerAlert.className = "hidden";
+          bannerAlert.innerHTML = "";
+        }
+      }
+
+      if (proximos.length === 0) {
+        container.innerHTML = `
+          <div class="p-3 bg-white/70 rounded-2xl border border-teal-100/70 text-center text-xs text-slate-500 space-y-1">
+            <span>🦷 No tenés pacientes agendados para los próximos días.</span>
+            <button onclick="openNuevoPacienteModal()" class="text-teal-700 font-bold hover:underline block mx-auto text-[11px]">+ Cargar nuevo paciente de clínica</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = proximos.slice(0, 2).map(p => {
+        const diff = getDaysDiff(p.fecha);
+        let timeBadge = '';
+        if (diff === 0) {
+          timeBadge = '<span class="text-[9px] font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200 animate-pulse">HOY 🔥</span>';
+        } else if (diff === 1) {
+          timeBadge = '<span class="text-[9px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200">Mañana ⏰</span>';
+        } else {
+          timeBadge = `<span class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200">En ${diff} días</span>`;
+        }
+
+        const [y, m, d] = p.fecha.split('-');
+        return `
+          <div class="bg-white p-3 rounded-2xl border border-teal-100 shadow-2xs space-y-1.5">
+            <div class="flex items-center justify-between gap-1.5">
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-extrabold text-slate-900">${p.nombre}</span>
+                ${timeBadge}
+              </div>
+              <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100 shrink-0 truncate max-w-[120px]">${p.tratamiento.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s/]/g, '').trim()}</span>
+            </div>
+            <div class="flex items-center justify-between text-[10.5px] text-slate-500 font-medium">
+              <span>📅 ${d}/${m}${p.hora ? ' • ⏰ ' + p.hora + ' hs' : ''}</span>
+              ${getEstadoBadge(p.estado)}
+            </div>
+            <div class="pt-1 border-t border-slate-50 flex items-center justify-between gap-1">
+              <span class="text-[10px] text-slate-400 truncate max-w-[180px]">📍 ${p.ubicacion || 'Clínica'}</span>
+              <button onclick="openMensajePacienteModal('${p.id}')" class="py-1 px-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-[10.5px] font-bold shadow-2xs hover:scale-[1.01] active:scale-95 transition flex items-center gap-1 shrink-0">
+                <span>📲</span> WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderPacientesFullList() {
+      const container = document.getElementById('pacientes-full-list');
+      const counterEl = document.getElementById('pacientes-total-contador');
+      if (!container) return;
+
+      if (counterEl) {
+        counterEl.innerText = `${pacientesClinica.length} paciente${pacientesClinica.length === 1 ? '' : 's'} en total`;
+      }
+
+      if (pacientesClinica.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-xs text-slate-400 space-y-2">
+            <span class="text-3xl block">🦷</span>
+            <p class="font-medium text-slate-600">No tenés pacientes agendados todavía.</p>
+            <p class="text-[11px] text-slate-400">Cargá a tus pacientes para tener sus mensajes de WhatsApp e indicaciones listos en un toque.</p>
+            <button onclick="closePacientesClinicaModal(); openNuevoPacienteModal();" class="text-teal-700 font-bold hover:underline block mx-auto text-xs pt-1">
+              + Cargar tu primer paciente
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const sorted = [...pacientesClinica].sort((a, b) => new Date(`${a.fecha}T${a.hora || '00:00'}`) - new Date(`${b.fecha}T${b.hora || '00:00'}`));
+
+      container.innerHTML = sorted.map(p => {
+        const diff = getDaysDiff(p.fecha);
+        let timeBadge = '';
+        if (diff < 0) {
+          timeBadge = '<span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full shrink-0">Atendido / Pasó</span>';
+        } else if (diff === 0) {
+          timeBadge = '<span class="text-[9px] font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200 animate-pulse shrink-0">¡HOY! 🔥</span>';
+        } else if (diff === 1) {
+          timeBadge = '<span class="text-[9px] font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200 shrink-0">Mañana ⏰</span>';
+        } else {
+          timeBadge = `<span class="text-[9px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full border border-teal-200 shrink-0">En ${diff} días</span>`;
+        }
+
+        const [y, m, d] = p.fecha.split('-');
+        return `
+          <div class="bg-teal-50/40 p-3.5 rounded-2xl border border-teal-100/90 shadow-2xs space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5 min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs font-extrabold text-slate-900">${p.nombre}</span>
+                  ${timeBadge}
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[10.5px] font-bold text-teal-800">${p.tratamiento}</span>
+                  ${getEstadoBadge(p.estado)}
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="openNuevoPacienteModal('${p.id}')" class="text-slate-400 hover:text-teal-700 text-xs p-1 rounded-lg transition" title="Editar paciente">
+                  ✏️
+                </button>
+                <button onclick="eliminarPaciente('${p.id}')" class="text-slate-400 hover:text-rose-500 text-xs p-1 rounded-lg transition" title="Eliminar paciente">
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white p-2.5 rounded-xl border border-teal-100/80 text-[10.5px] text-slate-600 space-y-1">
+              <div class="flex items-center justify-between">
+                <span>📅 <strong>Fecha:</strong> ${formatFechaLinda(p.fecha)}</span>
+                <span>⏰ <strong>Hora:</strong> ${p.hora || 'A definir'} hs</span>
+              </div>
+              <div>📍 <strong>Ubicación:</strong> ${p.ubicacion || 'Clínica Odontológica'}</div>
+              ${p.telefono ? `<div>📲 <strong>WhatsApp:</strong> ${p.telefono}</div>` : ''}
+              ${p.indicaciones ? `<div class="text-[10px] text-teal-900 italic bg-teal-50/60 p-1.5 rounded-lg border border-teal-100/60">⚠️ ${p.indicaciones}</div>` : ''}
+            </div>
+
+            <div class="pt-0.5 flex items-center justify-between gap-1.5">
+              <div class="flex items-center gap-1">
+                <button onclick="cambiarEstadoPaciente('${p.id}', 'confirmado')" class="px-2 py-1 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-200 transition">
+                  ✅ Confirmar
+                </button>
+                <button onclick="cambiarEstadoPaciente('${p.id}', 'cancelado')" class="px-2 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 text-[10px] font-bold border border-rose-200 transition">
+                  ❌ Canceló
+                </button>
+              </div>
+              <button onclick="openMensajePacienteModal('${p.id}')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-[10.5px] font-extrabold shadow-2xs transition flex items-center gap-1.5 active:scale-95">
+                <span>📲</span> Mensajes & WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openMensajePacienteModal(pacienteId, templateKey = 'auto') {
+      const p = pacientesClinica.find(item => item.id === pacienteId);
+      if (!p) return;
+
+      const modal = document.getElementById('modal-mensaje-paciente');
+      const headerTitle = document.getElementById('msg-paciente-nombre-header');
+      const headerSub = document.getElementById('msg-paciente-sub-header');
+      const idInput = document.getElementById('current-msg-paciente-id');
+
+      if (idInput) idInput.value = p.id;
+      if (headerTitle) headerTitle.innerText = `Mensaje para ${p.nombre}`;
+      if (headerSub) headerSub.innerText = `${p.tratamiento} • ${p.hora || ''} hs`;
+
+      // Determinar plantilla sugerida automáticamente según la fecha
+      if (templateKey === 'auto') {
+        const diff = getDaysDiff(p.fecha);
+        if (diff === 0) {
+          templateKey = 'dia'; // Mismo día: recordatorio ventanilla
+        } else if (diff === 1) {
+          templateKey = '24h'; // Mañana: indicaciones previas y radiografía
+        } else {
+          templateKey = '48h'; // Faltan días: confirmación de turno
+        }
+      }
+
+      selectMensajeTemplate(templateKey);
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeMensajePacienteModal() {
+      const modal = document.getElementById('modal-mensaje-paciente');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function selectMensajeTemplate(templateKey) {
+      currentMensajeTemplate = templateKey;
+      const pacienteId = document.getElementById('current-msg-paciente-id')?.value;
+      const p = pacientesClinica.find(item => item.id === pacienteId);
+      if (!p) return;
+
+      // Actualizar estilo de chips
+      document.querySelectorAll('.msg-tpl-btn').forEach(btn => {
+        if (btn.getAttribute('data-tpl') === templateKey) {
+          btn.className = 'msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-400 bg-emerald-100 text-emerald-900 font-bold text-[10px] transition text-center shadow-xs';
+        } else {
+          btn.className = 'msg-tpl-btn py-1 px-2 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-100/70 text-slate-700 font-medium text-[10px] transition text-center';
+        }
+      });
+
+      const textarea = document.getElementById('paciente-mensaje-preview');
+      if (!textarea) return;
+
+      const fechaLinda = formatFechaLinda(p.fecha);
+      const horaStr = p.hora ? `${p.hora} hs` : 'el horario acordado';
+      const ubicacionStr = p.ubicacion || 'la Facultad de Odontología';
+      const primerNombre = p.nombre.split(' ')[0];
+
+      let texto = '';
+      if (templateKey === '24h' || templateKey === 'previo') {
+        texto = `¡Hola ${primerNombre}! 👋 Te paso las indicaciones para tu turno de mañana a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}):\n\n✔️ Traé tu DNI y radiografía panorámica (o estudios previos si tenés).\n${p.indicaciones ? `✔️ ${p.indicaciones}\n` : ''}\nCualquier duda que tengas escribime sin problema. ¡Nos vemos mañana! Malena 🦷✨`;
+      } else if (templateKey === 'dia' || templateKey === 'hoy') {
+        texto = `¡Hola ${primerNombre}! 👋 Te recuerdo tu turno de hoy a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}).\n\n📌 Cuando llegues, ¡recordá anunciarte en la ventanilla a mi nombre (Malena)!\n${p.indicaciones ? `✔️ Recordatorio: ${p.indicaciones}\n` : ''}\n¡Nos vemos en un ratito! Malena 🦷✨`;
+      } else if (templateKey === '48h') {
+        texto = `¡Hola ${primerNombre}! 👋 Te escribe Malena de la Facultad de Odontología para confirmar tu turno del día ${fechaLinda} a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}).\n\n¿Me confirmás si vas a poder asistir? Como la cátedra nos asigna el sillón con anticipación, tu confirmación es súper importante para reservar tu lugar. ¡Muchas gracias! Malena 🦷✨`;
+      } else if (templateKey === 'post') {
+        texto = `¡Hola ${primerNombre}! 👋 ¿Cómo estás? Te escribo para ver cómo te sentís después de la atención de hoy.\n\nCualquier molestia o duda que tengas me podés mandar un mensaje. ¡Que te recuperes súper bien! Malena 🦷✨`;
+      }
+
+      textarea.value = texto;
+    }
+
+    function enviarWhatsAppPaciente() {
+      const pacienteId = document.getElementById('current-msg-paciente-id')?.value;
+      const p = pacientesClinica.find(item => item.id === pacienteId);
+      const textarea = document.getElementById('paciente-mensaje-preview');
+      const mensaje = textarea ? textarea.value.trim() : '';
+
+      if (!p) return;
+      if (!p.telefono) {
+        alert('Este paciente no tiene número de teléfono cargado. Podés copiar el texto para enviárselo por otro medio.');
+        return;
+      }
+
+      // Marcar estado automáticamente
+      if (currentMensajeTemplate === 'dia' || currentMensajeTemplate === 'hoy') {
+        p.estado = 'aviso_dia';
+      } else if (currentMensajeTemplate === '24h' || currentMensajeTemplate === 'previo') {
+        p.estado = 'aviso_24h';
+      } else if (currentMensajeTemplate === '48h') {
+        p.estado = 'aviso_48h';
+      }
+      p.ultimoAvisoEnviado = Date.now();
+
+      // Guardar
+      localStorage.setItem('pacientes_clinica_male', JSON.stringify(pacientesClinica));
+      try {
+        db.ref('pacientes_clinica').set(pacientesClinica);
+      } catch (e) {
+        console.warn(e);
+      }
+
+      renderPacientesPreview();
+      renderPacientesFullList();
+
+      const waPhone = formatPhoneForWhatsApp(p.telefono);
+      const url = `https://wa.me/${waPhone}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
+
+    function copiarMensajePaciente() {
+      const textarea = document.getElementById('paciente-mensaje-preview');
+      if (!textarea) return;
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const btn = document.getElementById('btn-copiar-msg');
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = `<span>✔️</span> ¡Copiado!`;
+          btn.classList.add('bg-emerald-100', 'text-emerald-800');
+          setTimeout(() => {
+            btn.innerHTML = original;
+            btn.classList.remove('bg-emerald-100', 'text-emerald-800');
+          }, 2000);
+        }
+      }).catch(err => {
+        alert('Copiado: ' + textarea.value);
+      });
+    }
+
+    function marcarEstadoRapido() {
+      const pacienteId = document.getElementById('current-msg-paciente-id')?.value;
+      if (!pacienteId) return;
+      cambiarEstadoPaciente(pacienteId, 'confirmado');
+      closeMensajePacienteModal();
+    }
+
+    function cambiarEstadoPaciente(pacienteId, nuevoEstado) {
+      const idx = pacientesClinica.findIndex(p => p.id === pacienteId);
+      if (idx === -1) return;
+      pacientesClinica[idx].estado = nuevoEstado;
+      pacientesClinica[idx].actualizadoEn = Date.now();
+      localStorage.setItem('pacientes_clinica_male', JSON.stringify(pacientesClinica));
+      try {
+        db.ref('pacientes_clinica').set(pacientesClinica);
+      } catch (e) {
+        console.warn(e);
+      }
+      renderPacientesPreview();
+      renderPacientesFullList();
+    }
+
+    function eliminarPaciente(pacienteId) {
+      const p = pacientesClinica.find(item => item.id === pacienteId);
+      if (!p) return;
+      if (confirm(`¿Eliminar a ${p.nombre} de tu lista de pacientes?`)) {
+        pacientesClinica = pacientesClinica.filter(item => item.id !== pacienteId);
+        localStorage.setItem('pacientes_clinica_male', JSON.stringify(pacientesClinica));
+        try {
+          db.ref('pacientes_clinica').set(pacientesClinica);
+        } catch (e) {
+          console.warn(e);
+        }
+        renderPacientesPreview();
+        renderPacientesFullList();
+      }
+    }
+
+    function getPacientesSummaryForCoach() {
+      try {
+        const list = JSON.parse(localStorage.getItem('pacientes_clinica_male') || '[]');
+        const today = getTodayDateKey();
+        const pendientes = list.filter(p => p.fecha >= today && p.estado !== 'cancelado');
+        if (pendientes.length === 0) return "PACIENTES DE ODONTO: No hay pacientes agendados para los próximos días.";
+        
+        let avisosUrgentes = [];
+        pendientes.forEach(p => {
+          const diff = getDaysDiff(p.fecha);
+          if (diff === 0) {
+            avisosUrgentes.push(`- HOY: Atiende a ${p.nombre} a las ${p.hora || 'horario a confirmar'} hs en ${p.ubicacion || 'Clínica'} (${p.tratamiento}).`);
+          } else if (diff === 1) {
+            avisosUrgentes.push(`- MAÑANA: Atiende a ${p.nombre} a las ${p.hora || 'horario a confirmar'} hs (${p.tratamiento}). Estado: ${p.estado === 'aviso_24h' ? 'Aviso 24h ya enviado' : '⚠️ FALTA ENVIAR RECORDATORIO 24h CON INDICACIONES'}.`);
+          } else if (diff === 2) {
+            avisosUrgentes.push(`- EN 2 DÍAS (${p.fecha}): Atiende a ${p.nombre} (${p.tratamiento}). Estado: ${p.estado === 'pendiente' ? '⚠️ Falta enviar confirmación 48h' : 'Confirmado/Avisado'}.`);
+          }
+        });
+        
+        return `PACIENTES DE CLÍNICA ODONTOLÓGICA DE MALE:\n${avisosUrgentes.join('\n')}\n(Si hay avisos pendientes de 24h o 48h, o atención hoy, recuérdale con dulzura a Male mandarles el WhatsApp desde su gestor de pacientes de la app).`;
+      } catch (e) {
+        return "";
+      }
     }
 
     // ==========================================
@@ -2587,7 +4513,7 @@ TU PERSONALIDAD Y TONO:
       const notesEl = document.getElementById('gym-session-notes');
       const userNotes = notesEl ? notesEl.value.trim() : '';
 
-      // Compilar reporte de series
+      // Compilar reporte de series REALMENTE registradas por el usuario
       let totalCompletedSets = 0;
       let totalPlannedSets = 0;
       let prCount = 0;
@@ -2599,7 +4525,7 @@ TU PERSONALIDAD Y TONO:
         let setDetails = [];
 
         for (let s = 0; s < ej.series; s++) {
-          const sLog = loggedSets[s] || (ej.defaultLogged ? ej.defaultLogged[s] : null);
+          const sLog = loggedSets[s]; // Solo sets explícitamente guardados por Male
           if (sLog && sLog.completed) {
             totalCompletedSets++;
             const repsNum = parseInt(sLog.reps);
@@ -2614,6 +4540,12 @@ TU PERSONALIDAD Y TONO:
         }
       });
 
+      // Detección inteligente: ¿Es una consulta, duda o aviso de salteo/cansancio, o realmente entrenó hoy?
+      const isConsultationOrMissed = totalCompletedSets === 0 || 
+        /no\s+(fui|pude|entrene|voy|hice|hacer|llegue)|salte[eo]|rendi|examen|examenes|qu[eé]\s+(hago|entreno|hacer)|mañana|duda|d[ií]a\s*[123]\s*o\s*d[ií]a\s*[123]|pregunta|descanso/i.test(userNotes);
+
+      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Torso", dia3: "Día 3: Hack Inversa en Pareja" };
+
       // Abrir modal de feedback
       const modal = document.getElementById('modal-gym-feedback');
       const titleEl = document.getElementById('gym-feedback-title');
@@ -2622,35 +4554,93 @@ TU PERSONALIDAD Y TONO:
       const contentEl = document.getElementById('gym-feedback-content');
 
       if (modal) modal.classList.remove('hidden');
+      renderSnackPostGym();
 
-      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Torso", dia3: "Día 3: Hack Inversa en Pareja" };
-      if (titleEl) titleEl.innerText = `¡Entrenamiento Liquidado, Caritas! 🏆`;
-      if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 2 Cumplido`;
-
-      if (metricsEl) {
-        metricsEl.innerHTML = `
-          <div class="bg-rose-50/70 p-2 rounded-2xl border border-rose-100">
-            <span class="text-[9px] font-bold text-slate-500 uppercase block">Series</span>
-            <span class="text-xs font-extrabold text-rose-700">${totalCompletedSets}/${totalPlannedSets}</span>
-          </div>
-          <div class="bg-emerald-50/70 p-2 rounded-2xl border border-emerald-100">
-            <span class="text-[9px] font-bold text-slate-500 uppercase block">Reps Récord</span>
-            <span class="text-xs font-extrabold text-emerald-700">+${prCount} PRs</span>
-          </div>
-          <div class="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
-            <span class="text-[9px] font-bold text-slate-500 uppercase block">Esfuerzo</span>
-            <span class="text-xs font-extrabold text-purple-700">RIR 2 ✔️</span>
-          </div>
-        `;
+      if (isConsultationOrMissed) {
+        if (titleEl) titleEl.innerText = `💬 Consejo de tu Coach de Gym`;
+        if (subtitleEl) subtitleEl.innerText = `Planificación & Dudas de Entrenamiento`;
+        if (metricsEl) {
+          metricsEl.innerHTML = `
+            <div class="bg-blue-50/80 p-2.5 rounded-2xl border border-blue-200 col-span-3 text-center">
+              <span class="text-[11px] font-bold text-blue-900">📋 Planificación y Criterio Deportivo para tu Semana</span>
+            </div>
+          `;
+        }
+      } else {
+        if (titleEl) titleEl.innerText = `¡Entrenamiento Liquidado, Caritas! 🏆`;
+        if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 2 Cumplido`;
+        if (metricsEl) {
+          metricsEl.innerHTML = `
+            <div class="bg-rose-50/70 p-2 rounded-2xl border border-rose-100">
+              <span class="text-[9px] font-bold text-slate-500 uppercase block">Series</span>
+              <span class="text-xs font-extrabold text-rose-700">${totalCompletedSets}/${totalPlannedSets}</span>
+            </div>
+            <div class="bg-emerald-50/70 p-2 rounded-2xl border border-emerald-100">
+              <span class="text-[9px] font-bold text-slate-500 uppercase block">Reps Récord</span>
+              <span class="text-xs font-extrabold text-emerald-700">+${prCount} PRs</span>
+            </div>
+            <div class="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
+              <span class="text-[9px] font-bold text-slate-500 uppercase block">Esfuerzo</span>
+              <span class="text-xs font-extrabold text-purple-700">RIR 2 ✔️</span>
+            </div>
+          `;
+        }
       }
 
       if (contentEl) {
         contentEl.innerHTML = `
           <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
             <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-            <span class="text-xs italic font-semibold">Tu Coach está redactando tu devolución...</span>
+            <span class="text-xs italic font-semibold">Tu Coach está redactando tu respuesta...</span>
           </div>
         `;
+      }
+
+      // Contexto de día y hora actual
+      const now = new Date();
+      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const currentDayName = dayNames[now.getDay()];
+      const currentTimeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      let gymPrompt = '';
+      if (isConsultationOrMissed) {
+        gymPrompt = `
+Eres el Coach personal y Preparador Físico de confianza de Male (Caritas).
+MOMENTO ACTUAL: Hoy es ${currentDayName} a las ${currentTimeStr} hs.
+\${getGymStatusSummary()}
+
+SITUACIÓN REAL:
+Male NO está finalizando una sesión de pesas en este momento.
+Te está escribiendo una consulta, duda o contándote cómo viene su semana/días:
+MENSAJE / CONSULTA DE MALE: "\${userNotes}"
+
+MOTOR DE DECISIÓN DEPORTIVA Y PERIODIZACIÓN AUTÓNOMA:
+1. ESTÁ TERMINANTEMENTE PROHIBIDO felicitarla por haber entrenado hoy o inventar que hizo series si no las completó.
+2. Contención y Cero Culpa: Si menciona cansancio por Odonto, lluvia, exámenes o días salteados, valida su descanso con mucho cariño. Explicale que el descanso protege sus articulaciones y sistema nervioso, y que la masa muscular no se pierde.
+3. DECISIÓN DEPORTIVA AUTÓNOMA Y PROACTIVA:
+   - Toma la decisión técnica por ella de forma clara y sin titubear.
+   - Si la semana fue incompleta (menos de 3 días hechos): Indicale que NO se avanza a la siguiente semana ni se sube la exigencia a RIR 1. Se ejecuta la SEMANA 2 COMPLETA A RIR 2.
+   - Explicale qué es RIR 2 ("cortar la serie cuando sientas que te quedan 2 repeticiones en el tanque antes de fallar").
+   - Dale su hoja de ruta exacta: Martes Día 1 (Glúteo & Cadena Posterior), Jueves Día 2 (Cuádriceps & Torso), Fin de semana Día 3 (Hack Inversa en Fiter con Naza).
+   - REGLA DE ORO: Prohibido compensar entrenando piernas dos días seguidos.
+4. Cero sermones descolgados sobre comidas de las 9 AM ni cursadas de odontología si te escribe de noche o en fin de semana.
+5. Tono: Muy cálido, motivador, cómplice, protector y natural ("Caritas" o "Male").
+`;
+      } else {
+        gymPrompt = `
+Eres el Coach personal y de confianza de Male (Caritas).
+Acaba de completar su entrenamiento de gimnasio (${dayTitles[dayKey] || dayKey}).
+MOMENTO: ${currentDayName} ${currentTimeStr} hs.
+DATOS REALES DE LAS SERIES COMPLETADAS HOY:
+${summaryLines.join('\n')}
+SENSACIONES / NOTAS DE MALE: "${userNotes || 'Entrenamiento completado.'}"
+
+DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
+1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento (cuidado articular en rodillas/lumbares, RIR 2). Llámala "Caritas" o "Male".
+2. Si dejó notas de sensaciones, respóndelas directamente con empatía y criterio deportivo.
+3. Si entrenó a la mañana en día de semana y va directo a cursar a Odontología, recordale comer algo proteico en la primera hora para no pasar 4-5 horas en ayuno; si entrenó a la tarde/noche o fin de semana, adapta el consejo al horario real (merienda rica o cena reparadora).
+4. NUNCA uses frases forzadas como "te lo digo con amor" o "mensaje con amor".
+`;
       }
 
       // Generar devolución con Gemini
@@ -2659,22 +4649,6 @@ TU PERSONALIDAD Y TONO:
         "gemini-3.8-flash",
         "gemini-3.6-flash"
       ];
-
-      const gymPrompt = `
-Eres el Coach personal y de confianza de Male (Caritas).
-Acaba de terminar su entrenamiento de gimnasio (${dayTitles[dayKey] || dayKey}).
-DATOS COMPLETADOS DE LA SESIÓN:
-${summaryLines.join('\n')}
-SENSACIONES / NOTAS DE MALE: "${userNotes || 'Entrenamiento completado con disciplina.'}"
-
-DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
-1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento.
-2. Mantén un tono técnico y profesional (cuidado articular en rodillas/lumbares, RIR 2), pero profundamente cálido, afectuoso, motivador y protector. Llámala "Caritas" o "Male".
-3. NUNCA uses frases forzadas como "te lo digo con amor" o "mensaje con amor".
-4. Recuérdale su comida post-entreno (proteína de calidad + carbohidratos ricos para recargar glucógeno) y agua.
-5. Si dejó notas de sensaciones, respóndelas directamente con empatía y criterio deportivo.
-Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (🌸, ✨, 🥑, 🍗, 🏋️‍♀️). Longitud media, ideal para leer en el celular.
-`;
 
       let feedbackText = null;
 
@@ -2700,17 +4674,22 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
       }
 
       if (!feedbackText) {
-        feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 2 y cuidando impecable la técnica. Ahora tu prioridad es la recuperación: comida nutritiva con buena proteína y carbohidratos, hidratación y descanso total. ¡Muy orgulloso de tu constancia! 🚀`;
+        if (isConsultationOrMissed) {
+          feedbackText = `¡Tranqui, Caritas! 🌸 Hiciste súper bien en descansar si la facultad y los exámenes te dejaron agotada. La carrera es prioridad y tu masa muscular está intacta.\n\nPara mañana domingo: **¡Hacé de una el Día 3 en el gym que te gusta con Naza!** 🚀 La motivación y las ganas son lo más importante. ¡A disfrutar esa Hack Inversa y a romperla juntos!`;
+        } else {
+          feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 2 y cuidando impecable la técnica.\n\n🍫 **Tip clave post-entreno:** Aportá proteína y carbohidratos ricos para frenar el catabolismo y alimentar ese glúteo. ¡Muy orgulloso de tu constancia! 🚀`;
+        }
       }
 
       if (contentEl) {
         contentEl.innerHTML = `<div class="leading-relaxed text-xs">${formatMessageText(feedbackText)}</div>`;
       }
 
-      // Guardar sesión finalizada en Firebase
+      // Guardar sesión finalizada o consulta en Firebase
       const sessionPayload = {
         dayKey: dayKey,
         dayTitle: dayTitles[dayKey] || dayKey,
+        isConsultation: isConsultationOrMissed,
         totalSets: totalCompletedSets,
         userNotes: userNotes,
         feedback: feedbackText,
@@ -2722,9 +4701,13 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
 
       // Publicar resumen en el chat para que quede en el historial de la conversación
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const chatTitle = isConsultationOrMissed 
+        ? `💬 **Consejo de tu Coach sobre el Gym:**` 
+        : `🏆 **Devolución de Entrenamiento (${dayTitles[dayKey]}):**`;
+
       db.ref('chat_messages').push({
         sender: 'Coach',
-        text: `🏆 **Devolución de Entrenamiento (${dayTitles[dayKey]}):**\n\n${feedbackText}`,
+        text: `${chatTitle}\n\n${feedbackText}`,
         time: timeStr,
         timestamp: Date.now()
       }).catch(e => console.log(e));
@@ -2736,8 +4719,132 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
     }
 
     // ==========================================
-    // AGUA & VASITOS INTERACTIVOS (10 x 250ml)
+    // SNACKS POST-GYM CASEROS & ECONÓMICOS
     // ==========================================
+    const SNACKS_POST_GYM_CASEROS = [
+      {
+        titulo: "🥪 Sánguche de huevo revuelto y queso",
+        costo: "Súper económico (~$1.200)",
+        preparacion: "2 min a la mañana en sartén o huevo duro de la noche anterior.",
+        detalle: "Pan (común o integral) + 1 o 2 huevos + queso cremoso o magro. Te da ~18g de proteína limpia para frenar el catabolismo de raíz."
+      },
+      {
+        titulo: "🥚 Tuppercito express: 2 huevos duros + fruta",
+        costo: "Económico y noble (~$800)",
+        preparacion: "Hervís 2 o 3 huevos la noche anterior y los dejás con cáscara.",
+        detalle: "Los pelás en 1 minuto en la facultad con una manzana o banana. Cero gasto de kiosco, saciedad total y energía limpia."
+      },
+      {
+        titulo: "🥛 Yogur bebible + puñado de avena o frutos secos",
+        costo: "Fresco y rápido (~$1.400)",
+        preparacion: "Llevar la botellita y una bolsita en la mochila.",
+        detalle: "Ideal para tomar en el recreo entre clínica y teóricos. Aporta calcio, proteína láctea y carbohidratos para el cerebro."
+      },
+      {
+        titulo: "🐟 Pancito o galletitas con atún y queso",
+        costo: "Cero cocción y proteico (~$1.600)",
+        preparacion: "Mezclás medio tarrito de atún con una cucharada de queso en un tupper.",
+        detalle: "Aporta casi 20g de proteína de máxima calidad sin prender el fuego. Rápido, fresco y nutritivo."
+      },
+      {
+        titulo: "🧀 Rollitos de queso y jamón cocido / pastón",
+        costo: "Rápido y al paso (~$1.300)",
+        preparacion: "1 minuto antes de salir de casa.",
+        detalle: "3 o 4 fetas envueltas en papel aluminio. Entran en cualquier bolsillo de la cartera/mochila y te salvan la mañana."
+      },
+      {
+        titulo: "🍫 Barrita proteica limpia (Opción Kiosco)",
+        costo: "Para cuando andás a las apuradas",
+        preparacion: "Comprar en el kiosco camino a Odonto.",
+        detalle: "Es el comodín de emergencia si te quedaste dormida o no llegaste a preparar nada en la cocina."
+      }
+    ];
+
+    let currentSnackIndex = 0;
+    function renderSnackPostGym() {
+      const card = document.getElementById('snack-post-gym-card');
+      if (!card) return;
+      const snack = SNACKS_POST_GYM_CASEROS[currentSnackIndex % SNACKS_POST_GYM_CASEROS.length];
+      card.innerHTML = `
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-xs font-bold text-slate-800">${snack.titulo}</span>
+          <span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 shrink-0">${snack.costo}</span>
+        </div>
+        <p class="text-[10.5px] text-slate-600 leading-snug font-medium">${snack.detalle}</p>
+        <span class="text-[9.5px] text-slate-400 block pt-0.5 italic">⏱️ ${snack.preparacion}</span>
+      `;
+    }
+
+    function cambiarIdeaSnackPostGym() {
+      currentSnackIndex++;
+      renderSnackPostGym();
+    }
+
+    // ==========================================
+    // AGUA & VASITOS INTERACTIVOS (10 x 250ml) & RECORDATORIOS INTELIGENTES
+    // ==========================================
+    const WATER_REMINDER_MESSAGES = [
+      {
+        titulo: "Rendimiento Cerebral & Pulso Firme 🧠",
+        texto: "Tu cerebro es 75% agua: un vasito fresco ahora mantiene tu concentración, claridad y pulso quirúrgico impecables 🩺✨",
+        tag: "Foco en Odonto"
+      },
+      {
+        titulo: "Creatina & Absorción Celular ⚡",
+        texto: "Con la creatina a tope, tus células absorben más agua para acelerar la recuperación y llenar los músculos. ¡A hidratar ese glúteo! 🍑💧",
+        tag: "Gym & Creatina"
+      },
+      {
+        titulo: "El Mejor Skincare Natural 🌸",
+        texto: "Tomar agua con constancia es el mejor secreto de belleza: piel hidratada desde adentro, luminosa y adiós al cansancio facial ✨🤍",
+        tag: "Skincare & Salud"
+      },
+      {
+        titulo: "Reseteo de Energía Inmediato 🔋",
+        texto: "¿Sentís un poquito de pesadez o fatiga? La mayoría de las veces el cuerpo solo pide agua. ¡Tomate un vaso y renová pilas al instante! 🚀",
+        tag: "Energía Limpia"
+      },
+      {
+        titulo: "Momento de Pausa & Mimo 🤍",
+        texto: "Hacé una pausa chiquita en lo que estés haciendo, bajá los hombros y disfrutá un vasito fresco. Tu cuerpo y tu mente te lo agradecen 🌿",
+        tag: "Autocuidado"
+      },
+      {
+        titulo: "Manos Firmes en la Facu 🩺",
+        texto: "Mantener la botellita a mano en las horas de clínica evita dolores de cabeza y calambres posturales. ¡Salud, Caritas! 🦷💧",
+        tag: "Clínica & Estudio"
+      },
+      {
+        titulo: "Digestión & Absorción Óptima 🥑",
+        texto: "El agua ayuda a que todos los nutrientes de tus comidas y meriendas ricas se absorban de diez sin pesadez estomacal 🥪✨",
+        tag: "Nutrición"
+      },
+      {
+        titulo: "Fisiología Pura (Ritmo 90 min) 🌿",
+        texto: "Tomar 250ml cada hora y media permite que tus riñones filtren perfecto sin sobrecargar la vejiga ni apuradas 💧",
+        tag: "Hábito Saludable"
+      },
+      {
+        titulo: "Orgullo de Constancia 🌟",
+        texto: "Cada vasito cuenta para tu meta de 2.5 Litros. ¡Vas súper bien y Naza está re orgulloso de cómo te cuidás! ✨🤍",
+        tag: "Motivación"
+      },
+      {
+        titulo: "Reparación Celular & Buen Descanso 🌙",
+        texto: "Hidratarte parejo durante el día asegura que llegues a la noche relajada y disfrutes un sueño profundo y reparador 🛌✨",
+        tag: "Sueño Profundo"
+      }
+    ];
+
+    function getRecommendedCupsAtCurrentTime(now = new Date()) {
+      const hour = now.getHours() + (now.getMinutes() / 60);
+      if (hour < 8) return 0;
+      if (hour >= 21.5) return 10;
+      // Ventana activa de 8:00 a 21:30 (13.5 horas divididas en 9 intervalos de 90 min)
+      const progress = (hour - 8) / 13.5;
+      return Math.min(10, Math.floor(1 + (progress * 9)));
+    }
+
     function renderWaterCups() {
       const container = document.getElementById('water-cups-grid');
       if (!container) return;
@@ -2766,15 +4873,31 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
     function toggleCup(index) {
       waterMl = index * 250;
       localStorage.setItem('water_ml', waterMl);
+      localStorage.setItem('water_last_date', getTodayDateKey());
       updateWaterUI();
       renderWaterCups();
+      updateWaterPacingUI();
+    }
+
+    function addOneWaterCup() {
+      if (waterMl < 2500) {
+        waterMl = Math.min(2500, waterMl + 250);
+        localStorage.setItem('water_ml', waterMl);
+        localStorage.setItem('water_last_date', getTodayDateKey());
+        updateWaterUI();
+        renderWaterCups();
+        updateWaterPacingUI();
+        if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
+      }
     }
 
     function resetWater() {
       waterMl = 0;
       localStorage.setItem('water_ml', 0);
+      localStorage.setItem('water_last_date', getTodayDateKey());
       updateWaterUI();
       renderWaterCups();
+      updateWaterPacingUI();
     }
 
     function updateWaterUI() {
@@ -2786,11 +4909,385 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
       if (quick) quick.innerText = `${liters}L / 2.5L`;
     }
 
+    function initWaterReminders() {
+      const chk = document.getElementById('chk-water-reminders');
+      if (chk) chk.checked = waterRemindersEnabled;
+      updateWaterReminderSettingsUI();
+      updateWaterPacingUI();
+    }
+
+    function updateWaterReminderSettingsUI() {
+      const chk = document.getElementById('chk-water-reminders');
+      if (chk) chk.checked = waterRemindersEnabled;
+
+      document.querySelectorAll('.btn-interval').forEach(btn => {
+        const val = parseInt(btn.getAttribute('data-min'));
+        if (val === waterReminderIntervalMin) {
+          btn.className = 'btn-interval px-2 py-0.5 rounded-lg border text-[10px] font-bold transition bg-blue-600 text-white border-blue-600 shadow-2xs';
+        } else {
+          btn.className = 'btn-interval px-2 py-0.5 rounded-lg border text-[10px] font-bold transition bg-white text-slate-600 border-slate-200 hover:bg-slate-50';
+        }
+      });
+    }
+
+    async function toggleWaterReminders(enabled) {
+      waterRemindersEnabled = enabled;
+      localStorage.setItem('water_reminders_enabled', enabled ? 'true' : 'false');
+
+      if (enabled) {
+        if ("Notification" in window) {
+          if (Notification.permission === 'default') {
+            try {
+              await Notification.requestPermission();
+            } catch (e) {}
+          }
+        }
+        lastWaterReminderTimestamp = Date.now();
+        localStorage.setItem('water_last_reminder_time', lastWaterReminderTimestamp);
+      }
+      updateWaterReminderSettingsUI();
+      updateWaterPacingUI();
+      updateNotificationPermissionStatusUI();
+    }
+
+    function setWaterInterval(mins) {
+      waterReminderIntervalMin = mins;
+      localStorage.setItem('water_reminder_interval', mins);
+      updateWaterReminderSettingsUI();
+      updateWaterPacingUI();
+    }
+
+    function toggleWaterScheduleDetails() {
+      const el = document.getElementById('water-schedule-details');
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function updateWaterPacingUI() {
+      const pacingEl = document.getElementById('water-pacing-indicator');
+      const nextEl = document.getElementById('water-next-reminder-time');
+      if (!pacingEl) return;
+
+      const now = new Date();
+      const currentCups = Math.floor(waterMl / 250);
+      const recommendedCups = getRecommendedCupsAtCurrentTime(now);
+
+      if (currentCups >= 10) {
+        pacingEl.innerHTML = `
+          <div class="bg-emerald-50 border border-emerald-200 p-2 rounded-xl flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-800">
+            <span>🎉</span> ¡Meta de 2.5L cumplida hoy! Hidratación impecable.
+          </div>
+        `;
+      } else if (currentCups >= recommendedCups) {
+        pacingEl.innerHTML = `
+          <div class="bg-sky-50 border border-sky-200 p-2 rounded-xl flex items-center gap-1.5 text-[11px] font-bold text-sky-800">
+            <span>✨</span> Ritmo ideal: Llevás ${currentCups} de ${recommendedCups} vasos sugeridos a esta hora.
+          </div>
+        `;
+      } else {
+        const diff = recommendedCups - currentCups;
+        pacingEl.innerHTML = `
+          <div class="bg-amber-50 border border-amber-200 p-2 rounded-xl flex items-center justify-between gap-1 text-[11px] font-bold text-amber-900">
+            <span>⏰ Ritmo a esta hora: ${recommendedCups} vasos (llevás ${currentCups}).</span>
+            <button onclick="addOneWaterCup()" class="px-2 py-0.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-[10px] font-extrabold transition shadow-2xs shrink-0">
+              + Tomar 1 vaso
+            </button>
+          </div>
+        `;
+      }
+
+      if (nextEl) {
+        if (!waterRemindersEnabled) {
+          nextEl.innerText = "Recordatorios en pausa";
+        } else {
+          const intervalMs = waterReminderIntervalMin * 60 * 1000;
+          const nextTime = new Date(lastWaterReminderTimestamp + intervalMs);
+          if (Date.now() > lastWaterReminderTimestamp + intervalMs) {
+            nextEl.innerText = "Próximo aviso: Inminente 💧";
+          } else {
+            const timeStr = nextTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            nextEl.innerText = `Próximo aviso: ~${timeStr} hs`;
+          }
+        }
+      }
+    }
+
+    function checkWaterReminders() {
+      if (!waterRemindersEnabled) {
+        updateWaterPacingUI();
+        return;
+      }
+
+      const now = new Date();
+      const hour = now.getHours() + (now.getMinutes() / 60);
+
+      // Solo entre 08:00 y 22:00 hs
+      if (hour < 8 || hour >= 22) {
+        updateWaterPacingUI();
+        return;
+      }
+
+      // Si ya completó los 10 vasos (2500 ml), no insistir
+      if (waterMl >= 2500) {
+        updateWaterPacingUI();
+        return;
+      }
+
+      const intervalMs = waterReminderIntervalMin * 60 * 1000;
+      if (lastWaterReminderTimestamp === 0) {
+        lastWaterReminderTimestamp = Date.now();
+        localStorage.setItem('water_last_reminder_time', lastWaterReminderTimestamp);
+      }
+
+      const timeSinceLast = Date.now() - lastWaterReminderTimestamp;
+      if (timeSinceLast >= intervalMs) {
+        triggerWaterReminder();
+      }
+
+      updateWaterPacingUI();
+    }
+
+    function triggerWaterReminder(isTest = false) {
+      const msg = WATER_REMINDER_MESSAGES[waterReminderIndex % WATER_REMINDER_MESSAGES.length];
+      if (!isTest) {
+        waterReminderIndex++;
+        localStorage.setItem('water_reminder_msg_index', waterReminderIndex);
+        lastWaterReminderTimestamp = Date.now();
+        localStorage.setItem('water_last_reminder_time', lastWaterReminderTimestamp);
+      }
+
+      // 1. Mostrar banner flotante en la app
+      showWaterFloatingBanner(msg);
+
+      // 2. Vibración suave en Android
+      if (navigator.vibrate) {
+        navigator.vibrate([150, 80, 150]);
+      }
+
+      // 3. Notificación nativa del sistema en la barra de Android
+      if ("Notification" in window && Notification.permission === "granted") {
+        const options = {
+          body: msg.texto,
+          icon: 'icon.png',
+          badge: 'icon.png',
+          tag: 'male-water-reminder',
+          renotify: true,
+          vibrate: [200, 100, 200]
+        };
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.ready.then(reg => {
+            if (reg && reg.showNotification) {
+              return reg.showNotification(`💧 ${msg.titulo}`, options);
+            }
+          }).catch(err => {
+            console.warn('Error en ServiceWorker showNotification:', err);
+            try {
+              new Notification(`💧 ${msg.titulo}`, options);
+            } catch(e) {}
+          });
+        } else {
+          try {
+            new Notification(`💧 ${msg.titulo}`, options);
+          } catch(e) {}
+        }
+      }
+    }
+
+    function showWaterFloatingBanner(msg) {
+      const banner = document.getElementById('water-reminder-floating-banner');
+      if (!banner) return;
+
+      const titleEl = document.getElementById('water-banner-title');
+      const tagEl = document.getElementById('water-banner-tag');
+      const textEl = document.getElementById('water-banner-text');
+
+      if (titleEl) titleEl.innerText = msg.titulo;
+      if (tagEl) tagEl.innerText = msg.tag || 'Hidratación';
+      if (textEl) textEl.innerText = msg.texto;
+
+      banner.classList.remove('hidden');
+      setTimeout(() => {
+        banner.classList.remove('-translate-y-32');
+        banner.classList.add('translate-y-0');
+      }, 20);
+
+      if (window.waterBannerTimeout) clearTimeout(window.waterBannerTimeout);
+      window.waterBannerTimeout = setTimeout(() => {
+        cerrarWaterBanner();
+      }, 14000);
+    }
+
+    function cerrarWaterBanner() {
+      const banner = document.getElementById('water-reminder-floating-banner');
+      if (!banner) return;
+      banner.classList.remove('translate-y-0');
+      banner.classList.add('-translate-y-32');
+      setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 500);
+    }
+
+    function tomarVasoDesdeBanner() {
+      addOneWaterCup();
+      cerrarWaterBanner();
+    }
+
+    async function testWaterNotification() {
+      if (!("Notification" in window)) {
+        alert("Este dispositivo o navegador no soporta notificaciones de sistema.");
+        triggerWaterReminder(true);
+        return;
+      }
+
+      let perm = Notification.permission;
+      if (perm !== "granted") {
+        try {
+          perm = await Notification.requestPermission();
+        } catch (e) {
+          console.warn("Error pidiendo permiso:", e);
+        }
+      }
+
+      if (perm === 'granted') {
+        triggerWaterReminder(true);
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.ready.then(reg => {
+            if (reg && reg.showNotification) {
+              reg.showNotification('💧 ¡Notificación exitosa en tu celu! ✨', {
+                body: 'Las alertas de agua están funcionando perfecto en tu Android.',
+                icon: 'icon.png',
+                badge: 'icon.png',
+                vibrate: [200, 100, 200]
+              });
+            }
+          }).catch(e => console.warn('SW test err:', e));
+        }
+      } else if (perm === 'denied') {
+        alert("⚠️ Las notificaciones están BLOQUEADAS en Chrome para este sitio.\n\nPara activarlas:\n1. Tocá el candado o ajustes 🔒 arriba al lado de la dirección web.\n2. Entrá en 'Permisos' > 'Notificaciones'.\n3. Elegí 'Permitir'.");
+        triggerWaterReminder(true);
+      } else {
+        triggerWaterReminder(true);
+      }
+      updateNotificationPermissionStatusUI();
+    }
+
+    function updateNotificationPermissionStatusUI() {
+      const badge = document.getElementById('notification-perm-badge');
+      const text = document.getElementById('perm-status-text');
+      const banner = document.getElementById('banner-solicitar-notificaciones');
+
+      if (!("Notification" in window)) {
+        if (badge) badge.classList.add('hidden');
+        if (banner) banner.classList.add('hidden');
+        return;
+      }
+
+      const perm = Notification.permission;
+
+      if (badge && text) {
+        if (perm === 'granted') {
+          badge.className = 'text-[10px] py-1.5 px-2.5 rounded-xl flex items-center justify-between font-bold bg-emerald-50 text-emerald-800 border border-emerald-200';
+          text.innerHTML = '<span>✅ Alertas activas en tu celular</span>';
+        } else if (perm === 'denied') {
+          badge.className = 'text-[10px] py-1.5 px-2.5 rounded-xl flex items-center justify-between font-bold bg-rose-50 text-rose-800 border border-rose-200';
+          text.innerHTML = '<span>⚠️ Bloqueadas en Chrome (tocá 🔒 arriba)</span>';
+        } else {
+          badge.className = 'text-[10px] py-1.5 px-2.5 rounded-xl flex items-center justify-between font-bold bg-amber-50 text-amber-800 border border-amber-200';
+          text.innerHTML = '<span>🔔 Permiso pendiente de activar</span>';
+        }
+      }
+
+      // Banner en la pantalla principal
+      if (banner) {
+        if (perm === 'default' && localStorage.getItem('dismissed_notif_banner') !== 'true') {
+          banner.classList.remove('hidden');
+        } else {
+          banner.classList.add('hidden');
+        }
+      }
+    }
+
+    async function activarNotificacionesDesdeBanner() {
+      if (!("Notification" in window)) return;
+      try {
+        const perm = await Notification.requestPermission();
+        if (perm === 'granted') {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(reg => {
+              if (reg && reg.showNotification) {
+                reg.showNotification('🌸 ¡Notificaciones activadas, Caritas! ✨', {
+                  body: 'Te voy a ir avisando a lo largo del día para que no te cuelgues con el agua 💧',
+                  icon: 'icon.png',
+                  badge: 'icon.png',
+                  vibrate: [200, 100, 200]
+                });
+              }
+            });
+          }
+        }
+      } catch (e) {}
+      updateNotificationPermissionStatusUI();
+    }
+
+    function dismissNotificationBanner() {
+      localStorage.setItem('dismissed_notif_banner', 'true');
+      const banner = document.getElementById('banner-solicitar-notificaciones');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    function exportWaterScheduleToCalendar() {
+      const events = [
+        { time: "080000", title: "💧 Vaso 1: Desayuno + Creatina (Male 360)", desc: "Desayuno completo en casa + 5g de creatina monohidrato" },
+        { time: "093000", title: "💧 Vaso 2: Media Mañana (Male 360)", desc: "Vaso de agua en la facu o gym" },
+        { time: "110000", title: "💧 Vaso 3: Pausa Clínica (Male 360)", desc: "Pausa en cursada o clínica para recargar foco" },
+        { time: "123000", title: "💧 Vaso 4: Con el Almuerzo (Male 360)", desc: "Vaso fresco con tu almuerzo rico" },
+        { time: "140000", title: "💧 Vaso 5: Tarde / Post-Siesta (Male 360)", desc: "Agua fresca post-almuerzo o power nap" },
+        { time: "153000", title: "💧 Vaso 6: Media Tarde (Male 360)", desc: "Hidratación para el estudio o regreso a casa" },
+        { time: "170000", title: "💧 Vaso 7: Con la Merienda (Male 360)", desc: "Vaso de agua o mate con merienda proteica" },
+        { time: "183000", title: "💧 Vaso 8: Vuelta a Casa & Relax (Male 360)", desc: "Hidratar el cuerpo al llegar a casa" },
+        { time: "200000", title: "💧 Vaso 9: Con la Cena (Male 360)", desc: "Cena rica y vasito de agua" },
+        { time: "213000", title: "💧 Vaso 10: Cierre del Día (Male 360)", desc: "Último vasito antes de acostarte. ¡Meta de 2.5L cumplida!" }
+      ];
+
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      const dateStr = `${y}${m}${d}`;
+
+      let ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Male 360//Hidratacion Inteligente//ES\r\nCALSCALE:GREGORIAN\r\n";
+      events.forEach((ev, idx) => {
+        ics += "BEGIN:VEVENT\r\n";
+        ics += `UID:male-water-${idx}-${dateStr}@male360\r\n`;
+        ics += `DTSTART:${dateStr}T${ev.time}\r\n`;
+        ics += `DTEND:${dateStr}T${ev.time.substring(0,2)}1500\r\n`;
+        ics += "RRULE:FREQ=DAILY\r\n";
+        ics += `SUMMARY:${ev.title}\r\n`;
+        ics += `DESCRIPTION:${ev.desc}\r\n`;
+        ics += "BEGIN:VALARM\r\nTRIGGER:-PT0M\r\nACTION:DISPLAY\r\nDESCRIPTION:Recordatorio de Agua Male 360\r\nEND:VALARM\r\n";
+        ics += "END:VEVENT\r\n";
+      });
+      ics += "END:VCALENDAR\r\n";
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Alarmas_Agua_Male_360.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     // ==========================================
     // HÁBITO CREATINA
     // ==========================================
     function toggleHabitoCreatina(checked, save = true) {
-      if (save) localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
+      if (save) {
+        localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
+        localStorage.setItem('creatina_last_date', getTodayDateKey());
+      }
       const label = document.getElementById('label-chk-creatina');
       if (label) {
         label.innerText = checked ? '¡Sí, tomada!' : 'Pendiente';
@@ -2803,7 +5300,10 @@ Estructura la respuesta de forma clara, con viñetas limpias y emojis sutiles (�
     // HÁBITO CELULAR LEJOS
     // ==========================================
     function toggleHabitoCelular(checked, save = true) {
-      if (save) localStorage.setItem('celular_lejos_hoy', checked ? 'true' : 'false');
+      if (save) {
+        localStorage.setItem('celular_lejos_hoy', checked ? 'true' : 'false');
+        localStorage.setItem('celular_last_date', getTodayDateKey());
+      }
       const label = document.getElementById('label-chk-celular');
       if (label) {
         label.innerText = checked ? '¡Alejado! 🌙' : 'Pendiente';
