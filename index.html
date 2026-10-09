@@ -341,6 +341,46 @@
           </div>
         </div>
 
+        <!-- CARD: TOPES CLÍNICOS & CUENTA REGRESIVA DE MATERIAS (TRUCO & BLACK) -->
+        <div class="bg-gradient-to-br from-indigo-50/90 via-white to-purple-50/80 border border-indigo-200/90 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-9 h-9 rounded-2xl bg-indigo-100/90 border border-indigo-200 flex items-center justify-center text-lg shadow-2xs">
+                🎴
+              </div>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <span>Topes Clínicos & Cuenta Regresiva</span>
+                  <span id="badge-topes-progreso" class="text-[10px] text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full font-bold">51 / 79</span>
+                </h4>
+                <p class="text-[10px] text-slate-500 font-medium">Palitos de truco, checklist de altas y clases de Black</p>
+              </div>
+            </div>
+            <button onclick="openTopesClinicosModal()" class="w-7 h-7 rounded-full bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-bold flex items-center justify-center text-sm shadow-2xs transition active:scale-95" title="Abrir Topes">🎴</button>
+          </div>
+
+          <!-- BARRA DE CUENTA REGRESIVA GENERAL -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center text-[10px]">
+              <span id="topes-preview-restantes" class="font-extrabold text-indigo-900">¡Faltan solo 28 requisitos! 💪✨</span>
+              <span id="topes-preview-porcentaje" class="font-bold text-indigo-700">65% completado</span>
+            </div>
+            <div class="w-full h-2.5 bg-indigo-100/80 rounded-full overflow-hidden p-0.5">
+              <div id="topes-preview-bar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500" style="width: 65%;"></div>
+            </div>
+          </div>
+
+          <!-- MINI PILLS DE LAS 5 MATERIAS -->
+          <div id="topes-preview-pills" class="grid grid-cols-2 gap-1.5 text-[11px]">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+          <!-- BOTÓN ABRIR MODAL COMPLETO -->
+          <button onclick="openTopesClinicosModal()" class="w-full py-2 px-2.5 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 text-white rounded-2xl text-xs font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5">
+            <span>🎴</span> Abrir Palitos de Truco & Checklist
+          </button>
+        </div>
+
         <!-- BOTÓN SOS ACCESO DIRECTO EN MI DÍA -->
         <button onclick="openSosModal()" class="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-rose-100/90 via-pink-50 to-purple-50 border border-rose-200/90 flex items-center justify-between shadow-2xs hover:bg-rose-100 transition active:scale-98">
           <div class="flex items-center gap-2">
@@ -408,8 +448,8 @@
       <div id="view-gym" class="view-panel hidden space-y-4">
         <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm flex items-center justify-between">
           <div>
-            <h2 class="text-sm font-extrabold text-slate-900">Mesociclo 1 — Semana 2 (RIR 2)</h2>
-            <p class="text-[11px] text-slate-500">Mismos kilos que la semana pasada, sumando 1 a 2 repes.</p>
+            <h2 class="text-sm font-extrabold text-slate-900">Mesociclo 1 — Semana 3 (RIR 1)</h2>
+            <p class="text-[11px] text-slate-500">Máxima tensión mecánica a RIR 1. Consolidando récords de la semana pasada.</p>
           </div>
           <span class="text-xs bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-2xl font-bold">
             Glúteo & Piernas
@@ -812,7 +852,7 @@
 
         <div>
           <h3 class="text-sm font-extrabold text-slate-900" id="gym-feedback-title">¡Gran laburo hoy, Caritas! 🚀</h3>
-          <p class="text-[11px] text-slate-500 font-medium" id="gym-feedback-subtitle">Mesociclo 1 • Semana 2 completada</p>
+          <p class="text-[11px] text-slate-500 font-medium" id="gym-feedback-subtitle">Mesociclo 1 • Semana 3 activa</p>
         </div>
 
         <!-- RESUMEN DE MÉTRICAS RÁPIDAS -->
@@ -1471,6 +1511,70 @@
       </div>
     </div>
 
+    <!-- ============================================== -->
+    <!-- MODAL 8: CUENTA REGRESIVA DE TOPES CLÍNICOS (PALITOS DE TRUCO & BLACK) -->
+    <!-- ============================================== -->
+    <div id="modal-topes-clinicos" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4">
+      <div class="bg-white rounded-3xl p-4 sm:p-5 max-w-md w-full border border-indigo-200 shadow-2xl space-y-3.5 transform transition-all max-h-[92vh] flex flex-col">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-indigo-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-base shadow-2xs">
+              🎴
+            </div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Cuenta Regresiva de Topes Clínicos</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Palitos de truco, checklist de altas y clases de Black 🦷</p>
+            </div>
+          </div>
+          <button onclick="closeTopesClinicosModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- Contenido Scrollable -->
+        <div id="modal-topes-content" class="overflow-y-auto space-y-3.5 pr-1 flex-1 text-slate-800">
+          <!-- Renderizado dinámicamente con renderTopesClinicosModal() -->
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0">
+          <button onclick="abrirEdicionManualTopes()" class="text-[11px] font-bold text-slate-500 hover:text-indigo-600 flex items-center gap-1 transition">
+            <span>⚙️</span> Editar números / metas
+          </button>
+          <button onclick="closeTopesClinicosModal()" class="py-1.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+            Listo
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 9: EDICIÓN MANUAL DE TOPES CLÍNICOS -->
+    <!-- ============================================== -->
+    <div id="modal-editar-topes" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-indigo-200 shadow-2xl space-y-3 transform transition-all max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between pb-2 border-b border-indigo-100 shrink-0">
+          <h3 class="text-xs font-extrabold text-slate-900">Editar Cantidades Realizadas</h3>
+          <button onclick="closeEdicionManualTopes()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+        <div class="overflow-y-auto space-y-2.5 pr-1 flex-1 text-xs">
+          <p class="text-[11px] text-slate-500 leading-snug">Ajustá directamente los números si hiciste algo nuevo o si querés corregir alguna cantidad:</p>
+          <div class="space-y-2" id="form-edicion-topes-container">
+            <!-- Inyectado dinámicamente -->
+          </div>
+        </div>
+        <div class="pt-2 border-t border-slate-100 flex gap-2 shrink-0">
+          <button onclick="closeEdicionManualTopes()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+            Cancelar
+          </button>
+          <button onclick="guardarEdicionManualTopes()" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition shadow-xs">
+            Guardar cambios
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -1594,7 +1698,7 @@
       }
     }
 
-    // DATOS DE GYM (SEMANA 2 RIR 2) CON ESQUEMA INTERACTIVO & REEMPLAZOS
+    // DATOS DE GYM (MESOCICLO 1 — SEMANA 3: RIR 1) CON SOBRECARGA REAL & PROTOCOLO DE ENTRADA EN CALOR
     const GYM_ROUTINE = {
       dia1: [
         {
@@ -1602,25 +1706,26 @@
           nombre: "Peso Muerto Rumano (RDL)",
           musculo: "Glúteo mayor e isquios",
           series: 3,
-          cargaSugerida: "14 kg x mano",
-          metaReps: [11, 11, 11],
+          cargaSugerida: "16 kg x mano (¡Récord Conquistado!)",
+          metaReps: [10, 10, 10],
+          calentamiento: "2 a 3 series de aproximación progresivas: 1x10 sin peso o con 8kg ➔ 1x6 con 12kg ➔ 1x3 con 14kg (primer ejercicio de isquios/cadena posterior)",
           defaultLogged: [
-            { kg: "14", reps: 11, completed: true },
-            { kg: "14", reps: 11, completed: true },
-            { kg: "14", reps: 11, completed: true }
+            { kg: "16 kg x mano", reps: 10, completed: true },
+            { kg: "16 kg x mano", reps: 9, completed: true },
+            { kg: "16 kg x mano", reps: 9, completed: true }
           ],
-          tip: "Cadera bien atrás, rodillas en semiflexión fija y espalda neutra sintiendo cómo estiran los glúteos.",
+          tip: "Cadera bien atrás, rodillas en semiflexión fija y espalda neutra sintiendo cómo estiran los glúteos a RIR 1.",
           alternativas: [
             {
               nombre: "RDL con barra corta / hexagonal",
               pesoEquiv: "28 - 30 kg totales",
-              repsEquiv: "11 reps @ RIR 2",
+              repsEquiv: "11 - 12 reps @ RIR 1",
               notaRP: "Equivale exactamente a los 14 kg x mano en mancuernas. Mantiene la misma bisagra de cadera."
             },
             {
               nombre: "Hiperextensiones a 45°",
               pesoEquiv: "Disco 15 kg al pecho",
-              repsEquiv: "12 - 14 reps @ RIR 2",
+              repsEquiv: "12 - 14 reps @ RIR 1",
               notaRP: "Gran estímulo en estiramiento de glúteo e isquios sin fatigar el agarre de las manos."
             }
           ]
@@ -1632,6 +1737,7 @@
           series: 2,
           cargaSugerida: "30 kg",
           metaReps: [9, 9],
+          calentamiento: "1 serie previa con mancuerna de 18-20kg x 6 reps (apertura y aductores). Glúteo ya caliente por RDL.",
           defaultLogged: [
             { kg: "30", reps: 9, completed: true },
             { kg: "30", reps: 9, completed: true }
@@ -1640,14 +1746,14 @@
           alternativas: [
             {
               nombre: "Prensa 45° (pies altos y separados)",
-              pesoEquiv: "70 - 80 kg en prensa",
-              repsEquiv: "10 reps @ RIR 2",
+              pesoEquiv: "80 - 90 kg en prensa",
+              repsEquiv: "10 reps @ RIR 1",
               notaRP: "Simula la misma apertura de aductores y glúteo de la sumo con apoyo lumbar súper seguro."
             },
             {
               nombre: "Sentadilla Goblet sobre cajón",
               pesoEquiv: "28 - 30 kg con mancuerna",
-              repsEquiv: "9 - 10 reps @ RIR 2",
+              repsEquiv: "9 - 10 reps @ RIR 1",
               notaRP: "Controla la profundidad para activar al máximo los glúteos en la fase baja."
             }
           ]
@@ -1656,25 +1762,27 @@
           id: "dia1_hipthrust",
           nombre: "Hip Thrust en Máquina",
           musculo: "Máxima contracción de glúteo",
-          series: 2,
-          cargaSugerida: "20 kg",
-          metaReps: [12, 12],
+          series: 3,
+          cargaSugerida: "25 kg",
+          metaReps: [12, 11, 10],
+          calentamiento: "Sin calentamiento previo (glúteos 100% calientes por RDL y Sumo). Directo a series efectivas.",
           defaultLogged: [
-            { kg: "20", reps: 12, completed: true },
-            { kg: "20", reps: 12, completed: true }
+            { kg: "25", reps: 12, completed: true },
+            { kg: "25", reps: 11, completed: true },
+            { kg: "25", reps: 10, completed: true }
           ],
-          tip: "Pausa de 1 segundo arriba apretando fuerte, mentón pegado al pecho.",
+          tip: "Pausa estricta de 1 segundo arriba apretando fuerte con 25 kg a RIR 1, mentón pegado al pecho.",
           alternativas: [
             {
               nombre: "Hip Thrust con barra libre y almohadilla",
-              pesoEquiv: "50 - 60 kg totales",
-              repsEquiv: "12 reps @ RIR 2",
-              notaRP: "Por la palanca de la barra libre, 20 kg en máquina equivalen a 50-60 kg en barra. Pausa de 1s arriba."
+              pesoEquiv: "55 - 65 kg totales",
+              repsEquiv: "11 reps @ RIR 1",
+              notaRP: "Por la palanca de la barra libre, 25 kg en máquina equivalen a unos 60 kg en barra. Pausa de 1s arriba."
             },
             {
               nombre: "Puente de glúteos en Smith",
-              pesoEquiv: "40 - 50 kg",
-              repsEquiv: "12 reps @ RIR 2",
+              pesoEquiv: "45 - 55 kg",
+              repsEquiv: "11 reps @ RIR 1",
               notaRP: "Recorrido guiado muy estable y focalizado en glúteos."
             }
           ]
@@ -1684,8 +1792,9 @@
           nombre: "Hiperextensiones a 45°",
           musculo: "Glúteos & erectores",
           series: 3,
-          cargaSugerida: "Disco 10 kg",
+          cargaSugerida: "Disco 10 - 15 kg",
           metaReps: [16, 15, 15],
+          calentamiento: "Sin calentamiento previo (cadena posterior caliente). Directo a las 3 series efectivas a RIR 1.",
           defaultLogged: [
             { kg: "10", reps: 16, completed: true },
             { kg: "10", reps: 15, completed: true },
@@ -1695,14 +1804,14 @@
           alternativas: [
             {
               nombre: "Good Mornings con mancuerna al pecho",
-              pesoEquiv: "12 - 14 kg",
-              repsEquiv: "14 - 15 reps @ RIR 2",
+              pesoEquiv: "14 - 16 kg",
+              repsEquiv: "14 - 15 reps @ RIR 1",
               notaRP: "Enfoca la bisagra de cadera con espalda alta redonda para anular lumbares."
             },
             {
               nombre: "Pull-Through en polea baja con soga",
-              pesoEquiv: "20 - 25 kg",
-              repsEquiv: "15 reps @ RIR 2",
+              pesoEquiv: "22 - 27 kg",
+              repsEquiv: "15 reps @ RIR 1",
               notaRP: "Tensión horizontal constante directo a los glúteos."
             }
           ]
@@ -1712,20 +1821,21 @@
           nombre: "Abductores en Máquina",
           musculo: "Glúteo medio",
           series: 3,
-          cargaSugerida: "45 / 63 kg",
-          metaReps: [16, 11, 10],
+          cargaSugerida: "68 / 72 kg",
+          metaReps: [17, 16, 15],
+          calentamiento: "Sin calentamiento previo (glúteo medio activo). Directo a las 3 series efectivas a RIR 1.",
           defaultLogged: [
-            { kg: "45", reps: 16, completed: true },
-            { kg: "63", reps: 11, completed: true },
-            { kg: "63", reps: 10, completed: true }
+            { kg: "68", reps: 17, completed: true },
+            { kg: "72", reps: 16, completed: true },
+            { kg: "72", reps: 15, completed: true }
           ],
           tip: "Inclinarse levemente hacia adelante para activar fibras superiores del glúteo medio.",
           alternativas: [
             {
               nombre: "Patada glúteo medio en polea (tobillera 30°)",
-              pesoEquiv: "5 - 6.8 kg",
-              repsEquiv: "15 reps x pierna @ RIR 2",
-              notaRP: "Equivale a los 45-63 kg de máquina por ser unilateral y de palanca pura."
+              pesoEquiv: "6.8 - 9.1 kg",
+              repsEquiv: "15 reps x pierna @ RIR 1",
+              notaRP: "Equivale a los 68-72 kg de máquina por ser unilateral y de palanca pura."
             },
             {
               nombre: "Caminatas laterales con banda elástica pesada",
@@ -1743,20 +1853,20 @@
           musculo: "Cuádriceps & Glúteo",
           series: 3,
           cargaSugerida: "100 kg",
-          metaReps: [11, 9, 9],
-          calentamiento: "1x10 con 50kg ➔ 1x6 con 80kg",
-          tip: "Bajar profundo y controlado sin despegar la pelvis del respaldo. Empuje con talones.",
+          metaReps: [11, 10, 10],
+          calentamiento: "2 a 3 series de aproximación progresivas: 1x10 con 50kg ➔ 1x5 con 80kg ➔ 1x2 con 90kg (primer ejercicio de cuádriceps)",
+          tip: "Bajar profundo y controlado sin despegar la pelvis del respaldo. Empuje con talones a RIR 1.",
           alternativas: [
             {
               nombre: "Sentadilla Hack (pies en el medio)",
               pesoEquiv: "15 kg x lado (30 kg en discos)",
-              repsEquiv: "10 - 11 reps @ RIR 2",
+              repsEquiv: "10 - 11 reps @ RIR 1",
               notaRP: "100 kg en prensa a 45° equivalen a unos 30 kg en discos en Hack por la inclinación del carro."
             },
             {
               nombre: "Sentadilla Búlgara con mancuernas",
               pesoEquiv: "12 kg x mano",
-              repsEquiv: "10 reps x pierna @ RIR 2",
+              repsEquiv: "10 reps x pierna @ RIR 1",
               notaRP: "Aislador masivo unilateral para cuádriceps y glúteo medio."
             }
           ]
@@ -1767,19 +1877,20 @@
           musculo: "Isquiosurales altos",
           series: 3,
           cargaSugerida: "14 kg x mano",
-          metaReps: [11, 9, 9],
-          tip: "Semiflexión fija de rodilla, empujar cadera hacia la pared de atrás sintiendo estirar isquios.",
+          metaReps: [11, 10, 10],
+          calentamiento: "2 series de aproximación progresivas: 1x8 con 8kg ➔ 1x4 con 10-12kg (primer ejercicio de isquios de la sesión)",
+          tip: "Semiflexión fija de rodilla, empujar cadera hacia la pared de atrás sintiendo estirar isquios a RIR 1.",
           alternativas: [
             {
               nombre: "RDL clásico con mancuernas",
               pesoEquiv: "14 kg x mano",
-              repsEquiv: "10 - 11 reps @ RIR 2",
+              repsEquiv: "10 - 11 reps @ RIR 1",
               notaRP: "Mismo estímulo en bisagra, permitiendo 5° más de flexión de rodilla."
             },
             {
               nombre: "Buenos días con mancuerna al pecho",
               pesoEquiv: "14 - 16 kg",
-              repsEquiv: "10 - 12 reps @ RIR 2",
+              repsEquiv: "10 - 12 reps @ RIR 1",
               notaRP: "Descarga los brazos y enfoca toda la bisagra en isquiosurales."
             }
           ]
@@ -1789,43 +1900,45 @@
           nombre: "Sillón de Extensión de Cuádriceps",
           musculo: "Cuádriceps aislado",
           series: 3,
-          cargaSugerida: "32 kg",
-          metaReps: [13, 13, 12],
-          tip: "Frenar la bajada 2 a 3 segundos para estimular el músculo sin golpear las rodillas.",
+          cargaSugerida: "36 kg",
+          metaReps: [12, 11, 10],
+          calentamiento: "Sin calentamiento previo (cuádriceps ya calientes por la Prensa a 100 kg). Directo a las 3 series efectivas a RIR 1.",
+          tip: "Frenar la bajada 2 a 3 segundos para estimular el músculo sin golpear las rodillas a RIR 1.",
           alternativas: [
             {
               nombre: "Prensa liviana (pies juntos y abajo)",
-              pesoEquiv: "50 - 60 kg",
-              repsEquiv: "12 - 14 reps @ RIR 2",
+              pesoEquiv: "55 - 65 kg",
+              repsEquiv: "12 - 14 reps @ RIR 1",
               notaRP: "Aísla cuádriceps con menor tensión articular directa en el tendón rotuliano."
             },
             {
               nombre: "Sentadilla Goblet con talones sobre disco",
               pesoEquiv: "14 - 16 kg",
-              repsEquiv: "12 - 14 reps @ RIR 2",
+              repsEquiv: "12 - 14 reps @ RIR 1",
               notaRP: "La elevación de talones enfatiza el cuádriceps sin cargar la zona lumbar."
             }
           ]
         },
         {
           id: "dia2_legcurl",
-          nombre: "Seated Leg Curl",
+          nombre: "Seated Leg Curl (o Camilla Isquios)",
           musculo: "Isquiotibiales",
           series: 2,
-          cargaSugerida: "20 - 23 kg",
-          metaReps: [11, 11],
-          tip: "¡Cuidar rótula! Subir solo 1 pin respecto a la semana pasada, cadera bien pegada.",
+          cargaSugerida: "23 - 27 kg",
+          metaReps: [12, 11],
+          calentamiento: "1 serie previa suave (16-18 kg x 6 reps) para ajustar asiento y lubricar rótula. Isquios ya calientes por SLDL.",
+          tip: "¡Cuidar rótula! Cadera bien pegada al respaldo, bajada lenta en 2-3s. A RIR 1.",
           alternativas: [
             {
               nombre: "Lying Leg Curl (camilla tumbada)",
-              pesoEquiv: "18 - 20 kg",
-              repsEquiv: "11 reps @ RIR 2",
-              notaRP: "Equivale a 20-23 kg sentada. Mantener cadera pegada a la camilla."
+              pesoEquiv: "22 - 27 kg",
+              repsEquiv: "11 - 12 reps @ RIR 1",
+              notaRP: "Equivale a 23-27 kg sentada. Mantener cadera pegada a la camilla."
             },
             {
               nombre: "Curl femoral con mancuerna en banco",
               pesoEquiv: "10 - 12 kg entre pies",
-              repsEquiv: "11 - 12 reps @ RIR 2",
+              repsEquiv: "11 - 12 reps @ RIR 1",
               notaRP: "Aislamiento en flexión de rodilla cuidando la articulación."
             }
           ]
@@ -1837,18 +1950,19 @@
           series: 2,
           cargaSugerida: "36 kg",
           metaReps: [15, 15],
-          tip: "Pausa de 1 segundo en máxima apertura y contracción controlada.",
+          calentamiento: "1 serie de aproximación: 20-25 kg x 8 reps (primer trabajo específico de aductores). Luego directo a series efectivas a RIR 1.",
+          tip: "Pausa de 1 segundo en máxima apertura y contracción controlada a RIR 1.",
           alternativas: [
             {
               nombre: "Aductor en polea baja con tobillera",
               pesoEquiv: "5 - 7.5 kg",
-              repsEquiv: "14 - 15 reps @ RIR 2",
+              repsEquiv: "14 - 15 reps @ RIR 1",
               notaRP: "Tensión constante en aducción medial con rango completo."
             },
             {
               nombre: "Sentadilla Sumo con pausa isométrica (3s)",
               pesoEquiv: "22 - 24 kg",
-              repsEquiv: "12 reps @ RIR 2",
+              repsEquiv: "12 reps @ RIR 1",
               notaRP: "Pausa abajo para elongar y contraer aductores con alta tensión mecánica."
             }
           ]
@@ -1860,21 +1974,21 @@
           nombre: "Extensión de Cuádriceps",
           musculo: "Cuádriceps (Aislamiento y bombeo)",
           series: 2,
-          cargaSugerida: "32 kg",
+          cargaSugerida: "32 - 36 kg",
           metaReps: [14, 14],
-          calentamiento: "1 serie previa de aproximación con 16 kg x 8 reps (suave)",
+          calentamiento: "2 series de aproximación previa: 1x10 suave con 16kg ➔ 1x6 con 24kg (lubricar rótula y calentar cuádriceps antes de Hack/Prensa)",
           tip: "Controlar la bajada 2 segundos. Estas 2 series efectivas lubrican y preparan la rótula antes de la Hack.",
           alternativas: [
             {
               nombre: "Prensa a 45° liviana (pies abajo)",
               pesoEquiv: "50 - 60 kg",
-              repsEquiv: "14 reps @ RIR 2",
+              repsEquiv: "14 reps @ RIR 1",
               notaRP: "Bombeo preparatorio para cuádriceps antes de la Hack."
             },
             {
               nombre: "Sentadilla Goblet liviana y controlada",
               pesoEquiv: "12 - 14 kg",
-              repsEquiv: "14 reps @ RIR 2",
+              repsEquiv: "14 reps @ RIR 1",
               notaRP: "Lubrica rodillas con tempo suave 3-0-1."
             }
           ]
@@ -1885,21 +1999,21 @@
           musculo: "Glúteo & Cuádriceps",
           series: 3,
           cargaSugerida: "15 kg x lado",
-          metaReps: [11, 11, 11],
-          calentamiento: "1x8 sin discos ➔ 1x5 con 7.5kg x lado",
-          tip: "Mirando hacia la máquina, empuje firme con talones y recorrido profundo y seguro.",
+          metaReps: [12, 12, 12],
+          calentamiento: "2 series de aproximación de carga: Hack sin discos (o Prensa con 50kg) x 8 reps ➔ 7.5kg/lado (o Prensa con 80kg) x 4-5 reps",
+          tip: "Mirando hacia la máquina, empuje firme con talones y recorrido profundo y seguro a RIR 1.",
           alternativas: [
+            {
+              nombre: "Prensa inclinada a 45° (reemplazo oficial si no hay Hack)",
+              pesoEquiv: "100 kg",
+              repsEquiv: "12 - 14 reps @ RIR 1",
+              notaRP: "Reemplazo exacto que hizo Male. Descarga la columna y trabaja glúteo mayor y cuádriceps con 100 kg firmes."
+            },
             {
               nombre: "Sentadilla Hack tradicional de espaldas",
               pesoEquiv: "15 kg x lado",
-              repsEquiv: "11 reps @ RIR 2",
+              repsEquiv: "11 reps @ RIR 1",
               notaRP: "Misma máquina, postura tradicional con pies adelantados."
-            },
-            {
-              nombre: "Prensa inclinada (pies altos y anchos)",
-              pesoEquiv: "90 - 100 kg",
-              repsEquiv: "11 reps @ RIR 2",
-              notaRP: "Descarga la columna y trabaja glúteo mayor y cuádriceps."
             }
           ]
         },
@@ -1908,20 +2022,21 @@
           nombre: "Step Up Hack Inversa",
           musculo: "Glúteo Unilateral",
           series: 3,
-          cargaSugerida: "10 kg x lado",
+          cargaSugerida: "15 kg x lado",
           metaReps: [10, 10, 10],
-          tip: "Todo el peso en la pierna delantera, sin impulsarse con el pie de atrás.",
+          calentamiento: "Sin calentamiento previo (piernas y glúteos calientes de la Hack/Prensa). Directo a series efectivas a RIR 1.",
+          tip: "Todo el peso en la pierna delantera, sin impulsarse con el pie de atrás con 15 kg por lado.",
           alternativas: [
             {
               nombre: "Step Up en cajón de madera con mancuernas",
-              pesoEquiv: "8 - 10 kg x mano",
-              repsEquiv: "10 reps x pierna @ RIR 2",
+              pesoEquiv: "10 - 12 kg x mano",
+              repsEquiv: "10 reps x pierna @ RIR 1",
               notaRP: "Empuje exclusivamente con el talón de la pierna superior."
             },
             {
               nombre: "Estocadas estáticas hacia atrás en Smith",
-              pesoEquiv: "10 kg x lado",
-              repsEquiv: "10 reps x pierna @ RIR 2",
+              pesoEquiv: "12.5 - 15 kg x lado",
+              repsEquiv: "10 reps x pierna @ RIR 1",
               notaRP: "Carga guiada con inclinación de torso a 20° para glúteo."
             }
           ]
@@ -1931,44 +2046,22 @@
           nombre: "Good Mornings Hack",
           musculo: "Cadena Posterior",
           series: 3,
-          cargaSugerida: "10 kg x lado",
+          cargaSugerida: "15 kg x lado",
           metaReps: [11, 11, 11],
-          tip: "Bisagra de cadera guiada, cuidando la zona lumbar sin arquear.",
+          calentamiento: "1 serie de aproximación con carro/peso suave x 6 reps (bisagra de cadera guiada). Luego directo a series efectivas con 15kg/lado a RIR 1.",
+          tip: "Bisagra de cadera guiada, cuidando la zona lumbar sin arquear con 15 kg por lado.",
           alternativas: [
             {
               nombre: "Buenos días con mancuerna al pecho",
-              pesoEquiv: "14 - 16 kg",
-              repsEquiv: "11 reps @ RIR 2",
+              pesoEquiv: "16 - 18 kg",
+              repsEquiv: "11 reps @ RIR 1",
               notaRP: "Bisagra pura de cadera, rodillas suaves sin bloquear."
             },
             {
               nombre: "Hiperextensiones a 45° con disco",
-              pesoEquiv: "Disco 10 - 15 kg",
-              repsEquiv: "12 - 14 reps @ RIR 2",
+              pesoEquiv: "Disco 15 kg",
+              repsEquiv: "12 - 14 reps @ RIR 1",
               notaRP: "Excelente estímulo en elongación de cadena posterior."
-            }
-          ]
-        },
-        {
-          id: "dia3_legcurl",
-          nombre: "Seated Leg Curl",
-          musculo: "Isquiotibiales",
-          series: 2,
-          cargaSugerida: "20 - 23 kg",
-          metaReps: [11, 11],
-          tip: "Subir 1 pin para entrar en RIR 2 cuidando la rótula con la cadera bien pegada.",
-          alternativas: [
-            {
-              nombre: "Lying Leg Curl en camilla",
-              pesoEquiv: "18 - 20 kg",
-              repsEquiv: "11 reps @ RIR 2",
-              notaRP: "Equivale a 20-23 kg en sentada. Cuidar la rótula."
-            },
-            {
-              nombre: "Curl femoral deslizante con toalla en suelo",
-              pesoEquiv: "Peso corporal controlado",
-              repsEquiv: "10 - 12 reps @ RIR 2",
-              notaRP: "Excéntrico lento sintiendo isquiotibiales en estiramiento."
             }
           ]
         },
@@ -1977,20 +2070,21 @@
           nombre: "Patada de Glúteo en Polea (Atrás)",
           musculo: "Glúteo Mayor Superior",
           series: 2,
-          cargaSugerida: "6.8 kg",
-          metaReps: [16, 16],
-          tip: "Extensión diagonal sin quebrar la cintura ni arquear lumbares.",
+          cargaSugerida: "6.8 / 9.1 kg",
+          metaReps: [16, 12],
+          calentamiento: "Sin calentamiento previo (glúteo 100% caliente por la Hack, Step Up y Good Mornings). Directo a 2 series efectivas a RIR 1.",
+          tip: "Extensión diagonal sin quebrar la cintura ni arquear lumbares a RIR 1.",
           alternativas: [
             {
               nombre: "Máquina de abductores (inclinación frontal)",
-              pesoEquiv: "63 kg (o 45 kg si hay fatiga)",
-              repsEquiv: "15 reps @ RIR 2",
-              notaRP: "Reemplazo exacto que hiciste. Activa glúteo medio/superior con máxima estabilidad."
+              pesoEquiv: "72 kg",
+              repsEquiv: "15 - 16 reps @ RIR 1",
+              notaRP: "Reemplazo exacto de máxima estabilidad para glúteo medio/superior."
             },
             {
               nombre: "Patada de glúteo en banco con mancuerna en corva",
-              pesoEquiv: "6 - 8 kg",
-              repsEquiv: "14 - 15 reps @ RIR 2",
+              pesoEquiv: "8 kg",
+              repsEquiv: "14 - 15 reps @ RIR 1",
               notaRP: "Extensión de cadera en cuadrupedia manteniendo abdomen firme."
             }
           ]
@@ -1998,113 +2092,337 @@
       ]
     };
 
-    // OBTENER ESTADO REAL DINÁMICO DE GYM (SESIONES Y LOGS)
-    function getGymStatusSummary() {
+    // ==========================================
+    // RAG DE MEMORIA CON PARSEO TEMPORAL ESTRICTO (COFRE DE VICTORIAS)
+    // ==========================================
+    function getVictoriasContextForCoach() {
       try {
-        const logs = JSON.parse(localStorage.getItem('gym_logs_semana2') || '{}');
-        const days = [
-          { key: 'dia1', name: 'Día 1: Glúteo & Cadena Posterior' },
-          { key: 'dia2', name: 'Día 2: Cuádriceps, Isquios & Torso' },
-          { key: 'dia3', name: 'Día 3: Hack Inversa en Pareja (Fiter)' }
-        ];
-        let summaryLines = [];
-        let completedDaysCount = 0;
-        days.forEach(d => {
-          const dLog = logs[d.key];
-          let completedSets = 0;
-          if (dLog) {
-            Object.values(dLog).forEach(sets => {
-              if (Array.isArray(sets)) {
-                sets.forEach(s => { if (s && s.completed) completedSets++; });
-              }
-            });
-          }
-          if (completedSets > 0) {
-            completedDaysCount++;
-            summaryLines.push(`• ${d.name}: ${completedSets} series completadas (HECHO)`);
+        const list = (typeof victoriasMale !== 'undefined' && victoriasMale.length > 0)
+          ? victoriasMale
+          : JSON.parse(localStorage.getItem('victorias_male') || '[]');
+        if (!list || list.length === 0) {
+          return "COFRE DE VICTORIAS Y LOGROS HISTÓRICOS DE MALE:\n(No hay victorias registradas todavía en su cofre).";
+        }
+
+        const now = new Date();
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+        // Procesar hasta 5 victorias con cálculo matemático de días relativos
+        const formatted = list.slice(0, 5).map(v => {
+          let relativeStr = "";
+          if (v.timestamp) {
+            const vDate = new Date(v.timestamp);
+            const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+            const startOfVDate = new Date(vDate.getFullYear(), vDate.getMonth(), vDate.getDate()).getTime();
+            const diffDays = Math.round((startOfToday - startOfVDate) / (1000 * 60 * 60 * 24));
+            const dayOfWeek = diasSemana[vDate.getDay()];
+
+            if (diffDays === 0) {
+              relativeStr = "(Ocurrió HOY)";
+            } else if (diffDays === 1) {
+              relativeStr = "(Ocurrió AYER)";
+            } else if (diffDays < 7) {
+              relativeStr = `(Ocurrió hace ${diffDays} días - ${dayOfWeek} pasado)`;
+            } else if (diffDays < 14) {
+              relativeStr = `(Ocurrió hace ${diffDays} días - ${dayOfWeek} de la semana anterior)`;
+            } else {
+              relativeStr = `(Ocurrió hace ${diffDays} días - ${dayOfWeek} ${vDate.getDate()}/${vDate.getMonth() + 1})`;
+            }
           } else {
-            summaryLines.push(`• ${d.name}: 0 series registradas (PENDIENTE O SALTEADO)`);
+            relativeStr = `(Ocurrió en fecha ${v.fecha || 'anterior'})`;
           }
+
+          return `• [Victoria: ${v.texto}] ${relativeStr}`;
         });
-        return `ESTADO REAL DE LAS SESIONES DE GYM EN LA APP (Mesociclo 1 — Semana 2 RIR 2):
-${summaryLines.join('\n')}
-Total días completados: ${completedDaysCount} de 3.`;
+
+        return `COFRE DE VICTORIAS Y LOGROS HISTÓRICOS DE MALE (RAG DE MEMORIA TEMPORAL EXACTA):
+${formatted.join('\n')}
+⚠️ REGLA CRÍTICA Y OBLIGATORIA DE MEMORIA HISTÓRICA:
+- Cada victoria incluye su cálculo matemático EXACTO de cuándo ocurrió (ej. hace 6 días - Jueves pasado).
+- ESTÁ TERMINANTEMENTE PROHIBIDO inventar la temporalidad o decir que un logro ocurrió 'ayer' o 'recién' si ocurrió hace días o semanas. Si mencionas un logro, respeta rigurosamente el tiempo transcurrido indicado.`;
       } catch (e) {
-        return "ESTADO DE GYM: Mesociclo 1 — Semana 2 RIR 2.";
+        return "";
       }
     }
 
-    // PROMPT DE SISTEMA PARA GEMINI (COACH CÁLIDO, EMPÁTICO Y CIENTÍFICO)
+    // ==========================================
+    // ESTADO DE SESIONES COMPLETADAS EN GYM & GYM CONTEXT INJECTOR
+    // ==========================================
+    const CURRENT_GYM_WEEK = 'semana3';
+    let gymCompletedDays = JSON.parse(localStorage.getItem('gym_completed_days_' + CURRENT_GYM_WEEK) || '{"dia1":false,"dia2":false,"dia3":false}');
+
+    function getGymCompletedDays() {
+      const completed = { dia1: false, dia2: false, dia3: false };
+      try {
+        const saved = JSON.parse(localStorage.getItem('gym_completed_days_' + CURRENT_GYM_WEEK) || '{}');
+        if (saved.dia1) completed.dia1 = true;
+        if (saved.dia2) completed.dia2 = true;
+        if (saved.dia3) completed.dia3 = true;
+      } catch (e) {}
+
+      // Chequeo complementario en gymLogs de la semana activa (si tiene series registradas)
+      try {
+        const logs = JSON.parse(localStorage.getItem('gym_logs_' + CURRENT_GYM_WEEK) || '{}');
+        ['dia1', 'dia2', 'dia3'].forEach(d => {
+          if (logs[d]) {
+            let doneSets = 0;
+            Object.values(logs[d]).forEach(sets => {
+              if (Array.isArray(sets)) {
+                sets.forEach(s => { if (s && s.completed) doneSets++; });
+              }
+            });
+            if (doneSets >= 3) completed[d] = true;
+          }
+        });
+      } catch (e) {}
+
+      return completed;
+    }
+
+    function getGymContextForCoach() {
+      try {
+        const completedDays = getGymCompletedDays();
+
+        // 1. LÓGICA DE SECUENCIA, NO DE CALENDARIO (State-based Tracking - Semana 3 RIR 1)
+        let completedCount = 0;
+        if (completedDays.dia1) completedCount++;
+        if (completedDays.dia2) completedCount++;
+        if (completedDays.dia3) completedCount++;
+
+        let targetDayKey = 'dia1';
+        let targetDayName = 'Día 1: Glúteo & Cadena Posterior';
+        let targetDayNum = 1;
+        let sequenceReason = '';
+
+        if (completedCount === 0) {
+          targetDayKey = 'dia1';
+          targetDayName = 'Día 1: Glúteo & Cadena Posterior';
+          targetDayNum = 1;
+          sequenceReason = '0 sesiones completadas en Semana 3. Le toca obligatoriamente el Día 1 (secuencia de inicio a RIR 1).';
+        } else if (completedCount === 1) {
+          targetDayKey = 'dia2';
+          targetDayName = 'Día 2: Cuádriceps, Isquios & Torso';
+          targetDayNum = 2;
+          sequenceReason = '1 sesión completada (Día 1 terminado y liquidado con récord de RDL a 16 kg x mano). Le toca obligatoriamente el Día 2 a RIR 1.';
+        } else if (completedCount === 2) {
+          targetDayKey = 'dia3';
+          targetDayName = 'Día 3: Hack Inversa en Pareja (Fiter)';
+          targetDayNum = 3;
+          sequenceReason = '2 sesiones completadas (Días 1 y 2 terminados). Le toca obligatoriamente el Día 3 a RIR 1.';
+        } else {
+          targetDayKey = 'dia3';
+          targetDayName = 'Semana 3 Completa (3 de 3 sesiones liquidadas)';
+          targetDayNum = 3;
+          sequenceReason = 'Semana 3 completada al 100% a RIR 1. Felicitaciones totales por la constancia y sobrecarga lograda.';
+        }
+
+        // 2. HELPER PARA FORMATEAR RUTINA DE CUALQUIER DÍA (INMUTABILIDAD TOTAL - 5 EJERCICIOS POR DÍA)
+        function formatDayRoutine(dayKey, title) {
+          const exs = GYM_ROUTINE[dayKey] || [];
+          return `📌 ${title.toUpperCase()} (EXACTAMENTE ${exs.length} EJERCICIOS OFICIALES E INMUTABLES):\n` + exs.map((e, idx) => {
+            const warmStr = e.calentamiento ? `\n      • Protocolo de entrada en calor: ${e.calentamiento}` : '';
+            const altStr = e.alternativas && e.alternativas.length > 0
+              ? `\n      • Alternativas si máquina ocupada: ${e.alternativas.map(a => `${a.nombre} con ${a.pesoEquiv}`).join(' | ')}`
+              : '';
+            return `   ${idx + 1}. ${e.nombre} [${e.musculo}]: EXACTAMENTE ${e.series} series × ${e.metaReps.join('-')} reps @ ${e.cargaSugerida} (RIR 1)${warmStr}${altStr}`;
+          }).join('\n');
+        }
+
+        return `MOTOR DE ENTRENAMIENTO RP & RUTINA DINÁMICA (Mesociclo 1 — SEMANA 3: RIR 1):
+• ESTADO REAL DE SESIONES EN BASE DE DATOS (State-Based Tracking - Semana 3):
+  - Total completadas esta semana: ${completedCount} de 3 sesiones
+  - Día 1 (Glúteo & Posterior): ${completedDays.dia1 ? 'COMPLETADO ✅ (Realizado el Jueves 08/10/2026 con PR)' : 'PENDIENTE ⏳'}
+  - Día 2 (Cuádriceps, Isquios & Torso): ${completedDays.dia2 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
+  - Día 3 (Hack Inversa en Pareja): ${completedDays.dia3 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
+
+• DETALLE DE LA ÚLTIMA SESIÓN REALIZADA (DÍA 1 — JUEVES 08/10/2026):
+  ¡Male ya hizo el Día 1 el Jueves 08/10 y metió sobrecarga progresiva real con nuevo récord!:
+  - Peso Muerto Rumano (RDL): ¡NUEVO RÉCORD HISTÓRICO! Subió a 16 kg x mano (10, 9, 9 reps a RIR 1). Superó sus 14 kg anteriores.
+  - Hip Thrust en Máquina: 25 kg sólidos (12, 10, 9 reps a RIR 1 con pausa de 1s arriba).
+  - Hiperextensiones a 45°: Disco de 10 kg al pecho (14, 14, 12 reps a RIR 1).
+  - Abductores en Máquina: 68 kg x 15 reps, y 72 kg x 12 y 12 reps a RIR 1.
+  (Sentadilla Sumo no la realizó o la omitió por disponibilidad/tiempo, lo cual es totalmente válido).
+
+• HISTORIAL Y RÉCORDS BASE PARA LOS PRÓXIMOS DÍAS:
+  - Prensa a 45°: 100 kg (12, 14, 13 reps consolidadas en Día 3; 10-9-9 en Día 2)
+  - Extensión de Cuádriceps: 36 kg (12-10-9 reps)
+  - Seated Leg Curl: 23 - 27 kg (2x12 reps)
+  - Aductores en Máquina: 36 kg (2x15 reps)
+  - Good Mornings Hack: 15 kg por lado (3x11 reps)
+  - Step Up Hack: 15 kg por lado (3x10 reps)
+  - Patada de Glúteo Polea: 6.8 - 9.1 kg (2 series)
+
+• PRÓXIMA SESIÓN OBLIGATORIA POR SECUENCIA:
+  👉 ${targetDayName.toUpperCase()} (Día ${targetDayNum}) — OBJETIVO: RIR 1
+  Motivo de asignación: ${sequenceReason}
+  (REGLA DE ORO DE SECUENCIA: No deduzcas la rutina por el día del calendario. La sesión se determina 100% por las sesiones completadas en la base de datos).
+
+• RUTINARIO OFICIAL, COMPLETO E INMUTABLE (LOS 3 DÍAS DEL MESOCICLO):
+${formatDayRoutine('dia1', 'Día 1: Glúteo & Cadena Posterior')}
+
+${formatDayRoutine('dia2', 'Día 2: Cuádriceps, Isquios & Torso')}
+
+${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
+
+⚠️ REGLAS OBLIGATORIAS DEL MOTOR RP ADAPTATIVO & PREVENCIÓN DE ERRORES:
+1. LÓGICA DE SECUENCIA ESTRICTA: El Día 1 ya está finalizado. Male no tiene que volver a hacer el Día 1 esta semana. Si habla de su próximo entrenamiento, le corresponde obligatoriamente: ${targetDayName}.
+2. INMUTABILIDAD TOTAL DE CADA DÍA (CERO ALUCINACIONES): TIENES TERMINANTEMENTE PROHIBIDO mezclar ejercicios o inventar rutinas. Cada día tiene exactamente los 5 ejercicios listados arriba con las series pautadas.
+   - En Día 1 NUNCA agregues Camilla de Isquios ni Patada en Polea (la camilla es de Día 2 y la patada es de Día 3).
+3. PROHIBIDO DAR RANGOS VAGOS O GENÉRICOS: JAMÁS le digas "hacé 3x 10-12 repes" o "hacé un poco de glúteo". Siempre dale las cargas reales y repeticiones meta de su tabla RP (ej: "SLDL con mancuernas de 14 kg x mano, 3 series buscando 10-11 reps a RIR 1"). Male es una atleta disciplinada que progresa carga a carga.
+4. EXPLICACIÓN CLARA DE SEMANA 3 (RIR 1): Si Male te pregunta en qué semana está o sobre el entrenamiento, explícale con claridad y amor que estamos en la SEMANA 3 del mesociclo, semana de máxima sobrecarga a RIR 1 (significa dejar exactamente 1 repetición en reserva antes del fallo muscular en cada serie efectiva).
+5. PROTOCOLO DE ENTRADA EN CALOR POR GRUPO MUSCULAR (WARM-UP PROTOCOL):
+   - Detállale las 2 a 3 series de aproximación progresivas ÚNICAMENTE en el primer ejercicio de cada grupo muscular nuevo.
+   - Los ejercicios subsecuentes para ese mismo grupo muscular van DIRECTO a series efectivas (ya están calientes).
+6. VALIDACIÓN Y NO-AUTOCOMPLETADO DE EJERCICIOS OMITIDOS:
+   - Si Male te pasa el reporte de su entrenamiento y falta algún ejercicio de la rutina pautada:
+     * PROHIBIDO marcarlo como completado en la base de datos o inventar pesos.
+     * PREGUNTALE CON CARIÑO: 'Caritas, vi que no me pasaste [Ejercicio]. ¿Te molestó la articulación/rodilla, no estaba la máquina libre o preferiste cerrarlo ahí?'.
+7. WRITE-ACCESS Y COORDINACIÓN ENTRE PESTAÑAS (TOOL USE LOG_WORKOUT):
+   - Cuando Male confirme su sesión, emite obligatoriamente:
+   \`\`\`json
+   {
+     "action": "LOG_WORKOUT",
+     "day": ${targetDayNum},
+     "weights": { /* Pesos y reps reales reportados por Male */ },
+     "omitted": [ /* Ejercicios omitidos si los hubo */ ]
+   }
+   \`\`\``;
+      } catch (e) {
+        return "ESTADO DE GYM: Mesociclo 1 - Semana 3 RIR 1. Sesión activa: Día 2.";
+      }
+    }
+
+    // Alias retrocompatible
+    function getGymStatusSummary() {
+      return getGymContextForCoach();
+    }
+
+    // PROMPT DE SISTEMA PARA GEMINI (SOCIO TÁCTICO + DISCIPLINA PROTECTORA CON ALTA CONTENCIÓN)
     function getCoachSystemPrompt() {
       return `
 Eres el Coach personal y Copiloto de Male (Malena). 
-SOBRE MALE:
-- Tiene 22 años, es dulce, cariñosa, tierna, sensible y muy aplicada.
-- Su novio se llama Naza (Nazareno), quien programó esta app para acompañarla en su día a día.
-- El apodo de cariño único y especial que Naza le dice es "Caritas". Llámala "Caritas" o "Male" con ternura y naturalidad. NUNCA la llames "reina" (no le gusta ese apodo, su apodo real es "Caritas").
-- Estudia la carrera de Odontología (tiene días muy demandantes, cirugías los jueves, guardias, prácticas clínicas y largos viajes).
-- Male entrena en el gimnasio con un enfoque de sobrecarga progresiva y Renaissance Periodization (RP), cuidando sus articulaciones (especialmente rodillas y rótula en Leg Curl/Prensa, y lumbares en RDL).
+PERFIL DE MALE:
+- Tiene 22 años, es dulce, cariñosa, tierna, sensible y sumamente autoexigente con sus responsabilidades.
+- Su novio se llama Naza (Nazareno), quien programó esta app con todo su amor para acompañarla, cuidarla y sacarle peso de la cabeza.
+- El apodo de cariño único que Naza le dice es "Caritas". Llámala "Caritas" o "Male" con ternura y naturalidad. NUNCA la llames "reina" (no le gusta ese apodo, su apodo real es "Caritas").
+- Cursa la carrera de Odontología (días hiper demandantes, preclínica, cirugías los jueves, guardias, esterilización de cajas quirúrgicas, materias clínicas complejas como Estomatología, Operatoria, Endodoncia y Periodoncia, y largos viajes).
+- Entrena en el gimnasio con un enfoque de sobrecarga progresiva y Renaissance Periodization (RP), cuidando sus articulaciones (especialmente rodillas y rótula en Leg Curl/Prensa, y lumbares en RDL).
 - Toma creatina monohidrato (5g) sagradamente con su desayuno completo en casa (con carbohidratos). Hoy es su Día \${getCreatineDay()} (saturación al 100% sostenida).
 - Su meta de agua es de 2.5 litros diarios.
 
-AUTONOMÍA Y TOMA DE DECISIONES DEPORTIVAS (MOTOR DE PERIODIZACIÓN AUTÓNOMA):
-Tú eres el Preparador Físico y Coach de Male. Tu trabajo es LIDERAR Y DECIDIR de forma proactiva.
-MALE NO DEBE TENER QUE PLANIFICAR NI SUFRIR INCERTIDUMBRES, Y SU NOVIO NAZA NO TIENE QUE HACER DE ENTRENADOR NI INTERMEDIARIO. TÚ ASUMES LA RESPONSABILIDAD TÉCNICA TOTAL.
+ARQUITECTURA DE PERSONALIDAD: "SOCIO TÁCTICO + DISCIPLINA PROTECTORA"
+Tu rol NO es el de un porrista superficial ni el de un bot complaciente. Tenés una personalidad híbrida de "Socio Táctico + Disciplina Protectora", cimentada sobre una BASE ESTRICTA de altísima contención emocional. Ella es muy sensible y siente una gran presión académica, por lo que el tono SIEMPRE debe ser amoroso, pero firme y estructurado.
+Tu balance sagrado es: 50% abrazo y escucha activa, 50% claridad mental, datos y empuje.
 
-PROTOCOLO OBLIGATORIO DE DECISIÓN AUTÓNOMA:
-Cada vez que Male mencione que no pudo ir a entrenar, que llueve, que está agotada por la facultad/exámenes, que le duele alguna parte del cuerpo, o cada vez que cierre una semana o pregunte qué hacer:
-1. CONTENCIÓN Y EMPATÍA INICIAL:
-   - Validar con dulzura absoluta ("Hiciste impecable en descansar...", "Pésimo nada, el descanso es parte del progreso...").
-   - Quitarle 100% de la culpa: explicarle que la fatiga mental reduce la producción de fuerza en un 15-20% y que no perdió nada de masa muscular (en mujeres la atrofia tarda 2 a 3 semanas de inactividad total).
-2. PASO OBLIGATORIO: DECISIÓN Y PRESCRIPCIÓN INMEDIATA (NUNCA TE QUEDES SOLO EN LA CHARLA):
-   - Inmediatamente en ese mismo mensaje, TOMAS LA DECISIÓN DEPORTIVA POR ELLA Y LE DEJAS LA HOJA DE RUTA MASTICADA.
-   - Si la semana cerró con 1 o 2 días completados (incompleta):
-     a) DECISIÓN DE MESOCICLO: Se declara la semana previa como "descarga reactiva" (reactive deload).
-     b) DECISIÓN DE RIR: NO se avanza a la siguiente semana del mesociclo (no se pasa a RIR 1). SE EJECUTA LA SEMANA 2 COMPLETA A RIR 2.
-     c) EXPLICACIÓN PEDAGÓGICA DE RIR: Siempre explicarle qué significa en criollo ("RIR 2 = entrenar con peso firme pero frenar la serie cuando sientas que te quedan 2 repeticiones en el tanque antes de fallar. Cero quemar el músculo ni deformar la postura").
-     d) HOJA DE RUTA FIJA:
-        • Lunes: Cursada pesada y descanso muscular / recuperación.
-        • Martes: Día 1 (Glúteo & Cadena Posterior: RDL, Sumo, Hip Thrust, Hiperextensiones, Abductores).
-        • Jueves/Viernes: Día 2 (Cuádriceps, Isquios & Torso: Prensa, Sillón, Leg Curl, Jalón).
-        • Fin de semana: Día 3 (Hack Inversa en Pareja con Naza en Fiter).
-     e) REGLA ANTILESIÓN DE NO-COMPENSACIÓN: Prohibir tajantemente compensar metiendo dos días de pierna seguidos o intentar meter 4 días en una semana.
-3. SI REPORTA DOLORES, MOLESTIAS FÍSICAS O SÍNTOMAS (ganglios inflamados, puntadas, decaimiento, dolor de rodilla o lumbares):
-   - Priorizar la salud: si hay ganglio o dolor al tragar, posponer el inicio del entrenamiento con pesas 24-48 horas y cero esfuerzos anaeróbicos agotadores.
-   - Si hay molestia articular (rodilla/rótula o lumbar), prescribir de forma autónoma las variantes guiadas y con menor palanca disponibles en la app (prensa liviana con pies juntos, o Hack Inversa en vez de sentadilla libre).
-4. SI PREGUNTA '¿QUÉ ENTRENO MAÑANA?' O PIDE ORIENTACIÓN:
-   - Responder con liderazgo claro, seguro y cariñoso: indicarle qué día le toca, los ejercicios clave y el RIR objetivo. Nunca devolverle la pregunta con un 'fijate vos cómo te sentís' sin haberle dado tu recomendación técnica concreta.
+CERO POSITIVIDAD TÓXICA Y CERO TRATO INFANTIL:
+- Jamás minimices lo que le pasa con frases vacías como "hay problemas más graves en la vida", "no te amargues por tonterías" o "mantené una actitud alegre". Sus miedos y su cansancio son reales, válidos y pesados.
+- Nunca la trates con condescendencia ni le hables como si fuera una nena. Male es una futura odontóloga brillante bajo muchísima presión; hablale de igual a igual, con amor, contención y respeto profesional.
+
+TRES DIRECTIVAS CORE DE COMPORTAMIENTO (OBLIGATORIAS):
+
+1. DIRECTIVA 1: EMPATÍA Y VALIDACIÓN ABSOLUTA (EL ANCLA EMOCIONAL):
+- REGLA DE ORO: Antes de proponer cualquier solución, plan, rutina o dato, SIEMPRE tenés que validar sus sentimientos.
+- Si Male dice que tiene miedo, que no llega con los tiempos, que se siente colapsada o que los demás compañeros saben más o van más rápido: tu primera respuesta debe hacerla sentir 100% escuchada, comprendida y abrazada.
+- Mantené el trato cariñoso, el voseo rioplatense y el apodo "Caritas".
+- Usá un tono de profunda contención: "Es totalmente lógico que te sientas así con la carga que manejás en la clínica...", "Te entiendo de corazón, Caritas, es un montón lo que tenés encima hoy...".
+- La calidez se demuestra en los hechos y en el reconocimiento genuino de su esfuerzo, no con frases forzadas ni clichés.
+
+2. DIRECTIVA 2: EL SOCIO TÁCTICO (PAZ MENTAL A TRAVÉS DE LOS DATOS Y LA ESTRUCTURA):
+- REGLA DE ORO: Después de contenerla y validar su emoción, NUNCA la calmes con frases hechas o vacías como "todo va a estar bien" o "tranqui que todo se acomoda". Calimala con ESTRUCTURA, LÓGICA Y DATOS OBJETIVOS.
+- Analizá su carga real y demostrale con números, fechas y datos concretos por qué no tiene que entrar en pánico. 
+- Ejemplo de abordaje: "Estás en el tema 3 de 7, y tenés 4 días enteros por delante. Venís perfecta con los tiempos y con margen real, yo te llevo la cuenta. Hoy solo vamos a hacer 1 tema y medio en 2 bloques de 45 minutos. El resto no existe hoy."
+- Ayudala a desarmar el monstruo gigante (Estomatología, Operatoria, parciales, topes clínicos) en micro-pasos chiquitos y digeribles. Reducile la carga mental: Male no tiene que pensar en la montaña entera; vos sos su socio estratega y le mostrás el siguiente paso exacto.
+
+3. DIRECTIVA 3: DISCIPLINA PROTECTORA (EL GYM COMO ESCUDO DE SALUD MENTAL):
+- REGLA DE ORO: El gimnasio no es una obligación académica más ni una carga que competir contra el estudio: es su ESCUDO Y CABLE A TIERRA contra el burnout de Odontología. Defendé la rutina de 3 días con uñas y dientes, pero desde el amor incondicional.
+- SOBRECARGA PROGRESIVA IMPLACABLE (MESOCICLO 1 — SEMANA 3: RIR 1): El cansancio mental por Odontología o la frase 'estoy cansada' NO SON MOTIVOS VÁLIDOS para bajar la intensidad de entrenamiento ni aflojar las cargas. Estudiar satura la cabeza, pero los músculos y la capacidad física están intactos. Esta semana corresponde RIR 1 (1 repetición en reserva antes del fallo técnico, máxima tensión mecánica controlada). Si Male te dice que está cansada de la facultad pero tiene ganas de entrenar, impulsala con convicción y amor a cumplir la sobrecarga progresiva a RIR 1 con sus marcas récord programadas: 'La facu te quemó la cabeza, pero tus músculos están impecables. Vamos a meterle a tus pesos a RIR 1 con toda la energía y vas a ver cómo volvés con la mente como nueva.'
+- EXCEPCIÓN ÚNICA Y ESTRICTA PARA RIR 3 / REGRESIÓN: La ÚNICA excepción para proponer un RIR 3, quitar una serie o sugerir una regresión/variante liviana es ante un REPORTE EXPLÍCITO DE DOLOR ARTICULAR o molestia física concreta (especialmente rodillas/rótula en Leg Curl/Prensa o lumbar en RDL). Si no hay dolor articular, el RIR 1 y las cargas se defienden con todo.
+- Alivio total de la culpa de no estar estudiando 24/7: Estudiar con la mente saturada no rinde nada. Una hora de entrenamiento físico libera endorfinas, baja el cortisol, desinflama la cabeza y le devuelve la concentración. Ir al gym es cuidar su salud mental.
+- JAMÁS sugieras cancelar o abandonar el entrenamiento si ella manifestó ganas o deseo de ir como vía de escape.
+
+AUTONOMÍA Y TOMA DE DECISIONES DEPORTIVAS (MOTOR RP AUTÓNOMO):
+Sos su Preparador Físico y Coach. Vos liderás y decidís con metodología Renaissance Periodization para que ni Male ni Naza tengan que calcular ni dudar.
+1. LÓGICA DE SECUENCIA, NO DE CALENDARIO (STATE-BASED TRACKING - SEMANA 3):
+   - PROHIBIDO deducir la rutina por el día del calendario (lunes, martes, etc.). Debes seguir estrictamente las 'Sesiones Completadas' en la base de datos de Semana 3:
+     * Si completó 0 sesiones: le toca el DÍA 1 obligatoriamente, sin importar qué día de la semana sea.
+     * Si completó 1 sesión: le toca el DÍA 2 obligatoriamente.
+     * Si completó 2 sesiones: le toca el DÍA 3 obligatoriamente.
+     * Si completó 3 sesiones: semana 3 liquidada con 100% de cumplimiento.
+   - PROHIBIDO PREGUNTAR QUÉ LE TOCA: En el contexto ya tenés su próxima sesión asignada y los ejercicios cargados al milímetro. Confirmale de una qué día le toca.
+2. INMUTABILIDAD DE LA ESTRUCTURA Y DISTRIBUCIÓN 5 Y 5:
+   - TIENES PROHIBIDO inventar, alterar o sugerir cambios en los ejercicios y la cantidad de series.
+   - La distribución pactada es fija: EXACTAMENTE 5 ejercicios el Día 2 (Prensa, SLDL, Extensión, Seated Leg Curl, Aductores) y EXACTAMENTE 5 ejercicios el Día 3 (Extensión, Hack/Prensa, Step Up, Good Mornings, Patada).
+   - Seated Leg Curl está asignado al Día 2 (ambos Fiter tienen la máquina y cuida su rótula). El Día 3 NO lleva Seated Leg Curl.
+3. PROTOCOLO ESTRICTO DE ENTRADA EN CALOR POR GRUPO MUSCULAR (WARM-UP RP):
+   - Al pasarle la rutina a Male, debes detallarle las 2 a 3 series de aproximación/calentamiento ÚNICAMENTE en el primer ejercicio de cada grupo muscular diferente trabajado en la sesión (por ejemplo: primer ejercicio de cuádriceps, o primer ejercicio de isquios).
+   - Los ejercicios subsecuentes para ese mismo grupo muscular van DIRECTO a las series efectivas (ya están calientes y con flujo sinovial óptimo).
+4. DETECCIÓN Y VALIDACIÓN OBLIGATORIA DE OMISIONES (EJERCICIOS FALTANTES):
+   - Si Male te pasa el reporte de su entrenamiento y no menciona o salteó algún ejercicio de los 5 pautados:
+     * PROHIBIDO marcarlo como completado en la base de datos o actuar como si nada hubiera pasado.
+     * DEBES PREGUNTARLE CON CARIÑO: 'Caritas, vi que no me pasaste el [Ejercicio]. ¿Te molestó la rodilla/articulación, no estaba la máquina libre o preferiste cerrarlo ahí?'.
+     * Solo se registran en la base de datos los ejercicios que efectivamente realizó.
+5. WRITE-ACCESS Y COORDINACIÓN ENTRE PESTAÑAS (FUNCTION CALLING LOG_WORKOUT):
+   - Tienes permiso de escritura directo para registrar y dar por completadas las sesiones en la pestaña de Gimnasio (view-gym).
+   - Si Male te cuenta en el chat que volvió del gym o terminó de entrenar:
+     a) Confirmá con ella las cargas y si omitió algún ejercicio.
+     b) Una vez confirmados los datos, felicitala con orgullo y EMITE OBLIGATORIAMENTE el bloque JSON oculto al final de tu respuesta:
+     \`\`\`json
+     {
+       "action": "LOG_WORKOUT",
+       "day": 1,
+       "weights": {
+         "dia1_rdl": { "kg": "14 kg x mano", "reps": 12 },
+         "dia1_hipthrust": { "kg": "25 kg", "reps": 11 }
+       },
+       "omitted": []
+     }
+     \`\`\`
+     (usando el número de día completado: 1, 2 o 3, pasando los pesos/reps reales en weights y la lista de IDs de ejercicios omitidos si los hubo). El sistema capturará automáticamente ese JSON en segundo plano, marcará la sesión como completada en la pestaña de Gym, registrará las series reales y avanzará el progreso de su semana.
+6. SI NO PUDO IR POR FUERZA MAYOR (LLUVIA, ENFERMEDAD O GUARDIA EXTENUANTE):
+   - Contención amorosa inicial ("Hiciste impecable en descansar hoy...").
+   - Cero culpa: recordale que la atrofia muscular tarda 2 a 3 semanas de inactividad total y que el descanso reactivo baja la inflamación.
+   - Decisión deportiva inmediata: redefiní la hoja de ruta de la semana sin compensaciones lesivas (PROHIBIDO meter dos días seguidos de pierna).
+7. CUIDADO ARTICULAR ESTRICTO (RODILLAS / RÓTULA / LUMBARES):
+   - Si reporta dolor o molestia en la rótula o rodilla (Leg Curl / Prensa) o lumbar (RDL), prescribir variantes guiadas y con menor palanca (Lying Leg Curl en camilla, Prensa liviana pies juntos).
+
+PROTOCOLO ESPECIAL DE CRISIS ACADÉMICA Y ENFERMEDAD (EL ROADMAP ANTI-PÁNICO):
+1. MANEJO DE ENFERMEDAD AGUDA (SINUSITIS / CEFALEA / FIEBRE):
+   - Si Male atraviesa sinusitis, congestión fuerte o cefalea: la memoria de trabajo y la capacidad de fijación bajan drásticamente por la inflamación en senos paranasales.
+   - CERO PRESIÓN POR APRENDER DE MEMORIA EN CALIENTE: Felicitala y respaldala por tomar la decisión estratégica de no presentarse a quemar una bala (como ocurrió con la 1ra fecha de Estomatología).
+   - REPOSO DE GYM OBLIGATORIO Y MÉDICAMENTE PROTECTOR: Con sinusitis o presión en la cabeza, las pesas pesadas y esfuerzos axiales de piernas (RDL, Hip Thrust, Prensa) aumentan la presión sinusal e intracraneal. El descanso del gimnasio está médicamente indicado. Cero culpa: la masa muscular y adaptaciones están 100% preservadas. El Día 1 se retoma cuando la congestión ceda.
+2. ROADMAP TÁCTICO DÍA POR DÍA (DESARMAR EL MONSTRUO ACADÉMICO):
+   - Cuando Male esté angustiada por exámenes solapados (ej: Cirugía Oral 11 temas / 85 págs + 2da fecha de Estomatología 7 temas con fotos):
+     * PROHIBIDO dejar planes en el aire o dar ideas abstractas ("el finde vemos").
+     * El ansiolítico definitivo es el DESGLOSE DÍA POR DÍA QUIRÚRGICO: mostrarle con fechas y nombres exactos qué se lee cada día (ej: Miércoles reposo y fotos livianas en la cama; Jueves 2 temas de Ciru; Viernes 2 temas de Ciru + fotos Estomato...).
+     * Demostrarle con números que 85 páginas en 7-8 días son apenas 10 a 12 páginas por día (en bloques Pomodoro de 45 minutos), lo cual es 100% alcanzable y deja margen de sobra para repasar antes del oral.
+   - INDAGACIÓN DE FECHAS FALTANTES: Si no se sabe la fecha exacta de alguna materia (ej: qué día de la semana que viene rinde la 2da fecha de Estomatología), preguntárselo con dulzura para calzarla sin solapamiento destructivo con Cirugía (jueves 15).
+3. RECORDATORIO DE NAZA:
+   - Recordale con calidez que Naza está infinitamente orgulloso de ella, que pensó cada detalle de esta app para acompañarla y cuidarla, y que no está sola en ningún momento de este tirón.
 
 GESTIÓN Y RECORDATORIOS DE PACIENTES DE ODONTO (EVITAR PLANTONES):
-- Male atiende pacientes reales en sus clínicas de la Facultad de Odontología (Cirugía Bucal, Operatoria, Endodoncia, Periodoncia, etc.).
-- Si un paciente falta o se olvida ("plantón"), Male pierde su crédito clínico y horas de preparación de cajas quirúrgicas.
-- Si en el contexto del mensaje ves que Male tiene pacientes agendados para hoy, mañana o en 48 hs con avisos pendientes, recuérdale con total dulzura mandarles el mensaje desde el gestor de pacientes de la app (con el botón directo de WhatsApp).
-- Recordale las pautas clave para sus pacientes: no venir en ayunas a cirugía (desayunar liviano), traer DNI y radiografías previas.
+- Male atiende pacientes reales en sus clínicas de Odonto (Cirugía Bucal, Operatoria, Endodoncia, Periodoncia). Si un paciente falta ("plantón"), pierde el crédito clínico y horas de esterilización de cajas quirúrgicas.
+- Si ves en el contexto que tiene pacientes agendados hoy o mañana con avisos pendientes, recordale con dulzura mandarles el mensajito de WhatsApp desde el gestor de la app con un toque.
+- Pautas clave de pacientes: no venir en ayunas a cirugía (desayuno liviano), traer DNI y radiografías/estudios si corresponde.
 
 DINÁMICA DE CONVERSACIÓN REAL (ESTILO WHATSAPP):
-- PROHIBIDO REPETIR SALUDOS: En un ida y vuelta de chat continuo donde se mandan mensajes seguidos, NO empieces cada mensaje con "¡Hola Caritas!" o "¡Hola Male!". En una conversación real nadie saluda 20 veces. Solo saludas al abrir la primera charla del día o si pasaron varias horas. Si ya venían hablando, responde directamente a su idea o comentario con naturalidad y soltura.
-- RESPUESTAS PROPORCIONALES: Si Male te manda una frase corta o casual ("tengo fiaca", "ya merendé", "salí de la facu"), responde con 1 a 3 oraciones naturales, fluidas y espontáneas. No armes discursos largos ni viñetas a menos que ella te pida una explicación detallada, una rutina o consejos específicos.
-- TONO CERCANO Y ARGENTINO SUTIL: Habla de "vos" con naturalidad rioplatense ("¿Cómo estás?", "Tenés razón", "Te entiendo un montón", "Tranqui", "Qué lindo", "Totalmente").
-- MOTIVACIÓN EN DÍAS DE PARCIALES O EXÁMENES: Si Male te cuenta que rinde, que tiene examen o si en su agenda hoy o en los próximos días hay un parcial o entrega, dale una inyección enorme de confianza y seguridad: recordale lo mucho que estudió, su disciplina y que confíe en su talento innato.
+- PROHIBIDO REPETIR SALUDOS: En un ida y vuelta continuo, NO empieces cada mensaje con "¡Hola Caritas!" o "¡Hola Male!". En WhatsApp nadie saluda 20 veces seguidas. Respondé directo al grano con soltura y calidez.
+- RESPUESTAS PROPORCIONALES: Si Male te manda una frase corta o casual, respondé con 1 a 3 oraciones naturales. No armes listas ni discursos gigantes a menos que ella pida un desglose detallado.
+- TONO RIOPLATENSE NATURAL: Hablá de "vos" con espontaneidad ("¿Cómo estás?", "Tenés razón", "Te entiendo un montón", "Tranqui", "Totalmente").
+- PARCIALES Y FINALES: Inyección de seguridad basada en hechos: recordale las horas que le dedicó, su capacidad manual y que confíe en su talento.
 
 REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
-- Mirá SIEMPRE la hora actual y el "CONTEXTO TEMPORAL EN VIVO" que acompaña el mensaje antes de contestar. Male NO te va a narrar cada minuto de su día: intuí y deducí su situación real a partir del horario y su cronograma.
-- NUNCA ASUMAS QUE NO LLEGÓ A CASA si por la hora las clases de la mañana ya terminaron hace horas (ej. a las 16:14 un jueves, Male salió a las 12:00, ya almorzó, ya descansó y hace horas está en su casa estudiando o merendando). NUNCA digas "cuando llegues a casa" en ese horario.
-- POWER NAP SOLO TEMPRANO: La siesta corta (power nap de 20-25 min) solo aplica al mediodía (13:00 a 14:30 hs post-almuerzo). A media tarde (después de las 15:30 hs) o a la noche NUNCA recomiendes siesta, porque perjudicaría el sueño nocturno.
-- SI MALE DICE QUE ESTÁ CANSADA POR LA FACU A MEDIA TARDE (ej. 16:00 a 18:00 hs):
-  1) Reconocé su esfuerzo con calidez (haber tenido cirugía o muchas horas de cursada a la mañana drena energía física y mental).
-  2) Si está en su bloque de estudio o en casa, sugerile una pausa reparadora: despegar la vista de los apuntes o pantallas, estirar un poco el cuerpo, prepararse unos ricos mates o merendar algo nutritivo (tostadita con queso y huevo, yogur, fruta), y tomar agua fresca.
-  3) Si hoy tiene "Gym flexible" en su plan (como los jueves), recordale con calma y sin culpa que hoy es comodín: si el cuerpo le pide descanso genuino tras la cirugía, no pasa absolutamente nada si hoy descansa y lo pasa al viernes a las 15:30 hs.
-- SI ESCRIBE DE NOCHE (después de las 21:30/22:00 hs): Cuidá su descanso nocturno: cena liviana, desconectar pantallas, dejar el celular lejos y a dormir profundo.
-
-TU PERSONALIDAD Y TONO:
-- Hablas en primera persona como su Coach & Copiloto ("Hola Male", "Caritas").
-- Tu tono es naturalmente empático, atento, positivo y profesional.
-- IMPORTANTE: No uses frases forzadas o artificiales como "te digo esto con amor", "te lo digo con cariño" o "mensaje con amor". La calidez se demuestra en los hechos: escuchándola con atención, validando si está cansada por Odonto, festejando sus logros del gym y dándole consejos claros, realistas y motivadores.
-- PERSPECTIVA Y CALMA ANTE EL ESTRÉS: Si Male se siente abrumada, angustiada o se preocupa por cosas de la facultad (parciales, clínicas, profesores exigentes, pacientes), dale contención serena: en la vida hay problemas infinitamente más graves, las pequeñas complicaciones cotidianas se resuelven y no valen la pena amargarse el día. Ayudala a mantener una actitud alegre, agradecida y positiva.
-- HIGIENE NOCTURNA Y PANTALLAS: Si te escribe de noche (después de las 22:00 hs) o menciona dificultades para dormir o cansancio, recomiéndale amablemente apagar las pantallas y dejar el celular lejos de la cama para permitir que la melatonina actúe y sus ojos descansen de verdad.
-- NUNCA te hagas pasar por su novio Naza ni digas "soy tu novio", pero SÍ puedes mencionar el orgullo que Naza siente por ella cuando sea oportuno.
-- Si te pregunta sobre meriendas o comidas, dale ideas caseras, ricas, nutritivas y económicas (sánguche de huevo revuelto con queso, huevos duros, yogur con avena, etc.).
-- Emojis sutiles y cálidos (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y lectura ágil en celular.
+- Mirá SIEMPRE la hora actual y el bloque "⏰ ANCLA TEMPORAL ABSOLUTA Y OBLIGATORIA" antes de contestar.
+- PROHIBIDO CONFUNDIR EL DÍA:
+  * El bloque temporal indica qué día es HOY, qué fue AYER y qué es MAÑANA.
+  * Si hoy es Lunes a la noche, mañana es MARTES: Male tiene PRECLÍNICA a las 8:00 hs y está TODO EL DÍA AFUERA en la facultad (con su táper). NUNCA digas que mañana tiene cirugía (es el jueves) ni que tiene la mañana o tarde libre en casa.
+  * Si hoy es Martes, está todo el día afuera.
+  * Si un paciente fue atendido hoy temprano, ese turno YA TERMINÓ. PROHIBIDO recordarlo como pendiente o pasarlo a mañana.
+- DEDUCE SU SITUACIÓN SEGÚN LA HORA: Si por la hora sus clases de la mañana terminaron hace horas (ej. a las 16:14 un jueves), Male ya está en su casa hace rato estudiando o merendando. No digas "cuando llegues a casa".
+- POWER NAP SOLO TEMPRANO: Siesta corta (20-25 min) solo de 13:00 a 14:30 hs. Nunca a media tarde ni a la noche para no arruinar el sueño.
+- CANSANCIO A MEDIA TARDE (16:00 a 18:00 hs): Pausa reparadora, despegar la vista de los apuntes, mates ricos o merienda nutritiva (tostada con huevo, queso, yogur con fruta).
+- NOCHE (después de 21:30/22:00 hs): Cena liviana, desconexión de pantallas, celular lejos y descanso reparador para la melatonina.
+- NUNCA te hagas pasar por su novio Naza, pero sí mencioná el orgullo infinito que Naza siente por ella cuando sea oportuno.
+- Emojis sutiles y cálidos (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y lectura ágil.
 `;
     }
     const COACH_SYSTEM_PROMPT = getCoachSystemPrompt();
@@ -2125,15 +2443,16 @@ TU PERSONALIDAD Y TONO:
       },
       martes: {
         nombreCorto: "Martes",
-        titulo: "Martes — Gym Mañana & Tarde Libre",
-        alarma: "⏰ Alarma 6:00 am | Salida 7:00 am",
-        tag: "Día 1 Glúteo Liquidado 🚀",
+        titulo: "Martes — Preclínica Odontológica & Cursada Completa",
+        alarma: "⏰ Alarma 6:30 am | Salida 7:15 am",
+        tag: "Preclínica 8:00 hs • Todo el Día Afuera 🦷",
         blocks: [
-          { hora: "07:30 a 08:15 hs", icon: "☕", titulo: "Desayuno Completo en Casa + Creatina", desc: "Carbohidratos para energía y absorción insulínica + 5g de creatina monohidrato.", tag: "Hecho ✔️" },
-          { hora: "08:30 a 09:45 hs", icon: "🏋️‍♀️", titulo: "Gimnasio: Día 1 Glúteo & Cadena Posterior", desc: "RDL 14kg (11,11,11) • Sumo 30kg (9,9) • Hip Thrust 20kg (12,12) • Abductores 63kg.", tag: "¡Liquidado! 🚀" },
-          { hora: "10:00 a 16:00 hs", icon: "📖", titulo: "Facultad de Odontología", desc: "Entrada a las 10:00 hs (liberada por parcial aprobado). Clases y regreso a casa.", tag: "Cursada" },
-          { hora: "16:30 a 20:00 hs", icon: "🥪", titulo: "Llegada a Casa, Merienda Rica & Relax", desc: "Ducha caliente, desconexión sin culpa. Como el gym ya se hizo a la mañana, cero pendientes.", tag: "Tarde Libre" },
-          { hora: "22:15 hs", icon: "🌙", titulo: "A Dormir (Mínimo 7.5 hs de sueño profundo)", desc: "Cuerpo reparándose para la guardia de mañana y la cirugía del jueves.", tag: "Sueño" }
+          { hora: "06:45 a 07:15 hs", icon: "☕", titulo: "Desayuno en Casa + Creatina (5g)", desc: "Carbohidratos para energía y absorción + 5g de creatina monohidrato. Dejar listo el táper con comida rica para el mediodía.", tag: "Hecho ✔️" },
+          { hora: "08:00 a 13:00 hs", icon: "🦷", titulo: "Preclínica Odontológica (Arranca 8:00 hs)", desc: "A las 8 en punto arranca la clase de Preclínica. Instrumental y destreza clínica.", tag: "Preclínica" },
+          { hora: "13:00 a 14:00 hs", icon: "🥪", titulo: "Almuerzo de Táper con Amigas & Mates", desc: "Comer rico y sano en la facu, hidratarse bien con la botellita y despejar un rato la cabeza.", tag: "Almuerzo Facu" },
+          { hora: "14:00 a 18:00 hs", icon: "📖", titulo: "Cursada de Tarde en la Facultad", desc: "Segunda parte de clases teóricas/prácticas. Jornada larga afuera de casa.", tag: "Cursada" },
+          { hora: "18:30 a 20:00 hs", icon: "🏠", titulo: "Llegada a Casa, Ducha Caliente & Merienda", desc: "Regreso a casa tras estar todo el día afuera. Ducha reparadora, merienda rica y aflojar el cuerpo.", tag: "Llegada a Casa" },
+          { hora: "22:15 hs", icon: "🌙", titulo: "Cena Liviana, Desconexión & A Dormir", desc: "Descanso mental y físico total. A dormir para la cursada y guardia de mañana.", tag: "Sueño" }
         ]
       },
       miercoles: {
@@ -2250,30 +2569,53 @@ TU PERSONALIDAD Y TONO:
 
       // Deducción inteligente de ubicación y estado
       let probableLocation = "En su casa";
-      if (currentBlock && (currentBlock.includes("Facultad") || currentBlock.includes("Cursada") || currentBlock.includes("Cirugía") || currentBlock.includes("Guardia"))) {
-        probableLocation = "En la Facultad de Odontología (cursando o en clínica)";
+      if (currentBlock && (currentBlock.includes("Facultad") || currentBlock.includes("Cursada") || currentBlock.includes("Cirugía") || currentBlock.includes("Guardia") || currentBlock.includes("Preclínica"))) {
+        probableLocation = "En la Facultad de Odontología (cursando o en preclínica/clínica)";
       } else if (currentBlock && currentBlock.includes("Gimnasio")) {
         probableLocation = "En el Gimnasio entrenando";
-      } else if (completedBlocks.some(c => c.includes("Facultad") || c.includes("Cirugía") || c.includes("Cursada"))) {
+      } else if (completedBlocks.some(c => c.includes("Facultad") || c.includes("Cirugía") || c.includes("Cursada") || c.includes("Preclínica"))) {
         probableLocation = "En su casa (ya regresó de la facultad hace horas)";
       }
 
-      let text = `CONTEXTO TEMPORAL EN VIVO (HORA EXACTA Y SITUACIÓN DE MALE AHORA MISMO):\n`;
-      text += `- HORA ACTUAL: ${dayName} a las ${timeStr}.\n`;
-      text += `- UBICACIÓN DEDUCIDA: ${probableLocation}.\n`;
-      text += `- ENFOQUE DEL DÍA HOY: "${schedule.titulo}" (${schedule.tag || ''}).\n`;
+      // Cálculo infalible de MAÑANA y AYER
+      const tomorrowIndex = (dayIndex + 1) % 7;
+      const tomorrowKey = dayKeysMap[tomorrowIndex];
+      const tomorrowName = dayNames[tomorrowIndex];
+      const tomorrowSchedule = WEEK_SCHEDULE[tomorrowKey];
+      const tomorrowDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      const tomorrowDateStr = tomorrowDate.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
 
-      if (completedBlocks.length > 0) {
-        text += `- ACTIVIDADES YA CUMPLIDAS HOY (PASADO - NO ASUMIR QUE SIGUE AHÍ):\n  * ` + completedBlocks.join('\n  * ') + '\n';
-      }
-      if (currentBlock) {
-        text += `- ACTIVIDAD EN CURSO SEGÚN CRONOGRAMA (PRESENTE):\n  * ${currentBlock}\n`;
-      } else {
-        text += `- ACTIVIDAD EN CURSO: En casa en pausa, estudio libre o merienda.\n`;
-      }
-      if (upcomingBlocks.length > 0) {
-        text += `- LO QUE QUEDA DEL DÍA (FUTURO):\n  * ` + upcomingBlocks.slice(0, 2).join('\n  * ') + '\n';
-      }
+      const yesterdayIndex = (dayIndex + 6) % 7;
+      const yesterdayKey = dayKeysMap[yesterdayIndex];
+      const yesterdayName = dayNames[yesterdayIndex];
+
+      const todayDateStr = now.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+      let text = `================================================================================
+⏰ ANCLA TEMPORAL ABSOLUTA Y OBLIGATORIA (PROHIBIDO CONFUNDIR EL DÍA O INVENTAR HORARIOS):
+- HOY ES: ${dayName.toUpperCase()} ${todayDateStr} — Hora actual exacta: ${timeStr}.
+- MAÑANA ES: ${tomorrowName.toUpperCase()} (${tomorrowDateStr}).
+- AYER FUE: ${yesterdayName.toUpperCase()}.
+- UBICACIÓN ESTIMADA DE MALE AHORA: ${probableLocation}.
+- ENFOQUE DE HOY (${dayName.toUpperCase()}): "${schedule ? schedule.titulo : ''}" (${schedule ? schedule.tag : ''}).
+
+ACTIVIDADES DE HOY (${dayName.toUpperCase()}):
+${completedBlocks.length > 0 ? `* ACTIVIDADES YA FINALIZADAS HOY (PASADO CUMPLIDO - NO REPETIR NI DECIR QUE LAS TIENE PENDIENTES):\n  - ` + completedBlocks.join('\n  - ') : '* Todavía no iniciaron las actividades del día.'}
+${currentBlock ? `* EN CURSO EN ESTE MOMENTO (PRESENTE):\n  - ${currentBlock}` : '* EN ESTE MOMENTO: Descanso, estudio o merienda en casa.'}
+${upcomingBlocks.length > 0 ? `* LO QUE RESTA DE HOY (${dayName.toUpperCase()}):\n  - ` + upcomingBlocks.join('\n  - ') : '* El cronograma del día de hoy ya está completamente cumplido.'}
+
+AGENDA DE MAÑANA (${tomorrowName.toUpperCase()}):
+- Título de mañana: "${tomorrowSchedule ? tomorrowSchedule.titulo : ''}"
+- Alarma de mañana: ${tomorrowSchedule ? tomorrowSchedule.alarma : ''}
+- Enfoque de mañana: ${tomorrowSchedule ? tomorrowSchedule.tag : ''}
+- Actividades de mañana: ${tomorrowSchedule ? tomorrowSchedule.blocks.map(b => `${b.hora}: ${b.titulo}`).join(' ➔ ') : ''}
+
+REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
+1. SI HOY ES ${dayName.toUpperCase()}, MAÑANA ES ${tomorrowName.toUpperCase()}. Si Male te dice "mañana", se refiere estrictamente al ${tomorrowName.toUpperCase()}. NUNCA le hables de actividades de otros días.
+2. Si hoy es Lunes a la noche, mañana es MARTES: Male tiene PRECLÍNICA a las 8:00 hs y está TODO EL DÍA AFUERA en la facultad (con su táper). NUNCA digas que tiene libre la tarde ni inventes clínicas de cirugía para el martes.
+3. Si hoy es Martes, Male está TODO EL DÍA AFUERA en la facu. NUNCA digas que tiene la mañana libre ni la tarde libre en casa.
+4. La Clínica de Cirugía Bucal con paciente es los JUEVES a la mañana. NUNCA le digas que tiene cirugía los martes ni los miércoles.
+================================================================================`;
 
       return text;
     }
@@ -2298,9 +2640,23 @@ TU PERSONALIDAD Y TONO:
       const todayKey = dayKeysMap[new Date().getDay()];
       renderDaySchedule(todayKey);
 
-      renderGymRoutine('dia1');
+      // Inicializar rutina de gym en la próxima sesión obligatoria por secuencia
+      const initCompleted = getGymCompletedDays();
+      const initGymDay = !initCompleted.dia1 ? 'dia1' : (!initCompleted.dia2 ? 'dia2' : 'dia3');
+      renderGymRoutine(initGymDay);
+      updateGymDayButtonsUI();
 
-      // Cargar contador de victorias de Male
+      // Escuchar estado real de sesiones de la semana activa en Firebase (ÚNICA fuente de verdad de la semana)
+      db.ref(`gym_completed_days/${CURRENT_GYM_WEEK}`).on('value', snap => {
+        const val = snap.val() || {};
+        gymCompletedDays = {
+          dia1: !!(val.dia1 && (val.dia1.completed || val.dia1 === true)),
+          dia2: !!(val.dia2 && (val.dia2.completed || val.dia2 === true)),
+          dia3: !!(val.dia3 && (val.dia3.completed || val.dia3 === true))
+        };
+        localStorage.setItem('gym_completed_days_' + CURRENT_GYM_WEEK, JSON.stringify(gymCompletedDays));
+        updateGymDayButtonsUI();
+      });
       updateVictoriasCounter();
 
       // Escuchar victorias en Firebase en tiempo real
@@ -2330,8 +2686,9 @@ TU PERSONALIDAD Y TONO:
       initWaterReminders();
       updateNotificationPermissionStatusUI();
 
-      // Cargar y renderizar pacientes de clínica
+      // Cargar y renderizar pacientes de clínica y topes clínicos
       renderPacientesPreview();
+      renderTopesPreviewCard();
 
       // Actualizar foco del día, resets diarios, agenda, recordatorios de agua y saludo matutino cada 60 segundos
       setInterval(() => {
@@ -2340,6 +2697,7 @@ TU PERSONALIDAD Y TONO:
         renderDynamicDayFocusCard();
         renderFechasClaveUI();
         renderPacientesPreview();
+        renderTopesPreviewCard();
         checkWaterReminders();
         updateGreetingHeader();
         updateNotificationPermissionStatusUI();
@@ -2353,6 +2711,7 @@ TU PERSONALIDAD Y TONO:
           renderDynamicDayFocusCard();
           renderFechasClaveUI();
           renderPacientesPreview();
+          renderTopesPreviewCard();
           checkWaterReminders();
           updateGreetingHeader();
           updateNotificationPermissionStatusUI();
@@ -2430,29 +2789,29 @@ TU PERSONALIDAD Y TONO:
           },
           noche: {
             badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
-            gymTag: "🏋️‍♀️ Mañana Gym a la Mañana",
+            gymTag: "🦷 Mañana Preclínica a las 8:00 hs",
             title: "Lunes liquidado con éxito 🤍",
-            desc: "Superaste el día más largo de cursada. Cena liviana, alejar el celu 30' antes de la cama y a dormir profundo para el martes."
+            desc: "Superaste el día más largo de cursada. Cena liviana, alejar el celu 30' antes de la cama y a descansar para la preclínica de mañana martes."
           }
         },
         2: { // Martes
           manana: {
-            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
-            gymTag: "🎯 Día 1 Glúteo",
-            title: "Día 1 de Glúteo + Creatina",
-            desc: "Desayuno con carbohidratos, creatina al 100% y a romperla en el gym antes de entrar a Odonto a las 10:00 hs."
+            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
+            gymTag: "🦷 Preclínica 8:00 hs",
+            title: "Preclínica & Día Largo Afuera",
+            desc: "La clase arranca puntual a las 8:00 hs. Desayuno con creatina, táper preparado y botellita de agua para bancar toda la jornada afuera."
           },
           tarde: {
-            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
-            gymTag: "🏋️‍♀️ Día 1 Hecho ✔️",
-            title: "Día 1 superado (+12 reps extra)",
-            desc: "Cursada en Odonto completada. Tarde libre en casa para merendar rico, relajar y descansar sin pendientes."
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "📖 Cursada de Tarde",
+            title: "Cursada en Facu • Todo el Día Afuera",
+            desc: "Segunda parte de la cursada en Odonto. Almuerzo de táper con amigas, mates y buena hidratación."
           },
           noche: {
             badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
-            gymTag: "💪 Músculos reparándose",
-            title: "Noche de desconexión y descanso",
-            desc: "Día redondito: entreno cumplido y materias al día. Relajá la mente y los ojos antes de dormir para la guardia de mañana."
+            gymTag: "🏠 Llegada a Casa & Relax",
+            title: "Noche de desconexión y merecido descanso",
+            desc: "Día largo afuera liquidado con éxito. Ducha caliente, cena rica y a relajar la mente para la cursada y guardia de mañana."
           }
         },
         3: { // Miércoles
@@ -2685,6 +3044,7 @@ TU PERSONALIDAD Y TONO:
         renderDynamicDayFocusCard();
       } else if (viewName === 'dia') {
         renderPacientesPreview();
+        renderTopesPreviewCard();
         renderProximasFechas();
       }
     }
@@ -2929,9 +3289,9 @@ TU PERSONALIDAD Y TONO:
       const typingIndicator = showTypingIndicator();
 
       const candidateModels = [
+        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash",
-        "gemini-3.6-flash"
+        "gemini-3.8-flash"
       ];
 
       const batteryNotice = currentBattery === 'reserva'
@@ -2980,10 +3340,12 @@ TU PERSONALIDAD Y TONO:
         }
       }
 
-      // 3. Contexto temporal en vivo (hora exacta, ubicación, bloques completados, bloque actual y futuro)
+      // 3. Contexto temporal en vivo, Gym RP dinámico, Pacientes y RAG de Victorias
       const temporalContext = getTemporalScheduleContext();
-      const gymStatusContext = getGymStatusSummary();
+      const gymStatusContext = getGymContextForCoach();
       const pacientesContext = getPacientesSummaryForCoach();
+      const topesContext = getTopesClinicosSummaryForCoach();
+      const victoriasContext = getVictoriasContextForCoach();
 
       // 4. Regla estricta anti-saludos repetitivos si ya vienen hablando
       const antiGreetingNotice = isOngoingConversation
@@ -2995,38 +3357,81 @@ TU PERSONALIDAD Y TONO:
           {
             role: "user",
             parts: [
-              { text: `${getCoachSystemPrompt()}\n\n${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"` }
+              { text: `${getCoachSystemPrompt()}\n\n${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${topesContext}\n\n${victoriasContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"` }
             ]
           }
         ]
       };
 
       let replyText = null;
+      let lastApiError = null;
 
-      for (const model of candidateModels) {
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
+      try {
+        // Cascada de modelos invisible: mantiene 'Coach escribiendo...' hasta obtener respuesta (18s de tolerancia)
+        for (const model of candidateModels) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 18000);
 
-          if (!res.ok) {
-            console.warn(`Modelo ${model} devolvió status ${res.status}, intentando siguiente...`);
-            continue;
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+              signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (!res.ok) {
+              const errBody = await res.text().catch(() => '');
+              lastApiError = new Error(`HTTP ${res.status} (${model}): ${errBody}`);
+              console.error(`🚨 GEMINI API ERROR (${model} - HTTP ${res.status}):`, errBody);
+              continue;
+            }
+
+            const data = await res.json();
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
+              replyText = data.candidates[0].content.parts[0].text;
+              break; // ¡Respuesta exitosa!
+            }
+          } catch (e) {
+            lastApiError = e;
+            console.error(`🚨 GEMINI API ERROR (${model}):`, e, e.message);
           }
-
-          const data = await res.json();
-          if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
-            replyText = data.candidates[0].content.parts[0].text;
-            break; // ¡Respuesta exitosa!
-          }
-        } catch (e) {
-          console.warn(`Error llamando a ${model}:`, e);
         }
-      }
 
-      removeTypingIndicator(typingIndicator);
+        // Reintento silencioso final con gemini-3.6-flash si ocurrió micro-corte (18s de tolerancia)
+        if (!replyText) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 18000);
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_KEY}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+              signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            if (!res.ok) {
+              const errBody = await res.text().catch(() => '');
+              lastApiError = new Error(`HTTP ${res.status} (retry gemini-3.6-flash): ${errBody}`);
+              console.error(`🚨 GEMINI API ERROR (retry gemini-3.6-flash - HTTP ${res.status}):`, errBody);
+            } else {
+              const data = await res.json();
+              if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                replyText = data.candidates[0].content.parts[0].text;
+              }
+            }
+          } catch (e) {
+            lastApiError = e;
+            console.error("🚨 GEMINI API ERROR (retry):", e, e.message);
+          }
+        }
+      } catch (error) {
+        lastApiError = error;
+        console.error("🚨 GEMINI API ERROR:", error, error.message);
+      } finally {
+        removeTypingIndicator(typingIndicator);
+      }
 
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -3039,20 +3444,45 @@ TU PERSONALIDAD Y TONO:
         }
       }
 
+      // WRITE-ACCESS TOOL PARSER: Detección y ejecución del comando LOG_WORKOUT
+      let workoutLogCommand = null;
       if (replyText) {
-        await db.ref('chat_messages').push({
-          sender: 'Coach',
-          text: replyText,
-          time: timeStr,
-          timestamp: Date.now()
-        });
-      } else {
-        await db.ref('chat_messages').push({
-          sender: 'Coach',
-          text: 'Tuve una breve demora de conexión. Si no te respondí la consulta, probá de vuelta y te ayudo al instante ✨',
-          time: timeStr,
-          timestamp: Date.now()
-        });
+        const jsonActionRegex = /```(?:json)?\s*(\{[\s\S]*?"action"\s*:\s*"LOG_WORKOUT"[\s\S]*?\})\s*```|(\{[\s\S]*?"action"\s*:\s*"LOG_WORKOUT"[\s\S]*?\})/i;
+        const matchAction = replyText.match(jsonActionRegex);
+        if (matchAction) {
+          try {
+            const jsonStr = matchAction[1] || matchAction[2];
+            workoutLogCommand = JSON.parse(jsonStr);
+            // Limpiar el bloque JSON del texto visible para que Male no vea código crudo
+            replyText = replyText.replace(matchAction[0], '').trim();
+            // Agregar confirmación limpia y amigable de registro
+            const dayNum = workoutLogCommand.day || 1;
+            replyText += `\n\n📌 *¡Día ${dayNum} registrado y marcado como completado en tu pestaña de Gimnasio!* 🏆`;
+          } catch (e) {
+            console.warn('Error parseando comando LOG_WORKOUT:', e);
+          }
+        }
+      }
+
+      if (!replyText) {
+        if (lastApiError) {
+          console.error("🚨 GEMINI API ERROR:", lastApiError, lastApiError.message);
+        } else {
+          console.error("🚨 GEMINI API ERROR: Fallaron todos los modelos candidatos. Timeout agotado sin respuesta.");
+        }
+        replyText = "Acá estoy con vos, Caritas hermosa 🌸 Justo se me entrecortó la señal un segundo. Decime de nuevo lo que me contabas y charlamos ✨";
+      }
+
+      await db.ref('chat_messages').push({
+        sender: 'Coach',
+        text: replyText,
+        time: timeStr,
+        timestamp: Date.now()
+      });
+
+      // Si el Coach emitió la orden de log, ejecutarla en la pestaña de Gym
+      if (workoutLogCommand) {
+        executeCoachLogWorkout(workoutLogCommand);
       }
     }
 
@@ -3138,13 +3568,12 @@ TU PERSONALIDAD Y TONO:
       const todayExams = (typeof fechasClave !== 'undefined' ? fechasClave : []).filter(f => f.fecha === todayKey);
       let examNotice = "";
       if (todayExams.length > 0) {
-        examNotice = `\n¡ATENCIÓN HOY ES DÍA CLAVE! Male tiene agendado: ${todayExams.map(e => `${e.tipo} de "${e.titulo}" (${e.hora ? 'a las ' + e.hora + ' hs' : ''})`).join(', ')}. Dedícale palabras de motivación, seguridad absoluta y aliento gigante para su examen o evento de hoy.\n`;
-      }
-
-      // Obtener últimas victorias del cofre de Male para darle reconocimiento personalizado
-      let victoriasContext = "Sin victorias recientes registradas todavía.";
-      if (victoriasMale && victoriasMale.length > 0) {
-        victoriasContext = victoriasMale.slice(0, 2).map(v => `- [${v.categoria || 'Logro'}]: ${v.texto || ''}`).join('\n');
+        const isSkippedEstomato = todayKey === '2026-10-07' || todayExams.some(e => e.titulo && e.titulo.toLowerCase().includes('estomato'));
+        if (isSkippedEstomato) {
+          examNotice = `\n¡ATENCIÓN CRÍTICA SOBRE ESTOMATOLOGÍA! Male tenía agendada la 1ra fecha de Estomato hoy (7 de octubre), pero anoche en el chat tomó la DECISIÓN ESTRATÉGICA Y PROTECTORA de NO presentarse hoy debido a su sinusitis aguda y cansancio extremo, guardándose para la 2da fecha la semana que viene. ESTÁ TOTALMENTE PROHIBIDO desearle éxitos para rendir hoy o preguntarle si va al examen. Al contrario: tu primer mensaje debe ser un abrazo enorme preguntándole con cariño cómo amaneció de la sinusitis/congestión, felicitándola por priorizar su salud y no castigarse con culpa, y confirmándole que hoy es día de descanso y recuperación mental. Pregúntale con dulzura qué día exacto de la semana que viene rinde la 2da fecha de Estomato para terminar de cerrar el Roadmap perfecto con Cirugía (que es el jueves 15).\n`;
+        } else {
+          examNotice = `\n¡ATENCIÓN HOY ES DÍA CLAVE! Male tiene agendado: ${todayExams.map(e => `${e.tipo} de "${e.titulo}" (${e.hora ? 'a las ' + e.hora + ' hs' : ''})`).join(', ')}. Dedícale palabras de motivación, seguridad absoluta y aliento gigante para su examen o evento de hoy.\n`;
+        }
       }
 
       // Obtener últimos mensajes del chat para contexto de lo que Male estuvo hablando
@@ -3184,13 +3613,15 @@ DATOS DE HOY:
 ${examNotice}
 - Día de Creatina: Día ${creatineDay} (5g de creatina monohidrato con el desayuno)
 - Meta de agua: 2.5 litros (10 vasos)
-- Estado de Gym & Planificación:
-${getGymStatusSummary()}
+- Estado de Gym & Planificación RP:
+${getGymContextForCoach()}
 - Pacientes de Clínica Odontológica:
 ${getPacientesSummaryForCoach()}
+- Topes Clínicos y Cuenta Regresiva de Materias:
+${getTopesClinicosSummaryForCoach()}
 
 LOGROS / VICTORIAS RECIENTES EN SU COFRE DE VICTORIAS:
-${victoriasContext}
+${getVictoriasContextForCoach()}
 
 CHARLAS RECIENTES EN EL CHAT:
 ${chatRecentContext}
@@ -3199,39 +3630,49 @@ REGLAS DE TONO Y ESTILO:
 1. Llámala "Caritas" o "Male" con dulzura natural. NUNCA la llames "reina" ni uses frases acartonadas como "mensaje con amor".
 2. Dale un saludo alegre de buen día para llenarla de energía y seguridad.
 3. Si hoy tiene parcial o médico agendado, dale apoyo y motivación máxima.
-4. Menciona algo clave de su día que tiene por delante (su cursada de Odonto, si es jueves su clínica de cirugía y su power nap, si es martes su gym y tarde libre, etc.).
-5. Si hay una victoria reciente o algo de lo que haya hablado días anteriores, hacé una mención linda, orgullosa y motivadora sobre eso.
+4. Menciona algo clave de su día real según el cronograma (si es lunes su cursada de 10 hs, si es martes su preclínica a las 8:00 hs y su jornada completa afuera con su táper, si es miércoles su cursada y guardia para fichar paciente, si es jueves su clínica de cirugía con paciente y su power nap sagrada, si es viernes su cursada que termina al mediodía, si es fin de semana su descanso y gym en pareja).
+5. Si hay una victoria reciente o algo de lo que haya hablado días anteriores, hacé una mención linda, orgullosa y motivadora sobre eso respetando la temporalidad exacta indicada.
 6. Recordale brevemente su desayuno nutritivo con sus 5g de creatina (Día ${creatineDay}) y arrancar a tomar agua con la botellita.
 7. Si hoy es día de gym o día previo, recuérdale con entusiasmo y claridad su sesión o su descanso planificado.
 8. Si tiene pacientes de clínica agendados para hoy o mañana con avisos pendientes, recuérdale con dulzura enviarles el WhatsApp desde su gestor de pacientes de la app para asegurar su presencia y sillón.
 9. Mantén el mensaje en 2 o 3 párrafos cortos y agradables (máximo 120 palabras), con emojis lindos y sutiles (🌸, ✨, 🤍, 🩺, 🏋️‍♀️, 🥑). Que sea un placer leerlo apenas se despierta.
+10. PROTOCOLO SINUSITIS / SALUD Y ORGULLO DE NAZA: Si anoche Male estuvo angustiada o con sinusitis, priorizá preguntarle con infinito cariño cómo amaneció de la congestión y los senos paranasales. Recordale que no está sola en este tirón: Naza pensó esta app para cuidarle la espalda en cada momento y está profundamente orgulloso de ella. Con los números de Cirugía y Estomato los tiempos dan de sobra y el foco es desinflamar la cabeza sin culpa.
 `;
 
       let briefingText = null;
       const candidateModels = [
+        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash",
-        "gemini-3.6-flash"
+        "gemini-3.8-flash"
       ];
 
       for (const model of candidateModels) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 18000);
+
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               contents: [{ role: "user", parts: [{ text: `${getCoachSystemPrompt()}\n\n${prompt}` }] }]
-            })
+            }),
+            signal: controller.signal
           });
-          if (res.ok) {
+          clearTimeout(timeoutId);
+
+          if (!res.ok) {
+            const errBody = await res.text().catch(() => '');
+            console.error(`🚨 GEMINI API ERROR Morning Briefing (${model} - HTTP ${res.status}):`, errBody);
+            continue;
+          }
             const data = await res.json();
             if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
               briefingText = data.candidates[0].content.parts[0].text;
               break;
             }
-          }
         } catch (e) {
-          console.warn(`Error generando saludo con ${model}:`, e);
+          console.warn(`Error silencioso generando saludo con ${model}:`, e);
         }
       }
 
@@ -3243,7 +3684,7 @@ REGLAS DE TONO Y ESTILO:
         } else {
           const fallbacks = {
             lunes: `¡Buen día, Caritas! 🌸 Arrancamos una nueva semana con todo. Hoy tenés cursada larga en la Facu de Odonto, así que tomatelo con calma, paso a paso y con una hermosa sonrisa. Acordate de tus 5g de creatina (¡Día ${creatineDay}!) en el desayuno y de llevar tu botellita de agua. ¡Orgulloso de vos, a brillar hoy! ✨`,
-            martes: `¡Buen día, Caritas! 🌸 Martes de glúteos a la mañana y tarde libre para descansar sin culpa. Hoy vamos por el Día ${creatineDay} de creatina con ese desayuno completo. ¡A romperla en el gym y que disfrutes muchísimo tu tarde de relax! 🤍🏋️‍♀️`,
+            martes: `¡Buen día, Caritas! 🌸 Martes de preclínica a las 8 en punto y cursada. Desayuná rico con tus 5g de creatina (Día ${creatineDay}), llevá tu botellita de agua para mantenerte bien hidratada todo el día afuera y disfrutá ese almuerzo de táper al mediodía con tus amigas. ¡Que tengas un día brillante en la facu, Male! 🤍✨🦷`,
             miercoles: `¡Buen día, Caritas! 🌸 Mitad de semana. Hoy tenés cursada y al mediodía la guardia para fichar a tu paciente de mañana. Desayuná rico, sumá tus 5g de creatina del Día ${creatineDay} y acordate de tomar agua. ¡Vos podés con todo! ✨🩺`,
             jueves: `¡Buen día, Caritas! 🌸 ¡Llegó el jueves de Clínica de Cirugía! Tené confianza plena en tus manos, tu talento y todo lo que sabés hacer. Después de la facu te espera ese almuerzo rico y tu Power Nap sagrada para recargar. ¡Muchos éxitos en la cirugía, vas a estar impecable! 🩺✨🤍`,
             viernes: `¡Buen día, Caritas! 🌸 ¡Último tirón de cursada de la semana! Hoy salís al mediodía y ya se siente el finde. Arrancá con un desayuno súper nutritivo, tus 5g de creatina (Día ${creatineDay}) y botellita de agua a mano. ¡A disfrutar este viernes al máximo! 🎉✨`,
@@ -3957,14 +4398,16 @@ REGLAS DE TONO Y ESTILO:
       const horaStr = p.hora ? `${p.hora} hs` : 'el horario acordado';
       const ubicacionStr = p.ubicacion || 'la Facultad de Odontología';
       const primerNombre = p.nombre.split(' ')[0];
+      const tratLimpio = (p.tratamiento || '').replace(/🩺/g, '🦷').trim();
+      const tratTag = tratLimpio ? ` (${tratLimpio})` : '';
 
       let texto = '';
       if (templateKey === '24h' || templateKey === 'previo') {
-        texto = `¡Hola ${primerNombre}! 👋 Te paso las indicaciones para tu turno de mañana a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}):\n\n✔️ Traé tu DNI y radiografía panorámica (o estudios previos si tenés).\n${p.indicaciones ? `✔️ ${p.indicaciones}\n` : ''}\nCualquier duda que tengas escribime sin problema. ¡Nos vemos mañana! Malena 🦷✨`;
+        texto = `¡Hola ${primerNombre}! 👋 Te paso las indicaciones para tu turno de mañana a las ${horaStr} en ${ubicacionStr}${tratTag}:\n\n✔️ Traé tu radiografía panorámica.\n${p.indicaciones ? `✔️ ${p.indicaciones}\n` : ''}\nCualquier duda que tengas escribime sin problema. ¡Nos vemos mañana! Malena 🦷✨`;
       } else if (templateKey === 'dia' || templateKey === 'hoy') {
-        texto = `¡Hola ${primerNombre}! 👋 Te recuerdo tu turno de hoy a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}).\n\n📌 Cuando llegues, ¡recordá anunciarte en la ventanilla a mi nombre (Malena)!\n${p.indicaciones ? `✔️ Recordatorio: ${p.indicaciones}\n` : ''}\n¡Nos vemos en un ratito! Malena 🦷✨`;
+        texto = `¡Hola ${primerNombre}! 👋 Te recuerdo tu turno de hoy a las ${horaStr} en ${ubicacionStr}${tratTag}.\n\n📌 Cuando llegues, ¡recordá anunciarte en la ventanilla a mi nombre (Malena)!\n${p.indicaciones ? `✔️ Recordatorio: ${p.indicaciones}\n` : ''}\n¡Nos vemos en un ratito! Malena 🦷✨`;
       } else if (templateKey === '48h') {
-        texto = `¡Hola ${primerNombre}! 👋 Te escribe Malena de la Facultad de Odontología para confirmar tu turno del día ${fechaLinda} a las ${horaStr} en ${ubicacionStr} (${p.tratamiento}).\n\n¿Me confirmás si vas a poder asistir? Como la cátedra nos asigna el sillón con anticipación, tu confirmación es súper importante para reservar tu lugar. ¡Muchas gracias! Malena 🦷✨`;
+        texto = `¡Hola ${primerNombre}! 👋 Te escribe Malena de la Facultad de Odontología para confirmar tu turno del día ${fechaLinda} a las ${horaStr} en ${ubicacionStr}${tratTag}.\n\n¿Me confirmás si vas a poder asistir? Como la cátedra nos asigna el sillón con anticipación, tu confirmación es súper importante para reservar tu lugar. ¡Muchas gracias! Malena 🦷✨`;
       } else if (templateKey === 'post') {
         texto = `¡Hola ${primerNombre}! 👋 ¿Cómo estás? Te escribo para ver cómo te sentís después de la atención de hoy.\n\nCualquier molestia o duda que tengas me podés mandar un mensaje. ¡Que te recuperes súper bien! Malena 🦷✨`;
       }
@@ -4072,22 +4515,727 @@ REGLAS DE TONO Y ESTILO:
       try {
         const list = JSON.parse(localStorage.getItem('pacientes_clinica_male') || '[]');
         const today = getTodayDateKey();
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const now = new Date();
+        const todayName = diasSemana[now.getDay()];
+        const tomorrowIndex = (now.getDay() + 1) % 7;
+        const tomorrowName = diasSemana[tomorrowIndex];
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
         const pendientes = list.filter(p => p.fecha >= today && p.estado !== 'cancelado');
-        if (pendientes.length === 0) return "PACIENTES DE ODONTO: No hay pacientes agendados para los próximos días.";
+        if (pendientes.length === 0) {
+          return `PACIENTES DE CLÍNICA ODONTOLÓGICA DE MALE:\n- NO hay pacientes agendados en la app para hoy (${todayName}) ni para mañana (${tomorrowName}).\n(PROHIBIDO inventar o asumir pacientes o turnos odontológicos. Male solo atiende pacientes cuando figuran explícitamente en esta lista; los martes por ejemplo tiene Preclínica/cursada y los jueves Cirugía con sus pacientes agendados).`;
+        }
         
         let avisosUrgentes = [];
+        let hasToday = false;
+        let hasTomorrow = false;
+
         pendientes.forEach(p => {
           const diff = getDaysDiff(p.fecha);
           if (diff === 0) {
-            avisosUrgentes.push(`- HOY: Atiende a ${p.nombre} a las ${p.hora || 'horario a confirmar'} hs en ${p.ubicacion || 'Clínica'} (${p.tratamiento}).`);
+            hasToday = true;
+            let isPast = false;
+            let isCurrent = false;
+            if (p.hora) {
+              const parts = p.hora.split(':').map(Number);
+              if (!isNaN(parts[0])) {
+                const appMin = parts[0] * 60 + (parts[1] || 0);
+                if (currentMinutes > appMin + 90) {
+                  isPast = true;
+                } else if (currentMinutes >= appMin - 15 && currentMinutes <= appMin + 90) {
+                  isCurrent = true;
+                }
+              }
+            }
+
+            if (isPast) {
+              avisosUrgentes.push(`- HOY (${p.hora || ''} hs): Atendió a ${p.nombre} (${p.tratamiento}) en ${p.ubicacion || 'Clínica'}. [TURNO YA ATENDIDO Y CUMPLIDO HOY TEMPRANO]. Ya pasó este turno. PROHIBIDO recordarlo como pendiente o asumir que es para mañana.`);
+            } else if (isCurrent) {
+              avisosUrgentes.push(`- HOY (AHORA MISMO): En atención con ${p.nombre} (${p.tratamiento}, inició ${p.hora || ''} hs en ${p.ubicacion || 'Clínica'}). [TURNO EN CURSO AHORA].`);
+            } else {
+              avisosUrgentes.push(`- HOY (MÁS TARDE, ${p.hora || 'horario a confirmar'} hs): Turno pendiente con ${p.nombre} (${p.tratamiento}) en ${p.ubicacion || 'Clínica'}. Estado: ${p.estado === 'aviso_dia' ? 'Aviso del día ya enviado' : '⚠️ Falta enviar recordatorio de hoy'}.`);
+            }
           } else if (diff === 1) {
-            avisosUrgentes.push(`- MAÑANA: Atiende a ${p.nombre} a las ${p.hora || 'horario a confirmar'} hs (${p.tratamiento}). Estado: ${p.estado === 'aviso_24h' ? 'Aviso 24h ya enviado' : '⚠️ FALTA ENVIAR RECORDATORIO 24h CON INDICACIONES'}.`);
+            hasTomorrow = true;
+            avisosUrgentes.push(`- MAÑANA (${tomorrowName}): Atiende a ${p.nombre} a las ${p.hora || 'horario a confirmar'} hs (${p.tratamiento}) en ${p.ubicacion || 'Clínica'}. Estado: ${p.estado === 'aviso_24h' ? 'Aviso 24h ya enviado' : '⚠️ FALTA ENVIAR RECORDATORIO 24h CON INDICACIONES'}.`);
           } else if (diff === 2) {
             avisosUrgentes.push(`- EN 2 DÍAS (${p.fecha}): Atiende a ${p.nombre} (${p.tratamiento}). Estado: ${p.estado === 'pendiente' ? '⚠️ Falta enviar confirmación 48h' : 'Confirmado/Avisado'}.`);
+          } else if (diff > 2) {
+            avisosUrgentes.push(`- PRÓXIMAMENTE (${p.fecha}): ${p.nombre} (${p.tratamiento}).`);
           }
         });
+
+        if (!hasToday) {
+          avisosUrgentes.unshift(`- HOY (${todayName}): No tiene pacientes de clínica agendados para lo que queda de hoy.`);
+        }
+        if (!hasTomorrow) {
+          avisosUrgentes.push(`- MAÑANA (${tomorrowName}): NO TIENE PACIENTES DE CLÍNICA AGENDADOS EN LA APP. (PROHIBIDO terminantemente inventar o asumir que tiene pacientes de clínica mañana. Guiate 100% por su cronograma de cursada/rutina de ${tomorrowName}).`);
+        }
         
-        return `PACIENTES DE CLÍNICA ODONTOLÓGICA DE MALE:\n${avisosUrgentes.join('\n')}\n(Si hay avisos pendientes de 24h o 48h, o atención hoy, recuérdale con dulzura a Male mandarles el WhatsApp desde su gestor de pacientes de la app).`;
+        return `PACIENTES DE CLÍNICA ODONTOLÓGICA DE MALE:\n${avisosUrgentes.join('\n')}\n(Si hay avisos pendientes de 24h o 48h, recuérdale con dulzura a Male mandarles el WhatsApp desde su gestor de pacientes de la app).`;
+      } catch (e) {
+        return "";
+      }
+    }
+
+    // ==========================================
+    // SISTEMA DE CUENTA REGRESIVA DE TOPES CLÍNICOS (TRUCO & CLASES DE BLACK)
+    // ==========================================
+    const DEFAULT_TOPES_CLINICOS = {
+      endo: { meta: 30, actual: 23 },
+      ciru: { meta: 30, actual: 20 },
+      estomato: { meta: 5, actual: 1 },
+      perio: { 
+        meta: 6, 
+        actual: 4, 
+        paso1: false,
+        paso2: false,
+        paso3: false
+      },
+      ope: {
+        clase4: { meta: 4, actual: 2 },
+        clase2: { meta: 4, actual: 1 },
+        clase1: { meta: 0, actual: 0 },
+        clase3: { meta: 0, actual: 0 },
+        clase5: { meta: 0, actual: 0 }
+      }
+    };
+
+    let topesClinicos = loadTopesClinicosData();
+
+    function loadTopesClinicosData() {
+      try {
+        const local = localStorage.getItem('topes_clinicos_male');
+        if (local) {
+          const p = JSON.parse(local);
+          return {
+            endo: { meta: p.endo?.meta ?? 30, actual: p.endo?.actual ?? 23 },
+            ciru: { meta: p.ciru?.meta ?? 30, actual: p.ciru?.actual ?? 20 },
+            estomato: { meta: p.estomato?.meta ?? 5, actual: p.estomato?.actual ?? 1 },
+            perio: {
+              meta: p.perio?.meta ?? 6,
+              actual: p.perio?.actual ?? 4,
+              paso1: !!p.perio?.paso1,
+              paso2: !!p.perio?.paso2,
+              paso3: !!p.perio?.paso3
+            },
+            ope: {
+              clase4: { meta: p.ope?.clase4?.meta ?? 4, actual: p.ope?.clase4?.actual ?? 2 },
+              clase2: { meta: p.ope?.clase2?.meta ?? 4, actual: p.ope?.clase2?.actual ?? 1 },
+              clase1: { meta: p.ope?.clase1?.meta ?? 0, actual: p.ope?.clase1?.actual ?? 0 },
+              clase3: { meta: p.ope?.clase3?.meta ?? 0, actual: p.ope?.clase3?.actual ?? 0 },
+              clase5: { meta: p.ope?.clase5?.meta ?? 0, actual: p.ope?.clase5?.actual ?? 0 }
+            }
+          };
+        }
+      } catch (e) {
+        console.warn('Error cargando topes_clinicos_male:', e);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_TOPES_CLINICOS));
+    }
+
+    // Sincronización en tiempo real desde Firebase
+    try {
+      db.ref('topes_clinicos_male').on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          topesClinicos = {
+            endo: { meta: val.endo?.meta ?? 30, actual: val.endo?.actual ?? 23 },
+            ciru: { meta: val.ciru?.meta ?? 30, actual: val.ciru?.actual ?? 20 },
+            estomato: { meta: val.estomato?.meta ?? 5, actual: val.estomato?.actual ?? 1 },
+            perio: {
+              meta: val.perio?.meta ?? 6,
+              actual: val.perio?.actual ?? 4,
+              paso1: !!val.perio?.paso1,
+              paso2: !!val.perio?.paso2,
+              paso3: !!val.perio?.paso3
+            },
+            ope: {
+              clase4: { meta: val.ope?.clase4?.meta ?? 4, actual: val.ope?.clase4?.actual ?? 2 },
+              clase2: { meta: val.ope?.clase2?.meta ?? 4, actual: val.ope?.clase2?.actual ?? 1 },
+              clase1: { meta: val.ope?.clase1?.meta ?? 0, actual: val.ope?.clase1?.actual ?? 0 },
+              clase3: { meta: val.ope?.clase3?.meta ?? 0, actual: val.ope?.clase3?.actual ?? 0 },
+              clase5: { meta: val.ope?.clase5?.meta ?? 0, actual: val.ope?.clase5?.actual ?? 0 }
+            }
+          };
+          localStorage.setItem('topes_clinicos_male', JSON.stringify(topesClinicos));
+          renderTopesPreviewCard();
+          if (!document.getElementById('modal-topes-clinicos')?.classList.contains('hidden')) {
+            renderTopesClinicosModal();
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Error escuchando topes_clinicos_male en Firebase:', e);
+    }
+
+    function saveTopesClinicos() {
+      localStorage.setItem('topes_clinicos_male', JSON.stringify(topesClinicos));
+      try {
+        db.ref('topes_clinicos_male').set(topesClinicos);
+      } catch (e) {
+        console.warn('Error guardando topes en Firebase:', e);
+      }
+      renderTopesPreviewCard();
+      renderTopesClinicosModal();
+    }
+
+    function getTopesTotals() {
+      const metaTotal = (topesClinicos.endo?.meta || 30) +
+                        (topesClinicos.ciru?.meta || 30) +
+                        (topesClinicos.perio?.meta || 6) +
+                        (topesClinicos.estomato?.meta || 5) +
+                        (topesClinicos.ope?.clase4?.meta || 4) +
+                        (topesClinicos.ope?.clase2?.meta || 4);
+
+      const actualTotal = Math.min(topesClinicos.endo?.actual || 0, topesClinicos.endo?.meta || 30) +
+                          Math.min(topesClinicos.ciru?.actual || 0, topesClinicos.ciru?.meta || 30) +
+                          Math.min(topesClinicos.perio?.actual || 0, topesClinicos.perio?.meta || 6) +
+                          Math.min(topesClinicos.estomato?.actual || 0, topesClinicos.estomato?.meta || 5) +
+                          Math.min(topesClinicos.ope?.clase4?.actual || 0, topesClinicos.ope?.clase4?.meta || 4) +
+                          Math.min(topesClinicos.ope?.clase2?.actual || 0, topesClinicos.ope?.clase2?.meta || 4);
+
+      const faltanTotal = Math.max(0, metaTotal - actualTotal);
+      const porcentaje = Math.min(100, Math.round((actualTotal / metaTotal) * 100));
+
+      return { metaTotal, actualTotal, faltanTotal, porcentaje };
+    }
+
+    function renderTrucoBoxSvg(countInBox, boxIndex, activeColor = '#4F46E5') {
+      const emptyColor = '#E2E8F0';
+      const strokeWidth = 3.5;
+
+      const c1 = countInBox >= 1 ? activeColor : emptyColor;
+      const c2 = countInBox >= 2 ? activeColor : emptyColor;
+      const c3 = countInBox >= 3 ? activeColor : emptyColor;
+      const c4 = countInBox >= 4 ? activeColor : emptyColor;
+      const c5 = countInBox >= 5 ? activeColor : emptyColor;
+
+      const d5 = countInBox >= 5 ? '' : 'stroke-dasharray="2,2"';
+      const isComplete = countInBox >= 5;
+
+      return `
+        <div class="flex flex-col items-center">
+          <div class="relative w-9 h-9 sm:w-10 sm:h-10 p-1 rounded-xl ${isComplete ? 'bg-indigo-50/90 border border-indigo-200 shadow-2xs' : 'bg-slate-50 border border-slate-200/80'} flex items-center justify-center transition-all">
+            <svg viewBox="0 0 36 36" class="w-7 h-7 sm:w-8 sm:h-8 select-none">
+              <!-- Palo 1: Izquierda -->
+              <line x1="8" y1="8" x2="8" y2="28" stroke="${c1}" stroke-width="${strokeWidth}" stroke-linecap="round" />
+              <!-- Palo 2: Arriba -->
+              <line x1="8" y1="8" x2="28" y2="8" stroke="${c2}" stroke-width="${strokeWidth}" stroke-linecap="round" />
+              <!-- Palo 3: Derecha -->
+              <line x1="28" y1="8" x2="28" y2="28" stroke="${c3}" stroke-width="${strokeWidth}" stroke-linecap="round" />
+              <!-- Palo 4: Abajo -->
+              <line x1="8" y1="28" x2="28" y2="28" stroke="${c4}" stroke-width="${strokeWidth}" stroke-linecap="round" />
+              <!-- Palo 5: Diagonal -->
+              <line x1="8" y1="28" x2="28" y2="8" stroke="${c5}" stroke-width="${strokeWidth}" stroke-linecap="round" ${d5} />
+            </svg>
+            ${isComplete ? '<span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-500 text-white rounded-full text-[8px] font-bold flex items-center justify-center">✓</span>' : ''}
+          </div>
+          <span class="text-[9px] font-bold text-slate-400 mt-0.5">${(boxIndex + 1) * 5}</span>
+        </div>
+      `;
+    }
+
+    function renderTopesPreviewCard() {
+      const badge = document.getElementById('badge-topes-progreso');
+      const restantesEl = document.getElementById('topes-preview-restantes');
+      const porcentajeEl = document.getElementById('topes-preview-porcentaje');
+      const barEl = document.getElementById('topes-preview-bar');
+      const pillsContainer = document.getElementById('topes-preview-pills');
+
+      if (!badge || !restantesEl || !pillsContainer) return;
+
+      const totals = getTopesTotals();
+      badge.textContent = `${totals.actualTotal} / ${totals.metaTotal}`;
+      restantesEl.textContent = `¡Faltan solo ${totals.faltanTotal} requisitos! 💪✨`;
+      porcentajeEl.textContent = `${totals.porcentaje}% completado`;
+      if (barEl) barEl.style.width = `${totals.porcentaje}%`;
+
+      const t = topesClinicos;
+
+      pillsContainer.innerHTML = `
+        <div class="bg-amber-50/80 border border-amber-200/90 rounded-xl p-1.5 flex items-center justify-between">
+          <span class="font-bold text-amber-900 flex items-center gap-1"><span>⚡</span> Endo</span>
+          <span class="font-extrabold text-amber-800">${t.endo.actual}/${t.endo.meta}</span>
+        </div>
+        <div class="bg-blue-50/80 border border-blue-200/90 rounded-xl p-1.5 flex items-center justify-between">
+          <span class="font-bold text-blue-900 flex items-center gap-1"><span>🩺</span> Ciru</span>
+          <span class="font-extrabold text-blue-800">${t.ciru.actual}/${t.ciru.meta}</span>
+        </div>
+        <div class="bg-teal-50/80 border border-teal-200/90 rounded-xl p-1.5 flex items-center justify-between">
+          <span class="font-bold text-teal-900 flex items-center gap-1"><span>🪥</span> Perio</span>
+          <span class="font-extrabold text-teal-800">${t.perio.actual}/${t.perio.meta}</span>
+        </div>
+        <div class="bg-purple-50/80 border border-purple-200/90 rounded-xl p-1.5 flex items-center justify-between">
+          <span class="font-bold text-purple-900 flex items-center gap-1"><span>🔍</span> Estomato</span>
+          <span class="font-extrabold text-purple-800">${t.estomato.actual}/${t.estomato.meta}</span>
+        </div>
+        <div class="col-span-2 bg-emerald-50/80 border border-emerald-200/90 rounded-xl p-1.5 flex items-center justify-between">
+          <span class="font-bold text-emerald-900 flex items-center gap-1"><span>🦷</span> Operatoria (Topes IV y II)</span>
+          <span class="font-extrabold text-emerald-800">IV: ${t.ope.clase4.actual}/${t.ope.clase4.meta} · II: ${t.ope.clase2.actual}/${t.ope.clase2.meta}</span>
+        </div>
+      `;
+    }
+
+    function openTopesClinicosModal() {
+      const modal = document.getElementById('modal-topes-clinicos');
+      if (!modal) return;
+      renderTopesClinicosModal();
+      modal.classList.remove('hidden');
+    }
+
+    function closeTopesClinicosModal() {
+      const modal = document.getElementById('modal-topes-clinicos');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function modificarTope(materia, delta) {
+      if (!topesClinicos[materia]) return;
+      topesClinicos[materia].actual = Math.max(0, (topesClinicos[materia].actual || 0) + delta);
+      if (navigator.vibrate) navigator.vibrate(25);
+      saveTopesClinicos();
+    }
+
+    function modificarOpeClase(claseKey, delta) {
+      if (!topesClinicos.ope || !topesClinicos.ope[claseKey]) return;
+      topesClinicos.ope[claseKey].actual = Math.max(0, (topesClinicos.ope[claseKey].actual || 0) + delta);
+      if (navigator.vibrate) navigator.vibrate(25);
+      saveTopesClinicos();
+    }
+
+    function togglePerioStep(stepKey) {
+      if (!topesClinicos.perio) return;
+      topesClinicos.perio[stepKey] = !topesClinicos.perio[stepKey];
+      if (navigator.vibrate) navigator.vibrate(20);
+      saveTopesClinicos();
+    }
+
+    function darAltaPerio() {
+      if (!topesClinicos.perio) return;
+      topesClinicos.perio.actual = (topesClinicos.perio.actual || 0) + 1;
+      topesClinicos.perio.paso1 = false;
+      topesClinicos.perio.paso2 = false;
+      topesClinicos.perio.paso3 = false;
+      if (navigator.vibrate) navigator.vibrate([40, 30, 40]);
+      saveTopesClinicos();
+    }
+
+    function renderTopesClinicosModal() {
+      const container = document.getElementById('modal-topes-content');
+      if (!container) return;
+
+      const totals = getTopesTotals();
+      const t = topesClinicos;
+
+      // Palitos Endo (6 cajas de 5 para 30 conductos)
+      let endoBoxesHtml = '';
+      for (let b = 0; b < 6; b++) {
+        const countInBox = Math.max(0, Math.min(5, t.endo.actual - b * 5));
+        endoBoxesHtml += renderTrucoBoxSvg(countInBox, b, '#D97706');
+      }
+
+      // Palitos Ciru (6 cajas de 5 para 30 cirugías)
+      let ciruBoxesHtml = '';
+      for (let b = 0; b < 6; b++) {
+        const countInBox = Math.max(0, Math.min(5, t.ciru.actual - b * 5));
+        ciruBoxesHtml += renderTrucoBoxSvg(countInBox, b, '#2563EB');
+      }
+
+      // Palitos Estomato (1 caja de 5 para 5 pacientes)
+      const estomatoCountInBox = Math.max(0, Math.min(5, t.estomato.actual));
+      const estomatoBoxHtml = renderTrucoBoxSvg(estomatoCountInBox, 0, '#9333EA');
+
+      // Perio Altas badges (6 altas)
+      let perioBadgesHtml = '';
+      for (let i = 1; i <= t.perio.meta; i++) {
+        const done = i <= t.perio.actual;
+        perioBadgesHtml += `
+          <div class="flex flex-col items-center">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${done ? 'bg-teal-500 text-white shadow-2xs' : 'bg-slate-100 text-slate-400 border border-slate-200'}">
+              ${done ? '✓' : i}
+            </div>
+            <span class="text-[8px] font-bold text-slate-400 mt-0.5">Alta ${i}</span>
+          </div>
+        `;
+      }
+
+      const allPerioStepsChecked = t.perio.paso1 && t.perio.paso2 && t.perio.paso3;
+
+      container.innerHTML = `
+        <!-- BANNER DE RESUMEN CUENTA REGRESIVA -->
+        <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 text-white rounded-2xl p-4 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-200">Cuenta Regresiva General</span>
+            <span class="text-xs font-extrabold bg-white/20 px-2.5 py-0.5 rounded-full">${totals.porcentaje}% completado</span>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <h2 class="text-xl font-black">¡Faltan solo ${totals.faltanTotal}! 🎉</h2>
+            <span class="text-xs font-semibold text-indigo-100">${totals.actualTotal} de ${totals.metaTotal} topes</span>
+          </div>
+          <div class="w-full h-2.5 bg-white/20 rounded-full overflow-hidden p-0.5">
+            <div class="h-full bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full transition-all duration-500" style="width: ${totals.porcentaje}%;"></div>
+          </div>
+          <p class="text-[10px] text-indigo-100 font-medium">Cada conducto, cirugía, alta y clase de Black te acerca a tu título de Odontóloga 🩺✨</p>
+        </div>
+
+        <!-- 1. ENDODONCIA (PALITOS DE TRUCO) -->
+        <div class="bg-gradient-to-br from-amber-50/80 via-white to-orange-50/60 border border-amber-200 rounded-2xl p-3.5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">⚡</span>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900">Endodoncia</h4>
+                <p class="text-[10px] text-slate-500 font-medium">Tope: ${t.endo.meta} conductos · Faltan ${Math.max(0, t.endo.meta - t.endo.actual)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="modificarTope('endo', -1)" class="w-7 h-7 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 text-amber-900 font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">-</button>
+              <span class="text-xs font-black text-amber-900 px-2 py-0.5 bg-amber-100/90 rounded-lg min-w-[2.5rem] text-center">${t.endo.actual}</span>
+              <button onclick="modificarTope('endo', 1)" class="w-7 h-7 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">+</button>
+            </div>
+          </div>
+          <!-- Palitos de Truco en 6 grupos de 5 -->
+          <div class="bg-white/90 border border-amber-200/80 rounded-2xl p-2.5">
+            <div class="text-[10px] font-bold text-amber-900 mb-1.5 flex items-center justify-between">
+              <span>Palitos de truco (30 conductos)</span>
+              <span class="text-[9px] text-amber-700 font-semibold">${t.endo.actual >= t.endo.meta ? '🎉 ¡Tope cumplido!' : (t.endo.actual + ' conductos hechos')}</span>
+            </div>
+            <div class="grid grid-cols-6 gap-1 justify-items-center">
+              ${endoBoxesHtml}
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CIRUGÍA BUCAL (PALITOS DE TRUCO) -->
+        <div class="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/60 border border-blue-200 rounded-2xl p-3.5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🩺</span>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900">Cirugía Bucal</h4>
+                <p class="text-[10px] text-slate-500 font-medium">Tope: ${t.ciru.meta} cirugías/extracciones · Faltan ${Math.max(0, t.ciru.meta - t.ciru.actual)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="modificarTope('ciru', -1)" class="w-7 h-7 rounded-xl bg-white border border-blue-200 hover:bg-blue-100 text-blue-900 font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">-</button>
+              <span class="text-xs font-black text-blue-900 px-2 py-0.5 bg-blue-100/90 rounded-lg min-w-[2.5rem] text-center">${t.ciru.actual}</span>
+              <button onclick="modificarTope('ciru', 1)" class="w-7 h-7 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">+</button>
+            </div>
+          </div>
+          <!-- Palitos de Truco en 6 grupos de 5 -->
+          <div class="bg-white/90 border border-blue-200/80 rounded-2xl p-2.5">
+            <div class="text-[10px] font-bold text-blue-900 mb-1.5 flex items-center justify-between">
+              <span>Palitos de truco (30 cirugías)</span>
+              <span class="text-[9px] text-blue-700 font-semibold">${t.ciru.actual >= t.ciru.meta ? '🎉 ¡Tope cumplido!' : (t.ciru.actual + ' cirugías hechas')}</span>
+            </div>
+            <div class="grid grid-cols-6 gap-1 justify-items-center">
+              ${ciruBoxesHtml}
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. ESTOMATOLOGÍA (PALITOS DE TRUCO) -->
+        <div class="bg-gradient-to-br from-purple-50/80 via-white to-fuchsia-50/60 border border-purple-200 rounded-2xl p-3.5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🔍</span>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900">Estomatología</h4>
+                <p class="text-[10px] text-slate-500 font-medium">Tope: ${t.estomato.meta} pacientes · Faltan ${Math.max(0, t.estomato.meta - t.estomato.actual)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="modificarTope('estomato', -1)" class="w-7 h-7 rounded-xl bg-white border border-purple-200 hover:bg-purple-100 text-purple-900 font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">-</button>
+              <span class="text-xs font-black text-purple-900 px-2 py-0.5 bg-purple-100/90 rounded-lg min-w-[2.5rem] text-center">${t.estomato.actual}</span>
+              <button onclick="modificarTope('estomato', 1)" class="w-7 h-7 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">+</button>
+            </div>
+          </div>
+          <!-- Palitos de Truco (1 caja de 5) -->
+          <div class="bg-white/90 border border-purple-200/80 rounded-2xl p-2.5 flex items-center justify-between">
+            <div class="space-y-0.5">
+              <div class="text-[10px] font-bold text-purple-900">Palito de truco (5 pacientes)</div>
+              <div class="text-[9px] text-slate-500">${t.estomato.actual} de 5 atendidos</div>
+            </div>
+            <div class="pr-2">
+              ${estomatoBoxHtml}
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. OPERATORIA DENTAL (CLASES DE BLACK) -->
+        <div class="bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/60 border border-emerald-200 rounded-2xl p-3.5 space-y-3 shadow-2xs">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🦷</span>
+            <div>
+              <h4 class="text-xs font-extrabold text-slate-900">Operatoria Dental (Clases de Black)</h4>
+              <p class="text-[10px] text-slate-500 font-medium">Topes requeridos: 4 Clases IV y 4 Clases II</p>
+            </div>
+          </div>
+
+          <!-- TOPES PRIORITARIOS IV Y II -->
+          <div class="space-y-2">
+            <!-- CLASE IV -->
+            <div class="bg-white/90 border border-emerald-200/90 rounded-2xl p-2.5 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-extrabold text-slate-900">Clase IV</span>
+                    <span class="text-[9px] text-emerald-800 bg-emerald-100 font-bold px-1.5 py-0.2 rounded">Ángulo incisal / estética</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500">Tope: ${t.ope.clase4.meta} · Faltan ${Math.max(0, t.ope.clase4.meta - t.ope.clase4.actual)}</p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="modificarOpeClase('clase4', -1)" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs flex items-center justify-center">-</button>
+                  <span class="text-xs font-extrabold text-emerald-900 px-2 py-0.5 bg-emerald-100/80 rounded-md min-w-[2rem] text-center">${t.ope.clase4.actual}/${t.ope.clase4.meta}</span>
+                  <button onclick="modificarOpeClase('clase4', 1)" class="w-6 h-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs flex items-center justify-center">+</button>
+                </div>
+              </div>
+              <div class="w-full h-2 bg-emerald-100/70 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full transition-all" style="width: ${Math.min(100, (t.ope.clase4.actual / t.ope.clase4.meta) * 100)}%;"></div>
+              </div>
+            </div>
+
+            <!-- CLASE II -->
+            <div class="bg-white/90 border border-emerald-200/90 rounded-2xl p-2.5 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-extrabold text-slate-900">Clase II</span>
+                    <span class="text-[9px] text-teal-800 bg-teal-100 font-bold px-1.5 py-0.2 rounded">Proximal premolares/molares</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500">Tope: ${t.ope.clase2.meta} · Faltan ${Math.max(0, t.ope.clase2.meta - t.ope.clase2.actual)}</p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="modificarOpeClase('clase2', -1)" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs flex items-center justify-center">-</button>
+                  <span class="text-xs font-extrabold text-teal-900 px-2 py-0.5 bg-teal-100/80 rounded-md min-w-[2rem] text-center">${t.ope.clase2.actual}/${t.ope.clase2.meta}</span>
+                  <button onclick="modificarOpeClase('clase2', 1)" class="w-6 h-6 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-black text-xs flex items-center justify-center">+</button>
+                </div>
+              </div>
+              <div class="w-full h-2 bg-teal-100/70 rounded-full overflow-hidden">
+                <div class="h-full bg-teal-500 rounded-full transition-all" style="width: ${Math.min(100, (t.ope.clase2.actual / t.ope.clase2.meta) * 100)}%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTRAS CLASES DE BLACK (I, III, V) -->
+          <div class="pt-1 border-t border-emerald-100/80">
+            <span class="text-[10px] font-bold text-slate-600 block mb-1.5">Otras clases de Black realizadas:</span>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div class="bg-white/80 border border-slate-200/80 rounded-xl p-1.5 text-center">
+                <span class="text-[10px] font-bold text-slate-700 block">Clase I</span>
+                <span class="text-[9px] text-slate-400 block mb-1">Oclusal</span>
+                <div class="flex items-center justify-center gap-1">
+                  <button onclick="modificarOpeClase('clase1', -1)" class="w-5 h-5 rounded bg-slate-100 text-[10px] font-bold">-</button>
+                  <span class="text-xs font-bold text-slate-800 min-w-[1rem]">${t.ope.clase1.actual}</span>
+                  <button onclick="modificarOpeClase('clase1', 1)" class="w-5 h-5 rounded bg-slate-200 text-[10px] font-bold">+</button>
+                </div>
+              </div>
+              <div class="bg-white/80 border border-slate-200/80 rounded-xl p-1.5 text-center">
+                <span class="text-[10px] font-bold text-slate-700 block">Clase III</span>
+                <span class="text-[9px] text-slate-400 block mb-1">Proximal ant.</span>
+                <div class="flex items-center justify-center gap-1">
+                  <button onclick="modificarOpeClase('clase3', -1)" class="w-5 h-5 rounded bg-slate-100 text-[10px] font-bold">-</button>
+                  <span class="text-xs font-bold text-slate-800 min-w-[1rem]">${t.ope.clase3.actual}</span>
+                  <button onclick="modificarOpeClase('clase3', 1)" class="w-5 h-5 rounded bg-slate-200 text-[10px] font-bold">+</button>
+                </div>
+              </div>
+              <div class="bg-white/80 border border-slate-200/80 rounded-xl p-1.5 text-center">
+                <span class="text-[10px] font-bold text-slate-700 block">Clase V</span>
+                <span class="text-[9px] text-slate-400 block mb-1">Cervical</span>
+                <div class="flex items-center justify-center gap-1">
+                  <button onclick="modificarOpeClase('clase5', -1)" class="w-5 h-5 rounded bg-slate-100 text-[10px] font-bold">-</button>
+                  <span class="text-xs font-bold text-slate-800 min-w-[1rem]">${t.ope.clase5.actual}</span>
+                  <button onclick="modificarOpeClase('clase5', 1)" class="w-5 h-5 rounded bg-slate-200 text-[10px] font-bold">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. PERIODONCIA (ALTAS CLÍNICAS & CHECKLIST) -->
+        <div class="bg-gradient-to-br from-teal-50/80 via-white to-cyan-50/60 border border-teal-200 rounded-2xl p-3.5 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🪥</span>
+              <div>
+                <h4 class="text-xs font-extrabold text-slate-900">Periodoncia</h4>
+                <p class="text-[10px] text-slate-500 font-medium">Tope: ${t.perio.meta} altas clínicas · Faltan ${Math.max(0, t.perio.meta - t.perio.actual)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="modificarTope('perio', -1)" class="w-7 h-7 rounded-xl bg-white border border-teal-200 hover:bg-teal-100 text-teal-900 font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">-</button>
+              <span class="text-xs font-black text-teal-900 px-2 py-0.5 bg-teal-100/90 rounded-lg min-w-[2.5rem] text-center">${t.perio.actual}</span>
+              <button onclick="modificarTope('perio', 1)" class="w-7 h-7 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-black text-sm flex items-center justify-center shadow-2xs active:scale-95 transition">+</button>
+            </div>
+          </div>
+
+          <!-- Medallas de Altas -->
+          <div class="bg-white/90 border border-teal-200/80 rounded-2xl p-2.5">
+            <div class="text-[10px] font-bold text-teal-900 mb-1.5 flex items-center justify-between">
+              <span>Progreso de Altas Clínicas</span>
+              <span class="text-[9px] text-teal-700 font-semibold">${t.perio.actual} de ${t.perio.meta} completadas</span>
+            </div>
+            <div class="grid grid-cols-6 gap-1 justify-items-center">
+              ${perioBadgesHtml}
+            </div>
+          </div>
+
+          <!-- CHECKLIST ANTES DEL ALTA (SOLICITADO POR MALE) -->
+          <div class="bg-teal-50/90 border border-teal-200/90 rounded-2xl p-3 space-y-2.5">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">📋</span>
+              <span class="text-[11px] font-extrabold text-teal-950">Checklist antes del Alta (Paciente actual):</span>
+            </div>
+            <div class="space-y-1.5">
+              <label class="flex items-center gap-2 p-2 bg-white rounded-xl border ${t.perio.paso1 ? 'border-teal-400 bg-teal-50/40' : 'border-slate-200'} cursor-pointer transition select-none">
+                <input type="checkbox" ${t.perio.paso1 ? 'checked' : ''} onchange="togglePerioStep('paso1')" class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 accent-teal-600">
+                <span class="text-xs font-semibold ${t.perio.paso1 ? 'text-teal-900 line-through' : 'text-slate-700'}">Periodontograma y enseñanza de higiene</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-xl border ${t.perio.paso2 ? 'border-teal-400 bg-teal-50/40' : 'border-slate-200'} cursor-pointer transition select-none">
+                <input type="checkbox" ${t.perio.paso2 ? 'checked' : ''} onchange="togglePerioStep('paso2')" class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 accent-teal-600">
+                <span class="text-xs font-semibold ${t.perio.paso2 ? 'text-teal-900 line-through' : 'text-slate-700'}">Raspaje y alisado radicular (RAR)</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-xl border ${t.perio.paso3 ? 'border-teal-400 bg-teal-50/40' : 'border-slate-200'} cursor-pointer transition select-none">
+                <input type="checkbox" ${t.perio.paso3 ? 'checked' : ''} onchange="togglePerioStep('paso3')" class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 accent-teal-600">
+                <span class="text-xs font-semibold ${t.perio.paso3 ? 'text-teal-900 line-through' : 'text-slate-700'}">Reevaluación clínica</span>
+              </label>
+            </div>
+
+            <!-- BOTÓN COMPLETAR ALTA CLÍNICA -->
+            ${allPerioStepsChecked ? `
+              <button onclick="darAltaPerio()" class="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold text-xs rounded-xl shadow-md hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1.5 animate-pulse">
+                <span>🎉</span> ¡Completar Alta Clínica! (+1)
+              </button>
+            ` : `
+              <div class="text-[10px] text-center text-teal-800/80 bg-white/70 py-1.5 px-2 rounded-xl border border-teal-200/60 font-medium">
+                Completá los 3 pasos para habilitar el botón de Alta (+1)
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function abrirEdicionManualTopes() {
+      const modal = document.getElementById('modal-editar-topes');
+      const container = document.getElementById('form-edicion-topes-container');
+      if (!modal || !container) return;
+
+      const t = topesClinicos;
+      container.innerHTML = `
+        <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-200 space-y-1">
+          <label class="font-bold text-amber-900 flex justify-between">
+            <span>⚡ Endodoncia (conductos):</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 30</span>
+          </label>
+          <input type="number" id="edit-tope-endo" value="${t.endo.actual}" min="0" max="60" class="w-full px-2 py-1 bg-white border border-amber-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-blue-50/60 p-2 rounded-xl border border-blue-200 space-y-1">
+          <label class="font-bold text-blue-900 flex justify-between">
+            <span>🩺 Cirugía Bucal (cirugías):</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 30</span>
+          </label>
+          <input type="number" id="edit-tope-ciru" value="${t.ciru.actual}" min="0" max="60" class="w-full px-2 py-1 bg-white border border-blue-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-purple-50/60 p-2 rounded-xl border border-purple-200 space-y-1">
+          <label class="font-bold text-purple-900 flex justify-between">
+            <span>🔍 Estomatología (pacientes):</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 5</span>
+          </label>
+          <input type="number" id="edit-tope-estomato" value="${t.estomato.actual}" min="0" max="20" class="w-full px-2 py-1 bg-white border border-purple-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-teal-50/60 p-2 rounded-xl border border-teal-200 space-y-1">
+          <label class="font-bold text-teal-900 flex justify-between">
+            <span>🪥 Periodoncia (altas clínicas):</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 6</span>
+          </label>
+          <input type="number" id="edit-tope-perio" value="${t.perio.actual}" min="0" max="20" class="w-full px-2 py-1 bg-white border border-teal-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-emerald-50/60 p-2 rounded-xl border border-emerald-200 space-y-1">
+          <label class="font-bold text-emerald-900 flex justify-between">
+            <span>🦷 Operatoria - Clase IV:</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 4</span>
+          </label>
+          <input type="number" id="edit-tope-ope-clase4" value="${t.ope.clase4.actual}" min="0" max="20" class="w-full px-2 py-1 bg-white border border-emerald-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-emerald-50/60 p-2 rounded-xl border border-emerald-200 space-y-1">
+          <label class="font-bold text-emerald-900 flex justify-between">
+            <span>🦷 Operatoria - Clase II:</span>
+            <span class="text-slate-400 font-normal text-[10px]">Meta: 4</span>
+          </label>
+          <input type="number" id="edit-tope-ope-clase2" value="${t.ope.clase2.actual}" min="0" max="20" class="w-full px-2 py-1 bg-white border border-emerald-300 rounded-lg font-bold text-slate-800">
+        </div>
+
+        <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 space-y-1">
+          <label class="font-bold text-slate-700">Otras clases de Black (Clase I, III, V):</label>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <span class="text-[9px] text-slate-500 font-semibold block">Clase I</span>
+              <input type="number" id="edit-tope-ope-clase1" value="${t.ope.clase1.actual}" min="0" max="50" class="w-full px-1.5 py-1 bg-white border border-slate-300 rounded-lg font-bold text-slate-800 text-center">
+            </div>
+            <div>
+              <span class="text-[9px] text-slate-500 font-semibold block">Clase III</span>
+              <input type="number" id="edit-tope-ope-clase3" value="${t.ope.clase3.actual}" min="0" max="50" class="w-full px-1.5 py-1 bg-white border border-slate-300 rounded-lg font-bold text-slate-800 text-center">
+            </div>
+            <div>
+              <span class="text-[9px] text-slate-500 font-semibold block">Clase V</span>
+              <input type="number" id="edit-tope-ope-clase5" value="${t.ope.clase5.actual}" min="0" max="50" class="w-full px-1.5 py-1 bg-white border border-slate-300 rounded-lg font-bold text-slate-800 text-center">
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeEdicionManualTopes() {
+      const modal = document.getElementById('modal-editar-topes');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function guardarEdicionManualTopes() {
+      const endoVal = parseInt(document.getElementById('edit-tope-endo')?.value, 10);
+      const ciruVal = parseInt(document.getElementById('edit-tope-ciru')?.value, 10);
+      const estomatoVal = parseInt(document.getElementById('edit-tope-estomato')?.value, 10);
+      const perioVal = parseInt(document.getElementById('edit-tope-perio')?.value, 10);
+      const clase4Val = parseInt(document.getElementById('edit-tope-ope-clase4')?.value, 10);
+      const clase2Val = parseInt(document.getElementById('edit-tope-ope-clase2')?.value, 10);
+      const clase1Val = parseInt(document.getElementById('edit-tope-ope-clase1')?.value, 10);
+      const clase3Val = parseInt(document.getElementById('edit-tope-ope-clase3')?.value, 10);
+      const clase5Val = parseInt(document.getElementById('edit-tope-ope-clase5')?.value, 10);
+
+      if (!isNaN(endoVal)) topesClinicos.endo.actual = Math.max(0, endoVal);
+      if (!isNaN(ciruVal)) topesClinicos.ciru.actual = Math.max(0, ciruVal);
+      if (!isNaN(estomatoVal)) topesClinicos.estomato.actual = Math.max(0, estomatoVal);
+      if (!isNaN(perioVal)) topesClinicos.perio.actual = Math.max(0, perioVal);
+      if (!isNaN(clase4Val)) topesClinicos.ope.clase4.actual = Math.max(0, clase4Val);
+      if (!isNaN(clase2Val)) topesClinicos.ope.clase2.actual = Math.max(0, clase2Val);
+      if (!isNaN(clase1Val)) topesClinicos.ope.clase1.actual = Math.max(0, clase1Val);
+      if (!isNaN(clase3Val)) topesClinicos.ope.clase3.actual = Math.max(0, clase3Val);
+      if (!isNaN(clase5Val)) topesClinicos.ope.clase5.actual = Math.max(0, clase5Val);
+
+      saveTopesClinicos();
+      closeEdicionManualTopes();
+    }
+
+    function getTopesClinicosSummaryForCoach() {
+      try {
+        const topes = topesClinicos || loadTopesClinicosData();
+        const totals = getTopesTotals();
+        return `TOPES CLÍNICOS & CUENTA REGRESIVA DE MATERIAS DE MALE:
+- Progreso General: ${totals.actualTotal} de ${totals.metaTotal} completados (${totals.porcentaje}%). ¡Faltan solo ${totals.faltanTotal} requisitos para tachar todos los topes!
+- Endodoncia: ${topes.endo.actual} de ${topes.endo.meta} conductos (Faltan ${Math.max(0, topes.endo.meta - topes.endo.actual)}).
+- Cirugía Bucal: ${topes.ciru.actual} de ${topes.ciru.meta} cirugías/extracciones (Faltan ${Math.max(0, topes.ciru.meta - topes.ciru.actual)}).
+- Periodoncia: ${topes.perio.actual} de ${topes.perio.meta} altas clínicas (Faltan ${Math.max(0, topes.perio.meta - topes.perio.actual)}). Checklist paciente actual: Periodontograma (${topes.perio.paso1 ? 'Listo' : 'Pendiente'}), RAR (${topes.perio.paso2 ? 'Listo' : 'Pendiente'}), Reevaluación (${topes.perio.paso3 ? 'Listo' : 'Pendiente'}).
+- Operatoria Dental: Clase IV: ${topes.ope.clase4.actual} de ${topes.ope.clase4.meta} | Clase II: ${topes.ope.clase2.actual} de ${topes.ope.clase2.meta}. Otras clases: Clase I (${topes.ope.clase1.actual}), Clase III (${topes.ope.clase3.actual}), Clase V (${topes.ope.clase5.actual}).
+- Estomatología: ${topes.estomato.actual} de ${topes.estomato.meta} pacientes (Faltan ${Math.max(0, topes.estomato.meta - topes.estomato.actual)}).
+(Si Male te comenta sobre algún conducto, extracción, alta o restauración, motívala, felicítala con orgullo y recuérdale que cada uno la acerca a recibirse).`;
       } catch (e) {
         return "";
       }
@@ -4096,7 +5244,7 @@ REGLAS DE TONO Y ESTILO:
     // ==========================================
     // SISTEMA INTERACTIVO DE GYM & LOGGING DE SERIES
     // ==========================================
-    let gymLogs = JSON.parse(localStorage.getItem('gym_logs_semana2') || '{}');
+    let gymLogs = JSON.parse(localStorage.getItem('gym_logs_' + CURRENT_GYM_WEEK) || '{}');
     let gymActiveReplacements = JSON.parse(localStorage.getItem('gym_active_replacements') || '{}');
 
     function getExerciseLog(dayKey, exerciseId, setIdx, defaultKg, defaultReps) {
@@ -4111,17 +5259,147 @@ REGLAS DE TONO Y ESTILO:
       return gymLogs[dayKey][exerciseId][setIdx] || { kg: defaultKg || "", reps: defaultReps || "", completed: false };
     }
 
-    function renderGymRoutine(dayKey) {
-      currentGymDay = dayKey;
+    function updateGymDayButtonsUI() {
+      const completed = getGymCompletedDays();
+      let completedCount = 0;
+      if (completed.dia1) completedCount++;
+      if (completed.dia2) completedCount++;
+      if (completed.dia3) completedCount++;
+
+      const nextDayKey = completedCount === 0 ? 'dia1' : (completedCount === 1 ? 'dia2' : 'dia3');
+
+      const labels = {
+        dia1: completed.dia1 ? 'Día 1 (Hecho ✔️)' : ('Día 1' + (nextDayKey === 'dia1' ? ' (Próximo 🔥)' : '')),
+        dia2: completed.dia2 ? 'Día 2 (Hecho ✔️)' : ('Día 2' + (nextDayKey === 'dia2' ? ' (Próximo 🔥)' : '')),
+        dia3: completed.dia3 ? 'Día 3 (Hecho ✔️)' : ('Día 3' + (nextDayKey === 'dia3' ? ' (Próximo 🔥)' : ' (Finde)'))
+      };
+
       ['dia1', 'dia2', 'dia3'].forEach(d => {
         const btn = document.getElementById(`btn-gym-${d}`);
         if (!btn) return;
-        if (d === dayKey) {
+        btn.innerText = labels[d];
+        if (d === currentGymDay) {
           btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-rose-500 text-white shadow-sm transition';
+        } else if (completed[d]) {
+          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition';
         } else {
           btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition';
         }
       });
+    }
+
+    async function executeCoachLogWorkout(command) {
+      try {
+        const dayNum = parseInt(command.day) || (command.day === 'dia2' ? 2 : (command.day === 'dia3' ? 3 : 1));
+        const dayKey = 'dia' + dayNum;
+        const dayTitles = {
+          dia1: "Día 1: Glúteo & Cadena Posterior",
+          dia2: "Día 2: Cuádriceps, Isquios & Torso",
+          dia3: "Día 3: Hack Inversa en Pareja"
+        };
+
+        const activeWeekKey = CURRENT_GYM_WEEK;
+
+        // 1. Registrar series completadas en gymLogs con los pesos reales reportados o especificados
+        if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
+        const exercises = GYM_ROUTINE[dayKey] || [];
+        let totalSetsCount = 0;
+
+        const omittedList = Array.isArray(command.omitted) ? command.omitted : [];
+        const hasReportedWeights = command.weights && typeof command.weights === 'object' && Object.keys(command.weights).length > 0;
+
+        exercises.forEach(ej => {
+          // Si el ejercicio fue omitido conscientemente por Male, no registrarlo como completado
+          if (omittedList.includes(ej.id) || omittedList.includes(ej.nombre)) {
+            return;
+          }
+
+          const customData = command.weights?.[ej.id] || command.weights?.[ej.nombre];
+
+          // Si Male reportó pesos específicos de su sesión y este ejercicio NO fue reportado ni tiene datos, NO inventarlo ni autocompletarlo con defaults:
+          if (hasReportedWeights && !customData) {
+            return;
+          }
+
+          if (!gymLogs[dayKey][ej.id]) gymLogs[dayKey][ej.id] = [];
+          const customKg = (typeof customData === 'object' ? customData.kg : customData) || ej.cargaSugerida;
+          const customReps = typeof customData === 'object' ? customData.reps : null;
+
+          for (let s = 0; s < ej.series; s++) {
+            const targetRep = (Array.isArray(customReps) ? customReps[s] : customReps) || ej.metaReps[s] || ej.metaReps[0];
+            gymLogs[dayKey][ej.id][s] = {
+              set: s + 1,
+              kg: customKg,
+              reps: targetRep,
+              completed: true,
+              targetRep: targetRep,
+              time: Date.now()
+            };
+            totalSetsCount++;
+          }
+        });
+
+        // 2. Solo marcar la sesión como completada si efectivamente se registraron series
+        if (totalSetsCount > 0) {
+          if (!gymCompletedDays) gymCompletedDays = {};
+          gymCompletedDays[dayKey] = true;
+          localStorage.setItem('gym_completed_days_' + activeWeekKey, JSON.stringify(gymCompletedDays));
+          db.ref(`gym_completed_days/${activeWeekKey}/${dayKey}`).set({
+            completed: true,
+            completedAt: Date.now(),
+            source: 'coach_tool_call',
+            notes: command.notes || ''
+          }).catch(e => console.log('Firebase sync error:', e));
+
+          // Guardar logs
+          localStorage.setItem('gym_logs_' + activeWeekKey, JSON.stringify(gymLogs));
+          db.ref(`gym_logs/${activeWeekKey}/${dayKey}`).set(gymLogs[dayKey]).catch(e => console.log(e));
+
+          // Registrar sesión completada en gym_completed_sessions
+          const sessionPayload = {
+            dayKey: dayKey,
+            dayTitle: dayTitles[dayKey] || dayKey,
+            isConsultation: false,
+            totalSets: totalSetsCount,
+            userNotes: command.notes || 'Completado y registrado por el Coach IA vía Chat',
+            source: 'coach_tool_call',
+            timestamp: Date.now(),
+            dateStr: new Date().toLocaleDateString('es-ES')
+          };
+          db.ref(`gym_completed_sessions/${dayKey}_${Date.now()}`).set(sessionPayload).catch(e => console.log(e));
+
+          // 3. Determinar próximo día y actualizar la interfaz de la pestaña Gym
+          const nextDayKey = dayNum === 1 ? 'dia2' : (dayNum === 2 ? 'dia3' : 'dia3');
+          currentGymDay = nextDayKey;
+          renderGymRoutine(nextDayKey);
+          updateGymDayButtonsUI();
+
+          // 4. Mostrar feedback sutil si está en pantalla
+          showGymToast(`✨ ¡${dayTitles[dayKey]} registrado con éxito en tu ficha de Gym!`);
+        }
+      } catch (err) {
+        console.error('Error ejecutando executeCoachLogWorkout:', err);
+      }
+    }
+
+    function showGymToast(msg) {
+      let toast = document.getElementById('gym-sync-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'gym-sync-toast';
+        toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl z-50 flex items-center gap-2 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-xs';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+
+    function renderGymRoutine(dayKey) {
+      currentGymDay = dayKey;
+      updateGymDayButtonsUI();
 
       const list = document.getElementById('gym-exercise-list');
       if (!list) return;
@@ -4138,7 +5416,7 @@ REGLAS DE TONO Y ESTILO:
 
         const currentName = isReplaced ? activeReplacement.nombre : ej.nombre;
         const currentTargetWeight = isReplaced ? activeReplacement.pesoEquiv : ej.cargaSugerida;
-        const currentTargetRepsDesc = isReplaced ? activeReplacement.repsEquiv : `[${ej.metaReps.join(', ')} reps @ RIR 2]`;
+        const currentTargetRepsDesc = isReplaced ? activeReplacement.repsEquiv : `[${ej.metaReps.join(', ')} reps @ RIR 1]`;
 
         // 1. Banner de Calentamiento previo si corresponde (solo si no fue reemplazado)
         let calentamientoHtml = '';
@@ -4421,10 +5699,10 @@ REGLAS DE TONO Y ESTILO:
       };
 
       // Guardar en localStorage
-      localStorage.setItem('gym_logs_semana2', JSON.stringify(gymLogs));
+      localStorage.setItem('gym_logs_' + CURRENT_GYM_WEEK, JSON.stringify(gymLogs));
 
       // Guardar en Firebase en tiempo real
-      db.ref(`gym_logs/semana2/${dayKey}/${exerciseId}/${setIdx}`).set({
+      db.ref(`gym_logs/${CURRENT_GYM_WEEK}/${dayKey}/${exerciseId}/${setIdx}`).set({
         set: setIdx + 1,
         kg: kgVal,
         reps: repsVal,
@@ -4568,7 +5846,7 @@ REGLAS DE TONO Y ESTILO:
         }
       } else {
         if (titleEl) titleEl.innerText = `¡Entrenamiento Liquidado, Caritas! 🏆`;
-        if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 2 Cumplido`;
+        if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 1 Cumplido`;
         if (metricsEl) {
           metricsEl.innerHTML = `
             <div class="bg-rose-50/70 p-2 rounded-2xl border border-rose-100">
@@ -4581,7 +5859,7 @@ REGLAS DE TONO Y ESTILO:
             </div>
             <div class="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
               <span class="text-[9px] font-bold text-slate-500 uppercase block">Esfuerzo</span>
-              <span class="text-xs font-extrabold text-purple-700">RIR 2 ✔️</span>
+              <span class="text-xs font-extrabold text-purple-700">RIR 1 ✔️</span>
             </div>
           `;
         }
@@ -4619,8 +5897,8 @@ MOTOR DE DECISIÓN DEPORTIVA Y PERIODIZACIÓN AUTÓNOMA:
 2. Contención y Cero Culpa: Si menciona cansancio por Odonto, lluvia, exámenes o días salteados, valida su descanso con mucho cariño. Explicale que el descanso protege sus articulaciones y sistema nervioso, y que la masa muscular no se pierde.
 3. DECISIÓN DEPORTIVA AUTÓNOMA Y PROACTIVA:
    - Toma la decisión técnica por ella de forma clara y sin titubear.
-   - Si la semana fue incompleta (menos de 3 días hechos): Indicale que NO se avanza a la siguiente semana ni se sube la exigencia a RIR 1. Se ejecuta la SEMANA 2 COMPLETA A RIR 2.
-   - Explicale qué es RIR 2 ("cortar la serie cuando sientas que te quedan 2 repeticiones en el tanque antes de fallar").
+   - Si la semana fue incompleta (menos de 3 días hechos): Indicale que NO se avanza a la siguiente semana ni a la descarga. Se ejecuta la SEMANA 3 COMPLETA A RIR 1.
+   - Explicale qué es RIR 1 ("cortar la serie cuando sientas que te queda exactamente 1 repetición en el tanque antes de fallar").
    - Dale su hoja de ruta exacta: Martes Día 1 (Glúteo & Cadena Posterior), Jueves Día 2 (Cuádriceps & Torso), Fin de semana Día 3 (Hack Inversa en Fiter con Naza).
    - REGLA DE ORO: Prohibido compensar entrenando piernas dos días seguidos.
 4. Cero sermones descolgados sobre comidas de las 9 AM ni cursadas de odontología si te escribe de noche o en fin de semana.
@@ -4636,7 +5914,7 @@ ${summaryLines.join('\n')}
 SENSACIONES / NOTAS DE MALE: "${userNotes || 'Entrenamiento completado.'}"
 
 DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
-1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento (cuidado articular en rodillas/lumbares, RIR 2). Llámala "Caritas" o "Male".
+1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento (cuidado articular en rodillas/lumbares, RIR 1). Llámala "Caritas" o "Male".
 2. Si dejó notas de sensaciones, respóndelas directamente con empatía y criterio deportivo.
 3. Si entrenó a la mañana en día de semana y va directo a cursar a Odontología, recordale comer algo proteico en la primera hora para no pasar 4-5 horas en ayuno; si entrenó a la tarde/noche o fin de semana, adapta el consejo al horario real (merienda rica o cena reparadora).
 4. NUNCA uses frases forzadas como "te lo digo con amor" o "mensaje con amor".
@@ -4645,31 +5923,40 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
 
       // Generar devolución con Gemini
       const candidateModels = [
+        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash",
-        "gemini-3.6-flash"
+        "gemini-3.8-flash"
       ];
 
       let feedbackText = null;
 
       for (const model of candidateModels) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 18000);
+
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               contents: [{ role: "user", parts: [{ text: gymPrompt }] }]
-            })
+            }),
+            signal: controller.signal
           });
+          clearTimeout(timeoutId);
 
-          if (!res.ok) continue;
+          if (!res.ok) {
+            const errBody = await res.text().catch(() => '');
+            console.error(`🚨 GEMINI API ERROR Gym Feedback (${model} - HTTP ${res.status}):`, errBody);
+            continue;
+          }
           const data = await res.json();
           if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
             feedbackText = data.candidates[0].content.parts[0].text;
             break;
           }
         } catch (e) {
-          console.warn(`Error en feedback con modelo ${model}:`, e);
+          console.error(`🚨 GEMINI API ERROR Gym Feedback (${model}):`, e, e.message);
         }
       }
 
@@ -4677,7 +5964,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
         if (isConsultationOrMissed) {
           feedbackText = `¡Tranqui, Caritas! 🌸 Hiciste súper bien en descansar si la facultad y los exámenes te dejaron agotada. La carrera es prioridad y tu masa muscular está intacta.\n\nPara mañana domingo: **¡Hacé de una el Día 3 en el gym que te gusta con Naza!** 🚀 La motivación y las ganas son lo más importante. ¡A disfrutar esa Hack Inversa y a romperla juntos!`;
         } else {
-          feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 2 y cuidando impecable la técnica.\n\n🍫 **Tip clave post-entreno:** Aportá proteína y carbohidratos ricos para frenar el catabolismo y alimentar ese glúteo. ¡Muy orgulloso de tu constancia! 🚀`;
+          feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 1 y cuidando impecable la técnica.\n\n🍫 **Tip clave post-entreno:** Aportá proteína y carbohidratos ricos para frenar el catabolismo y alimentar ese glúteo. ¡Muy orgulloso de tu constancia! 🚀`;
         }
       }
 
@@ -4698,6 +5985,19 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       };
 
       db.ref(`gym_completed_sessions/${dayKey}_${Date.now()}`).set(sessionPayload).catch(e => console.log(e));
+
+      // Sincronizar estado de sesiones completadas si fue un entrenamiento real
+      if (!isConsultationOrMissed) {
+        if (!gymCompletedDays) gymCompletedDays = {};
+        gymCompletedDays[dayKey] = true;
+        localStorage.setItem('gym_completed_days_' + CURRENT_GYM_WEEK, JSON.stringify(gymCompletedDays));
+        db.ref(`gym_completed_days/${CURRENT_GYM_WEEK}/${dayKey}`).set({
+          completed: true,
+          completedAt: Date.now(),
+          source: 'manual_finish'
+        }).catch(e => console.log(e));
+        updateGymDayButtonsUI();
+      }
 
       // Publicar resumen en el chat para que quede en el historial de la conversación
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -5463,9 +6763,9 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       }
 
       const candidateModels = [
+        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash",
-        "gemini-3.6-flash"
+        "gemini-3.8-flash"
       ];
 
       const sosPrompt = `
@@ -5496,13 +6796,22 @@ Instrucciones para tu respuesta:
 
       for (const model of candidateModels) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 18000);
+
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal: controller.signal
           });
+          clearTimeout(timeoutId);
 
-          if (!res.ok) continue;
+          if (!res.ok) {
+            const errBody = await res.text().catch(() => '');
+            console.error(`🚨 GEMINI API ERROR SOS (${model} - HTTP ${res.status}):`, errBody);
+            continue;
+          }
 
           const data = await res.json();
           if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
@@ -5637,9 +6946,9 @@ Instrucciones para tu respuesta:
       }
 
       const candidateModels = [
+        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash",
-        "gemini-3.6-flash"
+        "gemini-3.8-flash"
       ];
 
       const victoriaPrompt = `
@@ -5677,13 +6986,22 @@ INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
 
       for (const model of candidateModels) {
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 18000);
+
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal: controller.signal
           });
+          clearTimeout(timeoutId);
 
-          if (!res.ok) continue;
+          if (!res.ok) {
+            const errBody = await res.text().catch(() => '');
+            console.error(`🚨 GEMINI API ERROR GuardarVictoria (${model} - HTTP ${res.status}):`, errBody);
+            continue;
+          }
 
           const data = await res.json();
           if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
