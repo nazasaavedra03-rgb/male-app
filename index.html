@@ -1949,7 +1949,7 @@
           musculo: "Aductores internos",
           series: 2,
           cargaSugerida: "36 kg",
-          metaReps: [15, 15],
+          metaReps: [16, 15],
           calentamiento: "1 serie de aproximación: 20-25 kg x 8 reps (primer trabajo específico de aductores). Luego directo a series efectivas a RIR 1.",
           tip: "Pausa de 1 segundo en máxima apertura y contracción controlada a RIR 1.",
           alternativas: [
@@ -2201,7 +2201,7 @@ ${formatted.join('\n')}
           sequenceReason = '0 sesiones completadas en Semana 3. Le toca obligatoriamente el Día 1 (secuencia de inicio a RIR 1).';
         } else if (completedCount === 1) {
           targetDayKey = 'dia2';
-          targetDayName = 'Día 2: Cuádriceps, Isquios & Torso';
+          targetDayName = 'Día 2: Cuádriceps, Isquios & Aductores';
           targetDayNum = 2;
           sequenceReason = '1 sesión completada (Día 1 terminado y liquidado con récord de RDL a 16 kg x mano). Le toca obligatoriamente el Día 2 a RIR 1.';
         } else if (completedCount === 2) {
@@ -2224,7 +2224,8 @@ ${formatted.join('\n')}
             const altStr = e.alternativas && e.alternativas.length > 0
               ? `\n      • Alternativas si máquina ocupada: ${e.alternativas.map(a => `${a.nombre} con ${a.pesoEquiv}`).join(' | ')}`
               : '';
-            return `   ${idx + 1}. ${e.nombre} [${e.musculo}]: EXACTAMENTE ${e.series} series × ${e.metaReps.join('-')} reps @ ${e.cargaSugerida} (RIR 1)${warmStr}${altStr}`;
+            const seriesBreakdown = e.metaReps.map((r, sIdx) => `Serie ${sIdx + 1}: ${r} reps`).join(' | ');
+            return `   ${idx + 1}. ${e.nombre} [${e.musculo}]: EXACTAMENTE ${e.series} series (${seriesBreakdown}) @ ${e.cargaSugerida} (RIR 1)${warmStr}${altStr}`;
           }).join('\n');
         }
 
@@ -2232,7 +2233,7 @@ ${formatted.join('\n')}
 • ESTADO REAL DE SESIONES EN BASE DE DATOS (State-Based Tracking - Semana 3):
   - Total completadas esta semana: ${completedCount} de 3 sesiones
   - Día 1 (Glúteo & Posterior): ${completedDays.dia1 ? 'COMPLETADO ✅ (Realizado el Jueves 08/10/2026 con PR)' : 'PENDIENTE ⏳'}
-  - Día 2 (Cuádriceps, Isquios & Torso): ${completedDays.dia2 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
+  - Día 2 (Cuádriceps, Isquios & Aductores): ${completedDays.dia2 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
   - Día 3 (Hack Inversa en Pareja): ${completedDays.dia3 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
 
 • DETALLE DE LA ÚLTIMA SESIÓN REALIZADA (DÍA 1 — JUEVES 08/10/2026):
@@ -2260,7 +2261,7 @@ ${formatted.join('\n')}
 • RUTINARIO OFICIAL, COMPLETO E INMUTABLE (LOS 3 DÍAS DEL MESOCICLO):
 ${formatDayRoutine('dia1', 'Día 1: Glúteo & Cadena Posterior')}
 
-${formatDayRoutine('dia2', 'Día 2: Cuádriceps, Isquios & Torso')}
+${formatDayRoutine('dia2', 'Día 2: Cuádriceps, Isquios & Aductores')}
 
 ${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
 
@@ -2268,7 +2269,7 @@ ${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
 1. LÓGICA DE SECUENCIA ESTRICTA: El Día 1 ya está finalizado. Male no tiene que volver a hacer el Día 1 esta semana. Si habla de su próximo entrenamiento, le corresponde obligatoriamente: ${targetDayName}.
 2. INMUTABILIDAD TOTAL DE CADA DÍA (CERO ALUCINACIONES): TIENES TERMINANTEMENTE PROHIBIDO mezclar ejercicios o inventar rutinas. Cada día tiene exactamente los 5 ejercicios listados arriba con las series pautadas.
    - En Día 1 NUNCA agregues Camilla de Isquios ni Patada en Polea (la camilla es de Día 2 y la patada es de Día 3).
-3. PROHIBIDO DAR RANGOS VAGOS O GENÉRICOS: JAMÁS le digas "hacé 3x 10-12 repes" o "hacé un poco de glúteo". Siempre dale las cargas reales y repeticiones meta de su tabla RP (ej: "SLDL con mancuernas de 14 kg x mano, 3 series buscando 10-11 reps a RIR 1"). Male es una atleta disciplinada que progresa carga a carga.
+3. PROHIBIDO DAR RANGOS VAGOS O INESPECÍFICOS (CERO GUIONES O RANGOS TIPO '10-12' O '10-11'): Al igual que en la Renaissance Periodization (RP App), CADA SERIE INDIVIDUAL TIENE UN NÚMERO EXACTO DE REPETICIONES META calculado a partir de la semana anterior a RIR 1. JAMÁS le digas 'hacé 10-12 repes' o 'hacé 3x 10-11'. Dictale siempre la meta exacta serie por serie (ej: 'Prensa 100 kg: Serie 1 a 11 reps, Serie 2 a 10 reps, Serie 3 a 10 reps a RIR 1'). Male es una atleta disciplinada que progresa repetición a repetición con precisión quirúrgica.
 4. EXPLICACIÓN CLARA DE SEMANA 3 (RIR 1): Si Male te pregunta en qué semana está o sobre el entrenamiento, explícale con claridad y amor que estamos en la SEMANA 3 del mesociclo, semana de máxima sobrecarga a RIR 1 (significa dejar exactamente 1 repetición en reserva antes del fallo muscular en cada serie efectiva).
 5. PROTOCOLO DE ENTRADA EN CALOR POR GRUPO MUSCULAR (WARM-UP PROTOCOL):
    - Detállale las 2 a 3 series de aproximación progresivas ÚNICAMENTE en el primer ejercicio de cada grupo muscular nuevo.
@@ -5294,7 +5295,7 @@ REGLAS DE TONO Y ESTILO:
         const dayKey = 'dia' + dayNum;
         const dayTitles = {
           dia1: "Día 1: Glúteo & Cadena Posterior",
-          dia2: "Día 2: Cuádriceps, Isquios & Torso",
+          dia2: "Día 2: Cuádriceps, Isquios & Aductores",
           dia3: "Día 3: Hack Inversa en Pareja"
         };
 
@@ -5822,7 +5823,7 @@ REGLAS DE TONO Y ESTILO:
       const isConsultationOrMissed = totalCompletedSets === 0 || 
         /no\s+(fui|pude|entrene|voy|hice|hacer|llegue)|salte[eo]|rendi|examen|examenes|qu[eé]\s+(hago|entreno|hacer)|mañana|duda|d[ií]a\s*[123]\s*o\s*d[ií]a\s*[123]|pregunta|descanso/i.test(userNotes);
 
-      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Torso", dia3: "Día 3: Hack Inversa en Pareja" };
+      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Aductores", dia3: "Día 3: Hack Inversa en Pareja" };
 
       // Abrir modal de feedback
       const modal = document.getElementById('modal-gym-feedback');
@@ -5899,7 +5900,7 @@ MOTOR DE DECISIÓN DEPORTIVA Y PERIODIZACIÓN AUTÓNOMA:
    - Toma la decisión técnica por ella de forma clara y sin titubear.
    - Si la semana fue incompleta (menos de 3 días hechos): Indicale que NO se avanza a la siguiente semana ni a la descarga. Se ejecuta la SEMANA 3 COMPLETA A RIR 1.
    - Explicale qué es RIR 1 ("cortar la serie cuando sientas que te queda exactamente 1 repetición en el tanque antes de fallar").
-   - Dale su hoja de ruta exacta: Martes Día 1 (Glúteo & Cadena Posterior), Jueves Día 2 (Cuádriceps & Torso), Fin de semana Día 3 (Hack Inversa en Fiter con Naza).
+   - Dale su hoja de ruta exacta: Martes Día 1 (Glúteo & Cadena Posterior), Jueves Día 2 (Cuádriceps, Isquios & Aductores), Fin de semana Día 3 (Hack Inversa en Fiter con Naza).
    - REGLA DE ORO: Prohibido compensar entrenando piernas dos días seguidos.
 4. Cero sermones descolgados sobre comidas de las 9 AM ni cursadas de odontología si te escribe de noche o en fin de semana.
 5. Tono: Muy cálido, motivador, cómplice, protector y natural ("Caritas" o "Male").
