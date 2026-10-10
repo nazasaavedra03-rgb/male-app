@@ -3233,14 +3233,29 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
             `;
           } else {
             const isMorning = msg.isMorningBriefing;
+            let slotBadge = '';
+            let slotIcon = '🌸';
+            if (isMorning) {
+              const slot = msg.briefingSlot || 'mañana';
+              if (slot === 'tarde') {
+                slotBadge = '<span class="text-[9px] font-extrabold text-amber-700 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200">☀️ Mensaje de la Tarde</span>';
+                slotIcon = '☀️';
+              } else if (slot === 'noche') {
+                slotBadge = '<span class="text-[9px] font-extrabold text-purple-700 bg-purple-100/90 px-2 py-0.5 rounded-full border border-purple-200">🌙 Cierre de Jornada</span>';
+                slotIcon = '🌙';
+              } else {
+                slotBadge = '<span class="text-[9px] font-extrabold text-amber-700 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200">🌅 Saludo de la Mañana</span>';
+                slotIcon = '🌅';
+              }
+            }
             bubble.innerHTML = `
               <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-400 to-purple-400 flex items-center justify-center text-sm shadow-sm shrink-0">
-                ${isMorning ? '☀️' : '🌸'}
+                ${slotIcon}
               </div>
               <div class="${isMorning ? 'bg-gradient-to-br from-rose-50/90 via-white to-amber-50/80 border border-rose-200/90' : 'bg-white border border-rose-100'} rounded-2xl rounded-tl-none p-3.5 text-xs text-slate-800 space-y-1.5 max-w-[88%] shadow-sm">
                 <div class="flex items-center justify-between gap-1">
                   <span class="text-[10px] font-bold text-rose-600 block">Coach Male ✨</span>
-                  ${isMorning ? '<span class="text-[9px] font-extrabold text-amber-700 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200">🌅 Saludo de la Mañana</span>' : ''}
+                  ${slotBadge}
                 </div>
                 <div class="leading-relaxed text-xs text-slate-700 space-y-1">${formatMessageText(msg.text)}</div>
                 <span class="text-[8px] text-slate-400 text-right block pt-0.5">${msg.time || ''}</span>
@@ -3506,7 +3521,7 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
     }
 
     // ==========================================
-    // SALUDO MATUTINO INTELIGENTE DEL COPILOTO
+    // MENSAJE / SALUDO DIARIO INTELIGENTE DEL COPILOTO
     // ==========================================
     let isGeneratingMorningBriefing = false;
 
@@ -3514,9 +3529,10 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
       const now = new Date();
       const hour = now.getHours();
 
-      // 1. Ventana estrictamente matutina: a partir de las 05:00 AM y hasta las 11:59 AM
-      // (Si Male abre la app a la tarde o noche, NUNCA se debe disparar un "buen día")
-      if (hour < 5 || hour >= 12) return;
+      // 1. Pausa únicamente durante horas de sueño profundo (00:00 AM a 04:59 AM)
+      // A partir de las 05:00 AM, en cualquier momento que Male abra la app por primera vez en el día,
+      // se le envía su mensaje diario inteligente adaptado a la hora exacta (mañana, tarde o noche).
+      if (hour < 5) return;
 
       const todayKey = getTodayDateKey(now);
 
@@ -3547,7 +3563,7 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
           return;
         }
 
-        // 5. Si aún no se envió hoy en la mañana, generar y publicar el saludo
+        // 5. Si aún no se envió hoy, generar y publicar el mensaje adaptado a la franja horaria
         await generateDailyMorningBriefing(todayKey, now);
       } catch (err) {
         console.warn('Error en checkAndTriggerMorningBriefing:', err);
@@ -3559,6 +3575,24 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
     async function generateDailyMorningBriefing(todayKey, now) {
       // Marcar de inmediato en localStorage para evitar doble disparo simultáneo
       localStorage.setItem('last_morning_briefing_date', todayKey);
+
+      const hour = now.getHours();
+      let slot = 'mañana';
+      let slotTimeDesc = 'Es la mañana (entre 5:00 AM y 12:59 PM)';
+      let slotGoalDesc = 'Male acaba de abrir la app en la mañana para arrancar el día. Escribe un saludo matutino cálido, entusiasta y motivador.';
+      let slotGreetingRule = 'Dale un saludo alegre de buen día para llenarla de energía y seguridad (ej: "¡Buen día, Caritas! 🌸"). Recordale brevemente su desayuno nutritivo con sus 5g de creatina (Día ' + getCreatineDay(now) + ') y arrancar a tomar agua con la botellita.';
+
+      if (hour >= 20) {
+        slot = 'noche';
+        slotTimeDesc = 'Es la noche (a partir de las 20:00 hs)';
+        slotGoalDesc = 'Male acaba de abrir la app por primera vez en el día al caer la noche para cerrar su jornada. Escribe un saludo nocturno cálido, reconfortante y dulce.';
+        slotGreetingRule = 'NO digas "buen día" ni hables de despertar. Salúdala con "¡Buenas noches, Caritas! 🌙" o "¡Hola Male hermosa! ✨". Felicitala por todo el esfuerzo del día, preguntale cómo cerró su jornada o cómo se siente, recordale cenar rico, chequear si tomó su creatina y botellita de agua si no lo hizo antes, y motivarla a descansar y desconectar la cabeza.';
+      } else if (hour >= 13) {
+        slot = 'tarde';
+        slotTimeDesc = 'Es la tarde (entre las 13:00 hs y las 19:59 hs)';
+        slotGoalDesc = 'Male acaba de abrir la app por primera vez en el día en el transcurso de la tarde. Escribe un saludo de la tarde motivador, cercano y contenedor.';
+        slotGreetingRule = 'NO digas "buen día" ni hables de despertar. Salúdala con "¡Buenas tardes, Caritas! ☀️" o "¡Hola, hermosa! ✨". Preguntale con dulzura cómo viene su día o cómo le fue en la facu/clínica, recordale seguir hidratándose, chequear si tomó su creatina (Día ' + getCreatineDay(now) + ') en la merienda o almuerzo si no la tomó a la mañana, y darle aliento para la tarde o el entrenamiento si hoy toca.';
+      }
 
       const dayNames = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
       const dayKey = dayNames[now.getDay()];
@@ -3602,17 +3636,18 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
 
       // Prompt para Gemini
       const prompt = `
-Actúa como el Coach y Copiloto de Male. Es la mañana (entre 5:00 AM y 11:59 AM) y Male acaba de abrir la app al despertar.
-Escribe un saludo matutino cálido, entusiasta y motivador para ella.
+Actúa como el Coach y Copiloto de Male.
+${slotTimeDesc}. ${slotGoalDesc}
 
 DATOS DE HOY:
+- Franja horaria actual: ${slot.toUpperCase()}
 - Día: ${todaySchedule.nombreCorto || 'Hoy'}
 - Título del día: ${todaySchedule.titulo || ''}
 - Alarma/Salida: ${todaySchedule.alarma || ''}
 - Enfoque del día: ${todaySchedule.tag || ''}
 - Agenda de hoy: ${scheduleSummary}
 ${examNotice}
-- Día de Creatina: Día ${creatineDay} (5g de creatina monohidrato con el desayuno)
+- Día de Creatina: Día ${creatineDay} (5g de creatina monohidrato)
 - Meta de agua: 2.5 litros (10 vasos)
 - Estado de Gym & Planificación RP:
 ${getGymContextForCoach()}
@@ -3629,15 +3664,15 @@ ${chatRecentContext}
 
 REGLAS DE TONO Y ESTILO:
 1. Llámala "Caritas" o "Male" con dulzura natural. NUNCA la llames "reina" ni uses frases acartonadas como "mensaje con amor".
-2. Dale un saludo alegre de buen día para llenarla de energía y seguridad.
-3. Si hoy tiene parcial o médico agendado, dale apoyo y motivación máxima.
-4. Menciona algo clave de su día real según el cronograma (si es lunes su cursada de 10 hs, si es martes su preclínica a las 8:00 hs y su jornada completa afuera con su táper, si es miércoles su cursada y guardia para fichar paciente, si es jueves su clínica de cirugía con paciente y su power nap sagrada, si es viernes su cursada que termina al mediodía, si es fin de semana su descanso y gym en pareja).
+2. Saludo según el momento del día: ${slotGreetingRule}
+3. Si hoy tiene parcial o médico agendado, dale apoyo y motivación máxima (si ya pasó, preguntale cómo le fue).
+4. Menciona algo clave de su día real según el cronograma (si es lunes su cursada de 10 hs, si es martes su preclínica a las 8:00 hs y su jornada completa afuera con su táper, si es miércoles su cursada y guardia para fichar paciente, si es jueves su clínica de cirugía con paciente y su power nap sagrada, si es viernes su cursada que termina al mediodía, si es fin de semana su descanso y gym en pareja). Si ya es tarde o noche, preguntale cómo estuvo o cómo lo vivió.
 5. Si hay una victoria reciente o algo de lo que haya hablado días anteriores, hacé una mención linda, orgullosa y motivadora sobre eso respetando la temporalidad exacta indicada.
-6. Recordale brevemente su desayuno nutritivo con sus 5g de creatina (Día ${creatineDay}) y arrancar a tomar agua con la botellita.
+6. Hidratación y Creatina: Recordale sus 5g de creatina (Día ${creatineDay}) y seguir con la botellita de agua adaptado al momento actual.
 7. Si hoy es día de gym o día previo, recuérdale con entusiasmo y claridad su sesión o su descanso planificado.
 8. Si tiene pacientes de clínica agendados para hoy o mañana con avisos pendientes, recuérdale con dulzura enviarles el WhatsApp desde su gestor de pacientes de la app para asegurar su presencia y sillón.
-9. Mantén el mensaje en 2 o 3 párrafos cortos y agradables (máximo 120 palabras), con emojis lindos y sutiles (🌸, ✨, 🤍, 🩺, 🏋️‍♀️, 🥑). Que sea un placer leerlo apenas se despierta.
-10. PROTOCOLO SINUSITIS / SALUD Y ORGULLO DE NAZA: Si anoche Male estuvo angustiada o con sinusitis, priorizá preguntarle con infinito cariño cómo amaneció de la congestión y los senos paranasales. Recordale que no está sola en este tirón: Naza pensó esta app para cuidarle la espalda en cada momento y está profundamente orgulloso de ella. Con los números de Cirugía y Estomato los tiempos dan de sobra y el foco es desinflamar la cabeza sin culpa.
+9. Mantén el mensaje en 2 o 3 párrafos cortos y agradables (máximo 120 palabras), con emojis lindos y sutiles (🌸, ✨, 🤍, 🩺, 🏋️‍♀️, 🥑). Que sea un placer leerlo al abrir la app.
+10. PROTOCOLO SINUSITIS / SALUD Y ORGULLO DE NAZA: Si anoche o recientemente Male estuvo angustiada o con sinusitis/congestión, priorizá preguntarle con infinito cariño cómo se siente. Recordale que no está sola en este tirón: Naza pensó esta app para cuidarle la espalda en cada momento y está profundamente orgulloso de ella. Con los números de Cirugía y Estomato los tiempos dan de sobra y el foco es desinflamar la cabeza sin culpa.
 `;
 
       let briefingText = null;
@@ -3664,26 +3699,32 @@ REGLAS DE TONO Y ESTILO:
 
           if (!res.ok) {
             const errBody = await res.text().catch(() => '');
-            console.error(`🚨 GEMINI API ERROR Morning Briefing (${model} - HTTP ${res.status}):`, errBody);
+            console.error(`🚨 GEMINI API ERROR Daily Briefing (${model} - HTTP ${res.status}):`, errBody);
             continue;
           }
-            const data = await res.json();
-            if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-              briefingText = data.candidates[0].content.parts[0].text;
-              break;
-            }
+          const data = await res.json();
+          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+            briefingText = data.candidates[0].content.parts[0].text;
+            break;
+          }
         } catch (e) {
           console.warn(`Error silencioso generando saludo con ${model}:`, e);
         }
       }
 
-      // Fallbacks cuidados por día si no hay conexión
+      // Fallbacks cuidados por día y franja horaria si no hay conexión
       if (!briefingText) {
         if (todayExams.length > 0) {
           const e = todayExams[0];
-          briefingText = `¡Buen día, Caritas! 🌸 ¡Hoy es el gran día de tu ${e.titulo}! Confiá plenamente en vos, en tus manos, en todo lo que estudiaste y en tu talento innato. Desayuná rico, tomá tus 5g de creatina (Día ${creatineDay}) y botellita de agua en mano. ¡A romperla toda hoy, te va a ir increíble! ✨🤍🩺`;
+          if (slot === 'noche') {
+            briefingText = `¡Buenas noches, Caritas! 🌙 Llegó el final de este gran día de tu ${e.titulo}. Espero que te sientas muy orgullosa de vos y de haber dado todo en la facu. Ahora toca desconectar, cenar rico y descansar profundamente la cabeza. ¡Orgulloso de vos siempre! ✨🤍`;
+          } else if (slot === 'tarde') {
+            briefingText = `¡Buenas tardes, Caritas! ☀️ ¿Cómo salió todo con tu ${e.titulo}? Espero que hayas sentido toda esa seguridad y talento que tenés en las manos. Tomate un ratito para respirar, hidratarte y disfrutar saber que diste lo mejor. ¡Te mando un abrazo enorme! ✨🤍🩺`;
+          } else {
+            briefingText = `¡Buen día, Caritas! 🌸 ¡Hoy es el gran día de tu ${e.titulo}! Confiá plenamente en vos, en tus manos, en todo lo que estudiaste y en tu talento innato. Desayuná rico, tomá tus 5g de creatina (Día ${creatineDay}) y botellita de agua en mano. ¡A romperla toda hoy, te va a ir increíble! ✨🤍🩺`;
+          }
         } else {
-          const fallbacks = {
+          const morningFallbacks = {
             lunes: `¡Buen día, Caritas! 🌸 Arrancamos una nueva semana con todo. Hoy tenés cursada larga en la Facu de Odonto, así que tomatelo con calma, paso a paso y con una hermosa sonrisa. Acordate de tus 5g de creatina (¡Día ${creatineDay}!) en el desayuno y de llevar tu botellita de agua. ¡Orgulloso de vos, a brillar hoy! ✨`,
             martes: `¡Buen día, Caritas! 🌸 Martes de preclínica a las 8 en punto y cursada. Desayuná rico con tus 5g de creatina (Día ${creatineDay}), llevá tu botellita de agua para mantenerte bien hidratada todo el día afuera y disfrutá ese almuerzo de táper al mediodía con tus amigas. ¡Que tengas un día brillante en la facu, Male! 🤍✨🦷`,
             miercoles: `¡Buen día, Caritas! 🌸 Mitad de semana. Hoy tenés cursada y al mediodía la guardia para fichar a tu paciente de mañana. Desayuná rico, sumá tus 5g de creatina del Día ${creatineDay} y acordate de tomar agua. ¡Vos podés con todo! ✨🩺`,
@@ -3692,7 +3733,34 @@ REGLAS DE TONO Y ESTILO:
             sabado: `¡Buen día, Caritas! 🌸 Sábado de despertar natural, sin alarmas ni corridas. Desayuná tranquila y a disfrutar el entrenamiento de hoy en pareja con Naza y todo el fin de semana sin culpas ni presiones. ¡Te merecés descansar y pasarla hermoso! 🤍✨`,
             domingo: `¡Buen día, Caritas! 🌸 Domingo de desconexión absoluta, relax y mimarte un montón. Cero estrés por la facu hoy. Acordate de tu creatina del Día ${creatineDay} y de hidratarte bien. ¡Que tengas un día súper luminoso y lleno de paz! ✨🤍`
           };
-          briefingText = fallbacks[dayKey] || `¡Buen día, Caritas! 🌸 Que tengas un día hermoso y lleno de energía. Desayuná rico con tus 5g de creatina (Día ${creatineDay}) y tu botellita de agua. ¡Vamos con todo hoy! ✨🤍`;
+
+          const afternoonFallbacks = {
+            lunes: `¡Buenas tardes, Caritas! ☀️ ¿Cómo viene esa cursada en la Facu de Odonto? Espero que la estés llevando con calma y paso a paso. Acordate de seguir hidratándote con la botellita de agua y, si aún no tomaste tus 5g de creatina (¡Día ${creatineDay}!), sumalos en tu merienda o al llegar. ¡Orgulloso de vos, a seguir brillando! ✨🤍`,
+            martes: `¡Buenas tardes, Caritas! ☀️ ¿Cómo te fue hoy en la preclínica y la cursada? Espero que hayas disfrutado el almuerzo de táper con tus amigas. Acordate de mantenerte bien hidratada y de tus 5g de creatina del Día ${creatineDay}. ¡Paso a paso que venís impecable, te mando un abrazo enorme! 🤍✨🦷`,
+            miercoles: `¡Buenas tardes, Caritas! ☀️ ¿Cómo estuvo esa cursada y la guardia del mediodía? Espero que hayas podido fichar todo bien para tu clínica. Acordate de tomar agüita, sumar tu creatina (Día ${creatineDay}) si quedó pendiente y bajar un cambio para la tarde. ¡Vos podés con todo! ✨🩺`,
+            jueves: `¡Buenas tardes, Caritas! ☀️ ¿Cómo salió esa Clínica de Cirugía hoy? Seguro brillaste con tus pacientes. Espero que disfrutes ese almuerzo rico y tu sagrada Power Nap para recargar pilas como te merecés. Acordate de tu hidratación y tu creatina (Día ${creatineDay}). ¡Orgullosísimo de vos! 🩺✨🤍`,
+            viernes: `¡Buenas tardes, Caritas! ☀️ ¡Oficialmente arrancó el fin de semana! Terminó la cursada de la facu y ahora toca distenderse, descansar y disfrutar. Si quedó pendiente la creatina (Día ${creatineDay}), tomala con una merienda rica, e hidratate bien. ¡A disfrutar la tarde y el finde con todo! 🎉✨`,
+            sabado: `¡Buenas tardes, Caritas! ☀️ ¿Cómo viene ese sábado de relax? Espero que estés pasando una tarde hermosa y descansando mucho. Si hoy entrenaron en pareja con Naza o tienen planes lindos, disfrutalo sin presiones. Acordate de tu creatina (Día ${creatineDay}) y de tomar agua. ¡Te merecés todo este descanso! 🤍✨`,
+            domingo: `¡Buenas tardes, Caritas! ☀️ ¿Cómo va ese domingo de relax absoluto? Desconectá la cabeza de la facu y disfrutá mimarte mucho hoy. Acordate de tus 5g de creatina (Día ${creatineDay}) y de hidratarte bien. ¡Que sigas teniendo una tarde hermosa y llena de paz! ✨🤍`
+          };
+
+          const nightFallbacks = {
+            lunes: `¡Buenas noches, Caritas! 🌙 Llegó el momento de cerrar el lunes y bajar un cambio después de la cursada larga. Cená rico, descansá bien la mente y acordate de chequear si tomaste tu creatina (Día ${creatineDay}) y tu botellita de agua. ¡Excelente inicio de semana, a dormir profundo! ✨🤍`,
+            martes: `¡Buenas noches, Caritas! 🌙 Tremendo martes de preclínica y cursada que dejás atrás. Desconectá de la facu, cená rico y dejate mimar. Si no tomaste tu creatina (Día ${creatineDay}), sumala antes de acostarte. ¡A descansar que te lo súper ganaste hoy! 🤍✨`,
+            miercoles: `¡Buenas noches, Caritas! 🌙 Mitad de semana superada. Descomprimí, relajá el cuerpo y dejá todo listo con calma. Que descanses hermoso esta noche para arrancar con toda la energía mañana. ¡Te quiero y estoy muy orgulloso de vos! 🩺✨`,
+            jueves: `¡Buenas noches, Caritas! 🌙 Cerrando un gran jueves de Cirugía. Espero que hayas podido descansar con esa Power Nap y que la noche sea de desconexión total. Cená rico y a dormir en paz sabiendo que diste lo mejor. ¡Sos enorme, Caritas! 🤍✨`,
+            viernes: `¡Buenas noches, Caritas! 🌙 ¡Viernes a la noche en casa y el finde recién empieza! Cero alarmas mañana, cero corridas. Disfrutá de una rica cena, relax total y una noche reparadora. ¡A descansar y disfrutar el finde al máximo! 🎉🤍`,
+            sabado: `¡Buenas noches, Caritas! 🌙 Cerrando un sábado hermoso de relax y entrenamiento. A descansar sin horarios ni presiones para mañana seguir recargando energías. ¡Que descanses súper lindo, Caritas! ✨🤍`,
+            domingo: `¡Buenas noches, Caritas! 🌙 Domingo en su tramo final. Todo en orden y listo para una gran semana. Cená liviano, hidratate bien y a dormir bien abrigada y tranquila sabiendo que tenés todo bajo control. ¡Mañana arrancamos con todo, te adoro! 🌸✨🤍`
+          };
+
+          if (slot === 'noche') {
+            briefingText = nightFallbacks[dayKey] || `¡Buenas noches, Caritas! 🌙 Llegó la hora de cerrar el día, cenar rico y desconectar la cabeza. Chequeá tu hidratación y si tomaste tu creatina (Día ${creatineDay}). ¡A descansar profundo que hiciste un gran trabajo hoy! ✨🤍`;
+          } else if (slot === 'tarde') {
+            briefingText = afternoonFallbacks[dayKey] || `¡Buenas tardes, Caritas! ☀️ Espero que estés teniendo una tarde hermosa. Acordate de tomar agua, sumar tus 5g de creatina (Día ${creatineDay}) si aún no la tomaste, y encarar la segunda mitad del día con calma y una sonrisa. ¡Vamos con todo! ✨🤍`;
+          } else {
+            briefingText = morningFallbacks[dayKey] || `¡Buen día, Caritas! 🌸 Que tengas un día hermoso y lleno de energía. Desayuná rico con tus 5g de creatina (Día ${creatineDay}) y tu botellita de agua. ¡Vamos con todo hoy! ✨🤍`;
+          }
         }
       }
 
@@ -3703,7 +3771,8 @@ REGLAS DE TONO Y ESTILO:
         text: briefingText,
         time: timeStr,
         timestamp: Date.now(),
-        isMorningBriefing: true
+        isMorningBriefing: true,
+        briefingSlot: slot
       });
 
       await db.ref('app_meta/last_morning_briefing_date').set(todayKey);
