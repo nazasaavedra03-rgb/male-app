@@ -2232,17 +2232,14 @@ ${formatted.join('\n')}
         return `MOTOR DE ENTRENAMIENTO RP & RUTINA DINÁMICA (Mesociclo 1 — SEMANA 3: RIR 1):
 • ESTADO REAL DE SESIONES EN BASE DE DATOS (State-Based Tracking - Semana 3):
   - Total completadas esta semana: ${completedCount} de 3 sesiones
-  - Día 1 (Glúteo & Posterior): ${completedDays.dia1 ? 'COMPLETADO ✅ (Realizado el Jueves 08/10/2026 con PR)' : 'PENDIENTE ⏳'}
+  - Día 1 (Glúteo & Posterior): ${completedDays.dia1 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
   - Día 2 (Cuádriceps, Isquios & Aductores): ${completedDays.dia2 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
   - Día 3 (Hack Inversa en Pareja): ${completedDays.dia3 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
 
-• DETALLE DE LA ÚLTIMA SESIÓN REALIZADA (DÍA 1 — JUEVES 08/10/2026):
-  ¡Male ya hizo el Día 1 el Jueves 08/10 y metió sobrecarga progresiva real con nuevo récord!:
-  - Peso Muerto Rumano (RDL): ¡NUEVO RÉCORD HISTÓRICO! Subió a 16 kg x mano (10, 9, 9 reps a RIR 1). Superó sus 14 kg anteriores.
-  - Hip Thrust en Máquina: 25 kg sólidos (12, 10, 9 reps a RIR 1 con pausa de 1s arriba).
-  - Hiperextensiones a 45°: Disco de 10 kg al pecho (14, 14, 12 reps a RIR 1).
-  - Abductores en Máquina: 68 kg x 15 reps, y 72 kg x 12 y 12 reps a RIR 1.
-  (Sentadilla Sumo no la realizó o la omitió por disponibilidad/tiempo, lo cual es totalmente válido).
+• DETALLE DE SESIONES REALIZADAS EN SEMANA 3:
+${completedDays.dia1 ? '  - Día 1: COMPLETADO ✅ con récord personal en RDL (16 kg x mano), Hip Thrust 25 kg y Abductores 72 kg.' : ''}
+${completedDays.dia2 ? '  - Día 2: COMPLETADO ✅ con Prensa 100 kg, SLDL 14 kg x mano, Extensión 36 kg, Seated Leg Curl 27 kg y Aductores 36 kg.' : ''}
+${completedDays.dia3 ? '  - Día 3: COMPLETADO ✅ con Hack Inversa y cadena posterior.' : ''}
 
 • HISTORIAL Y RÉCORDS BASE PARA LOS PRÓXIMOS DÍAS:
   - Prensa a 45°: 100 kg (12, 14, 13 reps consolidadas en Día 3; 10-9-9 en Día 2)
@@ -2266,7 +2263,8 @@ ${formatDayRoutine('dia2', 'Día 2: Cuádriceps, Isquios & Aductores')}
 ${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
 
 ⚠️ REGLAS OBLIGATORIAS DEL MOTOR RP ADAPTATIVO & PREVENCIÓN DE ERRORES:
-1. LÓGICA DE SECUENCIA ESTRICTA: El Día 1 ya está finalizado. Male no tiene que volver a hacer el Día 1 esta semana. Si habla de su próximo entrenamiento, le corresponde obligatoriamente: ${targetDayName}.
+1. PRIORIDAD TOTAL A LA PALABRA DE MALE: Si Male te pide explícitamente la rutina de un día ('qué me toca en el Día 1', 'qué hago en el Día 2', 'qué toca en el Día 3', etc.), TIENES TERMINANTEMENTE PROHIBIDO contradecirla, debatir o decirle que ya lo hizo en días pasados. Dictale de inmediato y con claridad absoluta la rutina oficial del día que ella te solicita a RIR 1.
+2. LÓGICA DE SECUENCIA SI PIDE LA PRÓXIMA: Si Male pregunta 'qué me toca hoy' o 'cuál sigue', indícale: ${targetDayName}.
 2. INMUTABILIDAD TOTAL DE CADA DÍA (CERO ALUCINACIONES): TIENES TERMINANTEMENTE PROHIBIDO mezclar ejercicios o inventar rutinas. Cada día tiene exactamente los 5 ejercicios listados arriba con las series pautadas.
    - En Día 1 NUNCA agregues Camilla de Isquios ni Patada en Polea (la camilla es de Día 2 y la patada es de Día 3).
 3. PROHIBIDO DAR RANGOS VAGOS O INESPECÍFICOS (CERO GUIONES O RANGOS TIPO '10-12' O '10-11'): Al igual que en la Renaissance Periodization (RP App), CADA SERIE INDIVIDUAL TIENE UN NÚMERO EXACTO DE REPETICIONES META calculado a partir de la semana anterior a RIR 1. JAMÁS le digas 'hacé 10-12 repes' o 'hacé 3x 10-11'. Dictale siempre la meta exacta serie por serie (ej: 'Prensa 100 kg: Serie 1 a 11 reps, Serie 2 a 10 reps, Serie 3 a 10 reps a RIR 1'). Male es una atleta disciplinada que progresa repetición a repetición con precisión quirúrgica.
@@ -2695,6 +2693,7 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
       setInterval(() => {
         checkAndApplyDailyReset();
         checkAndTriggerMorningBriefing();
+        checkAndRecoverOrphanMessage();
         renderDynamicDayFocusCard();
         renderFechasClaveUI();
         renderPacientesPreview();
@@ -2709,6 +2708,7 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
         if (!document.hidden) {
           checkAndApplyDailyReset();
           checkAndTriggerMorningBriefing();
+          checkAndRecoverOrphanMessage();
           renderDynamicDayFocusCard();
           renderFechasClaveUI();
           renderPacientesPreview();
@@ -3353,6 +3353,13 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
           }).join('\n');
         if (upcoming) {
           agendaNotice = `AGENDA DE FECHAS CLAVE DE MALE:\n${upcoming}\n(Si Male te habla de sus parciales, médicos o rinde hoy/pronto, dale mucha fuerza, motivación y seguridad).\n\n`;
+          const endoExam = (fechasClave || []).find(f => f.titulo && f.titulo.toUpperCase().includes('ENDO') && f.fecha >= todayKey);
+          if (endoExam) {
+            const diffEndo = getDaysDiff(endoExam.fecha);
+            if (diffEndo <= 2) {
+              agendaNotice += `🔥 PROTOCOLO ESPECIAL FINAL DE ENDODONCIA (${diffEndo === 0 ? '¡ES HOY!' : (diffEndo === 1 ? '¡ES MAÑANA!' : '¡LUNES 26!')}):\nMale está en la recta final de estudio para su Final de Endodoncia. Quedan menos de 48 hs. Recordale con dulzura su enorme talento demostrado en Endo (en su Cofre de Victorias tiene guardada la jornada del 5/10 donde expuso su ateneo y metió dos conductos juntos con felicitación del jefe de clínica). Ayudala a regular la ansiedad recomendándole estudiar en bloques cortos (Pomodoro de 45 min) con descansos reales. Si menciona el gym, el Día 3 es una opción linda con Naza para despejarse, pero con cero presión si prefiere descansar.\n\n`;
+            }
+          }
         }
       }
 
@@ -3521,6 +3528,42 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
     }
 
     // ==========================================
+    // AUTO-RECUPERACIÃ“N DE MENSAJES HUÃ‰RFANOS DEL CHAT
+    // ==========================================
+    let isRecoveringOrphanMessage = false;
+
+    async function checkAndRecoverOrphanMessage() {
+      if (activeRole !== 'male' || isRecoveringOrphanMessage) return;
+
+      try {
+        const snap = await db.ref('chat_messages').limitToLast(1).once('value');
+        const data = snap.val();
+        if (!data) return;
+
+        const key = Object.keys(data)[0];
+        const lastMsg = data[key];
+
+        // Si el Ãºltimo mensaje es de Male, no es un saludo del coach, y pasaron entre 25s y 24 horas sin respuesta
+        if (lastMsg && lastMsg.sender === 'Male' && lastMsg.text) {
+          const ageMs = Date.now() - (lastMsg.timestamp || 0);
+          if (ageMs > 25 * 1000 && ageMs < 24 * 60 * 60 * 1000) {
+            const lastRecoveredKey = sessionStorage.getItem('last_recovered_msg_key');
+            if (lastRecoveredKey === key) return;
+
+            sessionStorage.setItem('last_recovered_msg_key', key);
+            isRecoveringOrphanMessage = true;
+            console.log('ðŸ”„ Recuperando mensaje huÃ©rfano de Male:', lastMsg.text);
+            await callGeminiCoach(lastMsg.text);
+          }
+        }
+      } catch (err) {
+        console.warn('Error en checkAndRecoverOrphanMessage:', err);
+      } finally {
+        isRecoveringOrphanMessage = false;
+      }
+    }
+
+    // ==========================================
     // MENSAJE / SALUDO DIARIO INTELIGENTE DEL COPILOTO
     // ==========================================
     let isGeneratingMorningBriefing = false;
@@ -3608,6 +3651,16 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
           examNotice = `\n¡ATENCIÓN CRÍTICA SOBRE ESTOMATOLOGÍA! Male tenía agendada la 1ra fecha de Estomato hoy (7 de octubre), pero anoche en el chat tomó la DECISIÓN ESTRATÉGICA Y PROTECTORA de NO presentarse hoy debido a su sinusitis aguda y cansancio extremo, guardándose para la 2da fecha la semana que viene. ESTÁ TOTALMENTE PROHIBIDO desearle éxitos para rendir hoy o preguntarle si va al examen. Al contrario: tu primer mensaje debe ser un abrazo enorme preguntándole con cariño cómo amaneció de la sinusitis/congestión, felicitándola por priorizar su salud y no castigarse con culpa, y confirmándole que hoy es día de descanso y recuperación mental. Pregúntale con dulzura qué día exacto de la semana que viene rinde la 2da fecha de Estomato para terminar de cerrar el Roadmap perfecto con Cirugía (que es el jueves 15).\n`;
         } else {
           examNotice = `\n¡ATENCIÓN HOY ES DÍA CLAVE! Male tiene agendado: ${todayExams.map(e => `${e.tipo} de "${e.titulo}" (${e.hora ? 'a las ' + e.hora + ' hs' : ''})`).join(', ')}. Dedícale palabras de motivación, seguridad absoluta y aliento gigante para su examen o evento de hoy.\n`;
+        }
+      } else {
+        const upcomingNear = (typeof fechasClave !== 'undefined' ? fechasClave : [])
+          .filter(f => f.fecha > todayKey && getDaysDiff(f.fecha) <= 2)
+          .sort((a, b) => a.fecha.localeCompare(b.fecha));
+        if (upcomingNear.length > 0) {
+          const u = upcomingNear[0];
+          const diffU = getDaysDiff(u.fecha);
+          const whenStr = diffU === 1 ? 'mañana' : 'el lunes (en 2 días)';
+          examNotice = `\n¡ATENCIÓN PRÓXIMO EXAMEN DECISIVO!: Male rinde su ${u.tipo} de "${u.titulo}" ${whenStr}. Transmitile muchísima paz, recordale que ya demostró con creces su talento en la cátedra y sus manos mágicas (en su Cofre de Victorias tiene su ateneo y sus 2 conductos aprobados con felicitación). Motivala a estudiar en bloques tranquilos de 45 minutos y a descansar la mente sin culpas.\n`;
         }
       }
 
