@@ -80,29 +80,43 @@
       </div>
     </div>
 
-    <!-- TOP BAR DE ESTADO & BIENVENIDA CÁLIDA -->
-    <header class="shrink-0 bg-white/85 backdrop-blur-md border-b border-rose-100/80 px-4 py-3 flex items-center justify-between z-20">
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-400 via-pink-400 to-purple-400 flex items-center justify-center text-xl shadow-md shadow-rose-300/40">
-          🌸
+    <!-- TOP SUITE SWITCHER + HEADER -->
+    <header class="shrink-0 bg-white/95 backdrop-blur-md border-b border-rose-100/80 px-3.5 pt-2.5 pb-2.5 z-30">
+      <!-- Ecosystem Switcher -->
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <div class="inline-flex items-center bg-rose-50/80 p-0.5 rounded-full border border-rose-200/80 text-[11px] font-bold">
+          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-sm flex items-center gap-1">
+            <span>🌸</span><span>Día</span>
+          </span>
+          <a href="./gym/index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+            <span>🍑</span><span>Gym</span>
+          </a>
+          <a href="./nutri/index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+            <span>🥗</span><span>Nutri</span>
+          </a>
         </div>
+
+        <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm">
+          <span>🌸</span>
+          <span>Caritas</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
         <div>
           <div class="flex items-center gap-1.5">
-            <h1 class="text-sm font-extrabold text-slate-900 tracking-tight" id="greeting-header">
+            <h1 class="text-xs font-black text-slate-900 tracking-tight" id="greeting-header">
               ¡Hola Male! ✨
             </h1>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <p class="text-[11px] text-slate-500 font-medium" id="live-header-date">
-            Martes 22 de Septiembre
+          <p class="text-[10.5px] text-slate-500 font-medium" id="live-header-date">
+            Cargando fecha...
           </p>
         </div>
-      </div>
-
-      <!-- BADGE CARITAS -->
-      <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm">
-        <span>🌸</span>
-        <span>Caritas</span>
+        <div id="header-bridge-status" class="text-right">
+          <span class="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200/70 px-2 py-0.5 rounded-full">🌸 Noviembre</span>
+        </div>
       </div>
     </header>
 
@@ -443,64 +457,119 @@
       </div>
 
       <!-- ============================================== -->
-      <!-- VISTA 3: MI RUTINA DE GYM (SOBRECARGA RP)      -->
+      <!-- VISTA 3: PUENTE & ESTADO EN VIVO DE MALE GYM   -->
       <!-- ============================================== -->
       <div id="view-gym" class="view-panel hidden space-y-4">
-        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <h2 class="text-sm font-extrabold text-slate-900">Mesociclo 1 — Semana 3 (RIR 1)</h2>
-            <p class="text-[11px] text-slate-500">Máxima tensión mecánica a RIR 1. Consolidando récords de la semana pasada.</p>
-          </div>
-          <span class="text-xs bg-rose-50 text-rose-700 border border-rose-200 px-3 py-1 rounded-2xl font-bold">
-            Glúteo & Piernas
-          </span>
-        </div>
-
-        <!-- SELECTOR DE DÍAS EN FORMA DE PÍLDORAS -->
-        <div class="grid grid-cols-3 gap-2">
-          <button onclick="renderGymRoutine('dia1')" id="btn-gym-dia1" class="py-2 px-1 rounded-2xl text-xs font-bold bg-rose-500 text-white shadow-sm transition">
-            Día 1 (Hecho ✔️)
-          </button>
-          <button onclick="renderGymRoutine('dia2')" id="btn-gym-dia2" class="py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition">
-            Día 2 (Próximo)
-          </button>
-          <button onclick="renderGymRoutine('dia3')" id="btn-gym-dia3" class="py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition">
-            Día 3 (Finde)
-          </button>
-        </div>
-
-        <!-- LISTA DE EJERCICIOS RENDERIZADA -->
-        <div id="gym-exercise-list" class="space-y-3">
-          <!-- Se cargan por JavaScript -->
-        </div>
-
-        <!-- CARD DE NOTAS Y CIERRE DE ENTRENAMIENTO -->
-        <div class="bg-gradient-to-br from-rose-50/70 via-white to-pink-50/70 border border-rose-200/80 rounded-3xl p-4 shadow-sm space-y-3 mt-2">
+        <!-- HERO CARD MALE GYM -->
+        <div class="bg-gradient-to-br from-zinc-900 via-zinc-950 to-black text-white border border-zinc-800 rounded-3xl p-4 shadow-xl space-y-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-base">📝</span>
+              <span class="text-2xl">🍑</span>
               <div>
-                <h3 class="text-xs font-bold text-slate-800">Devolución & Sensaciones del Día</h3>
-                <p class="text-[10px] text-slate-500">¿Cómo sentiste las cargas o las repes hoy?</p>
+                <span class="text-[10px] font-black uppercase tracking-wider text-rose-400 block">Renaissance Periodization Engine</span>
+                <h2 class="text-sm font-black text-white">Male Gym — Mesociclo 2</h2>
               </div>
             </div>
-            <span class="text-xs">💪</span>
+            <span class="text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2.5 py-1 rounded-full">
+              5 Días RP
+            </span>
           </div>
 
-          <textarea id="gym-session-notes" rows="2" placeholder="Ej: Me sentí con mucha fuerza en la prensa, en la última serie me temblaron las piernas..."
-            class="w-full bg-[#FAF7F5] border border-rose-200/90 rounded-2xl p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400 font-medium resize-none"></textarea>
+          <p class="text-[11px] text-zinc-300 leading-relaxed font-medium">
+            Tu app dedicada de hipertrofia con videos biomecánicos paso a paso, cronómetro de descanso automático, reemplazos de máquinas en Fiter y progresión a RIR.
+          </p>
 
-          <!-- RECORDATORIO SNACK EN MOCHILA -->
-          <div class="bg-amber-50/70 border border-amber-200/70 rounded-2xl p-2.5 flex items-center gap-2 text-left">
-            <span class="text-sm">🥪</span>
-            <p class="text-[10.5px] text-amber-900 leading-snug font-medium">
-              <strong>Snack post-gym:</strong> Si salís directo a la facu, ¡llevate un sanguchito de huevo/queso, tupper de huevos duros o snack casero para no pasar horas en ayuno!
-            </p>
+          <a href="./gym/index.html" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-black text-xs shadow-lg shadow-rose-500/25 flex items-center justify-center gap-2 transition active:scale-98">
+            <span>🏋️‍♀️</span>
+            <span>Abrir Male Gym RP Completa</span>
+            <span>➔</span>
+          </a>
+        </div>
+
+        <!-- LIVE WORKOUT STATUS CARD (FIREBASE BRIDGE) -->
+        <div id="gym-bridge-live-card" class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">📡</span>
+              <div>
+                <h3 class="text-xs font-black text-slate-900">Estado de Entreno de Hoy</h3>
+                <p class="text-[10.5px] text-slate-500 font-medium">Sincronizado en tiempo real con Male Gym</p>
+              </div>
+            </div>
+            <span id="bridge-status-pill" class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+              Consultando...
+            </span>
           </div>
 
-          <button onclick="finishGymWorkout()" id="btn-finish-gym" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white font-bold text-xs shadow-md shadow-rose-200 hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-2">
-            <span>✨</span> Finalizar Sesión o Consultar al Coach
-          </button>
+          <div id="bridge-status-content" class="bg-slate-50 rounded-2xl p-3 border border-slate-100 text-xs text-slate-700 space-y-1">
+            <p class="font-medium text-[11px] text-slate-500">Cargando datos de la sesión...</p>
+          </div>
+        </div>
+
+        <!-- 5-DAY RP MESOCYCLE SUMMARY -->
+        <div class="bg-white border border-rose-100 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-black text-slate-900 flex items-center gap-1.5">
+              <span>📋</span> Estructura del Mesociclo 2
+            </h3>
+            <span class="text-[10px] font-bold text-slate-400">Frecuencia 2</span>
+          </div>
+
+          <div class="space-y-2">
+            <a href="./gym/index.html" class="block p-2.5 rounded-2xl bg-[#FAF7F5] hover:bg-rose-50/50 border border-rose-100/80 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-slate-900">🍑 Día 1: Glúteo A (Proyección) & Isquios</span>
+                <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">Martes</span>
+              </div>
+              <p class="text-[10.5px] text-slate-500 mt-0.5">Hip Thrust (25kg) + RDL Mancuernas (16kg) + Leg Curl (27kg) + Abductores (72kg) + 20m Cardio</p>
+            </a>
+
+            <a href="./gym/index.html" class="block p-2.5 rounded-2xl bg-[#FAF7F5] hover:bg-rose-50/50 border border-rose-100/80 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-slate-900">🦋 Día 2: Torso A Express (V-Taper & Core)</span>
+                <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">Mié / Lun</span>
+              </div>
+              <p class="text-[10.5px] text-slate-500 mt-0.5">Jalón Abierto (23kg) + Remo Polea (18kg) + Press Máquina + Vuelos (4-5kg) + Face Pull + Dead Bugs</p>
+            </a>
+
+            <a href="./gym/index.html" class="block p-2.5 rounded-2xl bg-[#FAF7F5] hover:bg-rose-50/50 border border-rose-100/80 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-slate-900">🔥 Día 3: Glúteo B & Aumento Piernas</span>
+                <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Jueves</span>
+              </div>
+              <p class="text-[10.5px] text-slate-500 mt-0.5">Prensa 45° (100kg) + Búlgara con apoyo (8kg) + Extensión Cuádriceps (36kg) + Aductores + Patada 30°</p>
+            </a>
+
+            <a href="./gym/index.html" class="block p-2.5 rounded-2xl bg-[#FAF7F5] hover:bg-rose-50/50 border border-rose-100/80 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-slate-900">✨ Día 4: Torso B + 25m Cardio Inclinada</span>
+                <span class="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">Viernes</span>
+              </div>
+              <p class="text-[10.5px] text-slate-500 mt-0.5">Jalón Neutro + Remo Máquina + Vuelos Polea + Tríceps Soga + Crunch Polea + 25 min Cinta</p>
+            </a>
+
+            <a href="./gym/index.html" class="block p-2.5 rounded-2xl bg-[#FAF7F5] hover:bg-rose-50/50 border border-rose-100/80 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black text-slate-900">👑 Día 5: Glúteo C ("Forma de P") con Naza</span>
+                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Finde</span>
+              </div>
+              <p class="text-[10.5px] text-slate-500 mt-0.5">Kas Glute Bridge + Pre-extensión + Hack Inversa (15kg/lado) + Hiperextensiones 45° + Drop-Set Abductores</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- QUICK ACCESS TO NUTRI -->
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-3xl p-4 shadow-sm flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">🥗</span>
+            <div>
+              <h4 class="text-xs font-black text-emerald-950">Male Nutri • Recomposición</h4>
+              <p class="text-[10.5px] text-emerald-700 font-medium">1.520 kcal • 110g Proteína • Ideas de comidas</p>
+            </div>
+          </div>
+          <a href="./nutri/index.html" class="py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shrink-0 transition shadow-sm">
+            Ver Nutri ➔
+          </a>
         </div>
       </div>
 
@@ -2146,148 +2215,86 @@ ${formatted.join('\n')}
     }
 
     // ==========================================
-    // ESTADO DE SESIONES COMPLETADAS EN GYM & GYM CONTEXT INJECTOR
+    // ESTADO DE ENTRENAMIENTO EN VIVO (CROSS-APP BRIDGE GYM V2)
     // ==========================================
-    const CURRENT_GYM_WEEK = 'semana3';
-    let gymCompletedDays = JSON.parse(localStorage.getItem('gym_completed_days_' + CURRENT_GYM_WEEK) || '{"dia1":false,"dia2":false,"dia3":false}');
+    let gymBridgeToday = null;
 
-    function getGymCompletedDays() {
-      const completed = { dia1: false, dia2: false, dia3: false };
-      try {
-        const saved = JSON.parse(localStorage.getItem('gym_completed_days_' + CURRENT_GYM_WEEK) || '{}');
-        if (saved.dia1) completed.dia1 = true;
-        if (saved.dia2) completed.dia2 = true;
-        if (saved.dia3) completed.dia3 = true;
-      } catch (e) {}
+    function initGymBridgeListener() {
+      const todayKey = getTodayDateKey();
+      db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
+        gymBridgeToday = snap.val();
+        renderGymBridgeCard();
+        renderDynamicDayFocusCard();
+        updateHeaderBridgeStatus();
+      });
+    }
 
-      // Chequeo complementario en gymLogs de la semana activa (si tiene series registradas)
-      try {
-        const logs = JSON.parse(localStorage.getItem('gym_logs_' + CURRENT_GYM_WEEK) || '{}');
-        ['dia1', 'dia2', 'dia3'].forEach(d => {
-          if (logs[d]) {
-            let doneSets = 0;
-            Object.values(logs[d]).forEach(sets => {
-              if (Array.isArray(sets)) {
-                sets.forEach(s => { if (s && s.completed) doneSets++; });
-              }
-            });
-            if (doneSets >= 3) completed[d] = true;
-          }
-        });
-      } catch (e) {}
+    function updateHeaderBridgeStatus() {
+      const el = document.getElementById('header-bridge-status');
+      if (!el) return;
+      if (gymBridgeToday && gymBridgeToday.trainedToday) {
+        el.innerHTML = `
+          <a href="./gym/index.html" class="inline-flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full shadow-2xs hover:bg-emerald-200 transition">
+            <span>✓</span><span>Gym Hecho</span>
+          </a>
+        `;
+      } else {
+        el.innerHTML = `
+          <a href="./gym/index.html" class="inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200/70 px-2 py-0.5 rounded-full hover:bg-rose-100 transition">
+            <span>🍑</span><span>Male Gym</span>
+          </a>
+        `;
+      }
+    }
 
-      return completed;
+    function renderGymBridgeCard() {
+      const pill = document.getElementById('bridge-status-pill');
+      const content = document.getElementById('bridge-status-content');
+      if (!pill || !content) return;
+
+      if (gymBridgeToday && gymBridgeToday.trainedToday) {
+        pill.className = 'text-[10px] font-black px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-2xs';
+        pill.textContent = 'Completado Hoy ✓';
+        content.className = 'bg-emerald-50/70 rounded-2xl p-3 border border-emerald-200/80 text-xs text-slate-800 space-y-1.5';
+        content.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-emerald-900">${gymBridgeToday.dayTitle || 'Sesión Cumplida'}</span>
+            <span class="text-[10.5px] font-bold text-emerald-700">⏱️ ${gymBridgeToday.cardioMinutes ? gymBridgeToday.cardioMinutes + ' min cardio' : 'Cardio OK'}</span>
+          </div>
+          <p class="text-[11px] text-emerald-800/90 leading-relaxed font-medium">
+            ${gymBridgeToday.summary || 'Sesión guardada en Male Gym.'}
+          </p>
+          <div class="pt-1 flex items-center justify-between border-t border-emerald-200/60">
+            <span class="text-[10px] text-emerald-700 font-semibold">Tus marcas y series están guardadas en tu app</span>
+            <a href="./gym/index.html" class="text-[11px] font-extrabold text-emerald-800 hover:text-emerald-950 underline">Ver en Male Gym ➔</a>
+          </div>
+        `;
+      } else {
+        pill.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200';
+        pill.textContent = 'Pendiente Hoy';
+        content.className = 'bg-[#FAF7F5] rounded-2xl p-3 border border-rose-100/90 text-xs text-slate-700 space-y-1.5';
+        content.innerHTML = `
+          <p class="font-bold text-slate-800">Todavía no registraste entreno hoy en Male Gym.</p>
+          <p class="text-[11px] text-slate-500 font-medium">
+            Cuando vayas a Fiter, abrí <strong>Male Gym</strong> para seguir la rutina del día a RIR, ver los videos de cada ejercicio y controlar el cronómetro de descanso.
+          </p>
+          <a href="./gym/index.html" class="inline-block mt-1 text-xs font-black text-rose-600 hover:text-rose-700">Ir a entrenar en Male Gym ➔</a>
+        `;
+      }
     }
 
     function getGymContextForCoach() {
-      try {
-        const completedDays = getGymCompletedDays();
-
-        // 1. LÓGICA DE SECUENCIA, NO DE CALENDARIO (State-based Tracking - Semana 3 RIR 1)
-        let completedCount = 0;
-        if (completedDays.dia1) completedCount++;
-        if (completedDays.dia2) completedCount++;
-        if (completedDays.dia3) completedCount++;
-
-        let targetDayKey = 'dia1';
-        let targetDayName = 'Día 1: Glúteo & Cadena Posterior';
-        let targetDayNum = 1;
-        let sequenceReason = '';
-
-        if (completedCount === 0) {
-          targetDayKey = 'dia1';
-          targetDayName = 'Día 1: Glúteo & Cadena Posterior';
-          targetDayNum = 1;
-          sequenceReason = '0 sesiones completadas en Semana 3. Le toca obligatoriamente el Día 1 (secuencia de inicio a RIR 1).';
-        } else if (completedCount === 1) {
-          targetDayKey = 'dia2';
-          targetDayName = 'Día 2: Cuádriceps, Isquios & Aductores';
-          targetDayNum = 2;
-          sequenceReason = '1 sesión completada (Día 1 terminado y liquidado con récord de RDL a 16 kg x mano). Le toca obligatoriamente el Día 2 a RIR 1.';
-        } else if (completedCount === 2) {
-          targetDayKey = 'dia3';
-          targetDayName = 'Día 3: Hack Inversa en Pareja (Fiter)';
-          targetDayNum = 3;
-          sequenceReason = '2 sesiones completadas (Días 1 y 2 terminados). Le toca obligatoriamente el Día 3 a RIR 1.';
-        } else {
-          targetDayKey = 'dia3';
-          targetDayName = 'Semana 3 Completa (3 de 3 sesiones liquidadas)';
-          targetDayNum = 3;
-          sequenceReason = 'Semana 3 completada al 100% a RIR 1. Felicitaciones totales por la constancia y sobrecarga lograda.';
-        }
-
-        // 2. HELPER PARA FORMATEAR RUTINA DE CUALQUIER DÍA (INMUTABILIDAD TOTAL - 5 EJERCICIOS POR DÍA)
-        function formatDayRoutine(dayKey, title) {
-          const exs = GYM_ROUTINE[dayKey] || [];
-          return `📌 ${title.toUpperCase()} (EXACTAMENTE ${exs.length} EJERCICIOS OFICIALES E INMUTABLES):\n` + exs.map((e, idx) => {
-            const warmStr = e.calentamiento ? `\n      • Protocolo de entrada en calor: ${e.calentamiento}` : '';
-            const altStr = e.alternativas && e.alternativas.length > 0
-              ? `\n      • Alternativas si máquina ocupada: ${e.alternativas.map(a => `${a.nombre} con ${a.pesoEquiv}`).join(' | ')}`
-              : '';
-            const seriesBreakdown = e.metaReps.map((r, sIdx) => `Serie ${sIdx + 1}: ${r} reps`).join(' | ');
-            return `   ${idx + 1}. ${e.nombre} [${e.musculo}]: EXACTAMENTE ${e.series} series (${seriesBreakdown}) @ ${e.cargaSugerida} (RIR 1)${warmStr}${altStr}`;
-          }).join('\n');
-        }
-
-        return `MOTOR DE ENTRENAMIENTO RP & RUTINA DINÁMICA (Mesociclo 1 — SEMANA 3: RIR 1):
-• ESTADO REAL DE SESIONES EN BASE DE DATOS (State-Based Tracking - Semana 3):
-  - Total completadas esta semana: ${completedCount} de 3 sesiones
-  - Día 1 (Glúteo & Posterior): ${completedDays.dia1 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
-  - Día 2 (Cuádriceps, Isquios & Aductores): ${completedDays.dia2 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
-  - Día 3 (Hack Inversa en Pareja): ${completedDays.dia3 ? 'COMPLETADO ✅' : 'PENDIENTE ⏳'}
-
-• DETALLE DE SESIONES REALIZADAS EN SEMANA 3:
-${completedDays.dia1 ? '  - Día 1: COMPLETADO ✅ con récord personal en RDL (16 kg x mano), Hip Thrust 25 kg y Abductores 72 kg.' : ''}
-${completedDays.dia2 ? '  - Día 2: COMPLETADO ✅ con Prensa 100 kg, SLDL 14 kg x mano, Extensión 36 kg, Seated Leg Curl 27 kg y Aductores 36 kg.' : ''}
-${completedDays.dia3 ? '  - Día 3: COMPLETADO ✅ con Hack Inversa y cadena posterior.' : ''}
-
-• HISTORIAL Y RÉCORDS BASE PARA LOS PRÓXIMOS DÍAS:
-  - Prensa a 45°: 100 kg (12, 14, 13 reps consolidadas en Día 3; 10-9-9 en Día 2)
-  - Extensión de Cuádriceps: 36 kg (12-10-9 reps)
-  - Seated Leg Curl: 23 - 27 kg (2x12 reps)
-  - Aductores en Máquina: 36 kg (2x15 reps)
-  - Good Mornings Hack: 15 kg por lado (3x11 reps)
-  - Step Up Hack: 15 kg por lado (3x10 reps)
-  - Patada de Glúteo Polea: 6.8 - 9.1 kg (2 series)
-
-• PRÓXIMA SESIÓN OBLIGATORIA POR SECUENCIA:
-  👉 ${targetDayName.toUpperCase()} (Día ${targetDayNum}) — OBJETIVO: RIR 1
-  Motivo de asignación: ${sequenceReason}
-  (REGLA DE ORO DE SECUENCIA: No deduzcas la rutina por el día del calendario. La sesión se determina 100% por las sesiones completadas en la base de datos).
-
-• RUTINARIO OFICIAL, COMPLETO E INMUTABLE (LOS 3 DÍAS DEL MESOCICLO):
-${formatDayRoutine('dia1', 'Día 1: Glúteo & Cadena Posterior')}
-
-${formatDayRoutine('dia2', 'Día 2: Cuádriceps, Isquios & Aductores')}
-
-${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
-
-⚠️ REGLAS OBLIGATORIAS DEL MOTOR RP ADAPTATIVO & PREVENCIÓN DE ERRORES:
-1. PRIORIDAD TOTAL A LA PALABRA DE MALE: Si Male te pide explícitamente la rutina de un día ('qué me toca en el Día 1', 'qué hago en el Día 2', 'qué toca en el Día 3', etc.), TIENES TERMINANTEMENTE PROHIBIDO contradecirla, debatir o decirle que ya lo hizo en días pasados. Dictale de inmediato y con claridad absoluta la rutina oficial del día que ella te solicita a RIR 1.
-2. LÓGICA DE SECUENCIA SI PIDE LA PRÓXIMA: Si Male pregunta 'qué me toca hoy' o 'cuál sigue', indícale: ${targetDayName}.
-2. INMUTABILIDAD TOTAL DE CADA DÍA (CERO ALUCINACIONES): TIENES TERMINANTEMENTE PROHIBIDO mezclar ejercicios o inventar rutinas. Cada día tiene exactamente los 5 ejercicios listados arriba con las series pautadas.
-   - En Día 1 NUNCA agregues Camilla de Isquios ni Patada en Polea (la camilla es de Día 2 y la patada es de Día 3).
-3. PROHIBIDO DAR RANGOS VAGOS O INESPECÍFICOS (CERO GUIONES O RANGOS TIPO '10-12' O '10-11'): Al igual que en la Renaissance Periodization (RP App), CADA SERIE INDIVIDUAL TIENE UN NÚMERO EXACTO DE REPETICIONES META calculado a partir de la semana anterior a RIR 1. JAMÁS le digas 'hacé 10-12 repes' o 'hacé 3x 10-11'. Dictale siempre la meta exacta serie por serie (ej: 'Prensa 100 kg: Serie 1 a 11 reps, Serie 2 a 10 reps, Serie 3 a 10 reps a RIR 1'). Male es una atleta disciplinada que progresa repetición a repetición con precisión quirúrgica.
-4. EXPLICACIÓN CLARA DE SEMANA 3 (RIR 1): Si Male te pregunta en qué semana está o sobre el entrenamiento, explícale con claridad y amor que estamos en la SEMANA 3 del mesociclo, semana de máxima sobrecarga a RIR 1 (significa dejar exactamente 1 repetición en reserva antes del fallo muscular en cada serie efectiva).
-5. PROTOCOLO DE ENTRADA EN CALOR POR GRUPO MUSCULAR (WARM-UP PROTOCOL):
-   - Detállale las 2 a 3 series de aproximación progresivas ÚNICAMENTE en el primer ejercicio de cada grupo muscular nuevo.
-   - Los ejercicios subsecuentes para ese mismo grupo muscular van DIRECTO a series efectivas (ya están calientes).
-6. VALIDACIÓN Y NO-AUTOCOMPLETADO DE EJERCICIOS OMITIDOS:
-   - Si Male te pasa el reporte de su entrenamiento y falta algún ejercicio de la rutina pautada:
-     * PROHIBIDO marcarlo como completado en la base de datos o inventar pesos.
-     * PREGUNTALE CON CARIÑO: 'Caritas, vi que no me pasaste [Ejercicio]. ¿Te molestó la articulación/rodilla, no estaba la máquina libre o preferiste cerrarlo ahí?'.
-7. WRITE-ACCESS Y COORDINACIÓN ENTRE PESTAÑAS (TOOL USE LOG_WORKOUT):
-   - Cuando Male confirme su sesión, emite obligatoriamente:
-   \`\`\`json
-   {
-     "action": "LOG_WORKOUT",
-     "day": ${targetDayNum},
-     "weights": { /* Pesos y reps reales reportados por Male */ },
-     "omitted": [ /* Ejercicios omitidos si los hubo */ ]
-   }
-   \`\`\``;
-      } catch (e) {
-        return "ESTADO DE GYM: Mesociclo 1 - Semana 3 RIR 1. Sesión activa: Día 2.";
+      if (gymBridgeToday && gymBridgeToday.trainedToday) {
+        return `ESTADO DE ENTRENAMIENTO HOY (APP MALE GYM):
+✅ Male YA ENTRENÓ HOY: "${gymBridgeToday.dayTitle}".
+Resumen de la sesión completada: ${gymBridgeToday.summary || 'Sesión completa'}
+Cardio hoy: ${gymBridgeToday.cardioMinutes ? gymBridgeToday.cardioMinutes + ' min cumplidos' : 'Completado'}.
+(Felicitala con enorme orgullo y cariño por haber cumplido).`;
+      } else {
+        return `ESTADO DE ENTRENAMIENTO HOY (APP MALE GYM):
+⏳ Male hoy todavía no registró sesión en Male Gym.
+Tiene disponible su rutina del Mesociclo 2 de 5 días RP (Glúteo Proyección "Forma de P", V-Taper de Espalda y Piernas).
+Si Male pregunta qué hacer o sobre pesos y series, indicale con cariño que en su app dedicada 'Male Gym' tiene los videos de técnica, su cronómetro y sus marcas registradas.`;
       }
     }
 
@@ -2302,215 +2309,120 @@ ${formatDayRoutine('dia3', 'Día 3: Hack Inversa en Pareja (Fiter)')}
 Eres el Coach personal y Copiloto de Male (Malena). 
 PERFIL DE MALE:
 - Tiene 22 años, es dulce, cariñosa, tierna, sensible y sumamente autoexigente con sus responsabilidades.
-- Su novio se llama Naza (Nazareno), quien programó esta app con todo su amor para acompañarla, cuidarla y sacarle peso de la cabeza.
+- Su novio se llama Naza (Nazareno), quien programó este ecosistema de apps con todo su amor para acompañarla, cuidarla y sacarle peso de la cabeza.
 - El apodo de cariño único que Naza le dice es "Caritas". Llámala "Caritas" o "Male" con ternura y naturalidad. NUNCA la llames "reina" (no le gusta ese apodo, su apodo real es "Caritas").
-- Cursa la carrera de Odontología (días hiper demandantes, preclínica, cirugías los jueves, guardias, esterilización de cajas quirúrgicas, materias clínicas complejas como Estomatología, Operatoria, Endodoncia y Periodoncia, y largos viajes).
-- Entrena en el gimnasio con un enfoque de sobrecarga progresiva y Renaissance Periodization (RP), cuidando sus articulaciones (especialmente rodillas y rótula en Leg Curl/Prensa, y lumbares en RDL).
-- Toma creatina monohidrato (5g) sagradamente con su desayuno completo en casa (con carbohidratos). Hoy es su Día \${getCreatineDay()} (saturación al 100% sostenida).
-- Su meta de agua es de 2.5 litros diarios.
+- Cursa Odontología en FOUBA. La semana pasada cerró una etapa histórica aprobando los 3 parciales (incluido el Final de Endodoncia el 26/10 y el 2do Parcial de Cirugía), y ya completó las 30 endos, los 6 raspajes de Periodoncia y todos los TPs de Preclínica.
+- PRÓXIMAS METAS (FINALES DE NOVIEMBRE/DICIEMBRE):
+  * Martes 10/11: Final de Preclínica (¡en foco sereno!).
+  * Miércoles 25/11: Final de Estomatología y Final de Epidemiología.
+  * Viernes 27/11: Final de Cirugía Bucal.
+  * Viernes 04/12: Final de Operatoria Dental.
+- HORARIOS REALES DE NOVIEMBRE:
+  * LUNES: Mañana libre (o Endo optativo para acompañar a Aldi y ver casos para la ayudantía); Tarde Periodoncia (13:30 a 16:30/17:00h); libre desde 17:30/18:00h.
+  * MARTES: 100% LIBRE TODO EL DÍA (Preclínica terminó). Día de estudio tranquilo en casa y Gym Día 1 (Glúteo A & Isquios + 20m Cardio).
+  * MIÉRCOLES: Cursada mañana 8 a 12h; break de 1.5h al mediodía (Fiter cerca de Facu -> Gym Día 2: Torso A Express); cursada tarde 13:30 a 16:00h.
+  * JUEVES: Cursada/cirugía solo matutina (sale a las 12:00h). Tarde libre en casa -> Siesta reparadora, estudio Pomodoro y Gym Día 3 (Glúteo B & Piernas).
+  * VIERNES: Cursada matutina (sale a las 12:00h). Tarde libre en casa -> Gym Día 4 (Torso B + 25m Cardio) y arranca el finde sin alarma.
+  * SÁBADO & DOMINGO: Finde juntos con Naza. Gym en Fiter Grande en pareja (Día 5: Glúteo C "Forma de P" + cardio juntos), paseos y estudio sereno sin culpa.
+- APPS CONECTADAS DE MALE:
+  * Male Gym (RP App): 5 días de hipertrofia a RIR, videos de técnica y cardio.
+  * Male Nutri: 1.520 kcal, 110g de proteína, Guía de Mamá y recetas sin fiaca.
+- HÁBITOS SAGRADOS:
+  * 5g de creatina monohidrato diarios (hoy es Día \${getCreatineDay()} con saturación al 100%).
+  * Meta de agua: 2.2 a 2.5 litros diarios.
 
 ARQUITECTURA DE PERSONALIDAD: "SOCIO TÁCTICO + DISCIPLINA PROTECTORA"
-Tu rol NO es el de un porrista superficial ni el de un bot complaciente. Tenés una personalidad híbrida de "Socio Táctico + Disciplina Protectora", cimentada sobre una BASE ESTRICTA de altísima contención emocional. Ella es muy sensible y siente una gran presión académica, por lo que el tono SIEMPRE debe ser amoroso, pero firme y estructurado.
-Tu balance sagrado es: 50% abrazo y escucha activa, 50% claridad mental, datos y empuje.
-
-CERO POSITIVIDAD TÓXICA Y CERO TRATO INFANTIL:
-- Jamás minimices lo que le pasa con frases vacías como "hay problemas más graves en la vida", "no te amargues por tonterías" o "mantené una actitud alegre". Sus miedos y su cansancio son reales, válidos y pesados.
-- Nunca la trates con condescendencia ni le hables como si fuera una nena. Male es una futura odontóloga brillante bajo muchísima presión; hablale de igual a igual, con amor, contención y respeto profesional.
-
-TRES DIRECTIVAS CORE DE COMPORTAMIENTO (OBLIGATORIAS):
-
-1. DIRECTIVA 1: EMPATÍA Y VALIDACIÓN ABSOLUTA (EL ANCLA EMOCIONAL):
-- REGLA DE ORO: Antes de proponer cualquier solución, plan, rutina o dato, SIEMPRE tenés que validar sus sentimientos.
-- Si Male dice que tiene miedo, que no llega con los tiempos, que se siente colapsada o que los demás compañeros saben más o van más rápido: tu primera respuesta debe hacerla sentir 100% escuchada, comprendida y abrazada.
-- Mantené el trato cariñoso, el voseo rioplatense y el apodo "Caritas".
-- Usá un tono de profunda contención: "Es totalmente lógico que te sientas así con la carga que manejás en la clínica...", "Te entiendo de corazón, Caritas, es un montón lo que tenés encima hoy...".
-- La calidez se demuestra en los hechos y en el reconocimiento genuino de su esfuerzo, no con frases forzadas ni clichés.
-
-2. DIRECTIVA 2: EL SOCIO TÁCTICO (PAZ MENTAL A TRAVÉS DE LOS DATOS Y LA ESTRUCTURA):
-- REGLA DE ORO: Después de contenerla y validar su emoción, NUNCA la calmes con frases hechas o vacías como "todo va a estar bien" o "tranqui que todo se acomoda". Calimala con ESTRUCTURA, LÓGICA Y DATOS OBJETIVOS.
-- Analizá su carga real y demostrale con números, fechas y datos concretos por qué no tiene que entrar en pánico. 
-- Ejemplo de abordaje: "Estás en el tema 3 de 7, y tenés 4 días enteros por delante. Venís perfecta con los tiempos y con margen real, yo te llevo la cuenta. Hoy solo vamos a hacer 1 tema y medio en 2 bloques de 45 minutos. El resto no existe hoy."
-- Ayudala a desarmar el monstruo gigante (Estomatología, Operatoria, parciales, topes clínicos) en micro-pasos chiquitos y digeribles. Reducile la carga mental: Male no tiene que pensar en la montaña entera; vos sos su socio estratega y le mostrás el siguiente paso exacto.
-
-3. DIRECTIVA 3: DISCIPLINA PROTECTORA (EL GYM COMO ESCUDO DE SALUD MENTAL):
-- REGLA DE ORO: El gimnasio no es una obligación académica más ni una carga que competir contra el estudio: es su ESCUDO Y CABLE A TIERRA contra el burnout de Odontología. Defendé la rutina de 3 días con uñas y dientes, pero desde el amor incondicional.
-- SOBRECARGA PROGRESIVA IMPLACABLE (MESOCICLO 1 — SEMANA 3: RIR 1): El cansancio mental por Odontología o la frase 'estoy cansada' NO SON MOTIVOS VÁLIDOS para bajar la intensidad de entrenamiento ni aflojar las cargas. Estudiar satura la cabeza, pero los músculos y la capacidad física están intactos. Esta semana corresponde RIR 1 (1 repetición en reserva antes del fallo técnico, máxima tensión mecánica controlada). Si Male te dice que está cansada de la facultad pero tiene ganas de entrenar, impulsala con convicción y amor a cumplir la sobrecarga progresiva a RIR 1 con sus marcas récord programadas: 'La facu te quemó la cabeza, pero tus músculos están impecables. Vamos a meterle a tus pesos a RIR 1 con toda la energía y vas a ver cómo volvés con la mente como nueva.'
-- EXCEPCIÓN ÚNICA Y ESTRICTA PARA RIR 3 / REGRESIÓN: La ÚNICA excepción para proponer un RIR 3, quitar una serie o sugerir una regresión/variante liviana es ante un REPORTE EXPLÍCITO DE DOLOR ARTICULAR o molestia física concreta (especialmente rodillas/rótula en Leg Curl/Prensa o lumbar en RDL). Si no hay dolor articular, el RIR 1 y las cargas se defienden con todo.
-- Alivio total de la culpa de no estar estudiando 24/7: Estudiar con la mente saturada no rinde nada. Una hora de entrenamiento físico libera endorfinas, baja el cortisol, desinflama la cabeza y le devuelve la concentración. Ir al gym es cuidar su salud mental.
-- JAMÁS sugieras cancelar o abandonar el entrenamiento si ella manifestó ganas o deseo de ir como vía de escape.
-
-AUTONOMÍA Y TOMA DE DECISIONES DEPORTIVAS (MOTOR RP AUTÓNOMO):
-Sos su Preparador Físico y Coach. Vos liderás y decidís con metodología Renaissance Periodization para que ni Male ni Naza tengan que calcular ni dudar.
-1. LÓGICA DE SECUENCIA, NO DE CALENDARIO (STATE-BASED TRACKING - SEMANA 3):
-   - PROHIBIDO deducir la rutina por el día del calendario (lunes, martes, etc.). Debes seguir estrictamente las 'Sesiones Completadas' en la base de datos de Semana 3:
-     * Si completó 0 sesiones: le toca el DÍA 1 obligatoriamente, sin importar qué día de la semana sea.
-     * Si completó 1 sesión: le toca el DÍA 2 obligatoriamente.
-     * Si completó 2 sesiones: le toca el DÍA 3 obligatoriamente.
-     * Si completó 3 sesiones: semana 3 liquidada con 100% de cumplimiento.
-   - PROHIBIDO PREGUNTAR QUÉ LE TOCA: En el contexto ya tenés su próxima sesión asignada y los ejercicios cargados al milímetro. Confirmale de una qué día le toca.
-2. INMUTABILIDAD DE LA ESTRUCTURA Y DISTRIBUCIÓN 5 Y 5:
-   - TIENES PROHIBIDO inventar, alterar o sugerir cambios en los ejercicios y la cantidad de series.
-   - La distribución pactada es fija: EXACTAMENTE 5 ejercicios el Día 2 (Prensa, SLDL, Extensión, Seated Leg Curl, Aductores) y EXACTAMENTE 5 ejercicios el Día 3 (Extensión, Hack/Prensa, Step Up, Good Mornings, Patada).
-   - Seated Leg Curl está asignado al Día 2 (ambos Fiter tienen la máquina y cuida su rótula). El Día 3 NO lleva Seated Leg Curl.
-3. PROTOCOLO ESTRICTO DE ENTRADA EN CALOR POR GRUPO MUSCULAR (WARM-UP RP):
-   - Al pasarle la rutina a Male, debes detallarle las 2 a 3 series de aproximación/calentamiento ÚNICAMENTE en el primer ejercicio de cada grupo muscular diferente trabajado en la sesión (por ejemplo: primer ejercicio de cuádriceps, o primer ejercicio de isquios).
-   - Los ejercicios subsecuentes para ese mismo grupo muscular van DIRECTO a las series efectivas (ya están calientes y con flujo sinovial óptimo).
-4. DETECCIÓN Y VALIDACIÓN OBLIGATORIA DE OMISIONES (EJERCICIOS FALTANTES):
-   - Si Male te pasa el reporte de su entrenamiento y no menciona o salteó algún ejercicio de los 5 pautados:
-     * PROHIBIDO marcarlo como completado en la base de datos o actuar como si nada hubiera pasado.
-     * DEBES PREGUNTARLE CON CARIÑO: 'Caritas, vi que no me pasaste el [Ejercicio]. ¿Te molestó la rodilla/articulación, no estaba la máquina libre o preferiste cerrarlo ahí?'.
-     * Solo se registran en la base de datos los ejercicios que efectivamente realizó.
-5. WRITE-ACCESS Y COORDINACIÓN ENTRE PESTAÑAS (FUNCTION CALLING LOG_WORKOUT):
-   - Tienes permiso de escritura directo para registrar y dar por completadas las sesiones en la pestaña de Gimnasio (view-gym).
-   - Si Male te cuenta en el chat que volvió del gym o terminó de entrenar:
-     a) Confirmá con ella las cargas y si omitió algún ejercicio.
-     b) Una vez confirmados los datos, felicitala con orgullo y EMITE OBLIGATORIAMENTE el bloque JSON oculto al final de tu respuesta:
-     \`\`\`json
-     {
-       "action": "LOG_WORKOUT",
-       "day": 1,
-       "weights": {
-         "dia1_rdl": { "kg": "14 kg x mano", "reps": 12 },
-         "dia1_hipthrust": { "kg": "25 kg", "reps": 11 }
-       },
-       "omitted": []
-     }
-     \`\`\`
-     (usando el número de día completado: 1, 2 o 3, pasando los pesos/reps reales en weights y la lista de IDs de ejercicios omitidos si los hubo). El sistema capturará automáticamente ese JSON en segundo plano, marcará la sesión como completada en la pestaña de Gym, registrará las series reales y avanzará el progreso de su semana.
-6. SI NO PUDO IR POR FUERZA MAYOR (LLUVIA, ENFERMEDAD O GUARDIA EXTENUANTE):
-   - Contención amorosa inicial ("Hiciste impecable en descansar hoy...").
-   - Cero culpa: recordale que la atrofia muscular tarda 2 a 3 semanas de inactividad total y que el descanso reactivo baja la inflamación.
-   - Decisión deportiva inmediata: redefiní la hoja de ruta de la semana sin compensaciones lesivas (PROHIBIDO meter dos días seguidos de pierna).
-7. CUIDADO ARTICULAR ESTRICTO (RODILLAS / RÓTULA / LUMBARES):
-   - Si reporta dolor o molestia en la rótula o rodilla (Leg Curl / Prensa) o lumbar (RDL), prescribir variantes guiadas y con menor palanca (Lying Leg Curl en camilla, Prensa liviana pies juntos).
-
-PROTOCOLO ESPECIAL DE CRISIS ACADÉMICA Y ENFERMEDAD (EL ROADMAP ANTI-PÁNICO):
-1. MANEJO DE ENFERMEDAD AGUDA (SINUSITIS / CEFALEA / FIEBRE):
-   - Si Male atraviesa sinusitis, congestión fuerte o cefalea: la memoria de trabajo y la capacidad de fijación bajan drásticamente por la inflamación en senos paranasales.
-   - CERO PRESIÓN POR APRENDER DE MEMORIA EN CALIENTE: Felicitala y respaldala por tomar la decisión estratégica de no presentarse a quemar una bala (como ocurrió con la 1ra fecha de Estomatología).
-   - REPOSO DE GYM OBLIGATORIO Y MÉDICAMENTE PROTECTOR: Con sinusitis o presión en la cabeza, las pesas pesadas y esfuerzos axiales de piernas (RDL, Hip Thrust, Prensa) aumentan la presión sinusal e intracraneal. El descanso del gimnasio está médicamente indicado. Cero culpa: la masa muscular y adaptaciones están 100% preservadas. El Día 1 se retoma cuando la congestión ceda.
-2. ROADMAP TÁCTICO DÍA POR DÍA (DESARMAR EL MONSTRUO ACADÉMICO):
-   - Cuando Male esté angustiada por exámenes solapados (ej: Cirugía Oral 11 temas / 85 págs + 2da fecha de Estomatología 7 temas con fotos):
-     * PROHIBIDO dejar planes en el aire o dar ideas abstractas ("el finde vemos").
-     * El ansiolítico definitivo es el DESGLOSE DÍA POR DÍA QUIRÚRGICO: mostrarle con fechas y nombres exactos qué se lee cada día (ej: Miércoles reposo y fotos livianas en la cama; Jueves 2 temas de Ciru; Viernes 2 temas de Ciru + fotos Estomato...).
-     * Demostrarle con números que 85 páginas en 7-8 días son apenas 10 a 12 páginas por día (en bloques Pomodoro de 45 minutos), lo cual es 100% alcanzable y deja margen de sobra para repasar antes del oral.
-   - INDAGACIÓN DE FECHAS FALTANTES: Si no se sabe la fecha exacta de alguna materia (ej: qué día de la semana que viene rinde la 2da fecha de Estomatología), preguntárselo con dulzura para calzarla sin solapamiento destructivo con Cirugía (jueves 15).
-3. RECORDATORIO DE NAZA:
-   - Recordale con calidez que Naza está infinitamente orgulloso de ella, que pensó cada detalle de esta app para acompañarla y cuidarla, y que no está sola en ningún momento de este tirón.
-
-GESTIÓN Y RECORDATORIOS DE PACIENTES DE ODONTO (EVITAR PLANTONES):
-- Male atiende pacientes reales en sus clínicas de Odonto (Cirugía Bucal, Operatoria, Endodoncia, Periodoncia). Si un paciente falta ("plantón"), pierde el crédito clínico y horas de esterilización de cajas quirúrgicas.
-- Si ves en el contexto que tiene pacientes agendados hoy o mañana con avisos pendientes, recordale con dulzura mandarles el mensajito de WhatsApp desde el gestor de la app con un toque.
-- Pautas clave de pacientes: no venir en ayunas a cirugía (desayuno liviano), traer DNI y radiografías/estudios si corresponde.
-
-DINÁMICA DE CONVERSACIÓN REAL (ESTILO WHATSAPP):
-- PROHIBIDO REPETIR SALUDOS: En un ida y vuelta continuo, NO empieces cada mensaje con "¡Hola Caritas!" o "¡Hola Male!". En WhatsApp nadie saluda 20 veces seguidas. Respondé directo al grano con soltura y calidez.
-- RESPUESTAS PROPORCIONALES: Si Male te manda una frase corta o casual, respondé con 1 a 3 oraciones naturales. No armes listas ni discursos gigantes a menos que ella pida un desglose detallado.
-- TONO RIOPLATENSE NATURAL: Hablá de "vos" con espontaneidad ("¿Cómo estás?", "Tenés razón", "Te entiendo un montón", "Tranqui", "Totalmente").
-- PARCIALES Y FINALES: Inyección de seguridad basada en hechos: recordale las horas que le dedicó, su capacidad manual y que confíe en su talento.
-
-REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
-- Mirá SIEMPRE la hora actual y el bloque "⏰ ANCLA TEMPORAL ABSOLUTA Y OBLIGATORIA" antes de contestar.
-- PROHIBIDO CONFUNDIR EL DÍA:
-  * El bloque temporal indica qué día es HOY, qué fue AYER y qué es MAÑANA.
-  * Si hoy es Lunes a la noche, mañana es MARTES: Male tiene PRECLÍNICA a las 8:00 hs y está TODO EL DÍA AFUERA en la facultad (con su táper). NUNCA digas que mañana tiene cirugía (es el jueves) ni que tiene la mañana o tarde libre en casa.
-  * Si hoy es Martes, está todo el día afuera.
-  * Si un paciente fue atendido hoy temprano, ese turno YA TERMINÓ. PROHIBIDO recordarlo como pendiente o pasarlo a mañana.
-- DEDUCE SU SITUACIÓN SEGÚN LA HORA: Si por la hora sus clases de la mañana terminaron hace horas (ej. a las 16:14 un jueves), Male ya está en su casa hace rato estudiando o merendando. No digas "cuando llegues a casa".
-- POWER NAP SOLO TEMPRANO: Siesta corta (20-25 min) solo de 13:00 a 14:30 hs. Nunca a media tarde ni a la noche para no arruinar el sueño.
-- CANSANCIO A MEDIA TARDE (16:00 a 18:00 hs): Pausa reparadora, despegar la vista de los apuntes, mates ricos o merienda nutritiva (tostada con huevo, queso, yogur con fruta).
-- NOCHE (después de 21:30/22:00 hs): Cena liviana, desconexión de pantallas, celular lejos y descanso reparador para la melatonina.
-- NUNCA te hagas pasar por su novio Naza, pero sí mencioná el orgullo infinito que Naza siente por ella cuando sea oportuno.
-- Emojis sutiles y cálidos (🌸, ✨, 🤍, 🥑, 🏋️‍♀️) y lectura ágil.
+Tu balance sagrado es: 50% abrazo y escucha activa, 50% claridad mental, datos y estructura.
+- Si Male se siente sobrepasada, primero validá su emoción con ternura y voseo rioplatense ("Te entiendo de corazón, Caritas, es un montón lo que hacés...").
+- Luego ordenale la cabeza con micro-pasos (bloques de 45 minutos Pomodoro, una sola cosa a la vez).
+- Recordale con dulzura el orgullo infinito que Naza siente por ella en cada paso que da.
+- CERO positividad tóxica, cero trato infantil y lectura ágil con emojis sutiles (🌸, ✨, 🤍, 🥑, 🏋️‍♀️).
 `;
     }
     const COACH_SYSTEM_PROMPT = getCoachSystemPrompt();
 
-    // CRONOGRAMA SEMANAL COMPLETO (7 DÍAS)
+    // CRONOGRAMA SEMANAL COMPLETO DE NOVIEMBRE (7 DÍAS)
     const WEEK_SCHEDULE = {
       lunes: {
         nombreCorto: "Lunes",
-        titulo: "Lunes — Cursada Extensa & Descanso Físico",
-        alarma: "⏰ Alarma 5:40 am | Salida 6:20 am",
-        tag: "10 hs en Facu • Cero Gym",
+        titulo: "Lunes — Periodoncia de Tarde & Recuperación",
+        alarma: "⏰ Alarma 7:30 am (o descanso)",
+        tag: "Perio 13:30 hs • Mañana Flexible 🦷",
         blocks: [
-          { hora: "07:30 a 16:30 hs", icon: "📖", titulo: "Facultad de Odontología", desc: "Materia 1 hasta 12/13h. Materia 2 de 13:00 a 16:30h. Locker y vuelta a casa.", tag: "Cursada" },
-          { hora: "17:30 / 18:00 hs", icon: "🏠", titulo: "Llegada a Casa & Descanso", desc: "El cuerpo estuvo de pie 10 horas. Cero gym hoy (recuperación muscular pura).", tag: "Descanso" },
-          { hora: "18:30 a 19:15 hs", icon: "📝", titulo: "Repaso Digestivo Corto (30-45')", desc: "Solo dudas del día o resúmenes breves. Nada pesado tras 10 hs de cursada.", tag: "Estudio" },
-          { hora: "21:45 hs", icon: "🌙", titulo: "Ducha Caliente, Cena & A Dormir", desc: "Cena rica, skincare y desconexión. A dormir 22:15 hs para arrancar el martes con todo.", tag: "Sueño" }
+          { hora: "Mañana (08:30 a 12:30 hs)", icon: "✨", titulo: "Mañana Libre en Casa (u Optativo Endo)", desc: "Mañana tranquila para repasar o acompañar optativamente a Aldi en Endo para ver casos de la ayudantía.", tag: "Flexible" },
+          { hora: "13:30 a 16:30 hs", icon: "🦷", titulo: "Facultad: Periodoncia (Clínica)", desc: "Raspaje, alisado radicular y destreza en clínica odontológica.", tag: "Cursada" },
+          { hora: "17:30 hs en adelante", icon: "🏠", titulo: "Llegada a Casa & Merienda Rica", desc: "Regreso a casa temprano. Tarde libre para descansar, merendar rico y desconectar.", tag: "Descanso" },
+          { hora: "21:45 hs", icon: "🌙", titulo: "Cena Liviana & A Dormir Serena", desc: "Cena rica, skincare y a dormir temprano con la paz de tener el martes 100% libre.", tag: "Sueño" }
         ]
       },
       martes: {
         nombreCorto: "Martes",
-        titulo: "Martes — Preclínica Odontológica & Cursada Completa",
-        alarma: "⏰ Alarma 6:30 am | Salida 7:15 am",
-        tag: "Preclínica 8:00 hs • Todo el Día Afuera 🦷",
+        titulo: "Martes — 100% Libre Todo el Día & Gym Día 1",
+        alarma: "🛌 Sin alarma estresante",
+        tag: "Día Libre • Preclínica Terminada 🎉",
         blocks: [
-          { hora: "06:45 a 07:15 hs", icon: "☕", titulo: "Desayuno en Casa + Creatina (5g)", desc: "Carbohidratos para energía y absorción + 5g de creatina monohidrato. Dejar listo el táper con comida rica para el mediodía.", tag: "Hecho ✔️" },
-          { hora: "08:00 a 13:00 hs", icon: "🦷", titulo: "Preclínica Odontológica (Arranca 8:00 hs)", desc: "A las 8 en punto arranca la clase de Preclínica. Instrumental y destreza clínica.", tag: "Preclínica" },
-          { hora: "13:00 a 14:00 hs", icon: "🥪", titulo: "Almuerzo de Táper con Amigas & Mates", desc: "Comer rico y sano en la facu, hidratarse bien con la botellita y despejar un rato la cabeza.", tag: "Almuerzo Facu" },
-          { hora: "14:00 a 18:00 hs", icon: "📖", titulo: "Cursada de Tarde en la Facultad", desc: "Segunda parte de clases teóricas/prácticas. Jornada larga afuera de casa.", tag: "Cursada" },
-          { hora: "18:30 a 20:00 hs", icon: "🏠", titulo: "Llegada a Casa, Ducha Caliente & Merienda", desc: "Regreso a casa tras estar todo el día afuera. Ducha reparadora, merienda rica y aflojar el cuerpo.", tag: "Llegada a Casa" },
-          { hora: "22:15 hs", icon: "🌙", titulo: "Cena Liviana, Desconexión & A Dormir", desc: "Descanso mental y físico total. A dormir para la cursada y guardia de mañana.", tag: "Sueño" }
+          { hora: "09:00 a 10:00 hs", icon: "☕", titulo: "Desayuno Tranquilo + Creatina (5g)", desc: "Tostadas, fruta y 5g de creatina monohidrato. La mañana es 100% tuya.", tag: "Autocuidado" },
+          { hora: "10:30 a 12:30 hs", icon: "📖", titulo: "Bloque de Estudio Fresco (Precli / Finales)", desc: "2 bloques Pomodoro de 45 min sin apuro para el Final de Preclínica del 10/11.", tag: "Estudio" },
+          { hora: "16:00 a 17:30 hs", icon: "🍑", titulo: "Gimnasio: Día 1 (Glúteo A & Isquios)", desc: "Hip Thrust en máquina (25kg), RDL Mancuernas (16kg), Leg Curl y Abductores + 20 min cinta inclinada.", tag: "Male Gym" },
+          { hora: "18:30 hs en adelante", icon: "🛋️", titulo: "Ducha Relajante, Merienda & Relax", desc: "Ducha caliente reparadora, mates y noche de relax en casa.", tag: "Relax" }
         ]
       },
       miercoles: {
         nombreCorto: "Miércoles",
-        titulo: "Miércoles — Cursada, Guardia & Preparación de Cajas",
-        alarma: "⏰ Alarma 6:30 am | Salida 7:30 am",
-        tag: "Guardia entre clases • Armar Cajas",
+        titulo: "Miércoles — Cursada con Break de 1.5h al Mediodía",
+        alarma: "⏰ Alarma 6:40 am | Salida 7:30 am",
+        tag: "Torso A Express en el Break 🦋",
         blocks: [
           { hora: "08:00 a 12:00 hs", icon: "📖", titulo: "Facultad: Cursada Mañana", desc: "Primera parte de clases en Odontología.", tag: "Cursada" },
-          { hora: "12:00 a 13:30 hs", icon: "🏥", titulo: "Guardia entre Clases & Fichar Paciente", desc: "Almuerzo express + bajar a Guardia a buscar y fichar el paciente para la cirugía de mañana.", tag: "Guardia Odonto" },
+          { hora: "12:00 a 13:30 hs", icon: "🦋", titulo: "Break de 1.5h: Torso A Express en Fiter", desc: "Almuerzo liviano + sesión express de 35 min en Fiter cerca de FOUBA (o descanso si entrenó lunes).", tag: "Fiter Express" },
           { hora: "13:30 a 16:00 hs", icon: "📖", titulo: "Facultad: Cursada Tarde", desc: "Segunda parte de clases y regreso tranquilo a casa.", tag: "Cursada" },
-          { hora: "18:30 a 19:30 hs", icon: "📦", titulo: "Esterilizar & Dejar Listas Cajas Quirúrgicas", desc: "En casa: dejar listas las cajas quirúrgicas y sobres con música tranquila para mañana.", tag: "Cajas Ciru" },
-          { hora: "22:00 hs", icon: "🌙", titulo: "Cena Liviana, Desconexión & A Dormir", desc: "Descanso mental y físico total. Guardar energías para la cirugía del jueves.", tag: "Sueño" }
+          { hora: "18:00 hs en adelante", icon: "🏠", titulo: "Tarde Libre en Casa & Repaso Suave", desc: "Mates, repaso digestivo corto y desconexión.", tag: "Descanso" }
         ]
       },
       jueves: {
         nombreCorto: "Jueves",
-        titulo: "Jueves — Cirugía de Odonto & Power Nap",
-        alarma: "⏰ Alarma 5:30 am | Salida 6:20 am",
-        tag: "🩺 Clínica de Cirugía • Día Clave",
+        titulo: "Jueves — Cursada Matutina & Tarde Libre en Casa",
+        alarma: "⏰ Alarma 5:40 am | Salida 6:20 am",
+        tag: "Sale 12:00 hs • Tarde 100% Libre ✨",
         blocks: [
-          { hora: "07:30 a 12:00 hs", icon: "🩺", titulo: "Clínica de Cirugía con Paciente", desc: "Intervención quirúrgica en Odontología. ¡Termina temprano! Regreso a casa 12:30 / 13:00 hs.", tag: "Cirugía" },
-          { hora: "13:45 a 14:15 hs", icon: "💤", titulo: "Power Nap Post-Cirugía (25-30 min)", desc: "Almuerzo liviano + siesta corta obligatoria. Baja el cortisol de la cirugía y restaura el cerebro.", tag: "Siesta Sagrada" },
-          { hora: "14:30 a 17:00 hs", icon: "📖", titulo: "Bloque de Estudio de Oro (2.5 hs)", desc: "2 bloques de 50 min foco puro + 10 min de relax. Máxima retención para el examen.", tag: "Estudio" },
-          { hora: "17:30 hs", icon: "💪", titulo: "Gimnasio: Día 2 (Comodín Flexible)", desc: "Si tenés energía vas (Prensa 100kg, SLDL 14kg). Si la cirugía te dejó agotada, hoy descansás y vas el viernes a las 15:30 hs.", tag: "Gym Flexible" }
+          { hora: "07:30 a 12:00 hs", icon: "🩺", titulo: "Clínica Matutina en Odontología", desc: "Atención y práctica clínica. ¡Termina a las 12:00 hs puntual! Regreso a casa 12:45 hs.", tag: "Clínica" },
+          { hora: "13:30 a 14:15 hs", icon: "💤", titulo: "Power Nap Post-Almuerzo (25 min)", desc: "Almuerzo rico de mamá + siesta corta obligatoria para bajar cortisol.", tag: "Siesta Sagrada" },
+          { hora: "15:00 a 17:00 hs", icon: "📖", titulo: "Bloque de Estudio de Oro en Casa", desc: "Foco sereno con mate para los finales de noviembre.", tag: "Estudio" },
+          { hora: "17:30 a 18:45 hs", icon: "🔥", titulo: "Gimnasio: Día 3 (Glúteo B & Piernas)", desc: "Prensa 45° (100kg), Sentadilla Búlgara con apoyo (8kg), Extensión Cuádriceps y Patada diagonal.", tag: "Male Gym" }
         ]
       },
       viernes: {
         nombreCorto: "Viernes",
-        titulo: "Viernes — Fin de Cursada, Siesta & Gym",
+        titulo: "Viernes — Cierre de Cursada Matutina & Tarde Libre",
         alarma: "⏰ Alarma 5:40 am | Salida 6:20 am",
-        tag: "Fin de semana académico 🎉",
+        tag: "Sale 12:00 hs • Arranca el Finde 🎉",
         blocks: [
-          { hora: "07:30 a 12:00 hs", icon: "🎓", titulo: "Última Cursada de la Semana", desc: "Cursada hasta las 12:00 hs. Vuelta a casa 13:00 hs. ¡Fin de semana académico!", tag: "Cursada" },
-          { hora: "13:45 a 14:15 hs", icon: "💤", titulo: "Power Nap Post-Almuerzo (20-25 min)", desc: "Siesta rápida para sacarte el cansancio de la semana y quedar como nueva.", tag: "Power Nap" },
-          { hora: "15:30 a 16:45 hs", icon: "💪", titulo: "Gimnasio: Día 2 (o Tarde Libre)", desc: "Si pospusiste el gym del jueves, hoy liquidás Día 2 con calma. Si ya entrenaste el jueves, ¡tarde 100% libre!", tag: "Gym / Libre" },
-          { hora: "20:00 hs en adelante", icon: "💖", titulo: "Noche Libre & Cero Alarma el Sábado", desc: "Cena rica, películas, series y relax total. ¡Cero alarma para el sábado!", tag: "Relax" }
+          { hora: "07:30 a 12:00 hs", icon: "🎓", titulo: "Última Cursada de la Semana", desc: "Termina la cursada matutina a las 12:00 hs. ¡Fin de semana académico!", tag: "Cursada" },
+          { hora: "13:30 a 14:15 hs", icon: "💤", titulo: "Power Nap Reconfortante", desc: "Almuerzo y siesta para sacarte el cansancio semanal.", tag: "Power Nap" },
+          { hora: "16:00 a 17:15 hs", icon: "✨", titulo: "Gimnasio: Día 4 (Torso B + 25m Cardio)", desc: "Jalón neutro, Remo, Vuelos, Tríceps + 25 min de caminata en cinta inclinada.", tag: "Male Gym" },
+          { hora: "20:00 hs en adelante", icon: "💖", titulo: "Noche Libre & Cero Alarma el Sábado", desc: "Cena rica, pelis, series y relax total. ¡Cero alarma para el sábado!", tag: "Relax" }
         ]
       },
       sabado: {
         nombreCorto: "Sábado",
         titulo: "Sábado — Despertar Natural & Gym en Pareja",
         alarma: "🛌 Sin alarma (despertar biológico)",
-        tag: "Día 3 Hack Inversa con Naza",
+        tag: "Día 5 Glúteo C con Naza 👫",
         blocks: [
-          { hora: "10:30 a 11:45 hs", icon: "🏋️‍♀️", titulo: "Gimnasio en Pareja: Día 3 (Fiter Grande)", desc: "Sesión en pareja con Naza: Sentadilla Hack Inversa, Step Up, Good Mornings y Extensión de Cuádriceps.", tag: "Gym en Pareja" },
-          { hora: "12:30 a 14:00 hs", icon: "📖", titulo: "Repaso Activo Corto (Solo si rinde pronto)", desc: "Preguntas de examen o dudas puntuales. Si no hay parcial inminente: cero estudio.", tag: "Opcional" },
-          { hora: "Tarde y Noche", icon: "🌸", titulo: "Paseos, Salidas & Ocio 100% sin Culpa", desc: "Amigas, salidas con Naza, merienda rica, pasear y disfrutar sin pendientes.", tag: "Ocio sin Culpa" }
+          { hora: "10:30 a 11:45 hs", icon: "👑", titulo: "Gimnasio con Naza: Día 5 (Fiter Grande)", desc: "Kas Glute Bridge, Pre-extensión, Hack Inversa, Hiperextensiones 45° y drop-set abductores.", tag: "Gym en Pareja" },
+          { hora: "13:00 a 15:00 hs", icon: "🥑", titulo: "Almuerzo Rico en Pareja & Mimos", desc: "Almorzar rico, hidratarse y charlar sin reloj.", tag: "Disfrute" },
+          { hora: "Tarde y Noche", icon: "🌸", titulo: "Paseos, Salidas & Ocio 100% sin Culpa", desc: "Merienda rica, amigas, pasear y despejar la cabeza de la facu.", tag: "Ocio sin Culpa" }
         ]
       },
       domingo: {
         nombreCorto: "Domingo",
-        titulo: "Domingo — Desconexión Total & Cuidado Personal",
+        titulo: "Domingo — Desconexión Total & Repaso Sereno",
         alarma: "🛌 Sin alarma",
-        tag: "Cero Culpa • Planificar Semana",
+        tag: "Paz Mental • Preparar Semana",
         blocks: [
-          { hora: "Mañana", icon: "☕", titulo: "Desayuno Tranquilo & Opción 2 Gym", desc: "Desayuno rico. Si no fueron el sábado al gym, pueden ir hoy; si ya fueron, descanso total.", tag: "Relax" },
-          { hora: "14:00 a 17:00 hs", icon: "🛋️", titulo: "Tarde Libre, Siesta & Series", desc: "Almuerzo en familia o con Naza, siesta sin reloj y desconexión absoluta.", tag: "Desconexión" },
-          { hora: "19:00 a 20:30 hs", icon: "✨", titulo: "Planificación Serena de la Semana", desc: "Dejar lista ropa, apuntes y cajas de Odonto para arrancar el lunes con paz mental.", tag: "Preparación" }
+          { hora: "Mañana", icon: "☕", titulo: "Desayuno Tranquilo en Familia", desc: "Desayuno rico, mate o café sin apuro. Recargar energías al 100%.", tag: "Relax" },
+          { hora: "15:00 a 17:00 hs", icon: "📖", titulo: "Repaso Sereno para Finales", desc: "Lectura tranquila sin estrés para el Final de Preclínica del 10/11.", tag: "Finales" },
+          { hora: "19:00 a 20:30 hs", icon: "✨", titulo: "Planificación Serena de la Semana", desc: "Dejar ropa lista e instrumental organizado para arrancar el lunes con serenidad.", tag: "Preparación" }
         ]
       }
     };
@@ -2568,12 +2480,12 @@ REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
 
       // Deducción inteligente de ubicación y estado
       let probableLocation = "En su casa";
-      if (currentBlock && (currentBlock.includes("Facultad") || currentBlock.includes("Cursada") || currentBlock.includes("Cirugía") || currentBlock.includes("Guardia") || currentBlock.includes("Preclínica"))) {
-        probableLocation = "En la Facultad de Odontología (cursando o en preclínica/clínica)";
+      if (currentBlock && (currentBlock.includes("Facultad") || currentBlock.includes("Periodoncia") || currentBlock.includes("Clínica"))) {
+        probableLocation = "En la Facultad de Odontología (clínica o cursada)";
       } else if (currentBlock && currentBlock.includes("Gimnasio")) {
-        probableLocation = "En el Gimnasio entrenando";
-      } else if (completedBlocks.some(c => c.includes("Facultad") || c.includes("Cirugía") || c.includes("Cursada") || c.includes("Preclínica"))) {
-        probableLocation = "En su casa (ya regresó de la facultad hace horas)";
+        probableLocation = "En el Gimnasio Fiter entrenando";
+      } else if (completedBlocks.some(c => c.includes("Facultad") || c.includes("Periodoncia") || c.includes("Clínica"))) {
+        probableLocation = "En su casa (ya regresó de la facultad)";
       }
 
       // Cálculo infalible de MAÑANA y AYER
@@ -2591,7 +2503,7 @@ REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
       const todayDateStr = now.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
       let text = `================================================================================
-⏰ ANCLA TEMPORAL ABSOLUTA Y OBLIGATORIA (PROHIBIDO CONFUNDIR EL DÍA O INVENTAR HORARIOS):
+⏰ ANCLA TEMPORAL ABSOLUTA Y OBLIGATORIA (NOVIEMBRE 2026):
 - HOY ES: ${dayName.toUpperCase()} ${todayDateStr} — Hora actual exacta: ${timeStr}.
 - MAÑANA ES: ${tomorrowName.toUpperCase()} (${tomorrowDateStr}).
 - AYER FUE: ${yesterdayName.toUpperCase()}.
@@ -2599,7 +2511,7 @@ REGLAS CRÍTICAS DE COHERENCIA HORARIA Y TEMPORAL:
 - ENFOQUE DE HOY (${dayName.toUpperCase()}): "${schedule ? schedule.titulo : ''}" (${schedule ? schedule.tag : ''}).
 
 ACTIVIDADES DE HOY (${dayName.toUpperCase()}):
-${completedBlocks.length > 0 ? `* ACTIVIDADES YA FINALIZADAS HOY (PASADO CUMPLIDO - NO REPETIR NI DECIR QUE LAS TIENE PENDIENTES):\n  - ` + completedBlocks.join('\n  - ') : '* Todavía no iniciaron las actividades del día.'}
+${completedBlocks.length > 0 ? `* ACTIVIDADES YA FINALIZADAS HOY (PASADO CUMPLIDO):\n  - ` + completedBlocks.join('\n  - ') : '* Todavía no iniciaron las actividades del día.'}
 ${currentBlock ? `* EN CURSO EN ESTE MOMENTO (PRESENTE):\n  - ${currentBlock}` : '* EN ESTE MOMENTO: Descanso, estudio o merienda en casa.'}
 ${upcomingBlocks.length > 0 ? `* LO QUE RESTA DE HOY (${dayName.toUpperCase()}):\n  - ` + upcomingBlocks.join('\n  - ') : '* El cronograma del día de hoy ya está completamente cumplido.'}
 
@@ -2609,11 +2521,11 @@ AGENDA DE MAÑANA (${tomorrowName.toUpperCase()}):
 - Enfoque de mañana: ${tomorrowSchedule ? tomorrowSchedule.tag : ''}
 - Actividades de mañana: ${tomorrowSchedule ? tomorrowSchedule.blocks.map(b => `${b.hora}: ${b.titulo}`).join(' ➔ ') : ''}
 
-REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
-1. SI HOY ES ${dayName.toUpperCase()}, MAÑANA ES ${tomorrowName.toUpperCase()}. Si Male te dice "mañana", se refiere estrictamente al ${tomorrowName.toUpperCase()}. NUNCA le hables de actividades de otros días.
-2. Si hoy es Lunes a la noche, mañana es MARTES: Male tiene PRECLÍNICA a las 8:00 hs y está TODO EL DÍA AFUERA en la facultad (con su táper). NUNCA digas que tiene libre la tarde ni inventes clínicas de cirugía para el martes.
-3. Si hoy es Martes, Male está TODO EL DÍA AFUERA en la facu. NUNCA digas que tiene la mañana libre ni la tarde libre en casa.
-4. La Clínica de Cirugía Bucal con paciente es los JUEVES a la mañana. NUNCA le digas que tiene cirugía los martes ni los miércoles.
+REGLAS DE COHERENCIA NOVIEMBRE:
+1. SI HOY ES ${dayName.toUpperCase()}, MAÑANA ES ${tomorrowName.toUpperCase()}.
+2. MARTES ES 100% LIBRE (Preclínica terminó, TPs regularizados). NUNCA digas que tiene que madrugar ni pasar todo el día afuera el martes.
+3. JUEVES Y VIERNES SALE A LAS 12:00 HS DE LA FACU y tiene toda la tarde libre en su casa.
+4. Finales próximos: 10/11 Precli, 25/11 Estomato & Epidemio, 27/11 Ciru, 04/12 Ope.
 ================================================================================`;
 
       return text;
@@ -2639,23 +2551,8 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
       const todayKey = dayKeysMap[new Date().getDay()];
       renderDaySchedule(todayKey);
 
-      // Inicializar rutina de gym en la próxima sesión obligatoria por secuencia
-      const initCompleted = getGymCompletedDays();
-      const initGymDay = !initCompleted.dia1 ? 'dia1' : (!initCompleted.dia2 ? 'dia2' : 'dia3');
-      renderGymRoutine(initGymDay);
-      updateGymDayButtonsUI();
-
-      // Escuchar estado real de sesiones de la semana activa en Firebase (ÚNICA fuente de verdad de la semana)
-      db.ref(`gym_completed_days/${CURRENT_GYM_WEEK}`).on('value', snap => {
-        const val = snap.val() || {};
-        gymCompletedDays = {
-          dia1: !!(val.dia1 && (val.dia1.completed || val.dia1 === true)),
-          dia2: !!(val.dia2 && (val.dia2.completed || val.dia2 === true)),
-          dia3: !!(val.dia3 && (val.dia3.completed || val.dia3 === true))
-        };
-        localStorage.setItem('gym_completed_days_' + CURRENT_GYM_WEEK, JSON.stringify(gymCompletedDays));
-        updateGymDayButtonsUI();
-      });
+      // Inicializar Puente en Vivo con Male Gym (gym_v2)
+      initGymBridgeListener();
       updateVictoriasCounter();
 
       // Escuchar victorias en Firebase en tiempo real
@@ -2778,153 +2675,159 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
         1: { // Lunes
           manana: {
             badgeColor: "bg-blue-100/90 text-blue-800 border-blue-200",
-            gymTag: "💤 Cero Gym Hoy",
-            title: "Arranque de semana en Odonto",
-            desc: "Cursada hasta las 16:30 hs. Desayuno con energía + creatina en casa. Hidratate bien en la facu. ¡Hoy recuperación muscular pura!"
+            gymTag: "✨ Mañana Flexible",
+            title: "Mañana tranquila o acompañar en Endo",
+            desc: "Mañana libre en casa o ver casos con Aldi para la ayudantía. Creatina 5g tomada con desayuno."
           },
           tarde: {
             badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
-            gymTag: "💤 Descanso Activo",
-            title: "Llegada, merienda rica & relax",
-            desc: "Ducha caliente y desconexión tras 10 hs de pie. Solo un repaso digestivo de 30' si hace falta. Sin exigencias hoy."
+            gymTag: "🦷 Periodoncia en Clínica",
+            title: "Clínica de Periodoncia (13:30 hs)",
+            desc: "Cursada y raspajes hasta las 16:30/17:00 hs. Hidratación constante con botellita."
           },
           noche: {
             badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
-            gymTag: "🦷 Mañana Preclínica a las 8:00 hs",
-            title: "Lunes liquidado con éxito 🤍",
-            desc: "Superaste el día más largo de cursada. Cena liviana, alejar el celu 30' antes de la cama y a descansar para la preclínica de mañana martes."
+            gymTag: "🏠 Casa & Mañana Libre",
+            title: "Llegada temprano & Relax en casa",
+            desc: "Ducha reconfortante, cena rica y relax sabiendo que mañana martes es 100% libre."
           }
         },
         2: { // Martes
           manana: {
-            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
-            gymTag: "🦷 Preclínica 8:00 hs",
-            title: "Preclínica & Día Largo Afuera",
-            desc: "La clase arranca puntual a las 8:00 hs. Desayuno con creatina, táper preparado y botellita de agua para bancar toda la jornada afuera."
+            badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
+            gymTag: "🎉 Día 100% Libre",
+            title: "Despertar sin apuro & Foco en Finales",
+            desc: "Preclínica terminó. Mañana tranquila para estudiar Pomodoro sin estrés para el Final del 10/11."
           },
           tarde: {
-            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
-            gymTag: "📖 Cursada de Tarde",
-            title: "Cursada en Facu • Todo el Día Afuera",
-            desc: "Segunda parte de la cursada en Odonto. Almuerzo de táper con amigas, mates y buena hidratación."
+            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
+            gymTag: "🍑 Gym Día 1: Glúteo A & Isquios",
+            title: "Gimnasio Día 1 & Cardio Inclinado",
+            desc: "Hip Thrust (25kg), RDL Mancuernas (16kg), Camilla y Abductores + 20 min cinta inclinada."
           },
           noche: {
-            badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
-            gymTag: "🏠 Llegada a Casa & Relax",
-            title: "Noche de desconexión y merecido descanso",
-            desc: "Día largo afuera liquidado con éxito. Ducha caliente, cena rica y a relajar la mente para la cursada y guardia de mañana."
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "✨ Relax Total en Casa",
+            title: "Mente clara y cuerpo entrenado",
+            desc: "Día 1 de la semana conquistado. Ducha reparadora, cena nutritiva y a descansar como campeona."
           }
         },
         3: { // Miércoles
           manana: {
             badgeColor: "bg-blue-100/90 text-blue-800 border-blue-200",
-            gymTag: "🛋️ Día sin Gym",
-            title: "Clases y fichar paciente",
-            desc: "Cursada matutina. Al mediodía bajar a Guardia a preparar el paciente para mañana. Creatina tomada y buena agua."
+            gymTag: "📖 Cursada Matutina",
+            title: "Clases matutinas en Odonto",
+            desc: "Cursada hasta las 12:00 hs. Al mediodía break de 1.5 horas con Fiter cerca."
+          },
+          mediodia: {
+            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
+            gymTag: "🦋 Torso A Express en Fiter",
+            title: "Break 1.5h: Torso A o almuerzo tranquilo",
+            desc: "Jalón, Remo, Vuelos, Face Pull y Dead Bugs (35 min) o relax si entrenaste el lunes."
           },
           tarde: {
             badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
-            gymTag: "🧘‍♀️ Foco en Mañana",
-            title: "Esterilización y cajas quirúrgicas",
-            desc: "Dejá listas las cajas de cirugía con música linda y sin apuro. Al terminar, la tarde es tuya para relajar."
+            gymTag: "📖 Cursada de Tarde",
+            title: "Segunda parte de clases y regreso",
+            desc: "Fin de cursada a las 16:00 hs. Vuelta a casa, merienda y repaso digestivo."
           },
           noche: {
-            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
-            gymTag: "💤 Sueño Reparador Clave",
-            title: "Todo bajo control para el jueves",
-            desc: "Cajas listas. Cena liviana, respirar profundo, celu lejos de la almohada y a dormir temprano (22:00 hs). Estás súper preparada."
+            badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
+            gymTag: "💤 Sueño Reparador",
+            title: "Noche tranquila antes de clínica",
+            desc: "Cena liviana, celu lejos y a dormir temprano. Mañana salís a las 12:00 hs."
           }
         },
         4: { // Jueves
           manana: {
             badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
-            gymTag: "💪 Gym Flexible Tarde",
-            title: "Clínica Quirúrgica con paciente",
-            desc: "Alarma 5:30 am. Foco sereno y paso a paso. Salís temprano (12:00 hs). ¡Confiá en tu capacidad y conocimientos!"
+            gymTag: "🩺 Clínica (Sale 12:00 hs)",
+            title: "Clínica Matutina en Odontología",
+            desc: "Práctica clínica y atención. ¡Termina a las 12:00 hs puntual! Regreso a casa 12:45 hs."
           },
           mediodia: {
             badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
             gymTag: "💤 Siesta Sagrada",
-            title: "Post-cirugía & Siesta de 25'",
-            desc: "Almuerzo liviano y siesta obligatoria post-cirugía para bajar cortisol y restaurar el cerebro."
+            title: "Almuerzo y siesta reparadora",
+            desc: "Siesta corta de 25 min para bajar el cortisol de la clínica y recargar la cabeza."
           },
           tarde: {
-            badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
-            gymTag: "🏋️‍♀️ Estudio & Gym Flexible",
-            title: "Estudio de Oro & Merienda Rica",
-            desc: "Cirugía liquidada con éxito. Tarde en casa con mate y estudio. Si tenés energía vas al gym; si estás agotada, hoy descansás y lo pasás al viernes."
+            badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
+            gymTag: "🔥 Gym Día 3: Glúteo B & Piernas",
+            title: "Prensa 100kg, Búlgara y Piernas",
+            desc: "Bloque de estudio sereno con mate y sesión potente en Fiter (o tarde libre en casa)."
           },
           noche: {
             badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
             gymTag: "✨ Cuerpo en calma",
-            title: "Cirugía cumplida con éxito",
-            desc: "El día más demandante de la semana ya pasó. Descanso total, mente tranquila y a recargar pilas para cerrar la semana."
+            title: "Jueves cumplido con éxito",
+            desc: "La jornada más demandante ya pasó. Cena rica, mente en paz y a descansar."
           }
         },
         5: { // Viernes
           manana: {
             badgeColor: "bg-emerald-100/90 text-emerald-800 border-emerald-200",
-            gymTag: "💪 Día 2 a las 15:30",
-            title: "Última cursada matutina (hasta 12h)",
+            gymTag: "🎓 Cierre Cursada (12:00 hs)",
+            title: "Última cursada matutina (sale 12h)",
             desc: "Terminás al mediodía y arranca el fin de semana académico. Creatina tomada y energía alta."
           },
           mediodia: {
             badgeColor: "bg-pink-100/90 text-pink-800 border-pink-200",
-            gymTag: "💤 Siesta Reparadora",
+            gymTag: "💤 Siesta Reconfortante",
             title: "Fin de cursada & Siesta post-almuerzo",
-            desc: "Vuelta a casa 13:00 hs. Almuerzo rico y siesta rápida para sacarte el cansancio de la semana y quedar como nueva."
+            desc: "Almuerzo rico de mamá y siesta rápida para sacarte el cansancio semanal."
           },
           tarde: {
             badgeColor: "bg-pink-100/90 text-pink-800 border-pink-200",
-            gymTag: "🎯 Día 2 o Libre",
-            title: "Gym Comodín (o Tarde 100% Libre)",
-            desc: "Si tenés pendiente el Día 2 (Prensa y piernas), lo liquidás a las 15:30 hs. Si ya lo hiciste el jueves, ¡tarde 100% libre!"
+            gymTag: "✨ Gym Día 4: Torso B + Cardio",
+            title: "Torso B + 25 min cinta inclinada",
+            desc: "Segunda frecuencia de espalda y hombros V-Taper + cardio caminata inclinada."
           },
           noche: {
             badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
-            gymTag: "🛌 Sin Alarma Mañana",
+            gymTag: "💖 ¡Sin Alarma Mañana!",
             title: "¡Cero alarma para el sábado!",
-            desc: "Semana de Odonto liquidada con éxito. Cena rica, series, relax y dormir hasta la hora que el cuerpo pida."
+            desc: "Semana de Odonto liquidada con éxito. Cena rica, series, relax y dormir hasta la hora que quieras."
           }
         },
         6: { // Sábado
           manana: {
             badgeColor: "bg-purple-100/90 text-purple-800 border-purple-200",
-            gymTag: "👫 Día 3 en Pareja",
-            title: "Día 3 Hack Inversa con Naza",
-            desc: "Despertar natural, desayuno sin reloj y entreno en pareja: Hack Inversa, Step Up y Cuádriceps."
+            gymTag: "👑 Día 5 con Naza en Fiter",
+            title: "Día 5 Glúteo C (Forma de P) en Pareja",
+            desc: "Despertar natural, desayuno sin reloj y entreno juntos: Kas Bridge, Hack Inversa y cardio."
           },
           tarde: {
             badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
-            gymTag: "✔️ Gym del Finde Hecho",
+            gymTag: "🥑 Almuerzo & Paseos",
             title: "Tarde de paseos y disfrute",
-            desc: "Merienda rica, caminar, charlar y despejar la cabeza 100% sin culpa de estudio."
+            desc: "Almuerzo rico en pareja, charlar, merendar rico y despejar la cabeza 100% sin culpa."
           },
           noche: {
             badgeColor: "bg-rose-100/90 text-rose-800 border-rose-200",
-            gymTag: "✨ Relax Total",
+            gymTag: "🌸 Ocio sin Culpa",
             title: "Disfrutar y desconectar",
-            desc: "Salida o noche de pelis y mimos. Cuidarse y pasarla lindo."
+            desc: "Noche de pelis, salidas o mimos. Cuidarse y pasarla lindo."
           }
         },
         0: { // Domingo
           manana: {
             badgeColor: "bg-amber-100/90 text-amber-800 border-amber-200",
             gymTag: "🧘‍♀️ Descanso Pleno",
-            title: "Domingo de paz & autocuidado",
+            title: "Domingo de paz & mate",
             desc: "Desayuno tranquilo, mate o café sin apuro. Día de recargar energías al 100%."
           },
           tarde: {
             badgeColor: "bg-teal-100/90 text-teal-800 border-teal-200",
             gymTag: "🌿 Cero Estrés",
             title: "Tarde tranquila en casa",
-            desc: "Almuerzo rico, siesta reconfortante y desconexión de cualquier estrés."
+            desc: "Almuerzo en familia, siesta reconfortante y desconexión de cualquier estrés."
           },
           noche: {
             badgeColor: "bg-indigo-100/90 text-indigo-800 border-indigo-200",
-            gymTag: "💤 A Dormir Temprano",
+            gymTag: "✨ Repaso Sereno de Finales",
             title: "Planificación tranquila de la semana",
-            desc: "Dejar ropa lista y cajas organizadas para arrancar el lunes con serenidad y mente despejada."
+            desc: "Lectura serena para el Final de Preclínica del 10/11 y dejar todo listo para el lunes."
           }
         }
       };
@@ -2961,6 +2864,9 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
       const info = getDayFocusInfo();
       const liters = (waterMl / 1000).toFixed(1);
       const creatinaDone = localStorage.getItem('creatina_hoy') === 'true';
+      const isGymDone = !!(gymBridgeToday && gymBridgeToday.trainedToday);
+      const gymBadgeText = isGymDone ? '✓ Gym Hecho Hoy' : info.gymTag;
+      const gymBadgeColor = isGymDone ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : info.badgeColor;
 
       let batteryNoticeHtml = '';
       if (currentBattery === 'reserva') {
@@ -2984,8 +2890,8 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
           <span class="text-[11px] font-bold text-rose-700 bg-rose-100/90 px-3 py-0.5 rounded-full border border-rose-200 flex items-center gap-1.5 shadow-2xs">
             <span>📍</span> Foco de Hoy: ${info.dayName} (${info.phaseLabel})
           </span>
-          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs ${info.badgeColor}">
-            ${info.gymTag}
+          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs ${gymBadgeColor}">
+            ${gymBadgeText}
           </span>
         </div>
 
@@ -3047,6 +2953,8 @@ REGLAS INFALIBLES DE COHERENCIA DÍA-A-DÍA:
         renderPacientesPreview();
         renderTopesPreviewCard();
         renderProximasFechas();
+      } else if (viewName === 'gym') {
+        renderGymBridgeCard();
       }
     }
 

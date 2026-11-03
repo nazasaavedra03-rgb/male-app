@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Male Nutri — Recomposición & Cocina Casera</title>
+  <meta name="theme-color" content="#F6FAF7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #F6FAF7;
+      color: #1E293B;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+    }
+    input, textarea, select {
+      user-select: text;
+    }
+    ::-webkit-scrollbar { width: 3px; height: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-[#F6FAF7] text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-200">
+
+  <!-- APP SHELL -->
+  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#F6FAF7] shadow-2xl relative border-x border-emerald-100/80">
+
+    <!-- TOP SUITE SWITCHER + HEADER -->
+    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2.5 pb-2.5 z-30">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <!-- Ecosystem Switcher -->
+        <div class="inline-flex items-center bg-emerald-100/60 p-0.5 rounded-full border border-emerald-200/80 text-[11px] font-bold">
+          <a href="../index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+            <span>🌸</span><span>Día</span>
+          </a>
+          <a href="../gym/index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+            <span>🍑</span><span>Gym</span>
+          </a>
+          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-sm flex items-center gap-1">
+            <span>🥗</span><span>Nutri</span>
+          </span>
+        </div>
+
+        <a href="./mama.html" class="text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full transition flex items-center gap-1 shadow-2xs">
+          <span>👩‍👧</span><span>PDF Mamá</span>
+        </a>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 block">Recomposición Corporal • 1.54m / 55kg</span>
+          <h1 id="nutri-day-type-badge" class="text-xs font-bold text-slate-600 mt-0.5">Meta hoy: 1.520 kcal • 110g Proteína</h1>
+        </div>
+        <div class="text-right">
+          <span id="header-prot-pill" class="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-xl">0 / 110g Prot</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-y-auto px-3.5 pt-3 pb-24 space-y-4">
+
+      <!-- ========================================== -->
+      <!-- VIEW 1: HOY (TABLERO DIARIO EN 4 TOQUES)   -->
+      <!-- ========================================== -->
+      <section id="view-today" class="space-y-3.5">
+
+        <!-- Macros Dashboard Card -->
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">Balance Diario Suave (-15%)</span>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="kcal-current" class="text-2xl font-black text-slate-900">0</span>
+                <span id="kcal-target-label" class="text-xs font-bold text-slate-400">/ 1.520 kcal</span>
+              </div>
+            </div>
+            <div id="gym-bridge-chip" class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              🌿 Día equilibrado
+            </div>
+          </div>
+
+          <!-- Main Calorie Bar -->
+          <div class="w-full h-2.5 bg-emerald-50 rounded-full overflow-hidden border border-emerald-100">
+            <div id="kcal-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+
+          <!-- 3 Macro Mini Bars -->
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-emerald-800">Proteína</span>
+                <span id="macro-p-val" class="text-emerald-700">0/110g</span>
+              </div>
+              <div class="w-full h-1.5 bg-emerald-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-p-bar" class="h-full bg-emerald-600 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-amber-800">Carbos</span>
+                <span id="macro-c-val" class="text-amber-700">0/165g</span>
+              </div>
+              <div class="w-full h-1.5 bg-amber-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-c-bar" class="h-full bg-amber-500 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-rose-800">Grasas</span>
+                <span id="macro-f-val" class="text-rose-700">0/46g</span>
+              </div>
+              <div class="w-full h-1.5 bg-rose-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-f-bar" class="h-full bg-rose-400 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZERO LAZINESS FRUIT & VEG CHALLENGE -->
+        <div class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 border border-emerald-200 rounded-3xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">Misión Cero Pereza Hoy</span>
+              <h2 class="text-xs font-black text-slate-800">1 Fruta + 2 Verduras Rápidas (Desinflama y sacia)</h2>
+            </div>
+            <span id="veg-score-badge" class="text-[10px] font-black bg-white text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">0/3</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5" id="veg-checks-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- 4 DAILY MEAL SLOTS -->
+        <div id="meals-slots-container" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: IDEAS & KIT ANTI-ANSIEDAD          -->
+      <!-- ========================================== -->
+      <section id="view-ideas" class="hidden space-y-3.5">
+        <div class="flex gap-1.5 overflow-x-auto pb-1" id="ideas-filter-bar">
+          <button onclick="setIdeasFilter('ansiedad')" data-cat="ansiedad" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-extrabold bg-emerald-600 text-white shadow-2xs">📚 Anti-Ansiedad Estudio</button>
+          <button onclick="setIdeasFilter('desayunos')" data-cat="desayunos" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">☀️ Desayunos & Meriendas</button>
+          <button onclick="setIdeasFilter('mama')" data-cat="mama" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">👩‍👧 Platos 2x1 Mamá</button>
+          <button onclick="setIdeasFilter('salidas')" data-cat="salidas" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">🥂 Salidas con Naza</button>
+        </div>
+
+        <div id="ideas-cards-list" class="space-y-2.5">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 3: MAMÁ & LISTA DE COMPRAS            -->
+      <!-- ========================================== -->
+      <section id="view-mama" class="hidden space-y-3.5">
+
+        <!-- Printable Guide Hero -->
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-3xl p-4 shadow-md space-y-3">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">Lista para mandar</span>
+            <h2 class="text-base font-black mt-1.5">Guía de Cocina & Compras para Mamá 🌸</h2>
+            <p class="text-xs text-emerald-50 mt-0.5 leading-snug">
+              Tiene el truco del rocío vegetal, las compras separadas de las de Martín y 6 platos familiares explicados súper simples.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="./mama.html" class="py-2.5 px-3 bg-white text-emerald-800 rounded-2xl text-xs font-black text-center shadow-sm hover:bg-emerald-50 transition">
+              📄 Abrir Guía / PDF
+            </a>
+            <button onclick="copyShoppingListForWhatsApp()" class="py-2.5 px-3 bg-emerald-900/40 hover:bg-emerald-900/60 border border-white/30 text-white rounded-2xl text-xs font-extrabold text-center transition">
+              📲 Copiar Lista WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Shopping Checklist -->
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-black text-slate-900">🛒 Qué falta pedirle a Mamá</h3>
+              <p class="text-[11px] text-slate-500">Tildá lo que haga falta reponer en la heladera (y tocá "Copiar Lista WhatsApp" arriba para mandarle solo lo que marcaste o la lista completa).</p>
+            </div>
+          </div>
+          <div id="shopping-checklist-box" class="space-y-3 pt-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 4: NUTRI IA                           -->
+      <!-- ========================================== -->
+      <section id="view-nutri-ai" class="hidden flex flex-col h-[calc(100dvh-180px)]">
+        <div class="bg-white border border-emerald-200 rounded-3xl flex-1 flex flex-col overflow-hidden shadow-sm">
+          <div class="px-4 py-3 border-b border-emerald-100 bg-emerald-50/50 flex items-center gap-2.5 shrink-0">
+            <div class="w-8 h-8 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-sm shadow-2xs">🥑</div>
+            <div>
+              <h2 class="text-xs font-black text-slate-900">Nutri IA Práctica</h2>
+              <p class="text-[10px] text-slate-500">Porciones reales, reemplazos con lo que cocinó mamá y ansiedad</p>
+            </div>
+          </div>
+
+          <!-- Quick Chips -->
+          <div class="px-3 py-2 border-b border-emerald-100/80 flex gap-1.5 overflow-x-auto shrink-0 bg-[#FAFDFB]">
+            <button onclick="askQuickNutri('Estoy estudiando con ansiedad y quiero picotear algo rico sin salirme del plan, ¿qué agarro en 1 minuto?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🍫 Ansiedad estudiando</button>
+            <button onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis 1520 kcal y cómo sumo proteína?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
+            <button onclick="askQuickNutri('Salgo a comer con Naza hoy, ¿qué me conviene pedir para disfrutar sin culpa?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥂 Salida con Naza</button>
+          </div>
+
+          <div id="nutri-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 text-xs bg-[#FAFDFB]">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="p-2.5 border-t border-emerald-100 bg-white flex items-center gap-2 shrink-0">
+            <input id="nutri-chat-input" type="text" placeholder="Ej: Mamá hizo pastas, ¿cuánto me sirvo?" onkeydown="if(event.key==='Enter') sendNutriMessage()" class="flex-1 bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500">
+            <button onclick="sendNutriMessage()" class="px-3.5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition shrink-0">Enviar</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM TAB BAR -->
+    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1.5 z-30">
+      <div class="grid grid-cols-4 gap-1">
+        <button id="nav-today" onclick="switchNutriView('today')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition">
+          <span class="text-base">🥗</span>
+          <span class="text-[10px]">Hoy</span>
+        </button>
+        <button id="nav-ideas" onclick="switchNutriView('ideas')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">🍽️</span>
+          <span class="text-[10px]">Ideas</span>
+        </button>
+        <button id="nav-mama" onclick="switchNutriView('mama')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">👩‍👧</span>
+          <span class="text-[10px]">Mamá & Súper</span>
+        </button>
+        <button id="nav-nutri-ai" onclick="switchNutriView('nutri-ai')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">🥑</span>
+          <span class="text-[10px]">Nutri IA</span>
+        </button>
+      </div>
+    </nav>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="nutri-toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-800 text-white px-4 py-2 rounded-full text-xs font-extrabold shadow-xl"></div>
+
+  <script>
+    // ==========================================
+    // 1. FIREBASE & GEMINI
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFUAfIjjff9Luw2-1uaznN7bK0ZuHmGEk",
+      authDomain: "male-app.firebaseapp.com",
+      databaseURL: "https://male-app-default-rtdb.firebaseio.com",
+      projectId: "male-app",
+      storageBucket: "male-app.firebasestorage.app",
+      messagingSenderId: "82609798929",
+      appId: "1:82609798929:web:ddb6851a1894fb652fd6b0",
+      measurementId: "G-TYSRXXCY3Y"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
+
+    // ==========================================
+    // 2. CALIBRATED MEAL OPTIONS FOR MALE (1.54m, 55kg -> ~1520 kcal, 110g Prot)
+    // ==========================================
+    const MEAL_SLOTS = [
+      {
+        id: 'desayuno',
+        icon: '☀️',
+        title: 'Desayuno + 5g Creatina',
+        targetHint: '~340 kcal • 25g Prot',
+        options: [
+          { id: 'des_huevos', name: '2 huevos + 2 claras revueltos + 1 tostada integral con queso untable light + café/té', kcal: 340, p: 26, c: 24, f: 14 },
+          { id: 'des_yogur', name: 'Yogur proteico/griego + 3 cdas de avena + arándanos o frutillas lavadas', kcal: 335, p: 24, c: 42, f: 6 },
+          { id: 'des_panqueque', name: 'Panqueque rápido de avena (1 huevo + 2 claras + 3 cdas avena + ½ banana arriba)', kcal: 350, p: 25, c: 40, f: 8 },
+          { id: 'des_sandwich', name: 'Tostado en pan integral con 2 fetas jamón magro + queso Port Salut light + 1 huevo', kcal: 355, p: 27, c: 28, f: 13 }
+        ]
+      },
+      {
+        id: 'almuerzo',
+        icon: '🍽️',
+        title: 'Almuerzo Casero (o Táper)',
+        targetHint: '~460 kcal • 32g Prot',
+        options: [
+          { id: 'alm_mila', name: 'Milanesa grande de pollo/nalga al horno (rocío vegetal) + calabaza asada y cherrys', kcal: 455, p: 34, c: 45, f: 13 },
+          { id: 'alm_pollo_arroz', name: 'Pechuga grillada/tiritas (150g) + 1 taza arroz o papa al horno + hojas verdes', kcal: 460, p: 35, c: 50, f: 10 },
+          { id: 'alm_hamb', name: '2 medallones caseros carne magra + bastones de papa al horno + ensalada rápida', kcal: 475, p: 33, c: 42, f: 16 },
+          { id: 'alm_pasta', name: '1 taza medida de fideos con abundante pollo o bolognesa magra (150g carne)', kcal: 480, p: 31, c: 54, f: 13 },
+          { id: 'alm_atun', name: 'Táper rápido: 1 lata atún al natural + 2 huevos duros + choclo/arroz + cherrys', kcal: 430, p: 34, c: 36, f: 12 }
+        ]
+      },
+      {
+        id: 'merienda',
+        icon: '📚',
+        title: 'Merienda Estudio / Anti-Ansiedad',
+        targetHint: '~300 kcal • 23g Prot',
+        options: [
+          { id: 'mer_tostadas', name: '2 tostadas integrales con queso untable light + 2 fetas jamón magro o huevo + 1 fruta', kcal: 305, p: 22, c: 35, f: 8 },
+          { id: 'mer_licuado', name: 'Licuado leche descremada + 1 banana + yogur proteico (o 5 nueces)', kcal: 310, p: 21, c: 39, f: 7 },
+          { id: 'mer_bowl', name: 'Bowl dulce: Yogur descremado/griego + manzana/frutillas + 1 cda mantequilla maní o almendras', kcal: 295, p: 22, c: 28, f: 10 },
+          { id: 'mer_rollitos', name: 'Mates + 3 rollitos de jamón magro y Port Salut light + 2 galletas de arroz + 1 fruta', kcal: 290, p: 24, c: 26, f: 9 }
+        ]
+      },
+      {
+        id: 'cena',
+        icon: '🌙',
+        title: 'Cena Liviana & Reparadora',
+        targetHint: '~410 kcal • 30g Prot',
+        options: [
+          { id: 'cen_wok', name: 'Wok de pollo o cuadril en tiras (150g) + bolsa verduras salteadas + 3 cdas arroz', kcal: 405, p: 33, c: 36, f: 11 },
+          { id: 'cen_pastel', name: 'Porción de pastel de calabaza y carne picada magra con cubito queso light', kcal: 415, p: 31, c: 38, f: 14 },
+          { id: 'cen_tortilla', name: 'Tortilla sin fritura (2 huevos + 2 claras + papa chica al horno) + cherrys', kcal: 400, p: 28, c: 34, f: 14 },
+          { id: 'cen_pescado', name: 'Filet de merluza o suprema al horno con limón + calabaza/brócoli del táper', kcal: 385, p: 32, c: 30, f: 11 }
+        ]
+      }
+    ];
+
+    const VEG_CHALLENGES = [
+      { id: 'fruta', emoji: '🍓', label: '1 Fruta Fácil', sub: 'Banana, frutillas o manzana' },
+      { id: 'verd1', emoji: '🍅', label: 'Verdura Almuerzo', sub: 'Cherrys / hojas / calabaza' },
+      { id: 'verd2', emoji: '🥦', label: 'Verdura Cena', sub: 'Wok bolsa / ensalada 1m' }
+    ];
+
+    const IDEAS_CATALOG = {
+      ansiedad: [
+        { title: '🍮 Gelatina 0% + Cucharada de Yogur y Arándanos', tag: '~65 kcal • Salvavidas 11 PM', desc: 'Cuando estás estudiando un final de memoria y querés algo dulce y fresco sin tocar las galletitas de Martín. Cero culpa y te saca las ganas al instante.' },
+        { title: '🧀 Rollitos Salados Calientes (1 minuto)', tag: '~130 kcal • 16g Proteína', desc: '2 fetas de jamón cocido natural envolviendo 1 bastoncito de Port Salut light, 20 segundos al microondas con orégano. Te recontra llena.' },
+        { title: '🍎 Manzana en Cubos al Microondas con Canela', tag: '~85 kcal • Dulce calentito', desc: 'Lavás 1 manzana, la cortás en 4 con cáscara, le tirás canela y edulcorante, 2 min al microondas. Parece postre de manzana real.' },
+        { title: '🍿 Taza Grande de Pochoclos Caceros (Sin Aceite)', tag: '~110 kcal • Súper crocante', desc: 'En recipiente apto microondas o sartén con apenas 1 disparo de rocío vegetal. Mucho volumen para masticar mientras leés apuntes.' }
+      ],
+      desayunos: [
+        { title: '🍳 Huevos Revueltos Cremosos en 3 Minutos', tag: '26g Prot • Salado estrella', desc: 'Sartén con rocío vegetal: 2 huevos enteros + 2 claras + 1 cda de queso untable light al apagar el fuego. Con 1 tostada integral.' },
+        { title: '🥞 Tortita / Panqueque Fit de Banana', tag: '25g Prot • Dulce saciante', desc: 'Mezclás con tenedor 1 huevo + 2 claras + 3 cdas de avena + chorrito esencia vainilla. Vuelta y vuelta con rocío vegetal y media banana arriba.' },
+        { title: '🥣 Bowl Griego Cero Esfuerzo', tag: '24g Prot • 30 segundos', desc: '1 pote de yogur proteico/griego + puñado de frutillas o arándanos enjuagados en la mano + 2 cdas de avena.' }
+      ],
+      mama: [
+        { title: '🍗 Milanesas al Horno Doradas (2x1 con Martín)', tag: '34g Prot • Clásico de casa', desc: 'La misma milanesa de nalga, peceto o pollo que hace mamá, pero en asadera caliente con rocío vegetal arriba y abajo. Cero aceite absorbido.' },
+        { title: '🥧 Pastel de Calabaza y Carne Especial', tag: '31g Prot • Ideal para dejar en táper', desc: 'Carne picada especial rehogada con cebolla, morrón y rocío vegetal, cubierta con puré de calabaza asada.' },
+        { title: '🥘 Wok de Bolsa Congelada + Pollo/Cuadril', tag: '33g Prot • Cero lavar verdura', desc: 'Se vuelca la bolsa de vegetales congelados directo a la sartén con tiritas de pollo y chorrito de salsa de soja.' }
+      ],
+      salidas: [
+        { title: '🍣 Regla Inteligente para Cenas con Naza', tag: 'Equilibrio 80/20 • Cero culpa', desc: 'Una comida rica el finde NO frena tu cambio físico. Elegí algo que disfrutes priorizando que tenga proteína (sushi, carne/pollo, hamburguesa tranqui o 2-3 porciones de pizza), tomá agua o gaseosa zero, y al día siguiente retomás tu desayuno normal sin castigarte ni ayunar.' }
+      ]
+    };
+
+    const SHOPPING_GROUPS = [
+      {
+        cat: '🥩 Carnicería & Granja',
+        items: ['Supremas de pollo', 'Milanesas de nalga/peceto o pollo', 'Carne picada especial (magra)', 'Cuadril o bola de lomo', 'Maple de huevos', 'Latas de atún al natural']
+      },
+      {
+        cat: '🥦 Verduras & Frutas Cero-Paja',
+        items: ['Tomates cherry (para no cortar)', 'Bolsas de rúcula / hojas ya lavadas', 'Calabaza / zapallo anco (para el táper)', 'Bolsa verduras congeladas para wok/brócoli', 'Bananas y manzanas', 'Frutillas o arándanos']
+      },
+      {
+        cat: '🧀 Lácteos & Estudio Anti-Ansiedad',
+        items: ['Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar', 'Leche descremada']
+      },
+      {
+        cat: '🍚 Almacén Básico',
+        items: ['Rocío vegetal en aerosol (¡clave!)', 'Pan integral en rodajas', 'Avena y tostadas de arroz', 'Papas / batatas y arroz']
+      }
+    ];
+
+    // ==========================================
+    // 3. STATE & SYNC
+    // ==========================================
+    let todayKey = getTodayKey();
+    let dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{}}');
+    let shoppingNeeded = JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}');
+    let gymBridgeToday = null;
+    let activeIdeasCat = 'ansiedad';
+
+    function getTodayKey(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('nutri-toast');
+      t.textContent = msg;
+      t.classList.remove('hidden');
+      clearTimeout(window._ntTimer);
+      window._ntTimer = setTimeout(() => t.classList.add('hidden'), 2500);
+    }
+
+    function getCalorieTargetToday() {
+      if (gymBridgeToday?.trainedToday) {
+        return gymBridgeToday.isLowerBody ? 1550 : 1520;
+      }
+      return 1500;
+    }
+
+    // ==========================================
+    // 4. RENDER TODAY VIEW
+    // ==========================================
+    function renderAllNutri() {
+      renderTodayDashboard();
+      renderIdeasList();
+      renderShoppingChecklist();
+    }
+
+    function renderTodayDashboard() {
+      const targetKcal = getCalorieTargetToday();
+      const targetP = 110;
+      const targetC = gymBridgeToday?.isLowerBody ? 172 : 162;
+      const targetF = 46;
+
+      // Gym Bridge Chip
+      const chip = document.getElementById('gym-bridge-chip');
+      const sub = document.getElementById('nutri-day-type-badge');
+      if (gymBridgeToday?.trainedToday) {
+        chip.className = 'text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200';
+        chip.textContent = gymBridgeToday.isLowerBody ? '🍑 Hoy: Glúteo/Pierna' : '⚡ Hoy: Torso + Cardio';
+        sub.textContent = `Sincronizado con Gym • Meta: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Prot`;
+      } else {
+        chip.className = 'text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+        chip.textContent = '🌿 Recomposición activa';
+        sub.textContent = `Meta hoy: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Proteína`;
+      }
+
+      // Compute Totals
+      let sumKcal = 0, sumP = 0, sumC = 0, sumF = 0;
+      MEAL_SLOTS.forEach(slot => {
+        const entry = dailyLog.meals?.[slot.id];
+        if (entry && entry.eaten) {
+          sumKcal += entry.kcal || 0;
+          sumP += entry.p || 0;
+          sumC += entry.c || 0;
+          sumF += entry.f || 0;
+        }
+      });
+
+      document.getElementById('kcal-current').textContent = sumKcal.toLocaleString('es-AR');
+      document.getElementById('kcal-target-label').textContent = `/ ${targetKcal.toLocaleString('es-AR')} kcal`;
+      document.getElementById('kcal-bar').style.width = `${Math.min(100, Math.round((sumKcal / targetKcal) * 100))}%`;
+      document.getElementById('header-prot-pill').textContent = `${sumP} / ${targetP}g Prot`;
+
+      document.getElementById('macro-p-val').textContent = `${sumP}/${targetP}g`;
+      document.getElementById('macro-p-bar').style.width = `${Math.min(100, Math.round((sumP / targetP) * 100))}%`;
+
+      document.getElementById('macro-c-val').textContent = `${sumC}/${targetC}g`;
+      document.getElementById('macro-c-bar').style.width = `${Math.min(100, Math.round((sumC / targetC) * 100))}%`;
+
+      document.getElementById('macro-f-val').textContent = `${sumF}/${targetF}g`;
+      document.getElementById('macro-f-bar').style.width = `${Math.min(100, Math.round((sumF / targetF) * 100))}%`;
+
+      // Veg Challenges
+      const vegs = dailyLog.vegs || {};
+      const vegDoneCount = VEG_CHALLENGES.filter(v => vegs[v.id]).length;
+      document.getElementById('veg-score-badge').textContent = `${vegDoneCount}/3`;
+
+      document.getElementById('veg-checks-container').innerHTML = VEG_CHALLENGES.map(v => {
+        const done = !!vegs[v.id];
+        return `
+          <button onclick="toggleVegCheck('${v.id}')" class="p-2 rounded-2xl border text-left transition ${done ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white border-emerald-200/80 text-slate-700 hover:bg-emerald-50/50'}">
+            <div class="flex items-center justify-between">
+              <span class="text-sm">${v.emoji}</span>
+              <span class="text-[10px] font-black">${done ? '✓' : '○'}</span>
+            </div>
+            <span class="text-[11px] font-extrabold block mt-1 leading-tight">${v.label}</span>
+            <span class="text-[9px] ${done ? 'text-emerald-100' : 'text-slate-400'} block leading-tight mt-0.5">${v.sub}</span>
+          </button>
+        `;
+      }).join('');
+
+      // 4 Meal Slots
+      document.getElementById('meals-slots-container').innerHTML = MEAL_SLOTS.map(slot => {
+        const saved = dailyLog.meals?.[slot.id] || { optId: slot.options[0].id, eaten: false };
+        const chosenOpt = slot.options.find(o => o.id === saved.optId) || slot.options[0];
+        const dispKcal = saved.custom ? saved.kcal : chosenOpt.kcal;
+        const dispP = saved.custom ? saved.p : chosenOpt.p;
+        const isEaten = !!saved.eaten;
+
+        const optsHtml = slot.options.map(o => `
+          <option value="${o.id}" ${(!saved.custom && o.id === chosenOpt.id) ? 'selected' : ''}>
+            ${o.name} (${o.kcal} kcal • ${o.p}g P)
+          </option>
+        `).join('');
+
+        return `
+          <article class="bg-white border ${isEaten ? 'border-emerald-400 ring-1 ring-emerald-400/30' : 'border-emerald-200/70'} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-2xl ${isEaten ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'} flex items-center justify-center text-base">${slot.icon}</span>
+                <div>
+                  <h3 class="text-xs font-black text-slate-900">${slot.title}</h3>
+                  <span class="text-[10px] font-bold ${isEaten ? 'text-emerald-600' : 'text-slate-400'}">
+                    ${isEaten ? `✓ Sumado: ${dispKcal} kcal • ${dispP}g Proteína` : slot.targetHint}
+                  </span>
+                </div>
+              </div>
+              <button onclick="toggleMealEaten('${slot.id}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition ${isEaten ? 'bg-emerald-600 text-white shadow-sm' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'}">
+                ${isEaten ? 'Comido ✓' : 'Marcar ✓'}
+              </button>
+            </div>
+
+            ${saved.custom ? `
+              <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                <span class="font-bold text-emerald-900">✏️ ${saved.customName} (${saved.kcal} kcal • ${saved.p}g P)</span>
+                <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-extrabold text-emerald-700 underline">Volver a lista</button>
+              </div>
+            ` : `
+              <select onchange="changeMealOption('${slot.id}', this.value)" class="w-full bg-[#F6FAF7] border border-emerald-200/90 rounded-2xl px-3 py-2 text-[11px] font-semibold text-slate-700 focus:outline-none focus:border-emerald-500">
+                ${optsHtml}
+              </select>
+            `}
+
+            <div class="flex justify-end">
+              <button onclick="promptCustomMeal('${slot.id}')" class="text-[10px] font-bold text-slate-400 hover:text-emerald-700 transition">
+                ✏️ Comí otra cosa distinta
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function persistDailyNutri() {
+      localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+      db.ref(`nutri_v2/daily_logs/${todayKey}`).set({ ...dailyLog, updatedAt: Date.now() }).catch(() => {});
+    }
+
+    function toggleVegCheck(vegId) {
+      if (!dailyLog.vegs) dailyLog.vegs = {};
+      dailyLog.vegs[vegId] = !dailyLog.vegs[vegId];
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.vegs[vegId]) showToast('🥦 ¡Punto adentro en vitaminas y saciedad!');
+    }
+
+    function changeMealOption(slotId, optId) {
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      const opt = slot.options.find(o => o.id === optId) || slot.options[0];
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const wasEaten = !!dailyLog.meals[slotId]?.eaten;
+      dailyLog.meals[slotId] = {
+        optId: opt.id,
+        name: opt.name,
+        kcal: opt.kcal,
+        p: opt.p,
+        c: opt.c,
+        f: opt.f,
+        eaten: wasEaten,
+        custom: false
+      };
+      persistDailyNutri();
+      renderTodayDashboard();
+    }
+
+    function toggleMealEaten(slotId) {
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const curr = dailyLog.meals[slotId];
+      if (!curr) {
+        const opt = slot.options[0];
+        dailyLog.meals[slotId] = { optId: opt.id, name: opt.name, kcal: opt.kcal, p: opt.p, c: opt.c, f: opt.f, eaten: true, custom: false };
+      } else {
+        curr.eaten = !curr.eaten;
+        if (!curr.custom && !curr.kcal) {
+          const opt = slot.options.find(o => o.id === curr.optId) || slot.options[0];
+          Object.assign(curr, { name: opt.name, kcal: opt.kcal, p: opt.p, c: opt.c, f: opt.f });
+        }
+      }
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.meals[slotId].eaten) showToast('🥗 Comida sumada a tu día');
+    }
+
+    function promptCustomMeal(slotId) {
+      const name = prompt('¿Qué comiste? (Ej: 2 porciones de tarta de pollo y calabaza):');
+      if (!name) return;
+      const kcal = parseInt(prompt('Calorías aproximadas (si no sabés poné 400 o preguntale a Nutri IA):', '400')) || 400;
+      const p = parseInt(prompt('Gramos aprox. de proteína (ej: 25):', '25')) || 25;
+      if (!dailyLog.meals) dailyLog.meals = {};
+      dailyLog.meals[slotId] = {
+        custom: true,
+        customName: name,
+        name,
+        kcal,
+        p,
+        c: Math.max(10, Math.round((kcal - p * 4 - 12 * 9) / 4)),
+        f: 12,
+        eaten: true
+      };
+      persistDailyNutri();
+      renderTodayDashboard();
+      showToast('✏️ Comida personalizada registrada');
+    }
+
+    function clearCustomMeal(slotId) {
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      changeMealOption(slotId, slot.options[0].id);
+    }
+
+    // ==========================================
+    // 5. IDEAS & SHOPPING VIEWS
+    // ==========================================
+    function setIdeasFilter(cat) {
+      activeIdeasCat = cat;
+      document.querySelectorAll('.idea-tab').forEach(btn => {
+        const isAct = btn.dataset.cat === cat;
+        btn.className = isAct
+          ? 'idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-extrabold bg-emerald-600 text-white shadow-2xs'
+          : 'idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200';
+      });
+      renderIdeasList();
+    }
+
+    function renderIdeasList() {
+      const list = IDEAS_CATALOG[activeIdeasCat] || [];
+      document.getElementById('ideas-cards-list').innerHTML = list.map(item => `
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 space-y-1.5 shadow-2xs">
+          <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">${item.tag}</span>
+          <h3 class="text-sm font-black text-slate-900 pt-1">${item.title}</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">${item.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderShoppingChecklist() {
+      document.getElementById('shopping-checklist-box').innerHTML = SHOPPING_GROUPS.map(g => {
+        const rows = g.items.map(it => {
+          const checked = !!shoppingNeeded[it];
+          return `
+            <button onclick="toggleShoppingItem('${it.replace(/'/g, '')}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl border text-left text-xs transition ${checked ? 'bg-emerald-50 border-emerald-400 text-emerald-900 font-bold' : 'bg-[#F6FAF7] border-emerald-100 text-slate-700 font-medium'}">
+              <span>${it}</span>
+              <span class="text-xs font-black ${checked ? 'text-emerald-600' : 'text-slate-300'}">${checked ? 'Pedir ✓' : '+'}</span>
+            </button>
+          `;
+        }).join('');
+        return `
+          <div class="space-y-1.5">
+            <h4 class="text-xs font-black text-emerald-800">${g.cat}</h4>
+            <div class="space-y-1">${rows}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleShoppingItem(item) {
+      shoppingNeeded[item] = !shoppingNeeded[item];
+      if (!shoppingNeeded[item]) delete shoppingNeeded[item];
+      localStorage.setItem('mn_shopping_needed', JSON.stringify(shoppingNeeded));
+      renderShoppingChecklist();
+    }
+
+    function copyShoppingListForWhatsApp() {
+      const selected = Object.keys(shoppingNeeded);
+      let text = '🌸 *Má, te paso las cositas de mi lista de comidas para cuando hagas compras:*\n\n';
+      if (selected.length > 0) {
+        selected.forEach(i => { text += `• ${i}\n`; });
+      } else {
+        SHOPPING_GROUPS.forEach(g => {
+          text += `*${g.cat}*\n`;
+          g.items.forEach(i => { text += `• ${i}\n`; });
+          text += '\n';
+        });
+      }
+      text += '¡Gracias má! ❤️';
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📲 ¡Lista copiada lista para pegarle a Mamá en WhatsApp!');
+      }).catch(() => {
+        prompt('Copiá el texto para WhatsApp:', text);
+      });
+    }
+
+    // ==========================================
+    // 6. DEDICATED NUTRI IA (GEMINI)
+    // ==========================================
+    function switchNutriView(v) {
+      ['today', 'ideas', 'mama', 'nutri-ai'].forEach(k => {
+        document.getElementById(`view-${k}`).classList.toggle('hidden', k !== v);
+        const btn = document.getElementById(`nav-${k}`);
+        btn.className = (k === v)
+          ? 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition'
+          : 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition';
+      });
+      if (v === 'nutri-ai') {
+        const b = document.getElementById('nutri-chat-messages');
+        if (b) b.scrollTop = b.scrollHeight;
+      }
+    }
+
+    function askQuickNutri(q) {
+      document.getElementById('nutri-chat-input').value = q;
+      sendNutriMessage();
+    }
+
+    function buildNutriSystemPrompt() {
+      const targetKcal = getCalorieTargetToday();
+      let eatenList = [];
+      let sumK = 0, sumP = 0;
+      MEAL_SLOTS.forEach(s => {
+        const m = dailyLog.meals?.[s.id];
+        if (m && m.eaten) {
+          eatenList.push(`${s.title}: ${m.name} (${m.kcal} kcal, ${m.p}g P)`);
+          sumK += m.kcal || 0;
+          sumP += m.p || 0;
+        }
+      });
+
+      return `SOS LA NUTRICIONISTA DEPORTIVA PERSONAL DE MALE (APP MALE NUTRI).
+REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
+1. Hablás ÚNICAMENTE de alimentación, recomposición corporal, porciones caseras, recetas fáciles para ella o su mamá, y manejo nutricional de la ansiedad al estudiar. PROHIBIDO dar rutinas de pesas o sermonear sobre exámenes.
+2. Tono: Español rioplatense cálido, práctico, cero restrictivo ni culposo, respuestas breves y súper concretas (en medidas caseras argentinas: unidades, tazas, cucharadas, palmas).
+3. PERFIL Y CONTEXTO REAL DE MALE:
+   - 22 años, mide 1.54 m, pesa 55 kg. Toma 5g de creatina por día.
+   - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
+   - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
+   - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
+   - Entreno hoy: ${gymBridgeToday?.trainedToday ? 'SÍ entrenó hoy (' + gymBridgeToday.dayTitle + ')' : 'Hoy aún no registró entreno'}.
+   - Comidas marcadas hoy hasta ahora: ${eatenList.length > 0 ? eatenList.join(' | ') + ` -> Total parcial: ${sumK} kcal y ${sumP}g proteína` : 'Ninguna marcada todavía'}.`;
+    }
+
+    async function sendNutriMessage() {
+      const input = document.getElementById('nutri-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      await db.ref('nutri_v2/chat_messages').push({
+        sender: 'Male',
+        text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now()
+      });
+
+      const box = document.getElementById('nutri-chat-messages');
+      const typing = document.createElement('div');
+      typing.className = 'text-[11px] text-emerald-600 italic px-2';
+      typing.textContent = 'Nutri calculando porción...';
+      box.appendChild(typing);
+      box.scrollTop = box.scrollHeight;
+
+      let hist = '';
+      try {
+        const snap = await db.ref('nutri_v2/chat_messages').limitToLast(6).once('value');
+        const val = snap.val();
+        if (val) hist = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
+      } catch (e) {}
+
+      const payload = {
+        contents: [{
+          role: 'user',
+          parts: [{ text: `${buildNutriSystemPrompt()}\n\nHISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }]
+        }]
+      };
+
+      const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+      let reply = null;
+      for (const m of models) {
+        try {
+          const ctrl = new AbortController();
+          const t = setTimeout(() => ctrl.abort(), 16000);
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: ctrl.signal
+          });
+          clearTimeout(t);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (txt) { reply = txt.trim(); break; }
+        } catch (e) {}
+      }
+
+      if (typing.parentNode) typing.parentNode.removeChild(typing);
+
+      await db.ref('nutri_v2/chat_messages').push({
+        sender: 'Nutri IA',
+        text: reply || 'Se me cortó un segundito la conexión, hermosa. Escribime de nuevo qué hay de comer y te digo la porción justa 🥗',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now()
+      });
+    }
+
+    function formatMd(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-extrabold text-slate-900">$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    // ==========================================
+    // 7. REALTIME SYNC
+    // ==========================================
+    function initNutriSync() {
+      db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
+        gymBridgeToday = snap.val();
+        renderTodayDashboard();
+      });
+
+      db.ref(`nutri_v2/daily_logs/${todayKey}`).on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          dailyLog = { meals: val.meals || {}, vegs: val.vegs || {} };
+          localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+          renderTodayDashboard();
+        }
+      });
+
+      db.ref('nutri_v2/chat_messages').limitToLast(30).on('value', snap => {
+        const box = document.getElementById('nutri-chat-messages');
+        const val = snap.val();
+        if (!val) {
+          box.innerHTML = `
+            <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-slate-700 leading-relaxed">
+              <strong class="text-emerald-800 block mb-1">🥑 ¡Bienvenida a Male Nutri!</strong>
+              Tus objetivos ya están calibrados a <strong>1.520 kcal y 110g de proteína</strong>. Preguntame cuando quieras cómo adaptar cualquier comida que haya hecho tu mamá o qué picotear estudiando.
+            </div>
+          `;
+          return;
+        }
+        box.innerHTML = Object.values(val).map(m => {
+          const isMale = m.sender === 'Male';
+          return `
+            <div class="flex ${isMale ? 'justify-end' : 'justify-start'}">
+              <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${isMale ? 'bg-emerald-600 text-white font-medium' : 'bg-white border border-emerald-200/80 text-slate-700 shadow-2xs'}">
+                <div>${formatMd(m.text)}</div>
+                <span class="block text-[9px] mt-1 opacity-60 text-right">${m.time || ''}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+        box.scrollTop = box.scrollHeight;
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAllNutri();
+      initNutriSync();
+    });
+  </script>
+</body>
+</html>
