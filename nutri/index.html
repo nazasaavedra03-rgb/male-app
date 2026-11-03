@@ -298,6 +298,7 @@
         title: 'Desayuno + 5g Creatina',
         targetHint: '~340 kcal • 25g Prot',
         options: [
+          { id: 'des_cheesecake', name: '2 tostadas con ricota abundante + mermelada + café c/ leche + 1 huevo revuelto (o yogur)', kcal: 345, p: 26, c: 38, f: 10 },
           { id: 'des_huevos', name: '2 huevos + 2 claras revueltos + 1 tostada integral con queso untable light + café/té', kcal: 340, p: 26, c: 24, f: 14 },
           { id: 'des_yogur', name: 'Yogur proteico/griego + 3 cdas de avena + arándanos o frutillas lavadas', kcal: 335, p: 24, c: 42, f: 6 },
           { id: 'des_panqueque', name: 'Panqueque rápido de avena (1 huevo + 2 claras + 3 cdas avena + ½ banana arriba)', kcal: 350, p: 25, c: 40, f: 8 },
@@ -357,6 +358,7 @@
         { title: '🍿 Taza Grande de Pochoclos Caceros (Sin Aceite)', tag: '~110 kcal • Súper crocante', desc: 'En recipiente apto microondas o sartén con apenas 1 disparo de rocío vegetal. Mucho volumen para masticar mientras leés apuntes.' }
       ],
       desayunos: [
+        { title: '🍰🍓 Tostadas Cheesecake (Ricota & Mermelada)', tag: '26g Prot • Dulce estrella de Male', desc: '2 tostadas con 1 cda sopera colmada de ricota en cada una (pisada con edulcorante/vainilla) + mermelada arriba. Acompañás con café con leche y 1 huevo revuelto (o yogur). ¡El favorito dulce sin gastar batido!' },
         { title: '🍳 Huevos Revueltos Cremosos en 3 Minutos', tag: '26g Prot • Salado estrella', desc: 'Sartén con rocío vegetal: 2 huevos enteros + 2 claras + 1 cda de queso untable light al apagar el fuego. Con 1 tostada integral.' },
         { title: '🥞 Tortita / Panqueque Fit de Banana', tag: '25g Prot • Dulce saciante', desc: 'Mezclás con tenedor 1 huevo + 2 claras + 3 cdas de avena + chorrito esencia vainilla. Vuelta y vuelta con rocío vegetal y media banana arriba.' },
         { title: '🥣 Bowl Griego Cero Esfuerzo', tag: '24g Prot • 30 segundos', desc: '1 pote de yogur proteico/griego + puñado de frutillas o arándanos enjuagados en la mano + 2 cdas de avena.' }
@@ -382,11 +384,11 @@
       },
       {
         cat: '🧀 Lácteos & Estudio Anti-Ansiedad',
-        items: ['Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar', 'Leche descremada']
+        items: ['Ricota magra o clásica (para tostadas dulces)', 'Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar', 'Leche descremada']
       },
       {
         cat: '🍚 Almacén Básico',
-        items: ['Rocío vegetal en aerosol (¡clave!)', 'Pan integral en rodajas', 'Avena y tostadas de arroz', 'Papas / batatas y arroz']
+        items: ['Rocío vegetal en aerosol (¡clave!)', 'Mermelada (la favorita de Male o reducida en azúcares)', 'Pan integral o común en rodajas', 'Avena y tostadas de arroz', 'Papas / batatas y arroz']
       }
     ];
 
@@ -738,7 +740,7 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - 22 años, mide 1.54 m, pesa 55 kg. Toma 5g de creatina por día.
    - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
    - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
-   - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
+   - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Le encanta la tostada con mermelada (su hack estrella es untarla con ricota abundante estilo cheesecake para sumar 25g de proteína sin gastar batido). NUNCA prohibirle alimentos ni demonizar comidas que le gusten; se adaptan con proteína. Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
    - Entreno hoy: ${gymBridgeToday?.trainedToday ? 'SÍ entrenó hoy (' + gymBridgeToday.dayTitle + ')' : 'Hoy aún no registró entreno'}.
    - Comidas marcadas hoy hasta ahora: ${eatenList.length > 0 ? eatenList.join(' | ') + ` -> Total parcial: ${sumK} kcal y ${sumP}g proteína` : 'Ninguna marcada todavía'}.`;
     }
