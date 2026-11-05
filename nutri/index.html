@@ -147,6 +147,21 @@
           </div>
         </div>
 
+        <!-- VICTORIAS DEL ESPEJO & SENSACIONES (NON-SCALE VICTORIES) -->
+        <div class="bg-white border border-emerald-200/90 rounded-3xl p-3.5 space-y-2.5 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">✨</span>
+              <h2 class="text-xs font-black text-slate-900">Victorias del Espejo & Sensaciones</h2>
+            </div>
+            <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">1 toque</span>
+          </div>
+          <p class="text-[10px] text-slate-500 leading-tight">En recomposición la balanza a veces engaña: lo que de verdad cuenta es cómo te ves y te sentís.</p>
+          <div class="flex flex-wrap gap-1.5" id="victories-chips-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
         <!-- 4 DAILY MEAL SLOTS -->
         <div id="meals-slots-container" class="space-y-3">
           <!-- Rendered by JS -->
@@ -382,7 +397,8 @@
         { id: 'f_alm_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
         { id: 'f_alm_papa', name: '🥔 1 Papa / batata horno', kcal: 130, p: 3, c: 28, f: 0 },
         { id: 'f_alm_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
-        { id: 'f_alm_huevo', name: '🥚 1 Huevo duro extra', kcal: 75, p: 6.5, c: 0.5, f: 5 }
+        { id: 'f_alm_huevo_1', name: '🥚 1 Huevo duro/revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
+        { id: 'f_alm_huevo_2', name: '🥚🥚 2 Huevos duros/revueltos', kcal: 145, p: 13, c: 1, f: 10 }
       ],
       merienda: [
         { id: 'f_mer_cafe_leche', name: '☕ Café c/ leche', kcal: 100, p: 7.5, c: 9, f: 3 },
@@ -404,15 +420,22 @@
         { id: 'f_cen_mila_pollo_aceite', name: '🍗 Mila pollo (con aceite)', kcal: 360, p: 30, c: 18, f: 18 },
         { id: 'f_cen_mila_pescado_spray', name: '🐟 Mila pescado (con spray)', kcal: 230, p: 24, c: 18, f: 6 },
         { id: 'f_cen_mila_pescado_aceite', name: '🐟 Mila pescado (con aceite)', kcal: 330, p: 24, c: 18, f: 17 },
+        { id: 'f_cen_carne_pedacitos', name: '🥩 Carne en pedacitos', kcal: 210, p: 28, c: 0, f: 10 },
+        { id: 'f_cen_pechuga', name: '🍗 Pechuga o bife magro', kcal: 210, p: 32, c: 0, f: 7 },
         { id: 'f_cen_atun', name: '🐟 1 Lata atún natural', kcal: 120, p: 28, c: 0, f: 1 },
-        { id: 'f_cen_tomate', name: '🍅 Tomate / ensalada', kcal: 30, p: 1, c: 6, f: 0 },
-        { id: 'f_cen_tostadas', name: '🍞 2 Tostadas base', kcal: 150, p: 5, c: 28, f: 2 },
+        { id: 'f_cen_huevo_1', name: '🥚 1 Huevo revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
+        { id: 'f_cen_huevo_2', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
+        { id: 'f_cen_tarta_1', name: '🥧 1 Porción tarta verdura', kcal: 170, p: 6, c: 18, f: 8 },
+        { id: 'f_cen_tarta_2', name: '🥧🥧 2 Porciones tarta', kcal: 340, p: 12, c: 36, f: 16 },
+        { id: 'f_cen_tomate', name: '🍅 Tomate / ensalada fresca', kcal: 30, p: 1, c: 6, f: 0 },
+        { id: 'f_cen_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
+        { id: 'f_cen_papa', name: '🥔 1 Papa / batata chica', kcal: 120, p: 2.5, c: 26, f: 0 },
+        { id: 'f_cen_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
         { id: 'f_cen_choclo', name: '🌽 1/2 Lata choclo', kcal: 90, p: 3, c: 18, f: 1 },
-        { id: 'f_cen_queso', name: '🧀 Feta queso / ricota', kcal: 70, p: 6, c: 1, f: 4 },
-        { id: 'f_cen_tarta_1', name: '🥧 1 Porción tarta', kcal: 170, p: 6, c: 18, f: 8 },
-        { id: 'f_cen_pechuga', name: '🍗 Pechuga o carne magra', kcal: 210, p: 32, c: 0, f: 7 },
-        { id: 'f_cen_huevos', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
-        { id: 'f_cen_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 }
+        { id: 'f_cen_tostada_1', name: '🍞 1 Tostada base', kcal: 75, p: 2.5, c: 14, f: 1 },
+        { id: 'f_cen_tostada_2', name: '🍞🍞 2 Tostadas base', kcal: 150, p: 5, c: 28, f: 2 },
+        { id: 'f_cen_queso', name: '🧀 Feta queso Port Salut light', kcal: 65, p: 6.5, c: 1, f: 3.5 },
+        { id: 'f_cen_sopa', name: '🍵 Taza de sopa / caldo', kcal: 35, p: 1, c: 6, f: 0.5 }
       ]
     };
 
@@ -420,6 +443,14 @@
       { id: 'fruta', emoji: '🍓', label: '1 Fruta Fácil', sub: 'Banana, frutillas o manzana' },
       { id: 'verd1', emoji: '🍅', label: 'Verdura Almuerzo', sub: 'Cherrys / hojas / calabaza' },
       { id: 'verd2', emoji: '🥦', label: 'Verdura Cena', sub: 'Wok bolsa / ensalada 1m' }
+    ];
+
+    const NON_SCALE_VICTORIES = [
+      { id: 'vic_abdomen', emoji: '✨', label: 'Línea del abdomen visible', toast: '¡Esaaa reina! 🔥 Línea del abdomen marcada. ¡Recomposición pura!' },
+      { id: 'vic_desinflamada', emoji: '🧘', label: 'Cero hinchazón / liviana', toast: '¡Genial! 🧘 Digestión liviana y abdomen desinflamado.' },
+      { id: 'vic_fuerza', emoji: '💪', label: 'Mucha fuerza en el gym', toast: '¡Fuerza récord! 💪 Músculos firmes respondiendo con todo.' },
+      { id: 'vic_ropa', emoji: '👗', label: 'Ropa más suelta / cómoda', toast: '¡Se nota en la ropa! ✨ La grasa baja y el cuerpo tonifica.' },
+      { id: 'vic_mente', emoji: '🧠', label: 'Mente clara para estudiar', toast: '¡Modo crack! 🧠 Energía limpia para los apuntes.' }
     ];
 
     const IDEAS_CATALOG = {
@@ -469,7 +500,7 @@
     // 3. STATE & SYNC
     // ==========================================
     let todayKey = getTodayKey();
-    let dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{}}');
+    let dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{},"victories":{}}');
     let shoppingNeeded = JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}');
     let gymBridgeToday = null;
     let activeIdeasCat = 'ansiedad';
@@ -569,6 +600,23 @@
         `;
       }).join('');
 
+      // Non-Scale Victories & Sensaciones
+      const vics = dailyLog.victories || {};
+      const vicContainer = document.getElementById('victories-chips-container');
+      if (vicContainer) {
+        vicContainer.innerHTML = NON_SCALE_VICTORIES.map(v => {
+          const done = !!vics[v.id];
+          return `
+            <button type="button" onclick="toggleNonScaleVictory('${v.id}')"
+              class="px-2.5 py-1.5 rounded-2xl text-[11px] transition flex items-center gap-1.5 border active:scale-95 ${done ? 'bg-gradient-to-r from-emerald-600 to-teal-600 border-emerald-600 text-white font-extrabold shadow-2xs' : 'bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50 font-semibold'}">
+              <span>${v.emoji}</span>
+              <span>${v.label}</span>
+              <span class="text-[10px] ml-0.5 ${done ? 'text-emerald-100 font-black' : 'text-slate-300'}">${done ? '✓' : '+'}</span>
+            </button>
+          `;
+        }).join('');
+      }
+
       // 4 Meal Slots
       document.getElementById('meals-slots-container').innerHTML = MEAL_SLOTS.map(slot => {
         const saved = dailyLog.meals?.[slot.id] || { optId: slot.options[0].id, eaten: false };
@@ -661,6 +709,19 @@
       persistDailyNutri();
       renderTodayDashboard();
       if (dailyLog.vegs[vegId]) showToast('🥦 ¡Punto adentro en vitaminas y saciedad!');
+    }
+
+    function toggleNonScaleVictory(vicId) {
+      if (!dailyLog.victories) dailyLog.victories = {};
+      dailyLog.victories[vicId] = !dailyLog.victories[vicId];
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.victories[vicId]) {
+        const vic = NON_SCALE_VICTORIES.find(v => v.id === vicId);
+        showToast(vic?.toast || '✨ ¡Sensación registrada!');
+      } else {
+        showToast('🔄 Sensación desmarcada');
+      }
     }
 
     function changeMealOption(slotId, optId) {
@@ -892,6 +953,13 @@
         }
       });
 
+      const vicNames = [];
+      if (dailyLog.victories) {
+        NON_SCALE_VICTORIES.forEach(v => {
+          if (dailyLog.victories[v.id]) vicNames.push(v.label);
+        });
+      }
+
       return `SOS LA NUTRICIONISTA DEPORTIVA PERSONAL DE MALE (APP MALE NUTRI).
 REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
 1. Hablás ÚNICAMENTE de alimentación, recomposición corporal, porciones caseras, recetas fáciles para ella o su mamá, y manejo nutricional de la ansiedad al estudiar. PROHIBIDO dar rutinas de pesas o sermonear sobre exámenes.
@@ -902,6 +970,8 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
    - HÁBITO INFALTABLE: Male SIEMPRE toma café con leche (taza grande = ~7.5g proteína), NUNCA café solo. Aunque solo diga "desayuné tostadas" o "un café", asumí siempre que tomó su café con leche habitual de ~200ml.
    - CONTROL TÁCTICO DE MERIENDAS: Si Male consulta por una merienda, reservale siempre un presupuesto de 350-400 kcal para una cena completa (como su lata de atún tuneada o carne/pollo con ensalada), guiándola hacia opciones livianas y fáciles para no sobrecargar el día.
+   - HITO CORPORAL RECIENTE & REFUERZO DE CONFIANZA: Male hoy notó frente al espejo que se le volvió a marcar la línea del medio del abdomen (línea alba). Si Male menciona algo sobre su cuerpo, cómo se ve, su motivación o sus resultados, celebráselo con calidez genuina. Recordale que en recomposición la balanza a veces se mueve lento porque el músculo tonifica con las pesas, pero que esa línea del abdomen es la prueba irrefutable de que la grasa subcutánea está bajando gracias a su déficit moderado (~1520 kcal) y su constancia con la proteína.
+   ${vicNames.length > 0 ? `- Sensaciones / Victorias del espejo que Male tildó hoy: ${vicNames.join(', ')}.` : ''}
    - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Le encanta la tostada con mermelada (su hack estrella es untarla con ricota abundante estilo cheesecake para sumar 23-25g de proteína con su café con leche sin gastar batido). NUNCA prohibirle alimentos ni demonizar comidas que le gusten; se adaptan con proteína. Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
    - Entreno hoy: ${gymBridgeToday?.trainedToday ? 'SÍ entrenó hoy (' + gymBridgeToday.dayTitle + ')' : 'Hoy aún no registró entreno'}.
    - Comidas marcadas hoy hasta ahora: ${eatenList.length > 0 ? eatenList.join(' | ') + ` -> Total parcial: ${sumK} kcal y ${sumP}g proteína` : 'Ninguna marcada todavía'}.`;
@@ -991,7 +1061,7 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
       db.ref(`nutri_v2/daily_logs/${todayKey}`).on('value', snap => {
         const val = snap.val();
         if (val) {
-          dailyLog = { meals: val.meals || {}, vegs: val.vegs || {} };
+          dailyLog = { meals: val.meals || {}, vegs: val.vegs || {}, victories: val.victories || {} };
           localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
           renderTodayDashboard();
         }
