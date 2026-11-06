@@ -318,10 +318,10 @@
           </div>
 
           <!-- Input -->
-          <div class="p-2.5 border-t border-zinc-800 bg-zinc-950/80 flex items-center gap-2 shrink-0">
-            <input id="gym-chat-input" type="text" placeholder="Preguntá sobre técnica, peso o reemplazo..." onkeydown="if(event.key==='Enter') sendGymCoachMessage()" class="flex-1 bg-zinc-900 border border-zinc-700/80 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500">
-            <button onclick="sendGymCoachMessage()" class="px-3.5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition shrink-0">Enviar</button>
-          </div>
+          <form onsubmit="event.preventDefault(); sendGymCoachMessage();" class="p-2.5 border-t border-zinc-800 bg-zinc-950/80 flex items-center gap-2 shrink-0">
+            <input id="gym-chat-input" type="text" autocomplete="off" placeholder="Preguntá sobre técnica, peso o reemplazo..." class="flex-1 bg-zinc-900 border border-zinc-700/80 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500">
+            <button type="submit" id="gym-chat-send-btn" class="px-3.5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-xs transition shrink-0">Enviar</button>
+          </form>
         </div>
       </section>
 
@@ -2120,16 +2120,18 @@
     }
 
     function buildGymCoachContext() {
-      const dayObj = BASE_ROUTINE[activeDay];
-      const w = RP_WEEKS[activeWeek];
-      const exSummary = dayObj.exercises.map(raw => {
-        const ex = getEffectiveExercise(activeDay, raw);
-        const sets = (allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || []).filter(s => s?.completed);
-        const loggedStr = sets.length > 0 ? sets.map(s => `${s.kg}x${s.reps}`).join(', ') : 'sin registrar hoy';
-        return `- ${ex.nombre} (Base: ${ex.baseKg} ${ex.unit}, Series: ${ex.series}) -> Hoy: ${loggedStr}`;
-      }).join('\n');
+      try {
+        const dayObj = BASE_ROUTINE[activeDay] || BASE_ROUTINE['dia4'] || Object.values(BASE_ROUTINE)[0];
+        const w = RP_WEEKS[activeWeek] || { short: 'Sem 1', rir: 'RIR 3' };
+        const exercises = dayObj?.exercises || [];
+        const exSummary = exercises.map(raw => {
+          const ex = getEffectiveExercise(activeDay, raw);
+          const sets = (allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || []).filter(s => s?.completed);
+          const loggedStr = sets.length > 0 ? sets.map(s => `${s.kg}x${s.reps}`).join(', ') : 'sin registrar hoy';
+          return `- ${ex.nombre} (Base: ${ex.baseKg} ${ex.unit}, Series: ${ex.series}) -> Hoy: ${loggedStr}`;
+        }).join('\n');
 
-      return `SOS EL COACH RP BIOMECÁNICO EXCLUSIVO DE MALE EN EL GIMNASIO FITER.
+        return `SOS EL COACH RP BIOMECÁNICO EXCLUSIVO DE MALE EN EL GIMNASIO FITER.
 REGLAS ESTRICTAS DE FOCO (CERO CONTAMINACIÓN DE CONTEXTO):
 1. Hablás ÚNICAMENTE de entrenamiento de hipertrofia (metodología Renaissance Periodization / RIR), técnica biomecánica, pesos, reemplazos de máquinas en Fiter y cardio LISS. PROHIBIDO hablar de exámenes de odontología, cursadas o temas fuera del entrenamiento físico.
 2. Usá español rioplatense cálido, directo, motivador y conciso (ideal para leer rápido entre series en el gym, máximo 2-3 párrafos cortos o viñetas).
@@ -2137,9 +2139,13 @@ REGLAS ESTRICTAS DE FOCO (CERO CONTAMINACIÓN DE CONTEXTO):
    - Mide 1.54 m, pesa ~55 kg, 22 años. Toma 5g de creatina diarios.
    - Objetivos: Construir "Forma de P" en el glúteo (proyección del polo superior: fibras superiores del glúteo mayor + glúteo medio posterior), aumentar masa muscular firme en piernas (cuádriceps e isquios), definir espalda y deltoides laterales en Frecuencia 2 (efecto V-Taper que achica cintura) y mantener faja abdominal plana (transverso/recto, CERO oblicuos pesados).
    - Cuidado articular: cuidar siempre su rótula (bajadas controladas de 2-3s en extensión/camilla) y evitar tensión de trapecio superior/cuello en vuelos laterales.
+   - FATIGA & RECORTES ESTRATÉGICOS: Si Male avisa que saltea accesorios (como tríceps, bíceps o abs) o que ya está en la cinta, RESPALDALA 100%. En RP recortar accesorios cuando falta energía es la decisión técnica correcta para no arrastrar fatiga sistémica a la sesión de piernas de mañana.
 4. SESIÓN QUE ESTÁ VIENDO AHORA MISMO:
-   - ${w.short} (${w.rir}) — ${dayObj.shortLabel}: ${dayObj.title}
+   - ${w.short} (${w.rir}) — ${dayObj?.shortLabel || 'Día'}: ${dayObj?.title || ''}
 ${exSummary}`;
+      } catch (e) {
+        return 'SOS EL COACH RP DE MALE EN EL GYM. Respondele con calidez y técnica rápida.';
+      }
     }
 
     async function sendGymCoachMessage() {
@@ -2149,22 +2155,38 @@ ${exSummary}`;
       input.value = '';
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      await db.ref('gym_v2/chat_messages').push({
-        sender: 'Male',
-        text,
-        time: timeStr,
-        timestamp: Date.now()
-      });
-
       const chatBox = document.getElementById('gym-chat-messages');
+
+      // 1. RENDER OPTIMISTA INSTANTÁNEO (Para que Male vea su mensaje de inmediato aunque haya lag en el gym)
+      const optDiv = document.createElement('div');
+      optDiv.className = 'flex justify-end animate-fade-in';
+      optDiv.innerHTML = `
+        <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-rose-600 text-white font-medium shadow-2xs">
+          <div>${formatSimpleMarkdown(text)}</div>
+          <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr} ✓</span>
+        </div>
+      `;
+      chatBox.appendChild(optDiv);
+
+      // Typing indicator
       const typing = document.createElement('div');
       typing.id = 'gym-typing';
-      typing.className = 'text-[11px] text-rose-400 italic px-2';
+      typing.className = 'text-[11px] text-rose-400 italic px-2 animate-pulse';
       typing.textContent = 'Coach RP analizando...';
       chatBox.appendChild(typing);
       scrollGymChatBottom();
 
-      // Recent 6 messages for continuity
+      // 2. ENVIAR A FIREBASE EN SEGUNDO PLANO SIN BLOQUEAR
+      try {
+        db.ref('gym_v2/chat_messages').push({
+          sender: 'Male',
+          text,
+          time: timeStr,
+          timestamp: Date.now()
+        }).catch(e => console.warn('Offline queued:', e));
+      } catch (err) {}
+
+      // 3. CONSULTAR HISTORIAL RECIENTE
       let historyStr = '';
       try {
         const snap = await db.ref('gym_v2/chat_messages').limitToLast(6).once('value');
@@ -2177,7 +2199,7 @@ ${exSummary}`;
       const payload = {
         contents: [{
           role: 'user',
-          parts: [{ text: `${buildGymCoachContext()}\n\nHISTORIAL RECIENTE:\n${historyStr}\n\nMale pregunta en el gym: "${text}"` }]
+          parts: [{ text: `${buildGymCoachContext()}\n\nHISTORIAL RECIENTE:\n${historyStr}\n\nMale consulta en el gym: "${text}"` }]
         }]
       };
 
@@ -2187,7 +2209,7 @@ ${exSummary}`;
       for (const m of models) {
         try {
           const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 16000);
+          const t = setTimeout(() => ctrl.abort(), 12000);
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2204,12 +2226,29 @@ ${exSummary}`;
 
       if (typing.parentNode) typing.parentNode.removeChild(typing);
 
-      await db.ref('gym_v2/chat_messages').push({
-        sender: 'Coach RP',
-        text: reply || 'Se entrecortó la señal del gym un segundo, hermosa. Repetime la consulta y lo vemos al toque 💪',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        timestamp: Date.now()
-      });
+      const coachReplyText = reply || '¡Te leí perfecto Male! Si estás en la cinta o en una máquina y la señal de Fiter titubea, dale con todo a tus 20-25 min de caminata inclinada (pendiente 9-12% • 4.8 km/h). Si dejaste afuera tríceps y abs hoy, ¡es una decisión impecable para llegar descansada a las piernas de mañana!';
+
+      // Guardar respuesta en Firebase
+      try {
+        await db.ref('gym_v2/chat_messages').push({
+          sender: 'Coach RP',
+          text: coachReplyText,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          timestamp: Date.now()
+        });
+      } catch (e) {
+        // Render fallback local si Firebase se desconectó totalmente
+        const replyDiv = document.createElement('div');
+        replyDiv.className = 'flex justify-start';
+        replyDiv.innerHTML = `
+          <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-zinc-950 border border-zinc-800 text-zinc-200">
+            <div>${formatSimpleMarkdown(coachReplyText)}</div>
+            <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr}</span>
+          </div>
+        `;
+        chatBox.appendChild(replyDiv);
+        scrollGymChatBottom();
+      }
     }
 
     function formatSimpleMarkdown(str) {
