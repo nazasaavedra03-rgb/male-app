@@ -365,81 +365,614 @@
     ];
 
     // ==========================================
-    // 2.1 PANTRY BLOCKS (MODULAR FOOD BUILDER)
+    // 2.1 PANTRY CATALOG (DINÁMICO CON STEPPERS)
     // ==========================================
-    const FOOD_PANTRY = {
+    const PANTRY_CATALOG = {
+      // --- LÁCTEOS Y LÍQUIDOS ---
+      leche_desc: {
+        id: 'leche_desc',
+        emoji: '🥛',
+        shortName: 'Leche descremada',
+        unit: 'ml',
+        pluralUnit: 'ml',
+        step: 50,
+        defaultQty: 200,
+        min: 50,
+        max: 600,
+        baseQty: 100,
+        baseKcal: 35,
+        baseP: 3.1,
+        baseC: 4.8,
+        baseF: 0.1,
+        formatName: (q) => `${q} ml Leche desc.`
+      },
+      leche_prot: {
+        id: 'leche_prot',
+        emoji: '🥛',
+        shortName: 'Leche proteica (Serenísima/3 Niñas)',
+        unit: 'ml',
+        pluralUnit: 'ml',
+        step: 50,
+        defaultQty: 200,
+        min: 50,
+        max: 600,
+        baseQty: 100,
+        baseKcal: 46,
+        baseP: 5.3,
+        baseC: 4.8,
+        baseF: 0.2,
+        formatName: (q) => `${q} ml Leche proteica`
+      },
+      cafe: {
+        id: 'cafe',
+        emoji: '☕',
+        shortName: 'Café solo/cortito',
+        unit: 'taza',
+        pluralUnit: 'tazas',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 10,
+        baseP: 0.5,
+        baseC: 1,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'Café' : 'Cafés'}`
+      },
+      yogur: {
+        id: 'yogur',
+        emoji: '🥣',
+        shortName: 'Yogur proteico/griego',
+        unit: 'pote',
+        pluralUnit: 'potes',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 110,
+        baseP: 14,
+        baseC: 9,
+        baseF: 1,
+        formatName: (q) => `${q} ${q === 1 ? 'Pote yogur' : 'Potes yogur'}`
+      },
+
+      // --- PROTEÍNAS & HUEVOS ---
+      huevo: {
+        id: 'huevo',
+        emoji: '🥚',
+        shortName: 'Huevo revuelto/duro',
+        unit: 'huevo',
+        pluralUnit: 'huevos',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 6,
+        baseQty: 1,
+        baseKcal: 75,
+        baseP: 6.5,
+        baseC: 0.5,
+        baseF: 5,
+        formatName: (q) => `${q} ${q === 1 ? 'Huevo' : 'Huevos'}`
+      },
+      ricota: {
+        id: 'ricota',
+        emoji: '🧀',
+        shortName: 'Ricota magra/clásica',
+        unit: 'cda',
+        pluralUnit: 'cdas',
+        step: 1,
+        defaultQty: 2,
+        min: 1,
+        max: 8,
+        baseQty: 1,
+        baseKcal: 55,
+        baseP: 5.5,
+        baseC: 2,
+        baseF: 3,
+        formatName: (q) => `${q} ${q === 1 ? 'cda' : 'cdas'} Ricota`
+      },
+      atun: {
+        id: 'atun',
+        emoji: '🐟',
+        shortName: 'Lata atún natural',
+        unit: 'lata',
+        pluralUnit: 'latas',
+        step: 0.5,
+        defaultQty: 1,
+        min: 0.5,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 120,
+        baseP: 28,
+        baseC: 0,
+        baseF: 1,
+        formatName: (q) => `${q} ${q === 1 ? 'Lata atún' : 'Latas atún'}`
+      },
+      bife_pechuga: {
+        id: 'bife_pechuga',
+        emoji: '🍗',
+        shortName: 'Bife / Pechuga grillada',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 210,
+        baseP: 32,
+        baseC: 0,
+        baseF: 7,
+        formatName: (q) => `${q} Pechuga/Bife (140g)`
+      },
+      mila_carne_spray: {
+        id: 'mila_carne_spray',
+        emoji: '🥩',
+        shortName: 'Mila carne (spray)',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 280,
+        baseP: 28,
+        baseC: 18,
+        baseF: 10,
+        formatName: (q) => `${q} Mila carne (spray)`
+      },
+      mila_carne_aceite: {
+        id: 'mila_carne_aceite',
+        emoji: '🥩',
+        shortName: 'Mila carne (aceite)',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 390,
+        baseP: 28,
+        baseC: 18,
+        baseF: 22,
+        formatName: (q) => `${q} Mila carne (aceite)`
+      },
+      mila_pollo_spray: {
+        id: 'mila_pollo_spray',
+        emoji: '🍗',
+        shortName: 'Mila pollo (spray)',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 260,
+        baseP: 30,
+        baseC: 18,
+        baseF: 7,
+        formatName: (q) => `${q} Mila pollo (spray)`
+      },
+      mila_pollo_aceite: {
+        id: 'mila_pollo_aceite',
+        emoji: '🍗',
+        shortName: 'Mila pollo (aceite)',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 360,
+        baseP: 30,
+        baseC: 18,
+        baseF: 18,
+        formatName: (q) => `${q} Mila pollo (aceite)`
+      },
+      queso_jamon: {
+        id: 'queso_jamon',
+        emoji: '🥓',
+        shortName: 'Feta Jamón + Queso',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 110,
+        baseP: 10,
+        baseC: 1,
+        baseF: 7,
+        formatName: (q) => `${q} Jamón + Queso`
+      },
+      queso_port_salut: {
+        id: 'queso_port_salut',
+        emoji: '🧀',
+        shortName: 'Port Salut light',
+        unit: 'feta',
+        pluralUnit: 'fetas',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 5,
+        baseQty: 1,
+        baseKcal: 65,
+        baseP: 6.5,
+        baseC: 1,
+        baseF: 3.5,
+        formatName: (q) => `${q} ${q === 1 ? 'Feta queso light' : 'Fetas queso light'}`
+      },
+
+      // --- CARBOHIDRATOS & TARTAS ---
+      tostada: {
+        id: 'tostada',
+        emoji: '🍞',
+        shortName: 'Tostada',
+        unit: 'tostada',
+        pluralUnit: 'tostadas',
+        step: 1,
+        defaultQty: 2,
+        min: 1,
+        max: 6,
+        baseQty: 1,
+        baseKcal: 75,
+        baseP: 2.5,
+        baseC: 14,
+        baseF: 1,
+        formatName: (q) => `${q} ${q === 1 ? 'Tostada' : 'Tostadas'}`
+      },
+      tarta: {
+        id: 'tarta',
+        emoji: '🥧',
+        shortName: 'Porción tarta verdura',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 170,
+        baseP: 6,
+        baseC: 18,
+        baseF: 8,
+        formatName: (q) => `${q} ${q === 1 ? 'Porción tarta' : 'Porciones tarta'}`
+      },
+      arroz: {
+        id: 'arroz',
+        emoji: '🍚',
+        shortName: 'Arroz / fideos',
+        unit: 'taza',
+        pluralUnit: 'tazas',
+        step: 0.5,
+        defaultQty: 1,
+        min: 0.5,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 180,
+        baseP: 4,
+        baseC: 38,
+        baseF: 1,
+        formatName: (q) => `${q} ${q === 1 ? 'Taza arroz/fideos' : 'Tazas arroz/fideos'}`
+      },
+      papa: {
+        id: 'papa',
+        emoji: '🥔',
+        shortName: 'Papa / batata horno',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 125,
+        baseP: 2.8,
+        baseC: 27,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'Papa/batata' : 'Papas/batatas'}`
+      },
+      choclo: {
+        id: 'choclo',
+        emoji: '🌽',
+        shortName: 'Choclo en lata',
+        unit: 'lata',
+        pluralUnit: 'latas',
+        step: 0.5,
+        defaultQty: 0.5,
+        min: 0.5,
+        max: 2,
+        baseQty: 0.5,
+        baseKcal: 90,
+        baseP: 3,
+        baseC: 18,
+        baseF: 1,
+        formatName: (q) => `${q} Lata choclo`
+      },
+      tostado_jyq: {
+        id: 'tostado_jyq',
+        emoji: '🥪',
+        shortName: 'Tostado jamón y queso',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 260,
+        baseP: 16,
+        baseC: 28,
+        baseF: 9,
+        formatName: (q) => `${q} ${q === 1 ? 'Tostado jamón queso' : 'Tostados jamón queso'}`
+      },
+
+      // --- VEGETALES, DULCES & FRUTAS ---
+      brocoli: {
+        id: 'brocoli',
+        emoji: '🥦',
+        shortName: 'Brócoli / verdes',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 35,
+        baseP: 3,
+        baseC: 6,
+        baseF: 0,
+        formatName: (q) => `${q} Porc. Brócoli/verdes`
+      },
+      tomate: {
+        id: 'tomate',
+        emoji: '🍅',
+        shortName: 'Tomate / ensalada',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 30,
+        baseP: 1,
+        baseC: 6,
+        baseF: 0,
+        formatName: (q) => `${q} Porc. Tomate/ensalada`
+      },
+      calabaza: {
+        id: 'calabaza',
+        emoji: '🎃',
+        shortName: 'Calabaza asada',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 80,
+        baseP: 2,
+        baseC: 18,
+        baseF: 0,
+        formatName: (q) => `${q} Porc. Calabaza asada`
+      },
+      mermelada: {
+        id: 'mermelada',
+        emoji: '🍓',
+        shortName: 'Mermelada',
+        unit: 'cdita',
+        pluralUnit: 'cditas',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 30,
+        baseP: 0,
+        baseC: 8,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'cdita' : 'cditas'} Mermelada`
+      },
+      semillas: {
+        id: 'semillas',
+        emoji: '🌱',
+        shortName: 'Semillitas chía',
+        unit: 'cdita',
+        pluralUnit: 'cditas',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 30,
+        baseP: 1,
+        baseC: 1,
+        baseF: 2.5,
+        formatName: (q) => `${q} ${q === 1 ? 'cdita' : 'cditas'} Chía`
+      },
+      banana: {
+        id: 'banana',
+        emoji: '🍌',
+        shortName: 'Banana',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 95,
+        baseP: 1,
+        baseC: 24,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'Banana' : 'Bananas'}`
+      },
+      fruta: {
+        id: 'fruta',
+        emoji: '🍎',
+        shortName: 'Manzana / Fruta',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 65,
+        baseP: 0.5,
+        baseC: 16,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'Fruta' : 'Frutas'}`
+      }
+    };
+
+    const SLOT_FOOD_ITEMS = {
       desayuno: [
-        { id: 'f_des_cafe_leche', name: '☕ Café c/ leche', kcal: 100, p: 7.5, c: 9, f: 3 },
-        { id: 'f_des_tostada_1', name: '🍞 1 Tostada', kcal: 75, p: 2.5, c: 14, f: 1 },
-        { id: 'f_des_tostada_2', name: '🍞🍞 2 Tostadas', kcal: 150, p: 5, c: 28, f: 2 },
-        { id: 'f_des_ricota_1', name: '🧀 Ricota (1 cda sopera)', kcal: 55, p: 5.5, c: 2, f: 3 },
-        { id: 'f_des_ricota_2', name: '🧀 Ricota (2 cdas colmadas)', kcal: 110, p: 11, c: 4, f: 6 },
-        { id: 'f_des_mermelada', name: '🍓 Mermelada (1 cdita)', kcal: 30, p: 0, c: 8, f: 0 },
-        { id: 'f_des_semillas', name: '🌱 Semillitas chía (1 cdita)', kcal: 30, p: 1, c: 1, f: 2.5 },
-        { id: 'f_des_banana', name: '🍌 1 Banana', kcal: 95, p: 1, c: 24, f: 0 },
-        { id: 'f_des_huevo_1', name: '🥚 1 Huevo revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
-        { id: 'f_des_huevo_2', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
-        { id: 'f_des_queso_jamon', name: '🥓 Feta Jamón + Queso', kcal: 110, p: 10, c: 1, f: 7 },
-        { id: 'f_des_yogur', name: '🥣 Yogur proteico/griego', kcal: 110, p: 14, c: 9, f: 1 }
+        'leche_desc',
+        'leche_prot',
+        'cafe',
+        'tostada',
+        'ricota',
+        'mermelada',
+        'semillas',
+        'huevo',
+        'banana',
+        'yogur',
+        'queso_jamon'
       ],
       almuerzo: [
-        { id: 'f_alm_mila_carne_spray', name: '🥩 Mila carne (con spray)', kcal: 280, p: 28, c: 18, f: 10 },
-        { id: 'f_alm_mila_carne_aceite', name: '🥩 Mila carne (con aceite)', kcal: 390, p: 28, c: 18, f: 22 },
-        { id: 'f_alm_mila_pollo_spray', name: '🍗 Mila pollo (con spray)', kcal: 260, p: 30, c: 18, f: 7 },
-        { id: 'f_alm_mila_pollo_aceite', name: '🍗 Mila pollo (con aceite)', kcal: 360, p: 30, c: 18, f: 18 },
-        { id: 'f_alm_mila_pescado_spray', name: '🐟 Mila pescado (con spray)', kcal: 230, p: 24, c: 18, f: 6 },
-        { id: 'f_alm_mila_pescado_aceite', name: '🐟 Mila pescado (con aceite)', kcal: 330, p: 24, c: 18, f: 17 },
-        { id: 'f_alm_bife_pechuga', name: '🥩 Bife / Pechuga (140g)', kcal: 210, p: 32, c: 0, f: 7 },
-        { id: 'f_alm_atun_lata', name: '🐟 1 Lata atún natural', kcal: 120, p: 28, c: 0, f: 1 },
-        { id: 'f_alm_tarta_1', name: '🥧 1 Porción tarta verdura', kcal: 170, p: 6, c: 18, f: 8 },
-        { id: 'f_alm_tarta_2', name: '🥧🥧 2 Porciones tarta', kcal: 340, p: 12, c: 36, f: 16 },
-        { id: 'f_alm_tomate', name: '🍅 Tomate / ensalada', kcal: 30, p: 1, c: 6, f: 0 },
-        { id: 'f_alm_brocoli', name: '🥦 Brócoli / vegetales verdes', kcal: 35, p: 3, c: 6, f: 0 },
-        { id: 'f_alm_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
-        { id: 'f_alm_papa', name: '🥔 1 Papa / batata horno', kcal: 130, p: 3, c: 28, f: 0 },
-        { id: 'f_alm_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
-        { id: 'f_alm_huevo_1', name: '🥚 1 Huevo duro/revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
-        { id: 'f_alm_huevo_2', name: '🥚🥚 2 Huevos duros/revueltos', kcal: 145, p: 13, c: 1, f: 10 }
+        'mila_carne_spray',
+        'mila_carne_aceite',
+        'mila_pollo_spray',
+        'mila_pollo_aceite',
+        'bife_pechuga',
+        'atun',
+        'huevo',
+        'tarta',
+        'brocoli',
+        'tomate',
+        'calabaza',
+        'papa',
+        'arroz'
       ],
       merienda: [
-        { id: 'f_mer_cafe_leche', name: '☕ Café c/ leche', kcal: 100, p: 7.5, c: 9, f: 3 },
-        { id: 'f_mer_tostada_1', name: '🍞 1 Tostada', kcal: 75, p: 2.5, c: 14, f: 1 },
-        { id: 'f_mer_tostada_2', name: '🍞🍞 2 Tostadas', kcal: 150, p: 5, c: 28, f: 2 },
-        { id: 'f_mer_ricota_1', name: '🧀 Ricota (1 cda sopera)', kcal: 55, p: 5.5, c: 2, f: 3 },
-        { id: 'f_mer_ricota_2', name: '🧀 Ricota (2 cdas colmadas)', kcal: 110, p: 11, c: 4, f: 6 },
-        { id: 'f_mer_mermelada', name: '🍓 Mermelada (1 cdita)', kcal: 30, p: 0, c: 8, f: 0 },
-        { id: 'f_mer_banana', name: '🍌 1 Banana', kcal: 95, p: 1, c: 24, f: 0 },
-        { id: 'f_mer_fruta', name: '🍎 Manzana / Frutas', kcal: 65, p: 0.5, c: 16, f: 0 },
-        { id: 'f_mer_tostado', name: '🥪 Tostado jamón queso', kcal: 260, p: 16, c: 28, f: 9 },
-        { id: 'f_mer_huevos', name: '🥚 1 o 2 Huevos revueltos', kcal: 110, p: 10, c: 1, f: 7 },
-        { id: 'f_mer_yogur', name: '🥣 Yogur proteico/griego', kcal: 110, p: 14, c: 9, f: 1 }
+        'leche_desc',
+        'leche_prot',
+        'cafe',
+        'tostada',
+        'ricota',
+        'mermelada',
+        'huevo',
+        'banana',
+        'fruta',
+        'yogur',
+        'tostado_jyq',
+        'semillas'
       ],
       cena: [
-        { id: 'f_cen_mila_carne_spray', name: '🥩 Mila carne (con spray)', kcal: 280, p: 28, c: 18, f: 10 },
-        { id: 'f_cen_mila_carne_aceite', name: '🥩 Mila carne (con aceite)', kcal: 390, p: 28, c: 18, f: 22 },
-        { id: 'f_cen_mila_pollo_spray', name: '🍗 Mila pollo (con spray)', kcal: 260, p: 30, c: 18, f: 7 },
-        { id: 'f_cen_mila_pollo_aceite', name: '🍗 Mila pollo (con aceite)', kcal: 360, p: 30, c: 18, f: 18 },
-        { id: 'f_cen_mila_pescado_spray', name: '🐟 Mila pescado (con spray)', kcal: 230, p: 24, c: 18, f: 6 },
-        { id: 'f_cen_mila_pescado_aceite', name: '🐟 Mila pescado (con aceite)', kcal: 330, p: 24, c: 18, f: 17 },
-        { id: 'f_cen_carne_pedacitos', name: '🥩 Carne en pedacitos', kcal: 210, p: 28, c: 0, f: 10 },
-        { id: 'f_cen_pechuga', name: '🍗 Pechuga o bife magro', kcal: 210, p: 32, c: 0, f: 7 },
-        { id: 'f_cen_atun', name: '🐟 1 Lata atún natural', kcal: 120, p: 28, c: 0, f: 1 },
-        { id: 'f_cen_huevo_1', name: '🥚 1 Huevo revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
-        { id: 'f_cen_huevo_2', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
-        { id: 'f_cen_tarta_1', name: '🥧 1 Porción tarta verdura', kcal: 170, p: 6, c: 18, f: 8 },
-        { id: 'f_cen_tarta_2', name: '🥧🥧 2 Porciones tarta', kcal: 340, p: 12, c: 36, f: 16 },
-        { id: 'f_cen_tomate', name: '🍅 Tomate / ensalada fresca', kcal: 30, p: 1, c: 6, f: 0 },
-        { id: 'f_cen_brocoli', name: '🥦 Brócoli / vegetales verdes', kcal: 35, p: 3, c: 6, f: 0 },
-        { id: 'f_cen_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
-        { id: 'f_cen_papa', name: '🥔 1 Papa / batata chica', kcal: 120, p: 2.5, c: 26, f: 0 },
-        { id: 'f_cen_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
-        { id: 'f_cen_choclo', name: '🌽 1/2 Lata choclo', kcal: 90, p: 3, c: 18, f: 1 },
-        { id: 'f_cen_tostada_1', name: '🍞 1 Tostada base', kcal: 75, p: 2.5, c: 14, f: 1 },
-        { id: 'f_cen_tostada_2', name: '🍞🍞 2 Tostadas base', kcal: 150, p: 5, c: 28, f: 2 },
-        { id: 'f_cen_queso', name: '🧀 Feta queso Port Salut light', kcal: 65, p: 6.5, c: 1, f: 3.5 },
-        { id: 'f_cen_sopa', name: '🍵 Taza de sopa / caldo', kcal: 35, p: 1, c: 6, f: 0.5 }
+        'atun',
+        'huevo',
+        'mila_carne_spray',
+        'mila_carne_aceite',
+        'mila_pollo_spray',
+        'mila_pollo_aceite',
+        'bife_pechuga',
+        'tarta',
+        'brocoli',
+        'tomate',
+        'calabaza',
+        'papa',
+        'arroz',
+        'choclo',
+        'tostada',
+        'queso_port_salut',
+        'leche_desc',
+        'leche_prot'
       ]
     };
+
+    function getMealSelectedMap(meal) {
+      if (!meal) return {};
+      if (meal.selectedFoodMap && typeof meal.selectedFoodMap === 'object') {
+        return { ...meal.selectedFoodMap };
+      }
+      const map = {};
+      if (Array.isArray(meal.selectedFoodIds)) {
+        meal.selectedFoodIds.forEach(id => {
+          if (id.includes('leche_desc') || id === 'f_des_cafe_leche' || id === 'f_mer_cafe_leche') {
+            map['leche_desc'] = 200;
+            map['cafe'] = 1;
+          } else if (id.includes('leche_prot')) {
+            map['leche_prot'] = 200;
+          } else if (id.includes('tostada_2')) {
+            map['tostada'] = 2;
+          } else if (id.includes('tostada_1') || id === 'f_cen_tostada_1') {
+            map['tostada'] = 1;
+          } else if (id.includes('ricota_2')) {
+            map['ricota'] = 2;
+          } else if (id.includes('ricota_1')) {
+            map['ricota'] = 1;
+          } else if (id.includes('mermelada')) {
+            map['mermelada'] = 1;
+          } else if (id.includes('semillas')) {
+            map['semillas'] = 1;
+          } else if (id.includes('banana')) {
+            map['banana'] = 1;
+          } else if (id.includes('huevo_2')) {
+            map['huevo'] = 2;
+          } else if (id.includes('huevo_1') || id === 'f_mer_huevos') {
+            map['huevo'] = 1;
+          } else if (id.includes('yogur')) {
+            map['yogur'] = 1;
+          } else if (id.includes('queso_jamon')) {
+            map['queso_jamon'] = 1;
+          } else if (id.includes('mila_carne_spray')) {
+            map['mila_carne_spray'] = 1;
+          } else if (id.includes('mila_carne_aceite')) {
+            map['mila_carne_aceite'] = 1;
+          } else if (id.includes('mila_pollo_spray')) {
+            map['mila_pollo_spray'] = 1;
+          } else if (id.includes('mila_pollo_aceite')) {
+            map['mila_pollo_aceite'] = 1;
+          } else if (id.includes('bife_pechuga') || id === 'f_cen_pechuga') {
+            map['bife_pechuga'] = 1;
+          } else if (id.includes('atun')) {
+            map['atun'] = 1;
+          } else if (id.includes('tarta_2')) {
+            map['tarta'] = 2;
+          } else if (id.includes('tarta_1')) {
+            map['tarta'] = 1;
+          } else if (id.includes('tomate')) {
+            map['tomate'] = 1;
+          } else if (id.includes('brocoli')) {
+            map['brocoli'] = 1;
+          } else if (id.includes('calabaza')) {
+            map['calabaza'] = 1;
+          } else if (id.includes('papa')) {
+            map['papa'] = 1;
+          } else if (id.includes('arroz')) {
+            map['arroz'] = 1;
+          } else if (id.includes('choclo')) {
+            map['choclo'] = 0.5;
+          } else if (id.includes('queso')) {
+            map['queso_port_salut'] = 1;
+          } else if (PANTRY_CATALOG[id]) {
+            map[id] = PANTRY_CATALOG[id].defaultQty;
+          }
+        });
+      }
+      return map;
+    }
 
     const VEG_CHALLENGES = [
       { id: 'fruta', emoji: '🍓', label: '1 Fruta Fácil', sub: 'Banana, frutillas o manzana' },
@@ -482,7 +1015,7 @@
     const SHOPPING_GROUPS = [
       {
         cat: '🥩 Carnicería & Granja',
-        items: ['Supremas de pollo', 'Milanesas de nalga/peceto o pollo', 'Carne picada especial (magra)', 'Cuadril o bola de lomo', 'Maple de huevos', 'Latas de atún al natural']
+        items: ['Supremas de pollo', 'Milanesas de nalga/peceto o pollo', 'Carne picada especial (magra)', 'Cuadril o bola de lomo', 'Huevos (maple para tener siempre a mano)', 'Latas de atún al natural']
       },
       {
         cat: '🥦 Verduras & Frutas Cero-Paja',
@@ -490,7 +1023,7 @@
       },
       {
         cat: '🧀 Lácteos & Estudio Anti-Ansiedad',
-        items: ['Ricota magra o clásica (para tostadas dulces)', 'Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar', 'Leche descremada']
+        items: ['Ricota magra o clásica (para tostadas cheesecake)', 'Leche descremada o proteica (Serenísima / 3 Niñas)', 'Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar']
       },
       {
         cat: '🍚 Almacén Básico',
@@ -626,18 +1159,51 @@
         const dispKcal = saved.custom ? saved.kcal : chosenOpt.kcal;
         const dispP = saved.custom ? saved.p : chosenOpt.p;
         const isEaten = !!saved.eaten;
-        const activeIds = saved.selectedFoodIds || [];
 
-        const pantry = FOOD_PANTRY[slot.id] || [];
-        const pantryChips = pantry.map(item => {
-          const isAct = activeIds.includes(item.id);
-          return `
-            <button type="button" onclick="togglePantryItem('${slot.id}', '${item.id}')"
-              class="px-2.5 py-1 rounded-xl text-[11px] transition flex items-center gap-1 border active:scale-95 ${isAct ? 'bg-emerald-600 border-emerald-600 text-white font-extrabold shadow-2xs' : 'bg-[#F8FCF9] border-emerald-200/80 text-slate-700 hover:bg-emerald-50 font-medium'}">
-              <span>${item.name}</span>
-              <span class="text-[9px] ${isAct ? 'text-emerald-100' : 'text-emerald-700 font-bold'}">+${item.p}g</span>
-            </button>
-          `;
+        const foodMap = getMealSelectedMap(saved);
+        const activeKeys = Object.keys(foodMap).filter(k => typeof foodMap[k] === 'number' && foodMap[k] > 0 && PANTRY_CATALOG[k]);
+        const slotFoodIds = SLOT_FOOD_ITEMS[slot.id] || [];
+
+        const pantryChips = slotFoodIds.map(itemId => {
+          const item = PANTRY_CATALOG[itemId];
+          if (!item) return '';
+          const qty = foodMap[itemId];
+          const isAct = typeof qty === 'number' && qty > 0;
+
+          if (isAct) {
+            const ratio = qty / item.baseQty;
+            const computedP = Math.round(item.baseP * ratio * 10) / 10;
+            const isMin = qty <= item.min;
+            const unitLabel = (qty > 1 && item.pluralUnit) ? item.pluralUnit : item.unit;
+            return `
+              <div class="inline-flex items-center rounded-2xl bg-emerald-600 text-white font-black shadow-2xs text-[11px] border border-emerald-700 select-none py-0.5 px-0.5">
+                <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', -1)"
+                  class="w-6 h-6 flex items-center justify-center bg-emerald-700/90 hover:bg-emerald-800 active:scale-90 font-black text-xs rounded-xl transition"
+                  title="${isMin ? 'Quitar' : 'Restar'}">
+                  ${isMin ? '✕' : '−'}
+                </button>
+                <span class="px-2 font-black tracking-tight text-[11px] whitespace-nowrap">
+                  ${item.emoji} ${qty} ${unitLabel}
+                </span>
+                <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', 1)"
+                  class="w-6 h-6 flex items-center justify-center bg-emerald-700/90 hover:bg-emerald-800 active:scale-90 font-black text-xs rounded-xl transition"
+                  title="Sumar">
+                  ＋
+                </button>
+                <span class="px-1.5 text-[9px] text-emerald-200 font-bold">
+                  +${computedP}g
+                </span>
+              </div>
+            `;
+          } else {
+            return `
+              <button type="button" onclick="selectPantryItem('${slot.id}', '${item.id}')"
+                class="px-2.5 py-1 rounded-2xl text-[11px] transition flex items-center gap-1 border active:scale-95 bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50 font-semibold">
+                <span>${item.emoji} ${item.shortName}</span>
+                <span class="text-[9px] text-emerald-700 font-bold">+${item.baseP}g</span>
+              </button>
+            `;
+          }
         }).join('');
 
         const optsHtml = slot.options.map(o => `
@@ -666,18 +1232,21 @@
             <!-- MODULAR FOOD PILLS (TOCÁ LO QUE COMISTE) -->
             <div class="space-y-1.5 pt-1 border-t border-emerald-100/60">
               <div class="flex items-center justify-between text-[10px] font-extrabold text-slate-500">
-                <span>🥣 Tocá lo que comiste (Rápido):</span>
-                ${activeIds.length ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
+                <span>🥣 Tocá lo que comiste (Elegí cantidades exactas):</span>
+                ${activeKeys.length ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
               </div>
-              <div class="flex flex-wrap gap-1.5">
+              <div class="flex flex-wrap gap-1.5 items-center">
                 ${pantryChips}
               </div>
             </div>
 
             ${saved.custom ? `
-              <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl px-3 py-2 flex items-center justify-between text-xs">
-                <span class="font-bold text-emerald-900 leading-snug">✏️ ${saved.customName} (${saved.kcal} kcal • ${saved.p}g P)</span>
-                <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-extrabold text-emerald-700 underline shrink-0 ml-2">Reiniciar</button>
+              <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl px-3 py-2 flex items-center justify-between text-xs">
+                <div class="flex-1 pr-2">
+                  <span class="font-extrabold text-emerald-950 block leading-snug">✏️ ${saved.customName}</span>
+                  <span class="text-[10px] font-bold text-emerald-700">${saved.kcal} kcal • ${saved.p}g Proteína</span>
+                </div>
+                <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-black text-rose-600 bg-white border border-rose-200 px-2 py-1 rounded-xl shrink-0 hover:bg-rose-50 transition">Borrar</button>
               </div>
             ` : `
               <details class="text-[11px] text-slate-500">
@@ -793,59 +1362,103 @@
       showToast('🔄 Comida reiniciada');
     }
 
+    function selectPantryItem(slotId, itemId) {
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const saved = dailyLog.meals[slotId] || {};
+      const map = getMealSelectedMap(saved);
+
+      // Exclusiones mutuas lógicas (leche y cocciones)
+      if (itemId === 'leche_desc') delete map['leche_prot'];
+      if (itemId === 'leche_prot') delete map['leche_desc'];
+      if (itemId === 'mila_carne_spray') delete map['mila_carne_aceite'];
+      if (itemId === 'mila_carne_aceite') delete map['mila_carne_spray'];
+      if (itemId === 'mila_pollo_spray') delete map['mila_pollo_aceite'];
+      if (itemId === 'mila_pollo_aceite') delete map['mila_pollo_spray'];
+
+      const item = PANTRY_CATALOG[itemId];
+      if (!item) return;
+
+      map[itemId] = item.defaultQty;
+      recalculateMealFromMap(slotId, map);
+    }
+
+    function adjustFoodQty(slotId, itemId, delta) {
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const saved = dailyLog.meals[slotId] || {};
+      const map = getMealSelectedMap(saved);
+      const item = PANTRY_CATALOG[itemId];
+      if (!item) return;
+
+      const currentQty = typeof map[itemId] === 'number' ? map[itemId] : item.defaultQty;
+
+      if (delta > 0) {
+        map[itemId] = Math.min(item.max, Math.round((currentQty + item.step) * 10) / 10);
+      } else {
+        if (currentQty <= item.min) {
+          delete map[itemId];
+        } else {
+          map[itemId] = Math.max(item.min, Math.round((currentQty - item.step) * 10) / 10);
+        }
+      }
+
+      recalculateMealFromMap(slotId, map);
+    }
+
     function togglePantryItem(slotId, itemId) {
       if (!dailyLog.meals) dailyLog.meals = {};
-      const meal = dailyLog.meals[slotId] || {};
-      let items = Array.isArray(meal.selectedFoodIds) ? [...meal.selectedFoodIds] : [];
-
-      if (items.includes(itemId)) {
-        items = items.filter(id => id !== itemId);
+      const saved = dailyLog.meals[slotId] || {};
+      const map = getMealSelectedMap(saved);
+      if (typeof map[itemId] === 'number' && map[itemId] > 0) {
+        adjustFoodQty(slotId, itemId, -1);
       } else {
-        // Exclusiones mutuas lógicas (porciones y cocción)
-        if (itemId.includes('tostada_1')) items = items.filter(x => !x.includes('tostada_2'));
-        if (itemId.includes('tostada_2')) items = items.filter(x => !x.includes('tostada_1'));
-        if (itemId.includes('ricota_1')) items = items.filter(x => !x.includes('ricota_2'));
-        if (itemId.includes('ricota_2')) items = items.filter(x => !x.includes('ricota_1'));
-        if (itemId.includes('huevo_1')) items = items.filter(x => !x.includes('huevo_2'));
-        if (itemId.includes('huevo_2')) items = items.filter(x => !x.includes('huevo_1'));
-        if (itemId.includes('tarta_1')) items = items.filter(x => !x.includes('tarta_2'));
-        if (itemId.includes('tarta_2')) items = items.filter(x => !x.includes('tarta_1'));
-        if (itemId.includes('carne_spray')) items = items.filter(x => !x.includes('carne_aceite'));
-        if (itemId.includes('carne_aceite')) items = items.filter(x => !x.includes('carne_spray'));
-        if (itemId.includes('pollo_spray')) items = items.filter(x => !x.includes('pollo_aceite'));
-        if (itemId.includes('pollo_aceite')) items = items.filter(x => !x.includes('pollo_spray'));
-        if (itemId.includes('pescado_spray')) items = items.filter(x => !x.includes('pescado_aceite'));
-        if (itemId.includes('pescado_aceite')) items = items.filter(x => !x.includes('pescado_spray'));
-        items.push(itemId);
+        selectPantryItem(slotId, itemId);
       }
+    }
 
-      if (items.length > 0) {
-        const pantry = FOOD_PANTRY[slotId] || [];
-        const chosen = items.map(id => pantry.find(p => p.id === id)).filter(Boolean);
-        const sumK = chosen.reduce((acc, c) => acc + c.kcal, 0);
-        const sumP = Math.round(chosen.reduce((acc, c) => acc + c.p, 0) * 10) / 10;
-        const sumC = chosen.reduce((acc, c) => acc + (c.c || 0), 0);
-        const sumF = chosen.reduce((acc, c) => acc + (c.f || 0), 0);
-        const name = chosen.map(c => c.name).join(' + ');
+    function recalculateMealFromMap(slotId, map) {
+      const keys = Object.keys(map).filter(k => typeof map[k] === 'number' && map[k] > 0 && PANTRY_CATALOG[k]);
 
-        dailyLog.meals[slotId] = {
-          selectedFoodIds: items,
-          name,
-          custom: true,
-          customName: name,
-          kcal: sumK,
-          p: sumP,
-          c: sumC,
-          f: sumF,
-          eaten: true
-        };
-        showToast(`🥗 ${sumK} kcal • ${sumP}g Prot`);
-      } else {
+      if (keys.length === 0) {
         delete dailyLog.meals[slotId];
+        persistDailyNutri();
+        renderTodayDashboard();
         showToast('🔄 Comida desmarcada');
+        return;
       }
+
+      let sumK = 0, sumP = 0, sumC = 0, sumF = 0;
+      const names = [];
+
+      keys.forEach(k => {
+        const item = PANTRY_CATALOG[k];
+        const qty = map[k];
+        const ratio = qty / item.baseQty;
+        sumK += Math.round(item.baseKcal * ratio);
+        sumP += (item.baseP * ratio);
+        sumC += Math.round(item.baseC * ratio);
+        sumF += Math.round(item.baseF * ratio);
+        names.push(item.formatName(qty));
+      });
+
+      sumP = Math.round(sumP * 10) / 10;
+      const fullName = names.join(' + ');
+
+      dailyLog.meals[slotId] = {
+        selectedFoodMap: map,
+        selectedFoodIds: keys,
+        name: fullName,
+        custom: true,
+        customName: fullName,
+        kcal: sumK,
+        p: sumP,
+        c: sumC,
+        f: sumF,
+        eaten: true
+      };
+
       persistDailyNutri();
       renderTodayDashboard();
+      showToast(`🥗 ${sumK} kcal • ${sumP}g Prot`);
     }
 
     // ==========================================
@@ -970,7 +1583,7 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - 22 años, mide 1.54 m, pesa 55 kg. Toma 5g de creatina por día.
    - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
    - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
-   - HÁBITO INFALTABLE: Male SIEMPRE toma café con leche (taza grande = ~7.5g proteína), NUNCA café solo. Aunque solo diga "desayuné tostadas" o "un café", asumí siempre que tomó su café con leche habitual de ~200ml.
+   - HÁBITO INFALTABLE: Male SIEMPRE toma leche o café con leche en desayuno y merienda (~200ml). Puede ser leche descremada clásica (~6.2g P en 200ml) o proteica tipo Serenísima/3 Niñas (~5.3g P cada 100ml -> ~10.6g P en 200ml). Le fascina untar tostadas con abundante ricota (2 a 3 cucharadas colmadas estilo cheesecake dulce). En la app ahora puede elegir los mililitros exactos de leche, los huevos exactos (1, 2, 3) y las cucharadas exactas de ricota con botones interactivos que recalculan todo al instante.
    - CONTROL TÁCTICO DE MERIENDAS: Si Male consulta por una merienda, reservale siempre un presupuesto de 350-400 kcal para una cena completa (como su lata de atún tuneada o carne/pollo con ensalada), guiándola hacia opciones livianas y fáciles para no sobrecargar el día.
    - HITO CORPORAL RECIENTE & REFUERZO DE CONFIANZA: Male hoy notó frente al espejo que se le volvió a marcar la línea del medio del abdomen (línea alba). Si Male menciona algo sobre su cuerpo, cómo se ve, su motivación o sus resultados, celebráselo con calidez genuina. Recordale que en recomposición la balanza a veces se mueve lento porque el músculo tonifica con las pesas, pero que esa línea del abdomen es la prueba irrefutable de que la grasa subcutánea está bajando gracias a su déficit moderado (~1520 kcal) y su constancia con la proteína.
    ${vicNames.length > 0 ? `- Sensaciones / Victorias del espejo que Male tildó hoy: ${vicNames.join(', ')}.` : ''}
