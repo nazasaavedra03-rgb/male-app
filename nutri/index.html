@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Male Gym — RP Hypertrophy & Forma de P</title>
-  <meta name="theme-color" content="#09090b">
+  <title>Male Nutri — Recomposición & Cocina Casera</title>
+  <meta name="theme-color" content="#F6FAF7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" type="image/png" href="icon.png">
@@ -21,268 +21,203 @@
   <style>
     :root {
       -webkit-tap-highlight-color: transparent;
-      color-scheme: dark;
     }
     body {
-      background-color: #09090b;
-      color: #f4f4f5;
+      background-color: #F6FAF7;
+      color: #1E293B;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       user-select: none;
     }
-    input, textarea {
+    input, textarea, select {
       user-select: text;
-    }
-    /* Hide number input spinners */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    input[type=number] {
-      -moz-appearance: textfield;
     }
     ::-webkit-scrollbar { width: 3px; height: 3px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
-
-    @keyframes popIn {
-      0% { transform: scale(0.95); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-pop { animation: popIn 0.2s ease-out forwards; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
   </style>
 </head>
-<body class="bg-[#09090b] text-zinc-100 antialiased min-h-screen flex flex-col justify-between selection:bg-rose-500/30">
+<body class="bg-[#F6FAF7] text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-200">
 
   <!-- APP SHELL -->
-  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#09090b] shadow-2xl relative border-x border-zinc-900">
+  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#F6FAF7] shadow-2xl relative border-x border-emerald-100/80">
 
     <!-- TOP SUITE SWITCHER + HEADER -->
-    <header class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/80 px-3.5 pt-2.5 pb-2.5 z-30">
-      <!-- Ecosystem Switcher -->
+    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2.5 pb-2.5 z-30">
       <div class="flex items-center justify-between gap-2 mb-2">
-        <div class="inline-flex items-center bg-zinc-900/90 p-0.5 rounded-full border border-zinc-800 text-[11px] font-bold">
-          <a href="../index.html" class="px-2.5 py-1 rounded-full text-zinc-400 hover:text-zinc-200 transition flex items-center gap-1">
+        <!-- Ecosystem Switcher -->
+        <div class="inline-flex items-center bg-emerald-100/60 p-0.5 rounded-full border border-emerald-200/80 text-[11px] font-bold">
+          <a href="../index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
             <span>🌸</span><span>Día</span>
           </a>
-          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-sm flex items-center gap-1">
+          <a href="../gym/index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
             <span>🍑</span><span>Gym</span>
-          </span>
-          <a href="../nutri/index.html" class="px-2.5 py-1 rounded-full text-zinc-400 hover:text-zinc-200 transition flex items-center gap-1">
-            <span>🥗</span><span>Nutri</span>
           </a>
+          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-sm flex items-center gap-1">
+            <span>🥗</span><span>Nutri</span>
+          </span>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span id="sync-badge" class="inline-flex items-center gap-1 text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full">
-            <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span id="sync-label">RP Sync</span>
-          </span>
-          <button onclick="openWeekMenuModal()" class="text-[11px] font-bold bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 px-2.5 py-1 rounded-xl transition flex items-center gap-1">
-            <span>⚙️</span><span id="header-week-short">Sem 1</span>
-          </button>
-        </div>
+        <a href="./mama.html" class="text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full transition flex items-center gap-1 shadow-2xs">
+          <span>👩‍👧</span><span>PDF Mamá</span>
+        </a>
       </div>
 
-      <!-- Mesociclo & RIR Status Banner -->
       <div class="flex items-center justify-between">
         <div>
-          <div class="flex items-center gap-1.5">
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Mesociclo 2 • RP Hypertrophy</span>
-            <span id="header-rir-pill" class="text-[10px] font-black px-2 py-0.2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/30">RIR 3</span>
-          </div>
-          <h1 id="header-meso-subtitle" class="text-xs font-medium text-zinc-400 mt-0.5">Semana 1: Calibración técnica & cargas base</h1>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 block">Recomposición Corporal • 1.54m / 55kg</span>
+          <h1 id="nutri-day-type-badge" class="text-xs font-bold text-slate-600 mt-0.5">Meta hoy: 1.520 kcal • 110g Proteína</h1>
         </div>
         <div class="text-right">
-          <span id="week-progress-count" class="text-sm font-black text-white">0/5</span>
-          <span class="block text-[9px] uppercase tracking-wider text-zinc-500 font-bold">Sesiones</span>
+          <span id="header-prot-pill" class="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-xl">0 / 110g Prot</span>
         </div>
       </div>
     </header>
 
-    <!-- MAIN SCROLLABLE CONTENT -->
-    <main id="main-scroll" class="flex-1 overflow-y-auto px-3.5 pt-3 pb-28 space-y-4">
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-y-auto px-3.5 pt-3 pb-24 space-y-4">
 
       <!-- ========================================== -->
-      <!-- VIEW 1: ENTRENAR (ACTIVE WORKOUT)          -->
+      <!-- VIEW 1: HOY (TABLERO DIARIO EN 4 TOQUES)   -->
       <!-- ========================================== -->
-      <section id="view-train" class="space-y-3.5">
+      <section id="view-today" class="space-y-3.5">
 
-        <!-- Week Pills Strip -->
-        <div class="grid grid-cols-5 gap-1.5 bg-zinc-900/70 p-1 rounded-2xl border border-zinc-800/80" id="week-pills-container">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- 5-Day Flexible Selector -->
-        <div class="grid grid-cols-5 gap-1.5" id="day-selector-container">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- Active Day Hero Card -->
-        <div id="active-day-hero" class="bg-gradient-to-br from-zinc-900 via-zinc-900 to-rose-950/40 border border-zinc-800 rounded-3xl p-4 shadow-lg relative overflow-hidden">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- RP Autoregulation Banner (if previous week feedback adjusted today) -->
-        <div id="rp-autoreg-banner" class="hidden bg-violet-950/40 border border-violet-500/30 rounded-2xl p-3 text-xs text-violet-200 flex items-start gap-2.5">
-          <span class="text-base shrink-0">🧬</span>
-          <div id="rp-autoreg-text" class="leading-snug"></div>
-        </div>
-
-        <!-- Exercise List -->
-        <div id="exercises-container" class="space-y-3.5">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- Session Cardio Card -->
-        <div id="session-cardio-card" class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-4 space-y-3">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- Finish Workout CTA -->
-        <div class="pt-1 pb-4">
-          <button id="btn-finish-workout" onclick="openFinishSessionModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-500 hover:from-rose-400 hover:to-pink-500 text-white font-black text-sm shadow-lg shadow-rose-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
-            <span>🏆</span>
-            <span id="btn-finish-label">Finalizar Sesión & Check RP</span>
-          </button>
-        </div>
-
-      </section>
-
-      <!-- ========================================== -->
-      <!-- VIEW 2: CARDIO & PASOS (NEAT + LISS)       -->
-      <!-- ========================================== -->
-      <section id="view-cardio" class="hidden space-y-4">
-        <div class="bg-gradient-to-br from-emerald-950/50 via-zinc-900 to-zinc-900 border border-emerald-500/25 rounded-3xl p-4 space-y-3">
+        <!-- Macros Dashboard Card -->
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">Oxidación Sin Fatiga Muscular</span>
-              <h2 class="text-base font-black text-white">Pasos Diarios (NEAT)</h2>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">Balance Diario Suave (-15%)</span>
+              <div class="flex items-baseline gap-1.5 mt-0.5">
+                <span id="kcal-current" class="text-2xl font-black text-slate-900">0</span>
+                <span id="kcal-target-label" class="text-xs font-bold text-slate-400">/ 1.520 kcal</span>
+              </div>
             </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Meta: 9.000</span>
-          </div>
-
-          <div class="flex items-end justify-between pt-1">
-            <div>
-              <span id="steps-today-val" class="text-3xl font-black text-white">0</span>
-              <span class="text-xs text-zinc-400 font-medium"> pasos hoy</span>
+            <div id="gym-bridge-chip" class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              🌿 Día equilibrado
             </div>
-            <span id="steps-pct-label" class="text-xs font-bold text-emerald-400">0%</span>
           </div>
 
-          <div class="w-full h-2.5 bg-zinc-800 rounded-full overflow-hidden">
-            <div id="steps-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+          <!-- Main Calorie Bar -->
+          <div class="w-full h-2.5 bg-emerald-50 rounded-full overflow-hidden border border-emerald-100">
+            <div id="kcal-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
 
+          <!-- 3 Macro Mini Bars -->
           <div class="grid grid-cols-3 gap-2 pt-1">
-            <button onclick="addStepsQuick(1000)" class="py-2 bg-zinc-800/90 hover:bg-zinc-700 text-zinc-200 rounded-xl text-xs font-bold border border-zinc-700 transition">+1.000</button>
-            <button onclick="addStepsQuick(2500)" class="py-2 bg-zinc-800/90 hover:bg-zinc-700 text-zinc-200 rounded-xl text-xs font-bold border border-zinc-700 transition">+2.500</button>
-            <button onclick="promptExactSteps()" class="py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-xl text-xs font-bold border border-emerald-500/30 transition">Editar total</button>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-emerald-800">Proteína</span>
+                <span id="macro-p-val" class="text-emerald-700">0/110g</span>
+              </div>
+              <div class="w-full h-1.5 bg-emerald-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-p-bar" class="h-full bg-emerald-600 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-amber-800">Carbos</span>
+                <span id="macro-c-val" class="text-amber-700">0/165g</span>
+              </div>
+              <div class="w-full h-1.5 bg-amber-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-c-bar" class="h-full bg-amber-500 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
+              <div class="flex justify-between text-[10px] font-extrabold">
+                <span class="text-rose-800">Grasas</span>
+                <span id="macro-f-val" class="text-rose-700">0/46g</span>
+              </div>
+              <div class="w-full h-1.5 bg-rose-100 rounded-full mt-1.5 overflow-hidden">
+                <div id="macro-f-bar" class="h-full bg-rose-400 rounded-full transition-all" style="width:0%"></div>
+              </div>
+            </div>
           </div>
-          <p class="text-[11px] text-zinc-400 leading-snug">
-            💡 Caminar 8.000–10.000 pasos diarios oxida grasa de abdomen y espalda baja sin subir el cortisol ni robarle recuperación al glúteo.
-          </p>
         </div>
 
-        <!-- Weekly LISS Cardio Tracker -->
-        <div class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-4 space-y-3">
+        <!-- ZERO LAZINESS FRUIT & VEG CHALLENGE -->
+        <div class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 border border-emerald-200 rounded-3xl p-3.5 space-y-2.5">
           <div class="flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Cardio LISS Semanal</span>
-              <h3 class="text-sm font-black text-white">Caminata Inclinada / Bici</h3>
+              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">Misión Cero Pereza Hoy</span>
+              <h2 class="text-xs font-black text-slate-800">1 Fruta + 2 Verduras Rápidas (Desinflama y sacia)</h2>
             </div>
-            <span id="cardio-week-total" class="text-xs font-extrabold text-rose-300 bg-rose-500/15 border border-rose-500/30 px-2.5 py-1 rounded-full">0 / 60 min</span>
+            <span id="veg-score-badge" class="text-[10px] font-black bg-white text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">0/3</span>
           </div>
-
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-[10px] text-zinc-400 font-bold uppercase block mb-1">Minutos</label>
-              <input id="manual-cardio-min" type="number" inputmode="numeric" value="20" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-rose-500">
-            </div>
-            <div>
-              <label class="text-[10px] text-zinc-400 font-bold uppercase block mb-1">Tipo / Pendiente</label>
-              <input id="manual-cardio-note" type="text" value="Cinta Incline 9% • 4.8 km/h" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-rose-500">
-            </div>
-          </div>
-
-          <button onclick="saveStandaloneCardio()" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs rounded-xl border border-zinc-700 transition">
-            ➕ Registrar Bloque de Cardio Hoy
-          </button>
-
-          <div id="cardio-history-list" class="space-y-2 pt-2 border-t border-zinc-800/80">
+          <div class="grid grid-cols-3 gap-1.5" id="veg-checks-container">
             <!-- Rendered by JS -->
           </div>
+        </div>
+
+        <!-- VICTORIAS DEL ESPEJO & SENSACIONES (NON-SCALE VICTORIES) -->
+        <div class="bg-white border border-emerald-200/90 rounded-3xl p-3.5 space-y-2.5 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">✨</span>
+              <h2 class="text-xs font-black text-slate-900">Victorias del Espejo & Sensaciones</h2>
+            </div>
+            <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">1 toque</span>
+          </div>
+          <p class="text-[10px] text-slate-500 leading-tight">En recomposición la balanza a veces engaña: lo que de verdad cuenta es cómo te ves y te sentís.</p>
+          <div class="flex flex-wrap gap-1.5" id="victories-chips-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- 4 DAILY MEAL SLOTS -->
+        <div id="meals-slots-container" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: IDEAS & KIT ANTI-ANSIEDAD          -->
+      <!-- ========================================== -->
+      <section id="view-ideas" class="hidden space-y-3.5">
+        <div class="flex gap-1.5 overflow-x-auto pb-1" id="ideas-filter-bar">
+          <button onclick="setIdeasFilter('ansiedad')" data-cat="ansiedad" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-extrabold bg-emerald-600 text-white shadow-2xs">📚 Anti-Ansiedad Estudio</button>
+          <button onclick="setIdeasFilter('desayunos')" data-cat="desayunos" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">☀️ Desayunos & Meriendas</button>
+          <button onclick="setIdeasFilter('mama')" data-cat="mama" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">👩‍👧 Platos 2x1 Mamá</button>
+          <button onclick="setIdeasFilter('salidas')" data-cat="salidas" class="idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200">🥂 Salidas con Naza</button>
+        </div>
+
+        <div id="ideas-cards-list" class="space-y-2.5">
+          <!-- Rendered by JS -->
         </div>
       </section>
 
       <!-- ========================================== -->
-      <!-- VIEW 3: PROGRESO & PRs                     -->
+      <!-- VIEW 3: MAMÁ & LISTA DE COMPRAS            -->
       <!-- ========================================== -->
-      <section id="view-progress" class="hidden space-y-4">
+      <section id="view-mama" class="hidden space-y-3.5">
 
-        <!-- Baseline & Body Check-in -->
-        <div class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Recomposición Corporal</span>
-              <h2 class="text-base font-black text-white">Evolución Física</h2>
-            </div>
-            <span class="text-[11px] font-bold text-zinc-400 bg-zinc-950 px-2.5 py-1 rounded-full border border-zinc-800">Altura: 1.54 m</span>
-          </div>
-
-          <div class="grid grid-cols-3 gap-2">
-            <div class="bg-zinc-950 border border-zinc-800/90 rounded-2xl p-2.5 text-center">
-              <span class="text-[10px] text-zinc-500 font-bold uppercase block">Peso Actual</span>
-              <span id="metric-latest-weight" class="text-base font-black text-white">55.0 kg</span>
-            </div>
-            <div class="bg-zinc-950 border border-zinc-800/90 rounded-2xl p-2.5 text-center">
-              <span class="text-[10px] text-zinc-500 font-bold uppercase block">Cintura</span>
-              <span id="metric-latest-waist" class="text-base font-black text-emerald-400">— cm</span>
-            </div>
-            <div class="bg-zinc-950 border border-zinc-800/90 rounded-2xl p-2.5 text-center">
-              <span class="text-[10px] text-zinc-500 font-bold uppercase block">Glúteo</span>
-              <span id="metric-latest-glute" class="text-base font-black text-rose-400">— cm</span>
-            </div>
-          </div>
-
-          <!-- New Check-in Form -->
-          <details class="group bg-zinc-950/70 border border-zinc-800 rounded-2xl p-3">
-            <summary class="text-xs font-bold text-zinc-200 cursor-pointer flex items-center justify-between list-none">
-              <span>📏 Registrar nuevo pesaje o medidas (opcional)</span>
-              <span class="text-rose-400 group-open:rotate-180 transition">▾</span>
-            </summary>
-            <div class="pt-3 space-y-2.5">
-              <div class="grid grid-cols-3 gap-2">
-                <div>
-                  <label class="text-[10px] text-zinc-400 font-bold block mb-1">Peso (kg)</label>
-                  <input id="in-metric-peso" type="number" step="0.1" inputmode="decimal" placeholder="55.0" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs font-bold text-white">
-                </div>
-                <div>
-                  <label class="text-[10px] text-zinc-400 font-bold block mb-1">Cintura (cm)</label>
-                  <input id="in-metric-cintura" type="number" step="0.5" inputmode="decimal" placeholder="Opcional" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs font-bold text-white">
-                </div>
-                <div>
-                  <label class="text-[10px] text-zinc-400 font-bold block mb-1">Glúteo (cm)</label>
-                  <input id="in-metric-gluteo" type="number" step="0.5" inputmode="decimal" placeholder="Opcional" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs font-bold text-white">
-                </div>
-              </div>
-              <p class="text-[10px] text-zinc-500">Tip: Para comparar sin ruido de agua/comida, lo ideal es pesarse a la mañana en ayunas 1 vez por semana.</p>
-              <button onclick="saveBodyMetric()" class="w-full py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition">Guardar Registro</button>
-            </div>
-          </details>
-
-          <div id="body-metrics-history" class="space-y-1.5 pt-1">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
-
-        <!-- Strength PRs Board -->
-        <div class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-4 space-y-3">
+        <!-- Printable Guide Hero -->
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-3xl p-4 shadow-md space-y-3">
           <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">Tus Marcas Reales</span>
-            <h3 class="text-sm font-black text-white">Récords & Cargas Base</h3>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">Lista para mandar</span>
+            <h2 class="text-base font-black mt-1.5">Guía de Cocina & Compras para Mamá 🌸</h2>
+            <p class="text-xs text-emerald-50 mt-0.5 leading-snug">
+              Tiene el truco del rocío vegetal, las compras separadas de las de Martín y 6 platos familiares explicados súper simples.
+            </p>
           </div>
-          <div id="prs-board-list" class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-2 gap-2">
+            <a href="./mama.html" class="py-2.5 px-3 bg-white text-emerald-800 rounded-2xl text-xs font-black text-center shadow-sm hover:bg-emerald-50 transition">
+              📄 Abrir Guía / PDF
+            </a>
+            <button onclick="copyShoppingListForWhatsApp()" class="py-2.5 px-3 bg-emerald-900/40 hover:bg-emerald-900/60 border border-white/30 text-white rounded-2xl text-xs font-extrabold text-center transition">
+              📲 Copiar Lista WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Shopping Checklist -->
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 space-y-3 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-black text-slate-900">🛒 Qué falta pedirle a Mamá</h3>
+              <p class="text-[11px] text-slate-500">Tildá lo que haga falta reponer en la heladera (y tocá "Copiar Lista WhatsApp" arriba para mandarle solo lo que marcaste o la lista completa).</p>
+            </div>
+          </div>
+          <div id="shopping-checklist-box" class="space-y-3 pt-1">
             <!-- Rendered by JS -->
           </div>
         </div>
@@ -290,196 +225,68 @@
       </section>
 
       <!-- ========================================== -->
-      <!-- VIEW 4: COACH RP BIOMECÁNICO               -->
+      <!-- VIEW 4: NUTRI IA                           -->
       <!-- ========================================== -->
-      <section id="view-coach" class="hidden flex flex-col h-[calc(100dvh-185px)]">
-        <div class="bg-zinc-900/90 border border-zinc-800 rounded-3xl flex-1 flex flex-col overflow-hidden">
-          <!-- Coach Header -->
-          <div class="px-4 py-3 border-b border-zinc-800 flex items-center justify-between shrink-0 bg-zinc-950/60">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-sm font-black shadow">🧬</div>
-              <div>
-                <h2 class="text-xs font-black text-white">Coach RP Biomecánico</h2>
-                <p class="text-[10px] text-zinc-400">100% enfocado en técnica, cargas y reemplazos en Fiter</p>
-              </div>
+      <section id="view-nutri-ai" class="hidden flex flex-col h-[calc(100dvh-180px)]">
+        <div class="bg-white border border-emerald-200 rounded-3xl flex-1 flex flex-col overflow-hidden shadow-sm">
+          <div class="px-4 py-3 border-b border-emerald-100 bg-emerald-50/50 flex items-center gap-2.5 shrink-0">
+            <div class="w-8 h-8 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-sm shadow-2xs">🥑</div>
+            <div>
+              <h2 class="text-xs font-black text-slate-900">Nutri IA Práctica</h2>
+              <p class="text-[10px] text-slate-500">Porciones reales, reemplazos con lo que cocinó mamá y ansiedad</p>
             </div>
           </div>
 
-          <!-- Quick Prompts -->
-          <div class="px-3 py-2 border-b border-zinc-800/70 flex gap-1.5 overflow-x-auto shrink-0">
-            <button onclick="askQuickGymCoach('Está ocupada la máquina que me toca ahora en Fiter, ¿con qué la reemplazo y con qué peso?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🔄 Máquina ocupada</button>
-            <button onclick="askQuickGymCoach('¿Cómo ajusto mi postura para sentir más la parte alta del glúteo y no los lumbares?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🍑 Sentir más glúteo</button>
-            <button onclick="askQuickGymCoach('En espalda siento que canso los brazos antes que la espalda, ¿qué tip técnico uso?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🦋 Activar espalda</button>
+          <!-- Quick Chips -->
+          <div class="px-3 py-2 border-b border-emerald-100/80 flex gap-1.5 overflow-x-auto shrink-0 bg-[#FAFDFB]">
+            <button onclick="askQuickNutri('Estoy estudiando con ansiedad y quiero picotear algo rico sin salirme del plan, ¿qué agarro en 1 minuto?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🍫 Ansiedad estudiando</button>
+            <button onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis 1520 kcal y cómo sumo proteína?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
+            <button onclick="askQuickNutri('Salgo a comer con Naza hoy, ¿qué me conviene pedir para disfrutar sin culpa?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥂 Salida con Naza</button>
           </div>
 
-          <!-- Messages -->
-          <div id="gym-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 text-xs">
+          <div id="nutri-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 text-xs bg-[#FAFDFB]">
             <!-- Rendered by JS -->
           </div>
 
-          <!-- Input -->
-          <form onsubmit="event.preventDefault(); sendGymCoachMessage();" class="p-2.5 border-t border-zinc-800 bg-zinc-950/80 flex items-center gap-2 shrink-0">
-            <input id="gym-chat-input" type="text" autocomplete="off" placeholder="Preguntá sobre técnica, peso o reemplazo..." class="flex-1 bg-zinc-900 border border-zinc-700/80 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500">
-            <button type="submit" id="gym-chat-send-btn" class="px-3.5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-xs transition shrink-0">Enviar</button>
-          </form>
+          <div class="p-2.5 border-t border-emerald-100 bg-white flex items-center gap-2 shrink-0">
+            <input id="nutri-chat-input" type="text" placeholder="Ej: Mamá hizo pastas, ¿cuánto me sirvo?" onkeydown="if(event.key==='Enter') sendNutriMessage()" class="flex-1 bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500">
+            <button onclick="sendNutriMessage()" class="px-3.5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition shrink-0">Enviar</button>
+          </div>
         </div>
       </section>
 
     </main>
 
-    <!-- FLOATING REST TIMER BAR (HEVY / RP STYLE) -->
-    <div id="rest-timer-bar" class="hidden absolute bottom-[72px] left-3 right-3 z-40 bg-zinc-900/95 backdrop-blur-md border border-rose-500/40 rounded-2xl p-2.5 shadow-2xl animate-pop">
-      <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-sm">⏱️</div>
-          <div>
-            <span class="text-[10px] uppercase tracking-wider font-extrabold text-rose-400 block">Descanso RP</span>
-            <span id="rest-timer-clock" class="text-base font-black text-white tabular-nums">01:30</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <button onclick="adjustRestTimer(-15)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">-15s</button>
-          <button onclick="adjustRestTimer(15)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">+15s</button>
-          <button onclick="stopRestTimer()" class="px-2.5 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-[11px] font-extrabold border border-rose-500/30">Saltar</button>
-        </div>
-      </div>
-      <div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden mt-2">
-        <div id="rest-timer-progress" class="h-full bg-gradient-to-r from-rose-500 to-pink-400 transition-all duration-300" style="width: 100%"></div>
-      </div>
-    </div>
-
     <!-- BOTTOM TAB BAR -->
-    <nav class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/90 px-2 py-1.5 z-30">
+    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1.5 z-30">
       <div class="grid grid-cols-4 gap-1">
-        <button id="nav-train" onclick="switchGymView('train')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition">
-          <span class="text-base">🏋️‍♀️</span>
-          <span class="text-[10px]">Entrenar</span>
+        <button id="nav-today" onclick="switchNutriView('today')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition">
+          <span class="text-base">🥗</span>
+          <span class="text-[10px]">Hoy</span>
         </button>
-        <button id="nav-cardio" onclick="switchGymView('cardio')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
-          <span class="text-base">🏃‍♀️</span>
-          <span class="text-[10px]">Cardio</span>
+        <button id="nav-ideas" onclick="switchNutriView('ideas')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">🍽️</span>
+          <span class="text-[10px]">Ideas</span>
         </button>
-        <button id="nav-progress" onclick="switchGymView('progress')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
-          <span class="text-base">📈</span>
-          <span class="text-[10px]">Progreso</span>
+        <button id="nav-mama" onclick="switchNutriView('mama')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">👩‍👧</span>
+          <span class="text-[10px]">Mamá & Súper</span>
         </button>
-        <button id="nav-coach" onclick="switchGymView('coach')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
-          <span class="text-base">🧬</span>
-          <span class="text-[10px]">Coach RP</span>
+        <button id="nav-nutri-ai" onclick="switchNutriView('nutri-ai')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+          <span class="text-base">🥑</span>
+          <span class="text-[10px]">Nutri IA</span>
         </button>
       </div>
     </nav>
 
   </div>
 
-  <!-- ================================================= -->
-  <!-- MODAL 1: RP AUTOREGULATION CHECK-IN (OPCIÓN A)    -->
-  <!-- ================================================= -->
-  <div id="modal-finish-rp" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-700/80 rounded-3xl p-5 max-w-sm w-full space-y-4 shadow-2xl animate-pop">
-      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Autorregulación RP</span>
-          <h3 class="text-base font-black text-white" id="finish-modal-title">Cerrar Sesión</h3>
-        </div>
-        <button onclick="closeFinishSessionModal()" class="w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold">✕</button>
-      </div>
-
-      <p class="text-[11px] text-zinc-400 leading-snug">
-        3 toques rápidos: el sistema usa esto para calibrar automáticamente tus series y kilos de la semana que viene.
-      </p>
-
-      <!-- Q1: Pump -->
-      <div class="space-y-1.5">
-        <label class="text-xs font-extrabold text-zinc-200 block">1. Bombeo y conexión muscular (Pump)</label>
-        <div class="grid grid-cols-3 gap-1.5" id="rp-q-pump">
-          <button onclick="selectRpOption('pump','bajo')" data-val="bajo" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Poco</button>
-          <button onclick="selectRpOption('pump','bueno')" data-val="bueno" class="rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300">Bueno ✓</button>
-          <button onclick="selectRpOption('pump','explosivo')" data-val="explosivo" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Explosivo 🔥</button>
-        </div>
-      </div>
-
-      <!-- Q2: Joint Pain -->
-      <div class="space-y-1.5">
-        <label class="text-xs font-extrabold text-zinc-200 block">2. Articulaciones (Rótula / Lumbar / Cuello)</label>
-        <div class="grid grid-cols-3 gap-1.5" id="rp-q-joint">
-          <button onclick="selectRpOption('joint','cero')" data-val="cero" class="rp-opt py-2 px-2 rounded-xl border border-emerald-500 bg-emerald-500/20 text-[11px] font-extrabold text-emerald-300">0 Molestia ✓</button>
-          <button onclick="selectRpOption('joint','leve')" data-val="leve" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Leve</button>
-          <button onclick="selectRpOption('joint','molesto')" data-val="molesto" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Molestó ⚠️</button>
-        </div>
-        <div id="rp-joint-area-box" class="hidden pt-1">
-          <input id="rp-joint-area-input" type="text" placeholder="¿Dónde molestó? (Ej: rótula derecha, lumbar, trapecio)" class="w-full bg-zinc-950 border border-amber-500/40 rounded-xl px-3 py-1.5 text-xs text-amber-200 placeholder-zinc-500">
-        </div>
-      </div>
-
-      <!-- Q3: Fatigue -->
-      <div class="space-y-1.5">
-        <label class="text-xs font-extrabold text-zinc-200 block">3. Energía y fatiga de hoy</label>
-        <div class="grid grid-cols-3 gap-1.5" id="rp-q-fatigue">
-          <button onclick="selectRpOption('fatigue','fresca')" data-val="fresca" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Sobraba 💪</button>
-          <button onclick="selectRpOption('fatigue','optima')" data-val="optima" class="rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300">Justa / Bien ✓</button>
-          <button onclick="selectRpOption('fatigue','alta')" data-val="alta" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Agotada 😴</button>
-        </div>
-      </div>
-
-      <!-- Optional Note -->
-      <div>
-        <input id="rp-finish-note" type="text" placeholder="Nota opcional (ej: subí peso en la última serie)..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500">
-      </div>
-
-      <button onclick="confirmFinishSession()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950 font-black text-xs shadow-lg transition">
-        ✅ Guardar Sesión Completada
-      </button>
-    </div>
-  </div>
-
-  <!-- ================================================= -->
-  <!-- MODAL 2: GESTIÓN FLEXIBLE DE SEMANA               -->
-  <!-- ================================================= -->
-  <div id="modal-week-menu" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-700/80 rounded-3xl p-5 max-w-sm w-full space-y-3.5 shadow-2xl animate-pop">
-      <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-        <h3 class="text-sm font-black text-white">⚙️ Gestión de Semana & Mesociclo</h3>
-        <button onclick="closeWeekMenuModal()" class="w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold">✕</button>
-      </div>
-      <p class="text-xs text-zinc-400 leading-snug">
-        Podés cambiar de semana arriba cuando quieras. Si una semana de finales no pudiste ir y querés arrancar esa semana limpia desde el Día 1, usá reiniciar:
-      </p>
-      <button onclick="advanceToNextWeek()" class="w-full py-2.5 px-3 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 rounded-2xl text-xs font-extrabold text-left flex items-center justify-between">
-        <span>⏭️ Pasar a la siguiente semana del Mesociclo</span>
-        <span>➔</span>
-      </button>
-      <button onclick="resetCurrentWeekProgress()" class="w-full py-2.5 px-3 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-2xl text-xs font-bold text-left flex items-center justify-between">
-        <span>🔄 Reiniciar tildes de la semana actual (volver a Día 1)</span>
-        <span>↺</span>
-      </button>
-      <button onclick="closeWeekMenuModal()" class="w-full py-2 bg-zinc-950 text-zinc-400 rounded-xl text-xs font-bold">Cerrar</button>
-    </div>
-  </div>
-
-  <!-- ================================================= -->
-  <!-- MODAL 3: REEMPLAZOS FITER (MÁQUINA OCUPADA)       -->
-  <!-- ================================================= -->
-  <div id="modal-replacements" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-700/80 rounded-3xl p-5 max-w-sm w-full space-y-3 shadow-2xl animate-pop">
-      <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">Equivalencia Biomecánica Fiter</span>
-          <h3 class="text-sm font-black text-white" id="rep-modal-title">Reemplazar ejercicio</h3>
-        </div>
-        <button onclick="closeReplacementsModal()" class="w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold">✕</button>
-      </div>
-      <div id="rep-options-list" class="space-y-2"></div>
-      <button onclick="closeReplacementsModal()" class="w-full py-2 bg-zinc-950 text-zinc-400 rounded-xl text-xs font-bold">Cancelar</button>
-    </div>
-  </div>
-
   <!-- TOAST -->
-  <div id="toast-box" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 hidden bg-zinc-900 border border-emerald-500/50 text-emerald-300 px-4 py-2 rounded-full text-xs font-extrabold shadow-2xl"></div>
+  <div id="nutri-toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-800 text-white px-4 py-2 rounded-full text-xs font-extrabold shadow-xl"></div>
 
   <script>
     // ==========================================
-    // 1. FIREBASE & GEMINI INITIALIZATION
+    // 1. FIREBASE & GEMINI
     // ==========================================
     const firebaseConfig = {
       apiKey: "AIzaSyDFUAfIjjff9Luw2-1uaznN7bK0ZuHmGEk",
@@ -497,645 +304,208 @@
     const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
 
     // ==========================================
-    // 2. MESOCICLO 2 — RP HYPERTROPHY STRUCTURE
+    // 2. CALIBRATED MEAL OPTIONS FOR MALE (1.54m, 55kg -> ~1520 kcal, 110g Prot)
     // ==========================================
-    const RP_WEEKS = {
-      sem1: { key: 'sem1', num: 1, short: 'Sem 1', rir: 'RIR 3', rirNum: 3, desc: 'Semana 1: Calibración técnica & cargas base (3 en reserva)' },
-      sem2: { key: 'sem2', num: 2, short: 'Sem 2', rir: 'RIR 2', rirNum: 2, desc: 'Semana 2: Sobrecarga progresiva (+1 rep o +carga a RIR 2)' },
-      sem3: { key: 'sem3', num: 3, short: 'Sem 3', rir: 'RIR 1', rirNum: 1, desc: 'Semana 3: Alta intensidad (1 repetición real en reserva)' },
-      sem4: { key: 'sem4', num: 4, short: 'Sem 4', rir: 'RIR 0-1', rirNum: 0, desc: 'Semana 4: Pico de hipertrofia del mesociclo' },
-      sem5: { key: 'sem5', num: 5, short: 'Deload', rir: 'DELOAD', rirNum: 4, desc: 'Semana 5: Descarga activa regenerativa (60% carga, mitad series)' }
-    };
-
-    const BASE_ROUTINE = {
-      dia1: {
-        key: 'dia1',
-        shortLabel: 'Día 1',
-        dayHint: 'Martes',
-        emoji: '🍑',
-        title: 'Glúteo A (Proyección) & Isquios',
-        subtitle: 'Acortamiento pesado primero + cadena posterior + polo superior',
-        duration: '50 min + 20m Cardio',
-        cardioDefault: { required: true, minutes: 20, desc: 'Caminata en Cinta Inclinada (Pendiente 8-10% • 4.5-5.0 km/h)' },
-        exercises: [
-          {
-            id: 'd1_hipthrust',
-            nombre: 'Hip Thrust en Máquina (o Barra Libre)',
-            musculo: 'Glúteo Mayor (Acortamiento & Volumen)',
-            series: 3,
-            baseKg: '25',
-            unit: 'kg',
-            metaReps: [12, 11, 10],
-            repRange: [10, 12],
-            restSec: 90,
-            warmup: '2 series de aproximación: 1x10 con 12-15 kg ➔ 1x6 con 20 kg.',
-            steps: [
-              'Apoyá la base de las escápulas y mantené el mentón pegado al pecho mirando al frente.',
-              'Empujá desde los talones haciendo retroversión pélvica (metiendo la cola) arriba del todo.',
-              'Sostené 1 segundo clavado arriba apretando glúteo sin arquear la cintura.'
-            ],
-            videoQuery: 'hip thrust en maquina tecnica correcta gluteos',
-            alternativas: [
-              { nombre: 'Hip Thrust con Barra Libre y Almohadilla', baseKg: '55', nota: '25 kg de máquina equivalen a ~55-60 kg en barra libre.' },
-              { nombre: 'Puente de Glúteos Guiado en Smith', baseKg: '45', nota: 'Recorrido estable enfocando el tercio superior.' }
-            ]
-          },
-          {
-            id: 'd1_rdl',
-            nombre: 'Peso Muerto Rumano (RDL) Mancuernas',
-            musculo: 'Glúteo en Estiramiento & Unión Isquio',
-            series: 3,
-            baseKg: '16',
-            unit: 'kg x mano',
-            metaReps: [10, 10, 9],
-            repRange: [8, 11],
-            restSec: 90,
-            warmup: '2 series previas: 1x8 con 10 kg/mano ➔ 1x4 con 14 kg/mano.',
-            steps: [
-              'Destrabá apenitas las rodillas (semiflexión fija) y pegá las mancuernas a tus muslos.',
-              'Empujá la cadera bien atrás como queriendo tocar la pared con la cola, espalda neutra.',
-              'Frená apenas pasando las rodillas cuando sientas máximo estiramiento y subí apretando.'
-            ],
-            videoQuery: 'peso muerto rumano con mancuernas gluteos tecnica',
-            alternativas: [
-              { nombre: 'RDL con Barra Corta Armada', baseKg: '30', nota: 'Equivale a tus 15-16 kg por mano.' },
-              { nombre: 'Hiperextensiones a 45° Foco Glúteo', baseKg: '15', nota: 'Disco de 15 kg al pecho, espalda alta curva.' }
-            ]
-          },
-          {
-            id: 'd1_legcurl',
-            nombre: 'Seated Leg Curl (Camilla Sentada)',
-            musculo: 'Isquiotibiales (Volumen Posterior Pierna)',
-            series: 3,
-            baseKg: '27',
-            unit: 'kg',
-            metaReps: [12, 11, 10],
-            repRange: [10, 13],
-            restSec: 75,
-            warmup: '💡 Clave rodilla: alineá el eje rojo circular de la máquina con el centro de tu rodilla y trabá bien los muslos.',
-            steps: [
-              'Alineá el eje circular de la máquina con el centro de tu rodilla para eliminar toda tensión en la rótula.',
-              'Ajustá el rodillo encima de los talones y trabá bien firme la almohadilla sobre tus muslos para que no se levanten.',
-              'Flexioná llevando talones abajo y atrás manteniendo tobillos en 90° (puntas mirando hacia tus tibias).'
-            ],
-            videoQuery: 'curl femoral sentado tecnica correcta isquios',
-            alternativas: [
-              { nombre: 'Camilla de Isquios Acostada (Lying Leg Curl)', baseKg: '23', nota: '¡Alternativa ideal si la sentada tira la rodilla! Cero presión en rótula.' },
-              { nombre: 'Curl Femoral con Mancuerna entre Pies', baseKg: '10', nota: 'Acostada boca abajo en banco plano.' }
-            ]
-          },
-          {
-            id: 'd1_abductores',
-            nombre: 'Abductores en Máquina (Torso Inclinado)',
-            musculo: 'Glúteo Medio Posterior (Polo Alto)',
-            series: 3,
-            baseKg: '72',
-            unit: 'kg',
-            metaReps: [17, 16, 15],
-            repRange: [15, 20],
-            restSec: 60,
-            warmup: '1 serie de activación con 50 kg x 10 reps.',
-            steps: [
-              'Sentate e incliná el torso unos 20°-30° hacia adelante agarrándote del frente.',
-              'Abrí las rodillas con fuerza hacia afuera y hacé 1 segundo de pausa en apertura.',
-              'Volvé controlado sin dejar que los ladrillos choquen de golpe.'
-            ],
-            videoQuery: 'abductores en maquina inclinada hacia adelante gluteo medio',
-            alternativas: [
-              { nombre: 'Abducción Lateral/Diagonal en Polea Baja', baseKg: '6.8', nota: 'Con tobillera, 15 reps por pierna.' },
-              { nombre: 'Abductores Erguida con Pausa 2s', baseKg: '68', nota: 'Pausa isométrica estricta de 2s afuera.' }
-            ]
-          }
+    const MEAL_SLOTS = [
+      {
+        id: 'desayuno',
+        icon: '☀️',
+        title: 'Desayuno + 5g Creatina',
+        targetHint: '~340 kcal • 25g Prot',
+        options: [
+          { id: 'des_tostadas_ricota_simple', name: '2 tostadas con abundante ricota + mermelada + café c/ leche', kcal: 360, p: 23, c: 44, f: 11 },
+          { id: 'des_cheesecake', name: '2 tostadas con ricota abundante + mermelada + café c/ leche + 1 huevo revuelto (o yogur)', kcal: 345, p: 26, c: 38, f: 10 },
+          { id: 'des_huevos', name: '2 huevos + 2 claras revueltos + 1 tostada integral con queso untable light + café/té', kcal: 340, p: 26, c: 24, f: 14 },
+          { id: 'des_yogur', name: 'Yogur proteico/griego + 3 cdas de avena + arándanos o frutillas lavadas', kcal: 335, p: 24, c: 42, f: 6 },
+          { id: 'des_panqueque', name: 'Panqueque rápido de avena (1 huevo + 2 claras + 3 cdas avena + ½ banana arriba)', kcal: 350, p: 25, c: 40, f: 8 },
+          { id: 'des_sandwich', name: 'Tostado en pan integral con 2 fetas jamón magro + queso Port Salut light + 1 huevo', kcal: 355, p: 27, c: 28, f: 13 }
         ]
       },
-
-      dia2: {
-        key: 'dia2',
-        shortLabel: 'Día 2',
-        dayHint: 'Mié / Lun',
-        emoji: '🦋',
-        title: 'Torso A Express (V-Taper & Core)',
-        subtitle: 'Espalda definida + hombros que achican cintura + abdomen plano',
-        duration: '35-40 min ágiles',
-        cardioDefault: { required: false, minutes: 20, desc: 'Opcional (o 20 min Cinta Incline 8-10% si tenés tiempo)' },
-        exercises: [
-          {
-            id: 'd2_jalon',
-            nombre: 'Jalón al Pecho en Polea Alta (Abierto)',
-            musculo: 'Dorsal Ancho (Efecto Cintura Chica)',
-            series: 3,
-            baseKg: '23',
-            unit: 'kg',
-            metaReps: [11, 10, 9],
-            repRange: [9, 12],
-            restSec: 90,
-            warmup: '1x12 con 14 kg ➔ 1x8 con 18 kg sintiendo bajar las escápulas.',
-            steps: [
-              'Tomá la barra un poco más ancho que tus hombros y trabá los muslos bajo los rodillos.',
-              'Sacá pecho, bajá los hombros lejos de las orejas y traé la barra a la clavícula.',
-              'Pensá en meter los codos en los bolsillos traseros y subí estirando 2 segundos.'
-            ],
-            videoQuery: 'jalon al pecho polea alta mujer tecnica espalda',
-            alternativas: [
-              { nombre: 'Jalón con Agarre Neutro / Triángulo', baseKg: '23', nota: 'Mismo estímulo dorsal súper cómodo para hombros.' },
-              { nombre: 'Máquina Dorsalera Guiada', baseKg: '23', nota: 'Tracción vertical equivalente.' }
-            ]
-          },
-          {
-            id: 'd2_remo',
-            nombre: 'Remo Sentada en Polea Baja (Triángulo)',
-            musculo: 'Espalda Media (Tono & Postura)',
-            series: 3,
-            baseKg: '18',
-            unit: 'kg',
-            metaReps: [11, 11, 9],
-            repRange: [9, 12],
-            restSec: 90,
-            warmup: '1x8 con 14 kg.',
-            steps: [
-              'Sentate con rodillas semiflexionadas y el torso derecho (sin balancear la cintura).',
-              'Llevá el agarre hacia el ombligo pegando los codos a las costillas.',
-              'Apretá las escápulas atrás 1 segundo como sosteniendo una lapicera en la espalda.'
-            ],
-            videoQuery: 'remo sentado en polea baja tecnica espalda',
-            alternativas: [
-              { nombre: 'Remo en Máquina con Pecho Apoyado', baseKg: '18', nota: 'Cero carga lumbar, aísla espalda media al 100%.' },
-              { nombre: 'Remo Unilateral con Mancuerna en Banco', baseKg: '10', nota: '10-12 reps por brazo.' }
-            ]
-          },
-          {
-            id: 'd2_press_hombro',
-            nombre: 'Press de Hombros en Máquina',
-            musculo: 'Hombros & Tono de Brazos',
-            series: 3,
-            baseKg: '9',
-            unit: 'kg',
-            metaReps: [12, 12, 11],
-            repRange: [10, 13],
-            restSec: 75,
-            warmup: '1x8 liviana con 4.5 kg para lubricar hombros.',
-            steps: [
-              'Ajustá el asiento para que los agarres arranquen a la altura de tus orejas/mentón.',
-              'Usá el agarre neutro o frontal manteniendo la espalda bien pegada al respaldo.',
-              'Empujá arriba controlado sin bloquear de golpe los codos y bajá en 2 segundos.'
-            ],
-            videoQuery: 'press de hombros en maquina mujer tecnica',
-            alternativas: [
-              { nombre: 'Press de Hombros Sentada con Mancuernas', baseKg: '5', nota: '5 kg por mano con banco a 75°.' },
-              { nombre: 'Press Arnold Suave con Mancuernas', baseKg: '4', nota: 'Recorrido fluido cuidando articulación.' }
-            ]
-          },
-          {
-            id: 'd2_laterales',
-            nombre: 'Vuelos Laterales con Mancuernas',
-            musculo: 'Deltoides Lateral (Marco Reloj de Arena)',
-            series: 3,
-            baseKg: '4',
-            unit: 'kg x mano',
-            metaReps: [13, 12, 12],
-            repRange: [11, 15],
-            restSec: 60,
-            warmup: 'Directo a series efectivas. Clave: 4 a 5 kg por mano con brazos largos (codos apenas destrabados, no a 90°), cero envión y hombros bajos para que trabaje 100% el hombro lateral y no el cuello/trapecio.',
-            steps: [
-              'Parada o sentada, bajá los hombros lejos de las orejas (cero encoger el cuello/trapecio).',
-              'Con los brazos largos (casi extendidos), subí hacia afuera y apenitas adelante (15°) como empujando las paredes.',
-              'Frená a la altura del hombro y bajá controlando 2 segundos completos sin balancear el torso.'
-            ],
-            videoQuery: 'elevaciones laterales con mancuernas tecnica sin trapecio',
-            alternativas: [
-              { nombre: 'Máquina de Vuelos Laterales', baseKg: '6', nota: '6 kg por lado empujando con los codos.' },
-              { nombre: 'Vuelos Laterales en Polea Baja a 1 Brazo', baseKg: '2.5', nota: 'Tensión constante desde abajo.' }
-            ]
-          },
-          {
-            id: 'd2_facepull',
-            nombre: 'Face Pull en Polea con Soga ("Soga a la frente")',
-            musculo: 'Hombro Posterior & Postura Odonto',
-            series: 3,
-            baseKg: '3',
-            unit: 'ladrillos',
-            metaReps: [12, 11, 10],
-            repRange: [10, 15],
-            restSec: 60,
-            warmup: 'Directo a series efectivas.',
-            steps: [
-              'Ubicá la polea a la altura de tu nariz/frente con la soga de las dos pelotitas puesta.',
-              'Dá un paso atrás y tirá las puntas hacia los costados de tu frente abriendo las manos.',
-              'Terminá con los codos bien abiertos atrás sacando pecho 1 segundo.'
-            ],
-            videoQuery: 'face pull en polea alta con cuerda tecnica',
-            alternativas: [
-              { nombre: 'Máquina Peck Deck Inverso (Posteriores)', baseKg: '14', nota: 'Sentada mirando al respaldo, abrir brazos atrás.' },
-              { nombre: 'Pájaros Sentada Inclinada con Mancuernas', baseKg: '3', nota: 'Mancuernas de 2-3 kg levantando tipo alas.' }
-            ]
-          },
-          {
-            id: 'd2_deadbug',
-            nombre: 'Dead Bugs en Colchoneta (o Plancha Activa)',
-            musculo: 'Transverso Abdominal / Faja Plana',
-            series: 3,
-            baseKg: '0',
-            unit: 'corporal',
-            metaReps: [12, 12, 12],
-            repRange: [10, 16],
-            restSec: 45,
-            warmup: 'Directo en colchoneta (0 oblicuos pesados para mantener la cintura bien fina).',
-            steps: [
-              'Acostate boca arriba con brazos extendidos al techo y rodillas flexionadas a 90° en el aire.',
-              'Pegá la espalda baja firme contra la colchoneta exhalando y metiendo el ombligo hacia adentro.',
-              'Estirá lento brazo y pierna contrarios sin despegar la cintura del piso y volvé (12 totales / 6 por lado).'
-            ],
-            videoQuery: 'dead bug abdominales tecnica correcta espalda pegada',
-            alternativas: [
-              { nombre: 'Plancha Frontal Apoyando Antebrazos', baseKg: '0', nota: '3 series de 40 seg metiendo ombligo adentro y apretando glúteo.' },
-              { nombre: 'Abdominales en Máquina Sentada', baseKg: '18', nota: 'Si no hay colchoneta libre: 3 x 12-14 exhalando todo el aire.' }
-            ]
-          }
+      {
+        id: 'almuerzo',
+        icon: '🍽️',
+        title: 'Almuerzo Casero (o Táper)',
+        targetHint: '~460 kcal • 32g Prot',
+        options: [
+          { id: 'alm_mila_clasica', name: 'Milanesa de carne/pollo tradicional con tomate / ensalada (versión de casa)', kcal: 420, p: 29, c: 22, f: 19 },
+          { id: 'alm_tarta_atun', name: '2 porciones chicas tarta de verdura + 1 lata atún (o carne magra)', kcal: 520, p: 48, c: 36, f: 14 },
+          { id: 'alm_mila', name: 'Milanesa grande de pollo/nalga al horno (rocío vegetal) + calabaza asada y cherrys', kcal: 455, p: 34, c: 45, f: 13 },
+          { id: 'alm_pollo_arroz', name: 'Pechuga grillada/tiritas (150g) + 1 taza arroz o papa al horno + hojas verdes', kcal: 460, p: 35, c: 50, f: 10 },
+          { id: 'alm_hamb', name: '2 medallones caseros carne magra + bastones de papa al horno + ensalada rápida', kcal: 475, p: 33, c: 42, f: 16 },
+          { id: 'alm_pasta', name: '1 taza medida de fideos con abundante pollo o bolognesa magra (150g carne)', kcal: 480, p: 31, c: 54, f: 13 },
+          { id: 'alm_atun', name: 'Táper rápido: 1 lata atún al natural + 2 huevos duros + choclo/arroz + cherrys', kcal: 430, p: 34, c: 36, f: 12 }
         ]
       },
-
-      dia3: {
-        key: 'dia3',
-        shortLabel: 'Día 3',
-        dayHint: 'Jueves',
-        emoji: '🔥',
-        title: 'Glúteo B & Aumento de Piernas',
-        subtitle: 'Estiramiento profundo + piernas torneadas + patada diagonal 30°',
-        duration: '50-55 min',
-        cardioDefault: { required: false, minutes: 15, desc: 'Opcional: 15 min caminata suave post-pierna' },
-        exercises: [
-          {
-            id: 'd3_prensa',
-            nombre: 'Prensa Inclinada a 45° (Pies Medios-Altos)',
-            musculo: 'Glúteo Mayor & Piernas Completas',
-            series: 3,
-            baseKg: '100',
-            unit: 'kg',
-            metaReps: [11, 10, 10],
-            repRange: [9, 12],
-            restSec: 90,
-            warmup: '2 series previas: 1x10 con 50 kg ➔ 1x5 con 80 kg.',
-            steps: [
-              'Apoyá los pies a ancho de hombros en la mitad superior de la plataforma.',
-              'Bajá lento y profundo manteniendo el sacro bien pegado al asiento.',
-              'Empujá firme con toda la planta/talón sin trabar de golpe las rodillas arriba.'
-            ],
-            videoQuery: 'prensa 45 grados pies altos gluteos tecnica',
-            alternativas: [
-              { nombre: 'Sentadilla Hack Tradicional Pies Adelantados', baseKg: '30', nota: '15 kg por lado en discos.' },
-              { nombre: 'Prensa Horizontal en Máquina', baseKg: '75', nota: 'Pies altos para enfatizar glúteo y pierna.' }
-            ]
-          },
-          {
-            id: 'd3_bulgara',
-            nombre: 'Sentadilla Búlgara con Apoyo de Mano',
-            musculo: 'Glúteo Profundo & Pierna Unilateral',
-            series: 3,
-            baseKg: '8',
-            unit: 'kg',
-            metaReps: [10, 10, 9],
-            repRange: [8, 11],
-            restSec: 90,
-            warmup: '1x5 por pierna sin peso para medir exactamente la distancia al banco.',
-            steps: [
-              'Sostené la mancuerna en la mano contraria a la pierna que trabaja y apoyá la otra mano en un rack/soporte para equilibrio total.',
-              'Incliná el torso 20° hacia adelante llevando la cadera levemente atrás al bajar.',
-              'Empujá el piso con el talón de adelante sintiendo fuego en todo el glúteo.'
-            ],
-            videoQuery: 'sentadilla bulgara enfocada en gluteo con apoyo',
-            alternativas: [
-              { nombre: 'Step-Up en Cajón Alto con Apoyo', baseKg: '8', nota: 'Subir empujando 100% con talón de arriba sin impulso abajo.' },
-              { nombre: 'Estocadas Estáticas Atrás en Smith', baseKg: '20', nota: '10 kg por lado con torso inclinado 20°.' }
-            ]
-          },
-          {
-            id: 'd3_extension',
-            nombre: 'Sillón de Extensión de Cuádriceps',
-            musculo: 'Cuádriceps (Volumen Firme de Piernas)',
-            series: 3,
-            baseKg: '36',
-            unit: 'kg',
-            metaReps: [12, 12, 11],
-            repRange: [10, 14],
-            restSec: 75,
-            warmup: 'Directo (cuádriceps ya calientes por Prensa y Búlgara).',
-            steps: [
-              'Alineá la rodilla con el eje de giro de la máquina y agarrate fuerte a los costados.',
-              'Extendé arriba apretando el muslo 1 segundo.',
-              'Bajá frenando 2 segundos completos para estimular masa muscular cuidando la rótula.'
-            ],
-            videoQuery: 'extension de cuadriceps en maquina tecnica correcta',
-            alternativas: [
-              { nombre: 'Prensa Pies Más Abajo Controlada', baseKg: '65', nota: '3 x 12 con tempo lento.' },
-              { nombre: 'Sentadilla Goblet con Talones en Disco', baseKg: '16', nota: 'Enfatiza piernas cuidando zona lumbar.' }
-            ]
-          },
-          {
-            id: 'd3_aductores',
-            nombre: 'Máquina de Aductores',
-            musculo: 'Aductores (Relleno & Firmeza Interna)',
-            series: 3,
-            baseKg: '36',
-            unit: 'kg',
-            metaReps: [16, 15, 15],
-            repRange: [14, 18],
-            restSec: 60,
-            warmup: '1x8 suave con 25 kg.',
-            steps: [
-              'Espalda bien apoyada y apertura amplia pero cómoda para tu cadera.',
-              'Cerrá controlado apretando 1 segundo en el centro.',
-              'Abrí despacio en 2 segundos sintiendo el estiramiento interno.'
-            ],
-            videoQuery: 'maquina de aductores tecnica correcta pierna',
-            alternativas: [
-              { nombre: 'Aducción Medial en Polea con Tobillera', baseKg: '5', nota: '14-15 reps por pierna.' },
-              { nombre: 'Sentadilla Sumo Mancuerna Pausa 2s', baseKg: '24', nota: 'Pausa abajo para aductores.' }
-            ]
-          },
-          {
-            id: 'd3_patada_diag',
-            nombre: 'Patada en Polea EN DIAGONAL (30° Afuera)',
-            musculo: 'Glúteo Medio Posterior ("Forma de P")',
-            series: 3,
-            baseKg: '9.1',
-            unit: 'kg',
-            metaReps: [14, 13, 12],
-            repRange: [12, 16],
-            restSec: 60,
-            warmup: 'Directo a series efectivas.',
-            steps: [
-              'Ponete frente a la polea baja con tobillera, incliná apenitas el torso y girá 30° el cuerpo.',
-              'Pateá EN DIAGONAL hacia atrás y hacia afuera (a las 4 o las 8 del reloj, no recto atrás).',
-              'Frená corto cuando el glúteo superior se contrae al máximo, sin arquear la cintura.'
-            ],
-            videoQuery: 'patada de gluteo diagonal 30 grados polea gluteo medio',
-            alternativas: [
-              { nombre: 'Abductores en Máquina Inclinada Adelante', baseKg: '72', nota: 'Reemplazo directo si las poleas están llenas.' },
-              { nombre: 'Máquina de Patada de Glúteo Unilateral', baseKg: '25', nota: '12-14 reps controladas por pierna.' }
-            ]
-          }
+      {
+        id: 'merienda',
+        icon: '📚',
+        title: 'Merienda Estudio / Anti-Ansiedad',
+        targetHint: '~300 kcal • 23g Prot',
+        options: [
+          { id: 'mer_ricota', name: '1 o 2 tostadas con abundante ricota + mermelada + café c/ leche + 1 banana', kcal: 290, p: 20, c: 45, f: 6 },
+          { id: 'mer_tostadas', name: '2 tostadas integrales con queso untable light + 2 fetas jamón magro o huevo + 1 fruta', kcal: 305, p: 22, c: 35, f: 8 },
+          { id: 'mer_licuado', name: 'Licuado leche descremada + 1 banana + yogur proteico (o 5 nueces)', kcal: 310, p: 21, c: 39, f: 7 },
+          { id: 'mer_bowl', name: 'Bowl dulce: Yogur descremado/griego + manzana/frutillas + 1 cda mantequilla maní o almendras', kcal: 295, p: 22, c: 28, f: 10 },
+          { id: 'mer_rollitos', name: 'Mates + 3 rollitos de jamón magro y Port Salut light + 2 galletas de arroz + 1 fruta', kcal: 290, p: 24, c: 26, f: 9 }
         ]
       },
-
-      dia4: {
-        key: 'dia4',
-        shortLabel: 'Día 4',
-        dayHint: 'Viernes',
-        emoji: '✨',
-        title: 'Torso B Express (V-Taper & Hombros) + Cinta',
-        subtitle: 'Espalda fina + hombros redondeados + 20-25 min cinta inclinada (cero tríceps ni crunchs)',
-        duration: '35 min + 20-25m Cinta',
-        cardioDefault: { required: true, minutes: 25, desc: 'Caminata en Cinta Inclinada (Pendiente 9-12% • 4.5-5.0 km/h)' },
-        exercises: [
-          {
-            id: 'd4_jalon_neutro',
-            nombre: 'Jalón Agarre Neutro Cerrado (Triángulo)',
-            musculo: 'Dorsal Bajo & Línea Lateral Espalda',
-            series: 3,
-            baseKg: '23',
-            unit: 'kg',
-            metaReps: [11, 10, 9],
-            repRange: [9, 12],
-            restSec: 90,
-            warmup: '1x10 con 14 kg estirando bien los dorsales arriba.',
-            steps: [
-              'Usá el triángulo o barra paralela neutra y sacá pecho hacia el techo.',
-              'Bajá el agarre hacia la parte alta del pecho rozando el torso con los codos.',
-              'Dejá que arriba te estire toda la línea lateral de la espalda y volvé a bajar.'
-            ],
-            videoQuery: 'jalon al pecho agarre neutro triangulo espalda',
-            alternativas: [
-              { nombre: 'Pull-Over de Pie en Polea Alta con Soga', baseKg: '14', nota: 'Brazos semirrígidos llevando la soga a la cadera.' },
-              { nombre: 'Jalón Supino (Palmas hacia vos)', baseKg: '23', nota: 'Ancho de hombros, excelente activación dorsal.' }
-            ]
-          },
-          {
-            id: 'd4_remo_maq',
-            nombre: 'Remo con Pecho Apoyado (o Polea Baja)',
-            musculo: 'Espalda Media (2da Frecuencia)',
-            series: 3,
-            baseKg: '18',
-            unit: 'kg',
-            metaReps: [11, 10, 9],
-            repRange: [9, 12],
-            restSec: 90,
-            warmup: 'Directo a series efectivas.',
-            steps: [
-              'Apoyá el pecho en la almohadilla (o en banco inclinado a 45° con mancuernas).',
-              'Traccioná llevando codos atrás y apretando toda la espalda media 1 segundo.',
-              'Soltá lento dejando que las escápulas se abran adelante.'
-            ],
-            videoQuery: 'remo con pecho apoyado en maquina o banco espalda',
-            alternativas: [
-              { nombre: 'Remo en Polea Baja con Barra Abierta', baseKg: '22.5', nota: 'Enfatiza espalda media-alta.' },
-              { nombre: 'Remo a 1 Brazo con Mancuerna en Banco', baseKg: '10', nota: '10-12 reps por lado.' }
-            ]
-          },
-          {
-            id: 'd4_lat_polea',
-            nombre: 'Vuelos Laterales en Polea Baja (o Manc.)',
-            musculo: 'Deltoides Lateral (2da Frecuencia)',
-            series: 3,
-            baseKg: '3.5',
-            unit: 'kg',
-            metaReps: [15, 14, 12],
-            repRange: [12, 16],
-            restSec: 60,
-            warmup: 'Directo.',
-            steps: [
-              'Polea abajo del todo; pasá el cable por delante o detrás de tus piernas.',
-              'Levantá el brazo lateralmente hasta la horizontal sin encoger el hombro.',
-              'Controlá la bajada aprovechando la tensión continua del cable.'
-            ],
-            videoQuery: 'elevaciones laterales en polea baja un brazo',
-            alternativas: [
-              { nombre: 'Vuelos Laterales Sentada con Mancuernas', baseKg: '3.5', nota: 'Sentada elimina cualquier impulso.' },
-              { nombre: 'Máquina de Vuelos Laterales', baseKg: '10', nota: '12-15 reps prolijas.' }
-            ]
-          },
-          {
-            id: 'd4_pajaros',
-            nombre: 'Peck Deck Inverso / Posteriores',
-            musculo: 'Deltoides Posterior & Postura (Cierre)',
-            series: 3,
-            baseKg: '15',
-            unit: 'kg',
-            metaReps: [15, 14, 14],
-            repRange: [14, 18],
-            restSec: 60,
-            warmup: 'Directo a series efectivas.',
-            steps: [
-              'Sentate mirando hacia la máquina de mariposa con los brazos a altura del hombro.',
-              'Abrí hacia atrás empujando lejos con el dorso de las manos sin juntar trapecio arriba.',
-              'Volvé despacio manteniendo tensión.'
-            ],
-            videoQuery: 'peck deck inverso hombro posterior tecnica',
-            alternativas: [
-              { nombre: 'Face Pull en Polea Alta con Soga', baseKg: '12.5', nota: 'Igual que en Torso A.' },
-              { nombre: 'Pájaros con Mancuernas de 3 kg', baseKg: '3', nota: 'Inclinada hacia adelante.' }
-            ]
-          }
-        ]
-      },
-
-      dia5: {
-        key: 'dia5',
-        shortLabel: 'Día 5',
-        dayHint: 'Finde',
-        emoji: '👑',
-        title: 'Glúteo C ("Forma de P") & Piernas con Naza',
-        subtitle: 'Kas Glute Bridge + lubricación rótula + Hack Inversa + isquios + drop-set',
-        duration: '55 min + Cardio juntos',
-        cardioDefault: { required: true, minutes: 15, desc: '15-20 min Cinta Inclinada o Bici charlando en pareja' },
-        exercises: [
-          {
-            id: 'd5_kas',
-            nombre: 'Kas Glute Bridge (Barra / Smith / Máq.)',
-            musculo: 'Repisa Superior del Glúteo ("Forma de P")',
-            series: 4,
-            baseKg: '55',
-            unit: 'kg barra (o 30 máq)',
-            metaReps: [10, 9, 8, 15],
-            repRange: [8, 12],
-            restSec: 90,
-            warmup: '1x10 liviano ➔ 1x6 peso intermedio. La 4ta serie bajás un 20% el peso y sacás 15 reps.',
-            steps: [
-              'Misma posición que el Hip Thrust, pero el movimiento es SOLO en el tercio de arriba.',
-              'Bajás apenas 15-20 cm de forma súper lenta y volvés a subir apretando 1s arriba.',
-              'Al no bajar profundo, los cuádriceps e isquios no entran y el polo alto del glúteo arde al 100%.'
-            ],
-            videoQuery: 'kas glute bridge diferencia hip thrust tecnica',
-            alternativas: [
-              { nombre: 'Hip Thrust en Máquina Pesado + Pausa 2s', baseKg: '30', nota: 'Recorrido corto superior.' },
-              { nombre: 'Kas Glute Bridge en Máquina Smith', baseKg: '50', nota: 'Súper estable para cargar pesado.' }
-            ]
-          },
-          {
-            id: 'd5_ext_prep',
-            nombre: 'Extensión de Cuádriceps (2da Frec. + Rótula)',
-            musculo: 'Cuádriceps & Lubricación Pre-Hack',
-            series: 2,
-            baseKg: '36',
-            unit: 'kg',
-            metaReps: [13, 12],
-            repRange: [12, 15],
-            restSec: 60,
-            warmup: '1x10 suave con 18 kg para lubricar la rótula antes de la Hack.',
-            steps: [
-              '2 series controladas (2s de bajada) que suman volumen a tus piernas y dejan la rodilla blindada para la Hack Inversa.'
-            ],
-            videoQuery: 'extension de cuadriceps en maquina tecnica correcta',
-            alternativas: [
-              { nombre: 'Prensa 45° Liviana Bombeo', baseKg: '60', nota: '2 x 14 controladas.' }
-            ]
-          },
-          {
-            id: 'd5_hack_inv',
-            nombre: 'Sentadilla Hack Inversa',
-            musculo: 'Glúteo Mayor & Piernas Firmes',
-            series: 3,
-            baseKg: '15',
-            unit: 'kg x lado',
-            metaReps: [12, 11, 10],
-            repRange: [10, 12],
-            restSec: 90,
-            warmup: '1x8 sin discos ➔ 1x5 con 7.5 kg por lado.',
-            steps: [
-              'Mirando hacia el respaldo de la Hack, apoyá hombros firme y pies a ancho de caderas.',
-              'Llevá la cadera hacia atrás y abajo en descenso profundo y controlado.',
-              'Empujá desde los talones manteniendo abdomen firme.'
-            ],
-            videoQuery: 'sentadilla hack inversa gluteos tecnica',
-            alternativas: [
-              { nombre: 'Prensa Inclinada 45° Pies Altos', baseKg: '100', nota: 'Tu marca sólida de 100 kg.' },
-              { nombre: 'Sentadilla Guiada en Smith Pies Adelante', baseKg: '30', nota: '15 kg por lado.' }
-            ]
-          },
-          {
-            id: 'd5_hiperext',
-            nombre: 'Hiperextensiones a 45° con Disco',
-            musculo: 'Unión Isquio-Glútea & Cadena Posterior',
-            series: 3,
-            baseKg: '10',
-            unit: 'kg disco',
-            metaReps: [15, 15, 14],
-            repRange: [12, 16],
-            restSec: 75,
-            warmup: 'Directo a series efectivas.',
-            steps: [
-              'Almohadilla debajo de la cresta de la cadera para poder doblar libremente.',
-              'Abrazá el disco al pecho, encorvá apenitas la espalda alta y meté el mentón.',
-              'Subí solo hasta quedar en línea recta empujando la pelvis contra el cojín con los glúteos.'
-            ],
-            videoQuery: 'hiperextensiones 45 grados enfocadas en gluteo',
-            alternativas: [
-              { nombre: 'Pull-Through en Polea Baja con Soga', baseKg: '25', nota: 'Bisagra horizontal pura para glúteo.' },
-              { nombre: 'Buenos Días con Mancuerna al Pecho', baseKg: '16', nota: 'Bisagra controlada.' }
-            ]
-          },
-          {
-            id: 'd5_legcurl2',
-            nombre: 'Seated o Lying Leg Curl (2da Frec. Pierna)',
-            musculo: 'Isquiotibiales (Volumen Posterior)',
-            series: 2,
-            baseKg: '27',
-            unit: 'kg',
-            metaReps: [12, 11],
-            repRange: [10, 13],
-            restSec: 75,
-            warmup: '1x6 con 18 kg.',
-            steps: [
-              '2 series intensas y limpias con retorno controlado de 2-3 segundos.',
-              'Completan las series semanales para darle redondez posterior al muslo cuidando rótula.'
-            ],
-            videoQuery: 'curl femoral acostado o sentado tecnica',
-            alternativas: [
-              { nombre: 'Lying Leg Curl (Camilla Acostada)', baseKg: '25', nota: 'Cadera pegada al banco.' },
-              { nombre: 'SLDL con Mancuernas', baseKg: '14', nota: '14 kg por mano.' }
-            ]
-          },
-          {
-            id: 'd5_abd_drop',
-            nombre: 'Abductores en Máquina (+ Drop-Set Final)',
-            musculo: 'Glúteo Medio Superior (Bombeo Final)',
-            series: 3,
-            baseKg: '72',
-            unit: 'kg',
-            metaReps: [17, 16, 15],
-            repRange: [15, 20],
-            restSec: 60,
-            warmup: 'En la 3ra serie: al terminar las 15 reps con 72 kg, bajás el pin a 50 kg sin descansar y sacás 10-12 reps más.',
-            steps: [
-              'Torso inclinado hacia adelante y apertura máxima controlada.',
-              'En la última serie de la semana metemos el Drop-Set para agotar todas las fibras superiores.'
-            ],
-            videoQuery: 'abductores en maquina drop set gluteos',
-            alternativas: [
-              { nombre: 'Patada Diagonal 30° en Polea Continua', baseKg: '9.1', nota: 'Sin descanso entre pierna y pierna.' },
-              { nombre: 'Abductores con Banda + Máquina', baseKg: '63', nota: 'Tensión máxima en acortamiento.' }
-            ]
-          }
+      {
+        id: 'cena',
+        icon: '🌙',
+        title: 'Cena Liviana & Reparadora',
+        targetHint: '~410 kcal • 30g Prot',
+        options: [
+          { id: 'cen_atun_tuneado', name: 'Cena Atún Express: 1 lata atún al natural + tomate + choclo (o tostadas) + queso', kcal: 380, p: 34, c: 35, f: 10 },
+          { id: 'cen_wok', name: 'Wok de pollo o cuadril en tiras (150g) + bolsa verduras salteadas + 3 cdas arroz', kcal: 405, p: 33, c: 36, f: 11 },
+          { id: 'cen_pastel', name: 'Porción de pastel de calabaza y carne picada magra con cubito queso light', kcal: 415, p: 31, c: 38, f: 14 },
+          { id: 'cen_tortilla', name: 'Tortilla sin fritura (2 huevos + 2 claras + papa chica al horno) + cherrys', kcal: 400, p: 28, c: 34, f: 14 },
+          { id: 'cen_pescado', name: 'Filet de merluza o suprema al horno con limón + calabaza/brócoli del táper', kcal: 385, p: 32, c: 30, f: 11 }
         ]
       }
+    ];
+
+    // ==========================================
+    // 2.1 PANTRY BLOCKS (MODULAR FOOD BUILDER)
+    // ==========================================
+    const FOOD_PANTRY = {
+      desayuno: [
+        { id: 'f_des_cafe_leche', name: '☕ Café c/ leche', kcal: 100, p: 7.5, c: 9, f: 3 },
+        { id: 'f_des_tostada_1', name: '🍞 1 Tostada', kcal: 75, p: 2.5, c: 14, f: 1 },
+        { id: 'f_des_tostada_2', name: '🍞🍞 2 Tostadas', kcal: 150, p: 5, c: 28, f: 2 },
+        { id: 'f_des_ricota_1', name: '🧀 Ricota (1 cda sopera)', kcal: 55, p: 5.5, c: 2, f: 3 },
+        { id: 'f_des_ricota_2', name: '🧀 Ricota (2 cdas colmadas)', kcal: 110, p: 11, c: 4, f: 6 },
+        { id: 'f_des_mermelada', name: '🍓 Mermelada (1 cdita)', kcal: 30, p: 0, c: 8, f: 0 },
+        { id: 'f_des_semillas', name: '🌱 Semillitas chía (1 cdita)', kcal: 30, p: 1, c: 1, f: 2.5 },
+        { id: 'f_des_banana', name: '🍌 1 Banana', kcal: 95, p: 1, c: 24, f: 0 },
+        { id: 'f_des_huevo_1', name: '🥚 1 Huevo revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
+        { id: 'f_des_huevo_2', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
+        { id: 'f_des_queso_jamon', name: '🥓 Feta Jamón + Queso', kcal: 110, p: 10, c: 1, f: 7 },
+        { id: 'f_des_yogur', name: '🥣 Yogur proteico/griego', kcal: 110, p: 14, c: 9, f: 1 }
+      ],
+      almuerzo: [
+        { id: 'f_alm_mila_carne_spray', name: '🥩 Mila carne (con spray)', kcal: 280, p: 28, c: 18, f: 10 },
+        { id: 'f_alm_mila_carne_aceite', name: '🥩 Mila carne (con aceite)', kcal: 390, p: 28, c: 18, f: 22 },
+        { id: 'f_alm_mila_pollo_spray', name: '🍗 Mila pollo (con spray)', kcal: 260, p: 30, c: 18, f: 7 },
+        { id: 'f_alm_mila_pollo_aceite', name: '🍗 Mila pollo (con aceite)', kcal: 360, p: 30, c: 18, f: 18 },
+        { id: 'f_alm_mila_pescado_spray', name: '🐟 Mila pescado (con spray)', kcal: 230, p: 24, c: 18, f: 6 },
+        { id: 'f_alm_mila_pescado_aceite', name: '🐟 Mila pescado (con aceite)', kcal: 330, p: 24, c: 18, f: 17 },
+        { id: 'f_alm_bife_pechuga', name: '🥩 Bife / Pechuga (140g)', kcal: 210, p: 32, c: 0, f: 7 },
+        { id: 'f_alm_atun_lata', name: '🐟 1 Lata atún natural', kcal: 120, p: 28, c: 0, f: 1 },
+        { id: 'f_alm_tarta_1', name: '🥧 1 Porción tarta verdura', kcal: 170, p: 6, c: 18, f: 8 },
+        { id: 'f_alm_tarta_2', name: '🥧🥧 2 Porciones tarta', kcal: 340, p: 12, c: 36, f: 16 },
+        { id: 'f_alm_tomate', name: '🍅 Tomate / ensalada', kcal: 30, p: 1, c: 6, f: 0 },
+        { id: 'f_alm_brocoli', name: '🥦 Brócoli / vegetales verdes', kcal: 35, p: 3, c: 6, f: 0 },
+        { id: 'f_alm_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
+        { id: 'f_alm_papa', name: '🥔 1 Papa / batata horno', kcal: 130, p: 3, c: 28, f: 0 },
+        { id: 'f_alm_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
+        { id: 'f_alm_huevo_1', name: '🥚 1 Huevo duro/revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
+        { id: 'f_alm_huevo_2', name: '🥚🥚 2 Huevos duros/revueltos', kcal: 145, p: 13, c: 1, f: 10 }
+      ],
+      merienda: [
+        { id: 'f_mer_cafe_leche', name: '☕ Café c/ leche', kcal: 100, p: 7.5, c: 9, f: 3 },
+        { id: 'f_mer_tostada_1', name: '🍞 1 Tostada', kcal: 75, p: 2.5, c: 14, f: 1 },
+        { id: 'f_mer_tostada_2', name: '🍞🍞 2 Tostadas', kcal: 150, p: 5, c: 28, f: 2 },
+        { id: 'f_mer_ricota_1', name: '🧀 Ricota (1 cda sopera)', kcal: 55, p: 5.5, c: 2, f: 3 },
+        { id: 'f_mer_ricota_2', name: '🧀 Ricota (2 cdas colmadas)', kcal: 110, p: 11, c: 4, f: 6 },
+        { id: 'f_mer_mermelada', name: '🍓 Mermelada (1 cdita)', kcal: 30, p: 0, c: 8, f: 0 },
+        { id: 'f_mer_banana', name: '🍌 1 Banana', kcal: 95, p: 1, c: 24, f: 0 },
+        { id: 'f_mer_fruta', name: '🍎 Manzana / Frutas', kcal: 65, p: 0.5, c: 16, f: 0 },
+        { id: 'f_mer_tostado', name: '🥪 Tostado jamón queso', kcal: 260, p: 16, c: 28, f: 9 },
+        { id: 'f_mer_huevos', name: '🥚 1 o 2 Huevos revueltos', kcal: 110, p: 10, c: 1, f: 7 },
+        { id: 'f_mer_yogur', name: '🥣 Yogur proteico/griego', kcal: 110, p: 14, c: 9, f: 1 }
+      ],
+      cena: [
+        { id: 'f_cen_mila_carne_spray', name: '🥩 Mila carne (con spray)', kcal: 280, p: 28, c: 18, f: 10 },
+        { id: 'f_cen_mila_carne_aceite', name: '🥩 Mila carne (con aceite)', kcal: 390, p: 28, c: 18, f: 22 },
+        { id: 'f_cen_mila_pollo_spray', name: '🍗 Mila pollo (con spray)', kcal: 260, p: 30, c: 18, f: 7 },
+        { id: 'f_cen_mila_pollo_aceite', name: '🍗 Mila pollo (con aceite)', kcal: 360, p: 30, c: 18, f: 18 },
+        { id: 'f_cen_mila_pescado_spray', name: '🐟 Mila pescado (con spray)', kcal: 230, p: 24, c: 18, f: 6 },
+        { id: 'f_cen_mila_pescado_aceite', name: '🐟 Mila pescado (con aceite)', kcal: 330, p: 24, c: 18, f: 17 },
+        { id: 'f_cen_carne_pedacitos', name: '🥩 Carne en pedacitos', kcal: 210, p: 28, c: 0, f: 10 },
+        { id: 'f_cen_pechuga', name: '🍗 Pechuga o bife magro', kcal: 210, p: 32, c: 0, f: 7 },
+        { id: 'f_cen_atun', name: '🐟 1 Lata atún natural', kcal: 120, p: 28, c: 0, f: 1 },
+        { id: 'f_cen_huevo_1', name: '🥚 1 Huevo revuelto', kcal: 75, p: 6.5, c: 0.5, f: 5 },
+        { id: 'f_cen_huevo_2', name: '🥚🥚 2 Huevos revueltos', kcal: 145, p: 13, c: 1, f: 10 },
+        { id: 'f_cen_tarta_1', name: '🥧 1 Porción tarta verdura', kcal: 170, p: 6, c: 18, f: 8 },
+        { id: 'f_cen_tarta_2', name: '🥧🥧 2 Porciones tarta', kcal: 340, p: 12, c: 36, f: 16 },
+        { id: 'f_cen_tomate', name: '🍅 Tomate / ensalada fresca', kcal: 30, p: 1, c: 6, f: 0 },
+        { id: 'f_cen_brocoli', name: '🥦 Brócoli / vegetales verdes', kcal: 35, p: 3, c: 6, f: 0 },
+        { id: 'f_cen_calabaza', name: '🎃 Calabaza asada', kcal: 80, p: 2, c: 18, f: 0 },
+        { id: 'f_cen_papa', name: '🥔 1 Papa / batata chica', kcal: 120, p: 2.5, c: 26, f: 0 },
+        { id: 'f_cen_arroz', name: '🍚 1 Taza arroz / fideos', kcal: 180, p: 4, c: 38, f: 1 },
+        { id: 'f_cen_choclo', name: '🌽 1/2 Lata choclo', kcal: 90, p: 3, c: 18, f: 1 },
+        { id: 'f_cen_tostada_1', name: '🍞 1 Tostada base', kcal: 75, p: 2.5, c: 14, f: 1 },
+        { id: 'f_cen_tostada_2', name: '🍞🍞 2 Tostadas base', kcal: 150, p: 5, c: 28, f: 2 },
+        { id: 'f_cen_queso', name: '🧀 Feta queso Port Salut light', kcal: 65, p: 6.5, c: 1, f: 3.5 },
+        { id: 'f_cen_sopa', name: '🍵 Taza de sopa / caldo', kcal: 35, p: 1, c: 6, f: 0.5 }
+      ]
     };
 
-    // ==========================================
-    // 3. STATE MANAGEMENT & REALTIME SYNC
-    // ==========================================
-    let activeWeek = localStorage.getItem('mg_active_week') || 'sem1';
-    let activeDay = localStorage.getItem('mg_active_day') || guessBestDayForToday();
-    let activeView = 'train';
+    const VEG_CHALLENGES = [
+      { id: 'fruta', emoji: '🍓', label: '1 Fruta Fácil', sub: 'Banana, frutillas o manzana' },
+      { id: 'verd1', emoji: '🍅', label: 'Verdura Almuerzo', sub: 'Cherrys / hojas / calabaza' },
+      { id: 'verd2', emoji: '🥦', label: 'Verdura Cena', sub: 'Wok bolsa / ensalada 1m' }
+    ];
 
-    let allLogs = JSON.parse(localStorage.getItem('mg_logs_v2') || '{}');
-    let allCompleted = JSON.parse(localStorage.getItem('mg_completed_v2') || '{}');
-    let activeReplacements = JSON.parse(localStorage.getItem('mg_replacements_v2') || '{}');
-    let extraSetsMap = JSON.parse(localStorage.getItem('mg_extrasets_v2') || '{}');
-    let remoteOverrides = {};
-    let stepsMap = JSON.parse(localStorage.getItem('mg_steps_v2') || '{}');
-    let cardioMap = JSON.parse(localStorage.getItem('mg_cardio_v2') || '{}');
-    let bodyMetrics = JSON.parse(localStorage.getItem('mg_bodymetrics_v2') || '[]');
-    let rpModalSelection = { pump: 'bueno', joint: 'cero', fatigue: 'optima' };
-    let currentReplacementExId = null;
+    const NON_SCALE_VICTORIES = [
+      { id: 'vic_abdomen', emoji: '✨', label: 'Línea del abdomen visible', toast: '¡Esaaa reina! 🔥 Línea del abdomen marcada. ¡Recomposición pura!' },
+      { id: 'vic_desinflamada', emoji: '🧘', label: 'Cero hinchazón / liviana', toast: '¡Genial! 🧘 Digestión liviana y abdomen desinflamado.' },
+      { id: 'vic_fuerza', emoji: '💪', label: 'Mucha fuerza en el gym', toast: '¡Fuerza récord! 💪 Músculos firmes respondiendo con todo.' },
+      { id: 'vic_ropa', emoji: '👗', label: 'Ropa más suelta / cómoda', toast: '¡Se nota en la ropa! ✨ La grasa baja y el cuerpo tonifica.' },
+      { id: 'vic_mente', emoji: '🧠', label: 'Mente clara para estudiar', toast: '¡Modo crack! 🧠 Energía limpia para los apuntes.' }
+    ];
+
+    const IDEAS_CATALOG = {
+      ansiedad: [
+        { title: '🍮 Gelatina 0% + Cucharada de Yogur y Arándanos', tag: '~65 kcal • Salvavidas 11 PM', desc: 'Cuando estás estudiando un final de memoria y querés algo dulce y fresco sin tocar las galletitas de Martín. Cero culpa y te saca las ganas al instante.' },
+        { title: '🧀 Rollitos Salados Calientes (1 minuto)', tag: '~130 kcal • 16g Proteína', desc: '2 fetas de jamón cocido natural envolviendo 1 bastoncito de Port Salut light, 20 segundos al microondas con orégano. Te recontra llena.' },
+        { title: '🍎 Manzana en Cubos al Microondas con Canela', tag: '~85 kcal • Dulce calentito', desc: 'Lavás 1 manzana, la cortás en 4 con cáscara, le tirás canela y edulcorante, 2 min al microondas. Parece postre de manzana real.' },
+        { title: '🍿 Taza Grande de Pochoclos Caceros (Sin Aceite)', tag: '~110 kcal • Súper crocante', desc: 'En recipiente apto microondas o sartén con apenas 1 disparo de rocío vegetal. Mucho volumen para masticar mientras leés apuntes.' }
+      ],
+      desayunos: [
+        { title: '🍰🍓 Tostadas Cheesecake (Ricota, Mermelada & Semillitas)', tag: '26g Prot • Dulce estrella de Male', desc: '2 tostadas con 1 cda sopera colmada de ricota en cada una (pisada con edulcorante/vainilla), toque de mermelada y lluvia de semillitas de chía. Café con leche y 1 huevo revuelto (o yogur).' },
+        { title: '🍳 Huevos Revueltos Cremosos en 3 Minutos', tag: '26g Prot • Salado estrella', desc: 'Sartén con rocío vegetal: 2 huevos enteros + 2 claras + 1 cda de queso untable light al apagar el fuego. Con 1 tostada integral.' },
+        { title: '🥞 Tortita / Panqueque Fit de Banana', tag: '25g Prot • Dulce saciante', desc: 'Mezclás con tenedor 1 huevo + 2 claras + 3 cdas de avena + chorrito esencia vainilla. Vuelta y vuelta con rocío vegetal y media banana arriba.' },
+        { title: '🥣 Bowl Griego Cero Esfuerzo', tag: '24g Prot • 30 segundos', desc: '1 pote de yogur proteico/griego + puñado de frutillas o arándanos enjuagados en la mano + 2 cdas de avena.' }
+      ],
+      mama: [
+        { title: '🥧 Tarta Casera de Verdura + Atún o Bife Chico', tag: '45g Prot • El combo de hoy', desc: '2 porciones chicas de tarta de verdura (acelga, zapallitos o calabaza) acompañadas con 1 lata de atún al natural o un pedazo chico de carne magra. Saciedad total sin pesadez.' },
+        { title: '🍗 Milanesas al Horno Doradas (2x1 con Martín)', tag: '34g Prot • Clásico de casa', desc: 'La misma milanesa de nalga, peceto o pollo que hace mamá, pero en asadera caliente con rocío vegetal arriba y abajo. Cero aceite absorbido.' },
+        { title: '🥧 Pastel de Calabaza y Carne Especial', tag: '31g Prot • Ideal para dejar en táper', desc: 'Carne picada especial rehogada con cebolla, morrón y rocío vegetal, cubierta con puré de calabaza asada.' },
+        { title: '🥘 Wok de Bolsa Congelada + Pollo/Cuadril', tag: '33g Prot • Cero lavar verdura', desc: 'Se vuelca la bolsa de vegetales congelados directo a la sartén con tiritas de pollo y chorrito de salsa de soja.' }
+      ],
+      salidas: [
+        { title: '🍣 Regla Inteligente para Cenas con Naza', tag: 'Equilibrio 80/20 • Cero culpa', desc: 'Una comida rica el finde NO frena tu cambio físico. Elegí algo que disfrutes priorizando que tenga proteína (sushi, carne/pollo, hamburguesa tranqui o 2-3 porciones de pizza), tomá agua o gaseosa zero, y al día siguiente retomás tu desayuno normal sin castigarte ni ayunar.' }
+      ]
+    };
+
+    const SHOPPING_GROUPS = [
+      {
+        cat: '🥩 Carnicería & Granja',
+        items: ['Supremas de pollo', 'Milanesas de nalga/peceto o pollo', 'Carne picada especial (magra)', 'Cuadril o bola de lomo', 'Maple de huevos', 'Latas de atún al natural']
+      },
+      {
+        cat: '🥦 Verduras & Frutas Cero-Paja',
+        items: ['Tomates cherry (para no cortar)', 'Bolsas de rúcula / hojas ya lavadas', 'Calabaza / zapallo anco (para el táper)', 'Bolsa verduras congeladas para wok/brócoli', 'Bananas y manzanas', 'Frutillas o arándanos']
+      },
+      {
+        cat: '🧀 Lácteos & Estudio Anti-Ansiedad',
+        items: ['Ricota magra o clásica (para tostadas dulces)', 'Yogur proteico / griego o descremado', 'Queso Port Salut light', 'Queso untable descremado', 'Jamón cocido natural magro', 'Gelatina 0% sin azúcar', 'Leche descremada']
+      },
+      {
+        cat: '🍚 Almacén Básico',
+        items: ['Rocío vegetal en aerosol (¡clave!)', 'Mermelada (la favorita de Male o reducida en azúcares)', 'Semillas de chía o lino (para tostadas y yogur)', 'Pan integral o común en rodajas', 'Avena y tostadas de arroz', 'Papas / batatas y arroz']
+      }
+    ];
+
+    // ==========================================
+    // 3. STATE & SYNC
+    // ==========================================
+    let todayKey = getTodayKey();
+    let dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{},"victories":{}}');
+    let shoppingNeeded = JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}');
+    let gymBridgeToday = null;
+    let activeIdeasCat = 'ansiedad';
 
     function getTodayKey(d = new Date()) {
       const y = d.getFullYear();
@@ -1144,1028 +514,511 @@
       return `${y}-${m}-${day}`;
     }
 
-    function guessBestDayForToday() {
-      const dow = new Date().getDay(); // 0 Sun .. 6 Sat
-      if (dow === 2) return 'dia1'; // Martes
-      if (dow === 3 || dow === 1) return 'dia2'; // Miércoles o Lunes
-      if (dow === 4) return 'dia3'; // Jueves
-      if (dow === 5) return 'dia4'; // Viernes
-      return 'dia5'; // Sábado / Domingo
-    }
-
     function showToast(msg) {
-      const el = document.getElementById('toast-box');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => el.classList.add('hidden'), 2600);
+      const t = document.getElementById('nutri-toast');
+      t.textContent = msg;
+      t.classList.remove('hidden');
+      clearTimeout(window._ntTimer);
+      window._ntTimer = setTimeout(() => t.classList.add('hidden'), 2500);
     }
 
-    function getEffectiveExercise(dayKey, ex) {
-      const ov = (remoteOverrides && remoteOverrides[ex.id]) ? remoteOverrides[ex.id] : {};
-      const merged = { ...ex, ...ov };
-      const repIdx = activeReplacements?.[dayKey]?.[ex.id];
-      if (typeof repIdx === 'number' && merged.alternativas && merged.alternativas[repIdx]) {
-        const alt = merged.alternativas[repIdx];
-        return {
-          ...merged,
-          isReplaced: true,
-          originalName: merged.nombre,
-          nombre: alt.nombre,
-          baseKg: alt.baseKg || merged.baseKg,
-          altNote: alt.nota
-        };
+    function getCalorieTargetToday() {
+      if (gymBridgeToday?.trainedToday) {
+        return gymBridgeToday.isLowerBody ? 1550 : 1520;
       }
-      return merged;
+      return 1500;
     }
 
     // ==========================================
-    // 4. RP HYPERTROPHY TARGET & AUTOREG ENGINE
+    // 4. RENDER TODAY VIEW
     // ==========================================
-    function getPrevWeekKey(weekKey) {
-      const order = ['sem1', 'sem2', 'sem3', 'sem4', 'sem5'];
-      const idx = order.indexOf(weekKey);
-      return idx > 0 ? order[idx - 1] : null;
+    function renderAllNutri() {
+      renderTodayDashboard();
+      renderIdeasList();
+      renderShoppingChecklist();
     }
 
-    function getAutoregSetDelta(weekKey, dayKey) {
-      if (weekKey === 'sem5') return -1; // Deload reduces volume
-      const prevKey = getPrevWeekKey(weekKey);
-      if (!prevKey) return 0;
-      const prevComp = allCompleted?.[prevKey]?.[dayKey];
-      const fb = prevComp?.rpFeedback;
-      if (!fb) return 0;
-      if (fb.joint === 'molesto' || fb.fatigue === 'alta') return 0; // Hold or protect
-      if ((fb.pump === 'bueno' || fb.pump === 'explosivo') && fb.fatigue === 'fresca' && fb.joint === 'cero') {
-        return 1; // RP rule: great pump + zero soreness/fatigue + 0 pain => +1 set on key movements
-      }
-      return 0;
-    }
+    function renderTodayDashboard() {
+      const targetKcal = getCalorieTargetToday();
+      const targetP = 110;
+      const targetC = gymBridgeToday?.isLowerBody ? 172 : 162;
+      const targetF = 46;
 
-    function computeRPTarget(dayKey, effEx, setIdx, weekKey) {
-      const weekObj = RP_WEEKS[weekKey] || RP_WEEKS.sem1;
-      const baseRep = effEx.metaReps[setIdx] || effEx.metaReps[effEx.metaReps.length - 1] || 10;
-
-      // Deload week
-      if (weekKey === 'sem5') {
-        const numKg = parseFloat(effEx.baseKg) || 0;
-        const deloadKg = numKg > 0 ? Math.max(2, Math.round((numKg * 0.6) * 2) / 2) : 0;
-        return {
-          sugKg: String(deloadKg),
-          sugReps: Math.max(8, baseRep - 2),
-          badge: `Descarga: ${deloadKg > 0 ? deloadKg + ' ' + effEx.unit : 'Suave'} × ${Math.max(8, baseRep - 2)}`
-        };
-      }
-
-      // Check previous week actual log for real RP progression
-      const prevKey = getPrevWeekKey(weekKey);
-      const prevSet = prevKey ? allLogs?.[prevKey]?.[dayKey]?.[effEx.id]?.[setIdx] : null;
-      const prevFb = prevKey ? allCompleted?.[prevKey]?.[dayKey]?.rpFeedback : null;
-
-      if (prevSet && (prevSet.kg !== undefined && prevSet.kg !== '') && prevSet.reps) {
-        const pKg = parseFloat(String(prevSet.kg).replace(',', '.')) || 0;
-        const pReps = parseInt(prevSet.reps) || baseRep;
-        const maxRange = effEx.repRange ? effEx.repRange[1] : baseRep + 2;
-        const minRange = effEx.repRange ? effEx.repRange[0] : Math.max(8, baseRep - 1);
-
-        if (prevFb && prevFb.joint === 'molesto') {
-          return {
-            sugKg: String(prevSet.kg),
-            sugReps: pReps,
-            badge: `Cuidar artic.: ${prevSet.kg} × ${pReps}`
-          };
-        }
-
-        // Hit top of rep range => small load jump!
-        if (pKg > 0 && pReps >= maxRange) {
-          const step = pKg >= 20 ? 2.5 : 1;
-          const nextKg = Math.round((pKg + step) * 10) / 10;
-          return {
-            sugKg: String(nextKg),
-            sugReps: minRange + 1,
-            badge: `⬆️ Subir: ${nextKg} × ${minRange + 1} (${weekObj.rir})`
-          };
-        }
-
-        // Standard RP progression: same load, +1 rep
-        return {
-          sugKg: String(prevSet.kg),
-          sugReps: pReps + 1,
-          badge: (pKg === 0 || effEx.unit === 'corporal')
-            ? `Meta RP: ${pReps + 1} reps (${weekObj.rir})`
-            : `Meta RP: ${prevSet.kg} × ${pReps + 1} (${weekObj.rir})`
-        };
-      }
-
-      // Default baseline (Sem 1 or no prev log yet)
-      const weekOffset = Math.max(0, weekObj.num - 1);
-      const targetR = baseRep + (weekOffset > 0 ? 1 : 0);
-      return {
-        sugKg: String(effEx.baseKg),
-        sugReps: targetR,
-        badge: effEx.baseKg === '0'
-          ? `Meta: ${targetR} reps (${weekObj.rir})`
-          : `Base: ${effEx.baseKg} ${effEx.unit} × ${targetR}`
-      };
-    }
-
-    // ==========================================
-    // 5. RENDER WORKOUT VIEW
-    // ==========================================
-    function renderAll() {
-      renderHeaderAndWeekPills();
-      renderDaySelector();
-      renderActiveWorkout();
-      renderCardioView();
-      renderProgressView();
-    }
-
-    function renderHeaderAndWeekPills() {
-      const w = RP_WEEKS[activeWeek] || RP_WEEKS.sem1;
-      document.getElementById('header-week-short').textContent = w.short;
-      document.getElementById('header-rir-pill').textContent = w.rir;
-      document.getElementById('header-meso-subtitle').textContent = w.desc;
-
-      const compWeek = allCompleted[activeWeek] || {};
-      const doneCount = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'].filter(d => compWeek[d]?.completed).length;
-      document.getElementById('week-progress-count').textContent = `${doneCount}/5`;
-
-      const container = document.getElementById('week-pills-container');
-      container.innerHTML = Object.values(RP_WEEKS).map(item => {
-        const isAct = item.key === activeWeek;
-        return `
-          <button onclick="selectWeek('${item.key}')" class="py-1.5 rounded-xl text-center transition ${isAct ? 'bg-rose-600 text-white shadow font-black' : 'text-zinc-400 hover:text-zinc-200 font-bold'}">
-            <span class="block text-[11px] leading-tight">${item.short}</span>
-            <span class="block text-[9px] ${isAct ? 'text-rose-100' : 'text-zinc-500'}">${item.rir}</span>
-          </button>
-        `;
-      }).join('');
-    }
-
-    function renderDaySelector() {
-      const compWeek = allCompleted[activeWeek] || {};
-      const container = document.getElementById('day-selector-container');
-      container.innerHTML = Object.values(BASE_ROUTINE).map(d => {
-        const isAct = d.key === activeDay;
-        const isDone = !!compWeek[d.key]?.completed;
-        let cls = 'bg-zinc-900/90 border-zinc-800 text-zinc-400';
-        if (isAct) cls = 'bg-gradient-to-b from-rose-500/25 to-zinc-900 border-rose-500 text-white ring-1 ring-rose-500/40';
-        else if (isDone) cls = 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300';
-
-        return `
-          <button onclick="selectDay('${d.key}')" class="p-2 rounded-2xl border text-center transition relative ${cls}">
-            ${isDone ? '<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-zinc-950 text-[9px] font-black flex items-center justify-center shadow">✓</span>' : ''}
-            <span class="text-sm block">${d.emoji}</span>
-            <span class="text-[11px] font-black block mt-0.5">${d.shortLabel}</span>
-            <span class="text-[9px] opacity-75 block truncate">${d.dayHint}</span>
-          </button>
-        `;
-      }).join('');
-    }
-
-    function renderActiveWorkout() {
-      const dayObj = BASE_ROUTINE[activeDay];
-      const w = RP_WEEKS[activeWeek];
-      const isDayDone = !!allCompleted?.[activeWeek]?.[activeDay]?.completed;
-
-      // Hero
-      document.getElementById('active-day-hero').innerHTML = `
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <div class="flex items-center gap-1.5 mb-1">
-              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">${dayObj.dayHint}</span>
-              <span class="text-[10px] font-bold text-zinc-400">⏱️ ${dayObj.duration}</span>
-              ${isDayDone ? '<span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Completado ✓</span>' : ''}
-            </div>
-            <h2 class="text-base font-black text-white leading-snug">${dayObj.emoji} ${dayObj.title}</h2>
-            <p class="text-[11px] text-zinc-400 mt-0.5 leading-snug">${dayObj.subtitle}</p>
-          </div>
-        </div>
-      `;
-
-      // Autoregulation banner check
-      const prevKey = getPrevWeekKey(activeWeek);
-      const prevFb = prevKey ? allCompleted?.[prevKey]?.[activeDay]?.rpFeedback : null;
-      const bannerEl = document.getElementById('rp-autoreg-banner');
-      const bannerTxt = document.getElementById('rp-autoreg-text');
-      if (prevFb) {
-        bannerEl.classList.remove('hidden');
-        if (prevFb.joint === 'molesto') {
-          bannerTxt.innerHTML = `<strong class="text-amber-300">Protección Articular RP activa:</strong> La semana pasada marcaste molestia (${prevFb.jointArea || 'articular'}). Mantuvimos cargas conservadoras; si molesta hoy, tocá <em>"Máquina ocupada / Reemplazo"</em>.`;
-        } else if (getAutoregSetDelta(activeWeek, activeDay) > 0) {
-          bannerTxt.innerHTML = `<strong class="text-violet-300">Sobrecarga RP (+Volumen):</strong> Como recuperaste genial con gran bombeo y 0 molestias en ${RP_WEEKS[prevKey].short}, el sistema habilitó +1 serie en los ejercicios principales.`;
-        } else {
-          bannerTxt.innerHTML = `<strong class="text-violet-300">Progresión RP calibrada:</strong> Targets calculados sobre tus marcas reales de ${RP_WEEKS[prevKey].short} buscando <strong>${w.rir}</strong>.`;
-        }
+      // Gym Bridge Chip
+      const chip = document.getElementById('gym-bridge-chip');
+      const sub = document.getElementById('nutri-day-type-badge');
+      if (gymBridgeToday?.trainedToday) {
+        chip.className = 'text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200';
+        chip.textContent = gymBridgeToday.isLowerBody ? '🍑 Hoy: Glúteo/Pierna' : '⚡ Hoy: Torso + Cardio';
+        sub.textContent = `Sincronizado con Gym • Meta: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Prot`;
       } else {
-        bannerEl.classList.add('hidden');
+        chip.className = 'text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+        chip.textContent = '🌿 Recomposición activa';
+        sub.textContent = `Meta hoy: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Proteína`;
       }
 
-      // Render Exercise Cards
-      const autoregDelta = getAutoregSetDelta(activeWeek, activeDay);
-      const exContainer = document.getElementById('exercises-container');
-
-      exContainer.innerHTML = dayObj.exercises.map((rawEx, idx) => {
-        const ex = getEffectiveExercise(activeDay, rawEx);
-        const manualDelta = extraSetsMap?.[activeWeek]?.[activeDay]?.[ex.id] || 0;
-        const autoDeltaForEx = (idx < 2 && autoregDelta > 0) ? 1 : (activeWeek === 'sem5' ? -1 : 0);
-        const totalSets = Math.max(1, Math.min(6, ex.series + autoDeltaForEx + manualDelta));
-        const exLogs = allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || [];
-
-        let setsRowsHtml = '';
-        for (let s = 0; s < totalSets; s++) {
-          const target = computeRPTarget(activeDay, ex, s, activeWeek);
-          const saved = exLogs[s] || {};
-          const isSetDone = !!saved.completed;
-          const valKg = (saved.kg !== undefined && saved.kg !== '') ? saved.kg : target.sugKg;
-          const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : target.sugReps;
-
-          setsRowsHtml += `
-            <div class="grid grid-cols-12 items-center gap-1.5 py-1.5 px-2 rounded-xl border transition ${isSetDone ? 'bg-emerald-950/35 border-emerald-500/40' : 'bg-zinc-950/80 border-zinc-800/80'}">
-              <div class="col-span-1 text-center">
-                <span class="text-xs font-black ${isSetDone ? 'text-emerald-400' : 'text-zinc-500'}">${s + 1}</span>
-              </div>
-              <div class="col-span-5 pr-1">
-                <span class="text-[10px] font-semibold ${isSetDone ? 'text-emerald-300' : 'text-zinc-400'} block leading-tight">${target.badge}</span>
-              </div>
-              <div class="col-span-2">
-                <input id="kg_${ex.id}_${s}" type="text" inputmode="decimal" value="${valKg}"
-                  onchange="updateSetInput('${ex.id}', ${s})"
-                  class="w-full bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-lg py-1.5 px-1 text-center text-xs font-black focus:outline-none focus:border-rose-500">
-              </div>
-              <div class="col-span-2">
-                <input id="reps_${ex.id}_${s}" type="number" inputmode="numeric" value="${valReps}"
-                  onchange="updateSetInput('${ex.id}', ${s})"
-                  class="w-full bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-lg py-1.5 px-1 text-center text-xs font-black focus:outline-none focus:border-rose-500">
-              </div>
-              <div class="col-span-2 flex justify-end">
-                <button onclick="toggleSetComplete('${ex.id}', ${s}, ${ex.restSec})"
-                  class="w-9 h-8 rounded-xl font-black text-xs flex items-center justify-center transition active:scale-90 ${isSetDone ? 'bg-emerald-500 text-zinc-950 shadow shadow-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-400 border border-zinc-700'}">
-                  ✓
-                </button>
-              </div>
-            </div>
-          `;
+      // Compute Totals
+      let sumKcal = 0, sumP = 0, sumC = 0, sumF = 0;
+      MEAL_SLOTS.forEach(slot => {
+        const entry = dailyLog.meals?.[slot.id];
+        if (entry && entry.eaten) {
+          sumKcal += entry.kcal || 0;
+          sumP += entry.p || 0;
+          sumC += entry.c || 0;
+          sumF += entry.f || 0;
         }
+      });
 
-        const stepsListHtml = (ex.steps || []).map((st, i) => `
-          <li class="flex items-start gap-2">
-            <span class="w-4 h-4 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">${i + 1}</span>
-            <span>${st}</span>
-          </li>
+      document.getElementById('kcal-current').textContent = sumKcal.toLocaleString('es-AR');
+      document.getElementById('kcal-target-label').textContent = `/ ${targetKcal.toLocaleString('es-AR')} kcal`;
+      document.getElementById('kcal-bar').style.width = `${Math.min(100, Math.round((sumKcal / targetKcal) * 100))}%`;
+      document.getElementById('header-prot-pill').textContent = `${sumP} / ${targetP}g Prot`;
+
+      document.getElementById('macro-p-val').textContent = `${sumP}/${targetP}g`;
+      document.getElementById('macro-p-bar').style.width = `${Math.min(100, Math.round((sumP / targetP) * 100))}%`;
+
+      document.getElementById('macro-c-val').textContent = `${sumC}/${targetC}g`;
+      document.getElementById('macro-c-bar').style.width = `${Math.min(100, Math.round((sumC / targetC) * 100))}%`;
+
+      document.getElementById('macro-f-val').textContent = `${sumF}/${targetF}g`;
+      document.getElementById('macro-f-bar').style.width = `${Math.min(100, Math.round((sumF / targetF) * 100))}%`;
+
+      // Veg Challenges
+      const vegs = dailyLog.vegs || {};
+      const vegDoneCount = VEG_CHALLENGES.filter(v => vegs[v.id]).length;
+      document.getElementById('veg-score-badge').textContent = `${vegDoneCount}/3`;
+
+      document.getElementById('veg-checks-container').innerHTML = VEG_CHALLENGES.map(v => {
+        const done = !!vegs[v.id];
+        return `
+          <button onclick="toggleVegCheck('${v.id}')" class="p-2 rounded-2xl border text-left transition ${done ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white border-emerald-200/80 text-slate-700 hover:bg-emerald-50/50'}">
+            <div class="flex items-center justify-between">
+              <span class="text-sm">${v.emoji}</span>
+              <span class="text-[10px] font-black">${done ? '✓' : '○'}</span>
+            </div>
+            <span class="text-[11px] font-extrabold block mt-1 leading-tight">${v.label}</span>
+            <span class="text-[9px] ${done ? 'text-emerald-100' : 'text-slate-400'} block leading-tight mt-0.5">${v.sub}</span>
+          </button>
+        `;
+      }).join('');
+
+      // Non-Scale Victories & Sensaciones
+      const vics = dailyLog.victories || {};
+      const vicContainer = document.getElementById('victories-chips-container');
+      if (vicContainer) {
+        vicContainer.innerHTML = NON_SCALE_VICTORIES.map(v => {
+          const done = !!vics[v.id];
+          return `
+            <button type="button" onclick="toggleNonScaleVictory('${v.id}')"
+              class="px-2.5 py-1.5 rounded-2xl text-[11px] transition flex items-center gap-1.5 border active:scale-95 ${done ? 'bg-gradient-to-r from-emerald-600 to-teal-600 border-emerald-600 text-white font-extrabold shadow-2xs' : 'bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50 font-semibold'}">
+              <span>${v.emoji}</span>
+              <span>${v.label}</span>
+              <span class="text-[10px] ml-0.5 ${done ? 'text-emerald-100 font-black' : 'text-slate-300'}">${done ? '✓' : '+'}</span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      // 4 Meal Slots
+      document.getElementById('meals-slots-container').innerHTML = MEAL_SLOTS.map(slot => {
+        const saved = dailyLog.meals?.[slot.id] || { optId: slot.options[0].id, eaten: false };
+        const chosenOpt = slot.options.find(o => o.id === saved.optId) || slot.options[0];
+        const dispKcal = saved.custom ? saved.kcal : chosenOpt.kcal;
+        const dispP = saved.custom ? saved.p : chosenOpt.p;
+        const isEaten = !!saved.eaten;
+        const activeIds = saved.selectedFoodIds || [];
+
+        const pantry = FOOD_PANTRY[slot.id] || [];
+        const pantryChips = pantry.map(item => {
+          const isAct = activeIds.includes(item.id);
+          return `
+            <button type="button" onclick="togglePantryItem('${slot.id}', '${item.id}')"
+              class="px-2.5 py-1 rounded-xl text-[11px] transition flex items-center gap-1 border active:scale-95 ${isAct ? 'bg-emerald-600 border-emerald-600 text-white font-extrabold shadow-2xs' : 'bg-[#F8FCF9] border-emerald-200/80 text-slate-700 hover:bg-emerald-50 font-medium'}">
+              <span>${item.name}</span>
+              <span class="text-[9px] ${isAct ? 'text-emerald-100' : 'text-emerald-700 font-bold'}">+${item.p}g</span>
+            </button>
+          `;
+        }).join('');
+
+        const optsHtml = slot.options.map(o => `
+          <option value="${o.id}" ${(!saved.custom && o.id === chosenOpt.id) ? 'selected' : ''}>
+            ${o.name} (${o.kcal} kcal • ${o.p}g P)
+          </option>
         `).join('');
 
-        const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.videoQuery || ex.nombre)}`;
-
         return `
-          <article class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-3.5 space-y-3 shadow-md">
-            <!-- Card Top -->
-            <div class="flex items-start justify-between gap-2">
-              <div class="flex items-start gap-2.5">
-                <span class="w-6 h-6 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+          <article class="bg-white border ${isEaten ? 'border-emerald-400 ring-1 ring-emerald-400/30' : 'border-emerald-200/70'} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-2xl ${isEaten ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'} flex items-center justify-center text-base">${slot.icon}</span>
                 <div>
-                  <h3 class="text-sm font-black text-white leading-snug">${ex.nombre}</h3>
-                  <p class="text-[11px] text-zinc-400 font-medium">${ex.musculo}</p>
-                  ${ex.isReplaced ? `<span class="inline-block mt-1 text-[10px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">🔄 Reemplazo activo (${ex.altNote || ''})</span>` : ''}
+                  <h3 class="text-xs font-black text-slate-900">${slot.title}</h3>
+                  <span class="text-[10px] font-bold ${isEaten ? 'text-emerald-600' : 'text-slate-400'}">
+                    ${isEaten ? `✓ Sumado: ${dispKcal} kcal • ${dispP}g Prot` : slot.targetHint}
+                  </span>
                 </div>
               </div>
-              <span class="shrink-0 text-[10px] font-black px-2 py-0.5 rounded-lg bg-zinc-800 text-rose-300 border border-zinc-700">${w.rir}</span>
-            </div>
-
-            <!-- Helper Pills: Warmup | Execution + Video | Replace Machine -->
-            <div class="flex flex-wrap gap-1.5">
-              <button onclick="toggleDrawer('warm_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition">
-                🔥 Calentamiento
-              </button>
-              <button onclick="toggleDrawer('guide_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-rose-300 border border-zinc-800 transition">
-                📖 Cómo se hace + Video
-              </button>
-              <button onclick="openReplacementsModal('${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-amber-300 border border-zinc-800 transition">
-                🔄 Máquina ocupada
+              <button onclick="toggleMealEaten('${slot.id}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition ${isEaten ? 'bg-emerald-600 text-white shadow-sm' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'}">
+                ${isEaten ? 'Comido ✓' : 'Marcar ✓'}
               </button>
             </div>
 
-            <!-- Warmup Drawer -->
-            <div id="warm_${ex.id}" class="hidden bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5 text-[11px] text-zinc-300 leading-snug">
-              <strong class="text-amber-400">Aproximación sugerida:</strong> ${ex.warmup}
-            </div>
-
-            <!-- Execution & Video Drawer -->
-            <div id="guide_${ex.id}" class="hidden bg-zinc-950 border border-rose-500/25 rounded-2xl p-3 space-y-2.5 text-[11px] text-zinc-300">
-              <ul class="space-y-1.5">${stepsListHtml}</ul>
-              <a href="${ytUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-rose-300 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 px-3 py-1.5 rounded-xl transition">
-                <span>▶️</span><span>Ver demostración corta en YouTube</span>
-              </a>
-            </div>
-
-            <!-- Sets Header -->
-            <div class="space-y-1.5">
-              <div class="grid grid-cols-12 px-2 text-[9px] font-extrabold uppercase tracking-wider text-zinc-500">
-                <div class="col-span-1 text-center">#</div>
-                <div class="col-span-5">Referencia RP</div>
-                <div class="col-span-2 text-center">${ex.unit === 'corporal' ? 'PESO' : 'KG'}</div>
-                <div class="col-span-2 text-center">REPS</div>
-                <div class="col-span-2 text-right pr-2">OK</div>
+            <!-- MODULAR FOOD PILLS (TOCÁ LO QUE COMISTE) -->
+            <div class="space-y-1.5 pt-1 border-t border-emerald-100/60">
+              <div class="flex items-center justify-between text-[10px] font-extrabold text-slate-500">
+                <span>🥣 Tocá lo que comiste (Rápido):</span>
+                ${activeIds.length ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
               </div>
-              ${setsRowsHtml}
+              <div class="flex flex-wrap gap-1.5">
+                ${pantryChips}
+              </div>
             </div>
 
-            <!-- Add/Remove Set Controls -->
-            <div class="flex items-center justify-between pt-1">
-              <span class="text-[10px] text-zinc-500 font-medium">⏱️ Descanso: ${ex.restSec}s</span>
-              <div class="flex items-center gap-1.5">
-                <button onclick="changeSetCount('${ex.id}', -1)" class="text-[10px] font-bold text-zinc-400 hover:text-zinc-200 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded-lg">- Serie</button>
-                <button onclick="changeSetCount('${ex.id}', 1)" class="text-[10px] font-bold text-zinc-300 hover:text-white bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded-lg">+ Serie</button>
+            ${saved.custom ? `
+              <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                <span class="font-bold text-emerald-900 leading-snug">✏️ ${saved.customName} (${saved.kcal} kcal • ${saved.p}g P)</span>
+                <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-extrabold text-emerald-700 underline shrink-0 ml-2">Reiniciar</button>
               </div>
+            ` : `
+              <details class="text-[11px] text-slate-500">
+                <summary class="cursor-pointer font-bold hover:text-emerald-700 py-1">O elegí un combo armado completo ▾</summary>
+                <div class="pt-1.5">
+                  <select onchange="changeMealOption('${slot.id}', this.value)" class="w-full bg-[#F6FAF7] border border-emerald-200/90 rounded-2xl px-3 py-2 text-[11px] font-semibold text-slate-700 focus:outline-none focus:border-emerald-500">
+                    ${optsHtml}
+                  </select>
+                </div>
+              </details>
+            `}
+
+            <div class="flex justify-end">
+              <button onclick="promptCustomMeal('${slot.id}')" class="text-[10px] font-bold text-slate-400 hover:text-emerald-700 transition">
+                ✏️ Escribir otro alimento que no esté
+              </button>
             </div>
           </article>
         `;
       }).join('');
-
-      // Session Cardio Block
-      const todayKey = getTodayKey();
-      const savedCardioToday = cardioMap[todayKey];
-      const cDef = dayObj.cardioDefault;
-      document.getElementById('session-cardio-card').innerHTML = `
-        <div class="flex items-center justify-between">
-          <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider ${cDef.required ? 'text-emerald-400' : 'text-zinc-400'}">
-              ${cDef.required ? '🏃‍♀️ Bloque Cardio del Día' : '🏃‍♀️ Cardio Post-Pesas (Opcional)'}
-            </span>
-            <h3 class="text-sm font-black text-white mt-0.5">${cDef.desc}</h3>
-          </div>
-          ${savedCardioToday ? '<span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Hecho ✓</span>' : ''}
-        </div>
-        <div class="flex items-center gap-2">
-          <input id="session-cardio-min" type="number" inputmode="numeric" value="${savedCardioToday?.minutes || cDef.minutes}" class="w-20 bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-2 text-xs font-black text-white text-center">
-          <span class="text-xs text-zinc-400 font-semibold">min</span>
-          <button onclick="toggleSessionCardio('${cDef.desc.replace(/'/g, '')}')" class="flex-1 py-2 rounded-xl text-xs font-extrabold transition ${savedCardioToday ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700'}">
-            ${savedCardioToday ? '✓ Cardio Registrado Hoy' : 'Marcar Cardio Completado'}
-          </button>
-        </div>
-      `;
-
-      // Finish button label
-      document.getElementById('btn-finish-label').textContent = isDayDone
-        ? `Actualizar Cierre de ${dayObj.shortLabel} ✓`
-        : `Finalizar ${dayObj.shortLabel} & Check RP`;
     }
 
-    function toggleDrawer(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('hidden');
+    function persistDailyNutri() {
+      localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+      db.ref(`nutri_v2/daily_logs/${todayKey}`).set({ ...dailyLog, updatedAt: Date.now() }).catch(() => {});
     }
 
-    // ==========================================
-    // 6. SET LOGGING & REST TIMER
-    // ==========================================
-    function ensureLogSlot(week, day, exId, setIdx) {
-      if (!allLogs[week]) allLogs[week] = {};
-      if (!allLogs[week][day]) allLogs[week][day] = {};
-      if (!allLogs[week][day][exId]) allLogs[week][day][exId] = [];
-      while (allLogs[week][day][exId].length <= setIdx) {
-        allLogs[week][day][exId].push({ completed: false, kg: '', reps: '' });
-      }
+    function toggleVegCheck(vegId) {
+      if (!dailyLog.vegs) dailyLog.vegs = {};
+      dailyLog.vegs[vegId] = !dailyLog.vegs[vegId];
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.vegs[vegId]) showToast('🥦 ¡Punto adentro en vitaminas y saciedad!');
     }
 
-    function updateSetInput(exId, setIdx) {
-      const kgVal = document.getElementById(`kg_${exId}_${setIdx}`)?.value.trim() || '0';
-      const repsVal = parseInt(document.getElementById(`reps_${exId}_${setIdx}`)?.value) || 0;
-      ensureLogSlot(activeWeek, activeDay, exId, setIdx);
-      const curr = allLogs[activeWeek][activeDay][exId][setIdx];
-      curr.kg = kgVal;
-      curr.reps = repsVal;
-      curr.updatedAt = Date.now();
-      persistLogs(exId);
-    }
-
-    function toggleSetComplete(exId, setIdx, restSec) {
-      const kgVal = document.getElementById(`kg_${exId}_${setIdx}`)?.value.trim() || '0';
-      const repsVal = parseInt(document.getElementById(`reps_${exId}_${setIdx}`)?.value) || 0;
-      ensureLogSlot(activeWeek, activeDay, exId, setIdx);
-
-      const slot = allLogs[activeWeek][activeDay][exId][setIdx];
-      slot.completed = !slot.completed;
-      slot.kg = kgVal;
-      slot.reps = repsVal;
-      slot.updatedAt = Date.now();
-
-      persistLogs(exId);
-      renderActiveWorkout();
-
-      if (slot.completed) {
-        startRestTimer(restSec || 90);
-      }
-    }
-
-    function persistLogs(exId) {
-      localStorage.setItem('mg_logs_v2', JSON.stringify(allLogs));
-      db.ref(`gym_v2/logs/${activeWeek}/${activeDay}/${exId}`).set(allLogs[activeWeek][activeDay][exId]).catch(() => {});
-    }
-
-    function changeSetCount(exId, delta) {
-      if (!extraSetsMap[activeWeek]) extraSetsMap[activeWeek] = {};
-      if (!extraSetsMap[activeWeek][activeDay]) extraSetsMap[activeWeek][activeDay] = {};
-      const curr = extraSetsMap[activeWeek][activeDay][exId] || 0;
-      extraSetsMap[activeWeek][activeDay][exId] = Math.max(-2, Math.min(3, curr + delta));
-      localStorage.setItem('mg_extrasets_v2', JSON.stringify(extraSetsMap));
-      db.ref(`gym_v2/extra_sets/${activeWeek}/${activeDay}/${exId}`).set(extraSetsMap[activeWeek][activeDay][exId]).catch(() => {});
-      renderActiveWorkout();
-    }
-
-    // Rest Timer
-    let restInterval = null;
-    let restRemaining = 0;
-    let restTotal = 90;
-
-    function startRestTimer(seconds) {
-      clearInterval(restInterval);
-      restTotal = seconds;
-      restRemaining = seconds;
-      document.getElementById('rest-timer-bar').classList.remove('hidden');
-      updateRestTimerUI();
-
-      restInterval = setInterval(() => {
-        restRemaining--;
-        if (restRemaining <= 0) {
-          stopRestTimer();
-          playTimerChime();
-          if (navigator.vibrate) navigator.vibrate([180, 80, 180]);
-          showToast('⚡ ¡Tiempo cumplido! Lista para la siguiente serie');
-        } else {
-          updateRestTimerUI();
-        }
-      }, 1000);
-    }
-
-    function adjustRestTimer(delta) {
-      restRemaining = Math.max(5, restRemaining + delta);
-      restTotal = Math.max(restTotal, restRemaining);
-      updateRestTimerUI();
-    }
-
-    function stopRestTimer() {
-      clearInterval(restInterval);
-      document.getElementById('rest-timer-bar').classList.add('hidden');
-    }
-
-    function updateRestTimerUI() {
-      const m = String(Math.floor(restRemaining / 60)).padStart(2, '0');
-      const s = String(restRemaining % 60).padStart(2, '0');
-      document.getElementById('rest-timer-clock').textContent = `${m}:${s}`;
-      const pct = Math.max(0, Math.min(100, (restRemaining / restTotal) * 100));
-      document.getElementById('rest-timer-progress').style.width = `${pct}%`;
-    }
-
-    function playTimerChime() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        [523.25, 659.25, 783.99].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = freq;
-          gain.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.12);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.25);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + i * 0.12);
-          osc.stop(ctx.currentTime + i * 0.12 + 0.26);
-        });
-      } catch (e) {}
-    }
-
-    // ==========================================
-    // 7. FITER MACHINE REPLACEMENTS
-    // ==========================================
-    function openReplacementsModal(exId) {
-      currentReplacementExId = exId;
-      const dayObj = BASE_ROUTINE[activeDay];
-      const rawEx = dayObj.exercises.find(e => e.id === exId);
-      if (!rawEx) return;
-
-      document.getElementById('rep-modal-title').textContent = rawEx.nombre;
-      const currIdx = activeReplacements?.[activeDay]?.[exId];
-
-      let html = `
-        <button onclick="applyReplacement(null)" class="w-full p-3 rounded-2xl border text-left transition ${currIdx === undefined || currIdx === null ? 'border-emerald-500 bg-emerald-500/15 text-white' : 'border-zinc-800 bg-zinc-950 text-zinc-300'}">
-          <span class="text-xs font-black block">⭐ Original: ${rawEx.nombre}</span>
-          <span class="text-[11px] text-zinc-400">Carga base: ${rawEx.baseKg} ${rawEx.unit}</span>
-        </button>
-      `;
-
-      (rawEx.alternativas || []).forEach((alt, i) => {
-        const isSel = currIdx === i;
-        html += `
-          <button onclick="applyReplacement(${i})" class="w-full p-3 rounded-2xl border text-left transition ${isSel ? 'border-amber-500 bg-amber-500/15 text-white' : 'border-zinc-800 bg-zinc-950 text-zinc-300 hover:border-zinc-700'}">
-            <span class="text-xs font-black block">🔄 ${alt.nombre}</span>
-            <span class="text-[11px] text-amber-300 font-semibold block">Equivalencia: ${alt.baseKg} ${rawEx.unit}</span>
-            <span class="text-[10px] text-zinc-400 block mt-0.5">${alt.nota}</span>
-          </button>
-        `;
-      });
-
-      document.getElementById('rep-options-list').innerHTML = html;
-      const modal = document.getElementById('modal-replacements');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeReplacementsModal() {
-      const modal = document.getElementById('modal-replacements');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function applyReplacement(idx) {
-      if (!activeReplacements[activeDay]) activeReplacements[activeDay] = {};
-      if (idx === null) delete activeReplacements[activeDay][currentReplacementExId];
-      else activeReplacements[activeDay][currentReplacementExId] = idx;
-
-      localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
-      db.ref(`gym_v2/replacements/${activeDay}`).set(activeReplacements[activeDay] || {}).catch(() => {});
-      closeReplacementsModal();
-      renderActiveWorkout();
-      showToast('🔄 Ejercicio actualizado con equivalencia Fiter');
-    }
-
-    // ==========================================
-    // 8. RP FINISH SESSION & AUTOREGULATION
-    // ==========================================
-    function openFinishSessionModal() {
-      const dayObj = BASE_ROUTINE[activeDay];
-      document.getElementById('finish-modal-title').textContent = `Cerrar ${dayObj.shortLabel}: ${dayObj.title}`;
-
-      const prev = allCompleted?.[activeWeek]?.[activeDay]?.rpFeedback;
-      rpModalSelection = {
-        pump: prev?.pump || 'bueno',
-        joint: prev?.joint || 'cero',
-        fatigue: prev?.fatigue || 'optima'
-      };
-      document.getElementById('rp-finish-note').value = prev?.notes || '';
-      document.getElementById('rp-joint-area-input').value = prev?.jointArea || '';
-      refreshRpModalButtons();
-
-      const modal = document.getElementById('modal-finish-rp');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeFinishSessionModal() {
-      const modal = document.getElementById('modal-finish-rp');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function selectRpOption(group, val) {
-      rpModalSelection[group] = val;
-      refreshRpModalButtons();
-    }
-
-    function refreshRpModalButtons() {
-      ['pump', 'joint', 'fatigue'].forEach(group => {
-        const box = document.getElementById(`rp-q-${group}`);
-        if (!box) return;
-        box.querySelectorAll('button').forEach(btn => {
-          const isSel = btn.dataset.val === rpModalSelection[group];
-          if (isSel) {
-            if (group === 'joint' && btn.dataset.val === 'cero') {
-              btn.className = 'rp-opt py-2 px-2 rounded-xl border border-emerald-500 bg-emerald-500/20 text-[11px] font-extrabold text-emerald-300';
-            } else if (group === 'joint') {
-              btn.className = 'rp-opt py-2 px-2 rounded-xl border border-amber-500 bg-amber-500/20 text-[11px] font-extrabold text-amber-300';
-            } else {
-              btn.className = 'rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300';
-            }
-          } else {
-            btn.className = 'rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400';
-          }
-        });
-      });
-
-      const areaBox = document.getElementById('rp-joint-area-box');
-      if (rpModalSelection.joint !== 'cero') areaBox.classList.remove('hidden');
-      else areaBox.classList.add('hidden');
-    }
-
-    function confirmFinishSession() {
-      const dayObj = BASE_ROUTINE[activeDay];
-      const dayLogs = allLogs?.[activeWeek]?.[activeDay] || {};
-      let tonnage = 0;
-      const summaryParts = [];
-
-      dayObj.exercises.forEach(rawEx => {
-        const ex = getEffectiveExercise(activeDay, rawEx);
-        const sets = dayLogs[ex.id] || [];
-        const doneSets = sets.filter(s => s && s.completed);
-        if (doneSets.length > 0) {
-          const topKg = doneSets[0].kg;
-          const repsArr = doneSets.map(s => s.reps).join(',');
-          const kgLabel = (ex.unit === 'corporal' || topKg === '0') ? '' : ` ${topKg}kg`;
-          summaryParts.push(`${ex.nombre.split('(')[0].trim()}${kgLabel} (${repsArr})`);
-          doneSets.forEach(s => {
-            const k = parseFloat(String(s.kg).replace(',', '.')) || 0;
-            const r = parseInt(s.reps) || 0;
-            tonnage += k * r;
-          });
-        }
-      });
-
-      const todayKey = getTodayKey();
-      const payload = {
-        completed: true,
-        completedAt: Date.now(),
-        dateKey: todayKey,
-        dayTitle: dayObj.title,
-        week: activeWeek,
-        rirTarget: RP_WEEKS[activeWeek].rir,
-        tonnageKg: Math.round(tonnage),
-        summary: summaryParts.join(' • ') || dayObj.title,
-        rpFeedback: {
-          pump: rpModalSelection.pump,
-          joint: rpModalSelection.joint,
-          jointArea: document.getElementById('rp-joint-area-input').value.trim(),
-          fatigue: rpModalSelection.fatigue,
-          notes: document.getElementById('rp-finish-note').value.trim()
-        }
-      };
-
-      if (!allCompleted[activeWeek]) allCompleted[activeWeek] = {};
-      allCompleted[activeWeek][activeDay] = payload;
-      localStorage.setItem('mg_completed_v2', JSON.stringify(allCompleted));
-
-      // Sync to Firebase gym_v2 + Cross-App Bridge for Male Día & Male Nutri!
-      db.ref(`gym_v2/completed/${activeWeek}/${activeDay}`).set(payload).catch(() => {});
-      db.ref(`gym_v2/daily_bridge/${todayKey}`).update({
-        trainedToday: true,
-        isLowerBody: ['dia1', 'dia3', 'dia5'].includes(activeDay),
-        dayKey: activeDay,
-        dayTitle: dayObj.title,
-        summary: payload.summary,
-        timestamp: Date.now()
-      }).catch(() => {});
-      db.ref(`gym_completed_sessions/v2_${activeWeek}_${activeDay}_${Date.now()}`).set(payload).catch(() => {});
-
-      closeFinishSessionModal();
-      stopRestTimer();
-      renderAll();
-      showToast(`🏆 ¡${dayObj.shortLabel} guardado y sincronizado!`);
-    }
-
-    // ==========================================
-    // 9. WEEK & DAY NAVIGATION
-    // ==========================================
-    function selectWeek(wk) {
-      activeWeek = wk;
-      localStorage.setItem('mg_active_week', wk);
-      db.ref('gym_v2/state/activeWeek').set(wk).catch(() => {});
-      renderAll();
-    }
-
-    function selectDay(dk) {
-      activeDay = dk;
-      localStorage.setItem('mg_active_day', dk);
-      renderAll();
-    }
-
-    function openWeekMenuModal() {
-      const m = document.getElementById('modal-week-menu');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
-    }
-
-    function closeWeekMenuModal() {
-      const m = document.getElementById('modal-week-menu');
-      m.classList.add('hidden');
-      m.classList.remove('flex');
-    }
-
-    function advanceToNextWeek() {
-      const order = ['sem1', 'sem2', 'sem3', 'sem4', 'sem5'];
-      const idx = order.indexOf(activeWeek);
-      const next = order[Math.min(order.length - 1, idx + 1)];
-      selectWeek(next);
-      selectDay('dia1');
-      closeWeekMenuModal();
-      showToast(`⏭️ Pasaste a ${RP_WEEKS[next].short} (${RP_WEEKS[next].rir})`);
-    }
-
-    function resetCurrentWeekProgress() {
-      if (!confirm(`¿Querés reiniciar los días marcados de ${RP_WEEKS[activeWeek].short} para arrancar limpia desde el Día 1?`)) return;
-      allCompleted[activeWeek] = {};
-      localStorage.setItem('mg_completed_v2', JSON.stringify(allCompleted));
-      db.ref(`gym_v2/completed/${activeWeek}`).remove().catch(() => {});
-      selectDay('dia1');
-      closeWeekMenuModal();
-      renderAll();
-      showToast('🔄 Semana reiniciada al Día 1');
-    }
-
-    // ==========================================
-    // 10. CARDIO & STEPS TRACKING
-    // ==========================================
-    function toggleSessionCardio(desc) {
-      const todayKey = getTodayKey();
-      const mins = parseInt(document.getElementById('session-cardio-min')?.value) || 20;
-      if (cardioMap[todayKey]) {
-        delete cardioMap[todayKey];
-        db.ref(`gym_v2/cardio_logs/${todayKey}`).remove().catch(() => {});
-        showToast('Cardio de hoy desmarcado');
+    function toggleNonScaleVictory(vicId) {
+      if (!dailyLog.victories) dailyLog.victories = {};
+      dailyLog.victories[vicId] = !dailyLog.victories[vicId];
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.victories[vicId]) {
+        const vic = NON_SCALE_VICTORIES.find(v => v.id === vicId);
+        showToast(vic?.toast || '✨ ¡Sensación registrada!');
       } else {
-        const entry = { minutes: mins, note: desc, dateKey: todayKey, timestamp: Date.now() };
-        cardioMap[todayKey] = entry;
-        db.ref(`gym_v2/cardio_logs/${todayKey}`).set(entry).catch(() => {});
-        db.ref(`gym_v2/daily_bridge/${todayKey}`).update({ cardioMinutes: mins, timestamp: Date.now() }).catch(() => {});
-        showToast(`🏃‍♀️ ¡${mins} min de Cardio registrados!`);
-      }
-      localStorage.setItem('mg_cardio_v2', JSON.stringify(cardioMap));
-      renderActiveWorkout();
-      renderCardioView();
-    }
-
-    function addStepsQuick(amount) {
-      const todayKey = getTodayKey();
-      const curr = stepsMap[todayKey]?.steps || 0;
-      setStepsForToday(curr + amount);
-    }
-
-    function promptExactSteps() {
-      const todayKey = getTodayKey();
-      const curr = stepsMap[todayKey]?.steps || 0;
-      const val = prompt('Ingresá tus pasos totales de hoy (según tu celu/reloj):', curr);
-      if (val !== null && !isNaN(parseInt(val))) {
-        setStepsForToday(Math.max(0, parseInt(val)));
+        showToast('🔄 Sensación desmarcada');
       }
     }
 
-    function setStepsForToday(total) {
-      const todayKey = getTodayKey();
-      stepsMap[todayKey] = { steps: total, updatedAt: Date.now() };
-      localStorage.setItem('mg_steps_v2', JSON.stringify(stepsMap));
-      db.ref(`gym_v2/steps/${todayKey}`).set(stepsMap[todayKey]).catch(() => {});
-      db.ref(`gym_v2/daily_bridge/${todayKey}`).update({ steps: total }).catch(() => {});
-      renderCardioView();
-      showToast(`👣 ${total.toLocaleString('es-AR')} pasos guardados`);
-    }
-
-    function saveStandaloneCardio() {
-      const todayKey = getTodayKey();
-      const mins = parseInt(document.getElementById('manual-cardio-min').value) || 20;
-      const note = document.getElementById('manual-cardio-note').value.trim() || 'Cardio LISS';
-      cardioMap[todayKey] = { minutes: mins, note, dateKey: todayKey, timestamp: Date.now() };
-      localStorage.setItem('mg_cardio_v2', JSON.stringify(cardioMap));
-      db.ref(`gym_v2/cardio_logs/${todayKey}`).set(cardioMap[todayKey]).catch(() => {});
-      db.ref(`gym_v2/daily_bridge/${todayKey}`).update({ cardioMinutes: mins }).catch(() => {});
-      renderCardioView();
-      renderActiveWorkout();
-      showToast(`🏃‍♀️ ¡${mins} min de Cardio guardados!`);
-    }
-
-    function renderCardioView() {
-      const todayKey = getTodayKey();
-      const steps = stepsMap[todayKey]?.steps || 0;
-      const pct = Math.min(100, Math.round((steps / 9000) * 100));
-      document.getElementById('steps-today-val').textContent = steps.toLocaleString('es-AR');
-      document.getElementById('steps-pct-label').textContent = `${pct}%`;
-      document.getElementById('steps-progress-bar').style.width = `${pct}%`;
-
-      // Last 7 days cardio sum
-      const cutoff = Date.now() - 7 * 24 * 3600 * 1000;
-      const entries = Object.values(cardioMap).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-      const weekMins = entries.filter(e => (e.timestamp || 0) >= cutoff).reduce((acc, e) => acc + (e.minutes || 0), 0);
-      document.getElementById('cardio-week-total').textContent = `${weekMins} / 60 min`;
-
-      const listEl = document.getElementById('cardio-history-list');
-      if (entries.length === 0) {
-        listEl.innerHTML = `<p class="text-[11px] text-zinc-500">Todavía no hay bloques de cardio registrados esta semana.</p>`;
-      } else {
-        listEl.innerHTML = entries.slice(0, 6).map(e => `
-          <div class="flex items-center justify-between bg-zinc-950 border border-zinc-800/80 rounded-xl px-3 py-2 text-xs">
-            <div>
-              <span class="font-bold text-white">${e.minutes} min</span>
-              <span class="text-zinc-400"> • ${e.note}</span>
-            </div>
-            <span class="text-[10px] text-zinc-500 font-semibold">${e.dateKey}</span>
-          </div>
-        `).join('');
-      }
-    }
-
-    // ==========================================
-    // 11. BODY METRICS & PRs VIEW
-    // ==========================================
-    function ensureInitialBaseline() {
-      if (!bodyMetrics || bodyMetrics.length === 0) {
-        bodyMetrics = [
-          { dateKey: '2026-11-02', peso: 55.0, cintura: null, gluteo: null, note: 'Referencia inicial gym (1.54m)', timestamp: 1793659000000 }
-        ];
-        localStorage.setItem('mg_bodymetrics_v2', JSON.stringify(bodyMetrics));
-      }
-    }
-
-    function saveBodyMetric() {
-      const peso = parseFloat(document.getElementById('in-metric-peso').value);
-      const cintura = parseFloat(document.getElementById('in-metric-cintura').value) || null;
-      const gluteo = parseFloat(document.getElementById('in-metric-gluteo').value) || null;
-      if (!peso && !cintura && !gluteo) {
-        showToast('Ingresá al menos un dato para guardar');
-        return;
-      }
-      const entry = {
-        dateKey: getTodayKey(),
-        peso: peso || (bodyMetrics[0]?.peso || 55.0),
-        cintura,
-        gluteo,
-        timestamp: Date.now()
+    function changeMealOption(slotId, optId) {
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      const opt = slot.options.find(o => o.id === optId) || slot.options[0];
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const wasEaten = !!dailyLog.meals[slotId]?.eaten;
+      dailyLog.meals[slotId] = {
+        optId: opt.id,
+        name: opt.name,
+        kcal: opt.kcal,
+        p: opt.p,
+        c: opt.c,
+        f: opt.f,
+        eaten: wasEaten,
+        custom: false
       };
-      bodyMetrics.unshift(entry);
-      localStorage.setItem('mg_bodymetrics_v2', JSON.stringify(bodyMetrics));
-      db.ref('gym_v2/body_metrics').set(bodyMetrics).catch(() => {});
-      document.getElementById('in-metric-peso').value = '';
-      document.getElementById('in-metric-cintura').value = '';
-      document.getElementById('in-metric-gluteo').value = '';
-      renderProgressView();
-      showToast('📏 Registro corporal guardado');
+      persistDailyNutri();
+      renderTodayDashboard();
     }
 
-    function renderProgressView() {
-      ensureInitialBaseline();
-      const sorted = [...bodyMetrics].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-      const latest = sorted[0] || { peso: 55.0 };
-      const latestWaist = sorted.find(m => m.cintura)?.cintura;
-      const latestGlute = sorted.find(m => m.gluteo)?.gluteo;
+    function toggleMealEaten(slotId) {
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const curr = dailyLog.meals[slotId];
+      if (!curr) {
+        const opt = slot.options[0];
+        dailyLog.meals[slotId] = { optId: opt.id, name: opt.name, kcal: opt.kcal, p: opt.p, c: opt.c, f: opt.f, eaten: true, custom: false };
+      } else {
+        curr.eaten = !curr.eaten;
+        if (!curr.custom && !curr.kcal) {
+          const opt = slot.options.find(o => o.id === curr.optId) || slot.options[0];
+          Object.assign(curr, { name: opt.name, kcal: opt.kcal, p: opt.p, c: opt.c, f: opt.f });
+        }
+      }
+      persistDailyNutri();
+      renderTodayDashboard();
+      if (dailyLog.meals[slotId].eaten) showToast('🥗 Comida sumada a tu día');
+    }
 
-      document.getElementById('metric-latest-weight').textContent = `${latest.peso} kg`;
-      document.getElementById('metric-latest-waist').textContent = latestWaist ? `${latestWaist} cm` : '— cm';
-      document.getElementById('metric-latest-glute').textContent = latestGlute ? `${latestGlute} cm` : '— cm';
+    function promptCustomMeal(slotId) {
+      const name = prompt('¿Qué comiste? (Ej: 2 porciones de tarta de pollo y calabaza):');
+      if (!name) return;
+      const kcal = parseInt(prompt('Calorías aproximadas (si no sabés poné 400 o preguntale a Nutri IA):', '400')) || 400;
+      const p = parseInt(prompt('Gramos aprox. de proteína (ej: 25):', '25')) || 25;
+      if (!dailyLog.meals) dailyLog.meals = {};
+      dailyLog.meals[slotId] = {
+        custom: true,
+        customName: name,
+        name,
+        kcal,
+        p,
+        c: Math.max(10, Math.round((kcal - p * 4 - 12 * 9) / 4)),
+        f: 12,
+        eaten: true
+      };
+      persistDailyNutri();
+      renderTodayDashboard();
+      showToast('✏️ Comida personalizada registrada');
+    }
 
-      document.getElementById('body-metrics-history').innerHTML = sorted.slice(0, 5).map(m => `
-        <div class="flex items-center justify-between text-[11px] bg-zinc-950/80 border border-zinc-800/80 rounded-xl px-3 py-1.5">
-          <span class="text-zinc-400 font-semibold">${m.dateKey}</span>
-          <span class="font-bold text-zinc-200">
-            ${m.peso ? m.peso + ' kg' : ''}
-            ${m.cintura ? ' • Cint: ' + m.cintura + 'cm' : ''}
-            ${m.gluteo ? ' • Glút: ' + m.gluteo + 'cm' : ''}
-          </span>
+    function clearCustomMeal(slotId) {
+      if (!dailyLog.meals) dailyLog.meals = {};
+      delete dailyLog.meals[slotId];
+      persistDailyNutri();
+      renderTodayDashboard();
+      showToast('🔄 Comida reiniciada');
+    }
+
+    function togglePantryItem(slotId, itemId) {
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const meal = dailyLog.meals[slotId] || {};
+      let items = Array.isArray(meal.selectedFoodIds) ? [...meal.selectedFoodIds] : [];
+
+      if (items.includes(itemId)) {
+        items = items.filter(id => id !== itemId);
+      } else {
+        // Exclusiones mutuas lógicas (porciones y cocción)
+        if (itemId.includes('tostada_1')) items = items.filter(x => !x.includes('tostada_2'));
+        if (itemId.includes('tostada_2')) items = items.filter(x => !x.includes('tostada_1'));
+        if (itemId.includes('ricota_1')) items = items.filter(x => !x.includes('ricota_2'));
+        if (itemId.includes('ricota_2')) items = items.filter(x => !x.includes('ricota_1'));
+        if (itemId.includes('huevo_1')) items = items.filter(x => !x.includes('huevo_2'));
+        if (itemId.includes('huevo_2')) items = items.filter(x => !x.includes('huevo_1'));
+        if (itemId.includes('tarta_1')) items = items.filter(x => !x.includes('tarta_2'));
+        if (itemId.includes('tarta_2')) items = items.filter(x => !x.includes('tarta_1'));
+        if (itemId.includes('carne_spray')) items = items.filter(x => !x.includes('carne_aceite'));
+        if (itemId.includes('carne_aceite')) items = items.filter(x => !x.includes('carne_spray'));
+        if (itemId.includes('pollo_spray')) items = items.filter(x => !x.includes('pollo_aceite'));
+        if (itemId.includes('pollo_aceite')) items = items.filter(x => !x.includes('pollo_spray'));
+        if (itemId.includes('pescado_spray')) items = items.filter(x => !x.includes('pescado_aceite'));
+        if (itemId.includes('pescado_aceite')) items = items.filter(x => !x.includes('pescado_spray'));
+        items.push(itemId);
+      }
+
+      if (items.length > 0) {
+        const pantry = FOOD_PANTRY[slotId] || [];
+        const chosen = items.map(id => pantry.find(p => p.id === id)).filter(Boolean);
+        const sumK = chosen.reduce((acc, c) => acc + c.kcal, 0);
+        const sumP = Math.round(chosen.reduce((acc, c) => acc + c.p, 0) * 10) / 10;
+        const sumC = chosen.reduce((acc, c) => acc + (c.c || 0), 0);
+        const sumF = chosen.reduce((acc, c) => acc + (c.f || 0), 0);
+        const name = chosen.map(c => c.name).join(' + ');
+
+        dailyLog.meals[slotId] = {
+          selectedFoodIds: items,
+          name,
+          custom: true,
+          customName: name,
+          kcal: sumK,
+          p: sumP,
+          c: sumC,
+          f: sumF,
+          eaten: true
+        };
+        showToast(`🥗 ${sumK} kcal • ${sumP}g Prot`);
+      } else {
+        delete dailyLog.meals[slotId];
+        showToast('🔄 Comida desmarcada');
+      }
+      persistDailyNutri();
+      renderTodayDashboard();
+    }
+
+    // ==========================================
+    // 5. IDEAS & SHOPPING VIEWS
+    // ==========================================
+    function setIdeasFilter(cat) {
+      activeIdeasCat = cat;
+      document.querySelectorAll('.idea-tab').forEach(btn => {
+        const isAct = btn.dataset.cat === cat;
+        btn.className = isAct
+          ? 'idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-extrabold bg-emerald-600 text-white shadow-2xs'
+          : 'idea-tab shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-emerald-200';
+      });
+      renderIdeasList();
+    }
+
+    function renderIdeasList() {
+      const list = IDEAS_CATALOG[activeIdeasCat] || [];
+      document.getElementById('ideas-cards-list').innerHTML = list.map(item => `
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 space-y-1.5 shadow-2xs">
+          <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">${item.tag}</span>
+          <h3 class="text-sm font-black text-slate-900 pt-1">${item.title}</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">${item.desc}</p>
         </div>
       `).join('');
+    }
 
-      // PRs showcase (combines real historical records + any new higher logs)
-      const keyLifts = [
-        { label: 'Prensa 45°', ids: ['d3_prensa'], fallback: '100 kg × 11' },
-        { label: 'Abductores', ids: ['d1_abductores', 'd5_abd_drop'], fallback: '72 kg × 17' },
-        { label: 'RDL Mancuernas', ids: ['d1_rdl'], fallback: '16 kg/mano × 10' },
-        { label: 'Hip Thrust / Kas', ids: ['d1_hipthrust', 'd5_kas'], fallback: '25 kg máq × 12' },
-        { label: 'Extensión Cuád.', ids: ['d3_extension'], fallback: '36 kg × 12' },
-        { label: 'Camilla Isquios', ids: ['d1_legcurl', 'd5_legcurl2'], fallback: '27 kg × 12' },
-        { label: 'Jalón Espalda', ids: ['d2_jalon', 'd4_jalon_neutro'], fallback: 'Base en curso' },
-        { label: 'Hack Inversa', ids: ['d5_hack_inv'], fallback: '15 kg/lado × 12' }
-      ];
-
-      document.getElementById('prs-board-list').innerHTML = keyLifts.map(item => {
-        let bestKg = 0;
-        let bestStr = item.fallback;
-        Object.values(allLogs).forEach(wkObj => {
-          Object.values(wkObj || {}).forEach(dayMap => {
-            item.ids.forEach(id => {
-              (dayMap?.[id] || []).forEach(s => {
-                if (s && s.completed) {
-                  const k = parseFloat(String(s.kg).replace(',', '.')) || 0;
-                  if (k >= bestKg && k > 0) {
-                    bestKg = k;
-                    bestStr = `${s.kg} kg × ${s.reps}`;
-                  }
-                }
-              });
-            });
-          });
-        });
+    function renderShoppingChecklist() {
+      document.getElementById('shopping-checklist-box').innerHTML = SHOPPING_GROUPS.map(g => {
+        const rows = g.items.map(it => {
+          const checked = !!shoppingNeeded[it];
+          return `
+            <button onclick="toggleShoppingItem('${it.replace(/'/g, '')}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl border text-left text-xs transition ${checked ? 'bg-emerald-50 border-emerald-400 text-emerald-900 font-bold' : 'bg-[#F6FAF7] border-emerald-100 text-slate-700 font-medium'}">
+              <span>${it}</span>
+              <span class="text-xs font-black ${checked ? 'text-emerald-600' : 'text-slate-300'}">${checked ? 'Pedir ✓' : '+'}</span>
+            </button>
+          `;
+        }).join('');
         return `
-          <div class="bg-zinc-950 border border-zinc-800/90 rounded-2xl p-2.5">
-            <span class="text-[10px] text-zinc-400 font-bold block">${item.label}</span>
-            <span class="text-xs font-black text-amber-300 mt-0.5 block">${bestStr}</span>
+          <div class="space-y-1.5">
+            <h4 class="text-xs font-black text-emerald-800">${g.cat}</h4>
+            <div class="space-y-1">${rows}</div>
           </div>
         `;
       }).join('');
     }
 
-    // ==========================================
-    // 12. DEDICATED RP BIOMECHANICS AI COACH
-    // ==========================================
-    function switchGymView(view) {
-      activeView = view;
-      ['train', 'cardio', 'progress', 'coach'].forEach(v => {
-        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== view);
-        const btn = document.getElementById(`nav-${v}`);
-        if (v === view) {
-          btn.className = 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition';
-        } else {
-          btn.className = 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition';
-        }
+    function toggleShoppingItem(item) {
+      shoppingNeeded[item] = !shoppingNeeded[item];
+      if (!shoppingNeeded[item]) delete shoppingNeeded[item];
+      localStorage.setItem('mn_shopping_needed', JSON.stringify(shoppingNeeded));
+      renderShoppingChecklist();
+    }
+
+    function copyShoppingListForWhatsApp() {
+      const selected = Object.keys(shoppingNeeded);
+      let text = '🌸 *Má, te paso las cositas de mi lista de comidas para cuando hagas compras:*\n\n';
+      if (selected.length > 0) {
+        selected.forEach(i => { text += `• ${i}\n`; });
+      } else {
+        SHOPPING_GROUPS.forEach(g => {
+          text += `*${g.cat}*\n`;
+          g.items.forEach(i => { text += `• ${i}\n`; });
+          text += '\n';
+        });
+      }
+      text += '¡Gracias má! ❤️';
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📲 ¡Lista copiada lista para pegarle a Mamá en WhatsApp!');
+      }).catch(() => {
+        prompt('Copiá el texto para WhatsApp:', text);
       });
-      if (view === 'coach') scrollGymChatBottom();
     }
 
-    function scrollGymChatBottom() {
-      const box = document.getElementById('gym-chat-messages');
-      if (box) box.scrollTop = box.scrollHeight;
-    }
-
-    function askQuickGymCoach(q) {
-      document.getElementById('gym-chat-input').value = q;
-      sendGymCoachMessage();
-    }
-
-    function buildGymCoachContext() {
-      try {
-        const dayObj = BASE_ROUTINE[activeDay] || BASE_ROUTINE['dia4'] || Object.values(BASE_ROUTINE)[0];
-        const w = RP_WEEKS[activeWeek] || { short: 'Sem 1', rir: 'RIR 3' };
-        const exercises = dayObj?.exercises || [];
-        const exSummary = exercises.map(raw => {
-          const ex = getEffectiveExercise(activeDay, raw);
-          const sets = (allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || []).filter(s => s?.completed);
-          const loggedStr = sets.length > 0 ? sets.map(s => `${s.kg}x${s.reps}`).join(', ') : 'sin registrar hoy';
-          return `- ${ex.nombre} (Base: ${ex.baseKg} ${ex.unit}, Series: ${ex.series}) -> Hoy: ${loggedStr}`;
-        }).join('\n');
-
-        return `SOS EL COACH RP BIOMECÁNICO EXCLUSIVO DE MALE EN EL GIMNASIO FITER.
-REGLAS ESTRICTAS DE FOCO (CERO CONTAMINACIÓN DE CONTEXTO):
-1. Hablás ÚNICAMENTE de entrenamiento de hipertrofia (metodología Renaissance Periodization / RIR), técnica biomecánica, pesos, reemplazos de máquinas en Fiter y cardio LISS. PROHIBIDO hablar de exámenes de odontología, cursadas o temas fuera del entrenamiento físico.
-2. Usá español rioplatense cálido, directo, motivador y conciso (ideal para leer rápido entre series en el gym, máximo 2-3 párrafos cortos o viñetas).
-3. DATOS Y OBJETIVOS ESTÉTICOS REALES DE MALE:
-   - Mide 1.54 m, pesa ~55 kg, 22 años. Toma 5g de creatina diarios.
-   - Objetivos: Construir "Forma de P" en el glúteo (proyección del polo superior: fibras superiores del glúteo mayor + glúteo medio posterior), aumentar masa muscular firme en piernas (cuádriceps e isquios), definir espalda y deltoides laterales en Frecuencia 2 (efecto V-Taper que achica cintura) y mantener faja abdominal plana (transverso/recto, CERO oblicuos pesados).
-   - Cuidado articular: cuidar siempre su rótula (bajadas controladas de 2-3s en extensión/camilla) y evitar tensión de trapecio superior/cuello en vuelos laterales.
-   - FATIGA & RECORTES ESTRATÉGICOS: Si Male avisa que saltea accesorios (como tríceps, bíceps o abs) o que ya está en la cinta, RESPALDALA 100%. En RP recortar accesorios cuando falta energía es la decisión técnica correcta para no arrastrar fatiga sistémica a la sesión de piernas de mañana.
-4. SESIÓN QUE ESTÁ VIENDO AHORA MISMO:
-   - ${w.short} (${w.rir}) — ${dayObj?.shortLabel || 'Día'}: ${dayObj?.title || ''}
-${exSummary}`;
-      } catch (e) {
-        return 'SOS EL COACH RP DE MALE EN EL GYM. Respondele con calidez y técnica rápida.';
+    // ==========================================
+    // 6. DEDICATED NUTRI IA (GEMINI)
+    // ==========================================
+    function switchNutriView(v) {
+      ['today', 'ideas', 'mama', 'nutri-ai'].forEach(k => {
+        document.getElementById(`view-${k}`).classList.toggle('hidden', k !== v);
+        const btn = document.getElementById(`nav-${k}`);
+        btn.className = (k === v)
+          ? 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition'
+          : 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition';
+      });
+      if (v === 'nutri-ai') {
+        const b = document.getElementById('nutri-chat-messages');
+        if (b) b.scrollTop = b.scrollHeight;
       }
     }
 
-    async function sendGymCoachMessage() {
-      const input = document.getElementById('gym-chat-input');
+    function askQuickNutri(q) {
+      document.getElementById('nutri-chat-input').value = q;
+      sendNutriMessage();
+    }
+
+    function buildNutriSystemPrompt() {
+      const targetKcal = getCalorieTargetToday();
+      let eatenList = [];
+      let sumK = 0, sumP = 0;
+      MEAL_SLOTS.forEach(s => {
+        const m = dailyLog.meals?.[s.id];
+        if (m && m.eaten) {
+          eatenList.push(`${s.title}: ${m.name} (${m.kcal} kcal, ${m.p}g P)`);
+          sumK += m.kcal || 0;
+          sumP += m.p || 0;
+        }
+      });
+
+      const vicNames = [];
+      if (dailyLog.victories) {
+        NON_SCALE_VICTORIES.forEach(v => {
+          if (dailyLog.victories[v.id]) vicNames.push(v.label);
+        });
+      }
+
+      return `SOS LA NUTRICIONISTA DEPORTIVA PERSONAL DE MALE (APP MALE NUTRI).
+REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
+1. Hablás ÚNICAMENTE de alimentación, recomposición corporal, porciones caseras, recetas fáciles para ella o su mamá, y manejo nutricional de la ansiedad al estudiar. PROHIBIDO dar rutinas de pesas o sermonear sobre exámenes.
+2. Tono: Español rioplatense cálido, práctico, cero restrictivo ni culposo, respuestas breves y súper concretas (en medidas caseras argentinas: unidades, tazas, cucharadas, palmas).
+3. PERFIL Y CONTEXTO REAL DE MALE:
+   - 22 años, mide 1.54 m, pesa 55 kg. Toma 5g de creatina por día.
+   - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
+   - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
+   - HÁBITO INFALTABLE: Male SIEMPRE toma café con leche (taza grande = ~7.5g proteína), NUNCA café solo. Aunque solo diga "desayuné tostadas" o "un café", asumí siempre que tomó su café con leche habitual de ~200ml.
+   - CONTROL TÁCTICO DE MERIENDAS: Si Male consulta por una merienda, reservale siempre un presupuesto de 350-400 kcal para una cena completa (como su lata de atún tuneada o carne/pollo con ensalada), guiándola hacia opciones livianas y fáciles para no sobrecargar el día.
+   - HITO CORPORAL RECIENTE & REFUERZO DE CONFIANZA: Male hoy notó frente al espejo que se le volvió a marcar la línea del medio del abdomen (línea alba). Si Male menciona algo sobre su cuerpo, cómo se ve, su motivación o sus resultados, celebráselo con calidez genuina. Recordale que en recomposición la balanza a veces se mueve lento porque el músculo tonifica con las pesas, pero que esa línea del abdomen es la prueba irrefutable de que la grasa subcutánea está bajando gracias a su déficit moderado (~1520 kcal) y su constancia con la proteína.
+   ${vicNames.length > 0 ? `- Sensaciones / Victorias del espejo que Male tildó hoy: ${vicNames.join(', ')}.` : ''}
+   - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Le encanta la tostada con mermelada (su hack estrella es untarla con ricota abundante estilo cheesecake para sumar 23-25g de proteína con su café con leche sin gastar batido). NUNCA prohibirle alimentos ni demonizar comidas que le gusten; se adaptan con proteína. Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
+   - Entreno hoy: ${gymBridgeToday?.trainedToday ? 'SÍ entrenó hoy (' + gymBridgeToday.dayTitle + ')' : 'Hoy aún no registró entreno'}.
+   - Comidas marcadas hoy hasta ahora: ${eatenList.length > 0 ? eatenList.join(' | ') + ` -> Total parcial: ${sumK} kcal y ${sumP}g proteína` : 'Ninguna marcada todavía'}.`;
+    }
+
+    async function sendNutriMessage() {
+      const input = document.getElementById('nutri-chat-input');
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
 
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const chatBox = document.getElementById('gym-chat-messages');
+      await db.ref('nutri_v2/chat_messages').push({
+        sender: 'Male',
+        text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now()
+      });
 
-      // 1. RENDER OPTIMISTA INSTANTÁNEO (Para que Male vea su mensaje de inmediato aunque haya lag en el gym)
-      const optDiv = document.createElement('div');
-      optDiv.className = 'flex justify-end animate-fade-in';
-      optDiv.innerHTML = `
-        <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-rose-600 text-white font-medium shadow-2xs">
-          <div>${formatSimpleMarkdown(text)}</div>
-          <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr} ✓</span>
-        </div>
-      `;
-      chatBox.appendChild(optDiv);
-
-      // Typing indicator
+      const box = document.getElementById('nutri-chat-messages');
       const typing = document.createElement('div');
-      typing.id = 'gym-typing';
-      typing.className = 'text-[11px] text-rose-400 italic px-2 animate-pulse';
-      typing.textContent = 'Coach RP analizando...';
-      chatBox.appendChild(typing);
-      scrollGymChatBottom();
+      typing.className = 'text-[11px] text-emerald-600 italic px-2';
+      typing.textContent = 'Nutri calculando porción...';
+      box.appendChild(typing);
+      box.scrollTop = box.scrollHeight;
 
-      // 2. ENVIAR A FIREBASE EN SEGUNDO PLANO SIN BLOQUEAR
+      let hist = '';
       try {
-        db.ref('gym_v2/chat_messages').push({
-          sender: 'Male',
-          text,
-          time: timeStr,
-          timestamp: Date.now()
-        }).catch(e => console.warn('Offline queued:', e));
-      } catch (err) {}
-
-      // 3. CONSULTAR HISTORIAL RECIENTE
-      let historyStr = '';
-      try {
-        const snap = await db.ref('gym_v2/chat_messages').limitToLast(6).once('value');
+        const snap = await db.ref('nutri_v2/chat_messages').limitToLast(6).once('value');
         const val = snap.val();
-        if (val) {
-          historyStr = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
-        }
+        if (val) hist = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
       } catch (e) {}
 
       const payload = {
         contents: [{
           role: 'user',
-          parts: [{ text: `${buildGymCoachContext()}\n\nHISTORIAL RECIENTE:\n${historyStr}\n\nMale consulta en el gym: "${text}"` }]
+          parts: [{ text: `${buildNutriSystemPrompt()}\n\nHISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }]
         }]
       };
 
       const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
       let reply = null;
-
       for (const m of models) {
         try {
           const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 12000);
+          const t = setTimeout(() => ctrl.abort(), 16000);
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2175,143 +1028,55 @@ ${exSummary}`;
           clearTimeout(t);
           if (!res.ok) continue;
           const data = await res.json();
-          const candidate = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidate) { reply = candidate.trim(); break; }
+          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (txt) { reply = txt.trim(); break; }
         } catch (e) {}
       }
 
       if (typing.parentNode) typing.parentNode.removeChild(typing);
 
-      const coachReplyText = reply || '¡Te leí perfecto Male! Si estás en la cinta o en una máquina y la señal de Fiter titubea, dale con todo a tus 20-25 min de caminata inclinada (pendiente 9-12% • 4.8 km/h). Si dejaste afuera tríceps y abs hoy, ¡es una decisión impecable para llegar descansada a las piernas de mañana!';
-
-      // Guardar respuesta en Firebase
-      try {
-        await db.ref('gym_v2/chat_messages').push({
-          sender: 'Coach RP',
-          text: coachReplyText,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          timestamp: Date.now()
-        });
-      } catch (e) {
-        // Render fallback local si Firebase se desconectó totalmente
-        const replyDiv = document.createElement('div');
-        replyDiv.className = 'flex justify-start';
-        replyDiv.innerHTML = `
-          <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-zinc-950 border border-zinc-800 text-zinc-200">
-            <div>${formatSimpleMarkdown(coachReplyText)}</div>
-            <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr}</span>
-          </div>
-        `;
-        chatBox.appendChild(replyDiv);
-        scrollGymChatBottom();
-      }
+      await db.ref('nutri_v2/chat_messages').push({
+        sender: 'Nutri IA',
+        text: reply || 'Se me cortó un segundito la conexión, hermosa. Escribime de nuevo qué hay de comer y te digo la porción justa 🥗',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now()
+      });
     }
 
-    function formatSimpleMarkdown(str) {
+    function formatMd(str) {
       return String(str || '')
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/\*\*(.+?)\*\*/g, '<strong class="text-white font-extrabold">$1</strong>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-extrabold text-slate-900">$1</strong>')
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
         .replace(/\n/g, '<br>');
     }
 
     // ==========================================
-    // 13. FIREBASE LISTENERS & BOOTSTRAP
+    // 7. REALTIME SYNC
     // ==========================================
-    function initRealtimeListeners() {
-      db.ref('.info/connected').on('value', snap => {
-        const ok = snap.val() === true;
-        document.getElementById('sync-dot').className = `w-1.5 h-1.5 rounded-full ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`;
-        document.getElementById('sync-label').textContent = ok ? 'RP Sync' : 'Local';
+    function initNutriSync() {
+      db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
+        gymBridgeToday = snap.val();
+        renderTodayDashboard();
       });
 
-      // Remote routine overrides (so our AI Analyst can adjust Male's weights/exercises live!)
-      db.ref('gym_v2/routine_overrides').on('value', snap => {
-        remoteOverrides = snap.val() || {};
-        renderActiveWorkout();
-      });
-
-      db.ref('gym_v2/state/activeWeek').on('value', snap => {
-        const wk = snap.val();
-        if (wk && RP_WEEKS[wk] && wk !== activeWeek) {
-          activeWeek = wk;
-          localStorage.setItem('mg_active_week', wk);
-          renderAll();
-        }
-      });
-
-      db.ref('gym_v2/replacements').on('value', snap => {
+      db.ref(`nutri_v2/daily_logs/${todayKey}`).on('value', snap => {
         const val = snap.val();
         if (val) {
-          activeReplacements = val;
-          localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
-          if (!document.activeElement || !document.activeElement.id?.startsWith('kg_') && !document.activeElement.id?.startsWith('reps_')) {
-            renderActiveWorkout();
-          }
+          dailyLog = { meals: val.meals || {}, vegs: val.vegs || {}, victories: val.victories || {} };
+          localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+          renderTodayDashboard();
         }
       });
 
-      db.ref('gym_v2/logs').on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          allLogs = val;
-          localStorage.setItem('mg_logs_v2', JSON.stringify(allLogs));
-          const ae = document.activeElement;
-          const isTypingSet = ae && ae.id && (ae.id.startsWith('kg_') || ae.id.startsWith('reps_'));
-          if (!isTypingSet) {
-            renderActiveWorkout();
-          }
-          renderProgressView();
-        }
-      });
-
-      db.ref('gym_v2/completed').on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          allCompleted = val;
-          localStorage.setItem('mg_completed_v2', JSON.stringify(allCompleted));
-          renderHeaderAndWeekPills();
-          renderDaySelector();
-          renderActiveWorkout();
-        }
-      });
-
-      db.ref('gym_v2/cardio_logs').on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          cardioMap = val;
-          localStorage.setItem('mg_cardio_v2', JSON.stringify(cardioMap));
-          renderCardioView();
-          renderActiveWorkout();
-        }
-      });
-
-      db.ref('gym_v2/steps').on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          stepsMap = val;
-          localStorage.setItem('mg_steps_v2', JSON.stringify(stepsMap));
-          renderCardioView();
-        }
-      });
-
-      db.ref('gym_v2/body_metrics').on('value', snap => {
-        const val = snap.val();
-        if (val && Array.isArray(val) && val.length > 0) {
-          bodyMetrics = val;
-          localStorage.setItem('mg_bodymetrics_v2', JSON.stringify(bodyMetrics));
-          renderProgressView();
-        }
-      });
-
-      db.ref('gym_v2/chat_messages').limitToLast(30).on('value', snap => {
-        const box = document.getElementById('gym-chat-messages');
+      db.ref('nutri_v2/chat_messages').limitToLast(30).on('value', snap => {
+        const box = document.getElementById('nutri-chat-messages');
         const val = snap.val();
         if (!val) {
           box.innerHTML = `
-            <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-3 text-zinc-300 leading-relaxed">
-              <strong class="text-rose-400 block mb-1">🧬 ¡Bienvenida a Male Gym RP!</strong>
-              Preguntame cualquier duda rápida en Fiter: reemplazos si una máquina está ocupada, cómo posicionar los pies para aislar la parte alta del glúteo o con qué peso arrancar.
+            <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-slate-700 leading-relaxed">
+              <strong class="text-emerald-800 block mb-1">🥑 ¡Bienvenida a Male Nutri!</strong>
+              Tus objetivos ya están calibrados a <strong>1.520 kcal y 110g de proteína</strong>. Preguntame cuando quieras cómo adaptar cualquier comida que haya hecho tu mamá o qué picotear estudiando.
             </div>
           `;
           return;
@@ -2320,21 +1085,20 @@ ${exSummary}`;
           const isMale = m.sender === 'Male';
           return `
             <div class="flex ${isMale ? 'justify-end' : 'justify-start'}">
-              <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${isMale ? 'bg-rose-600 text-white font-medium' : 'bg-zinc-950 border border-zinc-800 text-zinc-200'}">
-                <div>${formatSimpleMarkdown(m.text)}</div>
+              <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed ${isMale ? 'bg-emerald-600 text-white font-medium' : 'bg-white border border-emerald-200/80 text-slate-700 shadow-2xs'}">
+                <div>${formatMd(m.text)}</div>
                 <span class="block text-[9px] mt-1 opacity-60 text-right">${m.time || ''}</span>
               </div>
             </div>
           `;
         }).join('');
-        scrollGymChatBottom();
+        box.scrollTop = box.scrollHeight;
       });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      ensureInitialBaseline();
-      renderAll();
-      initRealtimeListeners();
+      renderAllNutri();
+      initNutriSync();
     });
   </script>
 </body>
