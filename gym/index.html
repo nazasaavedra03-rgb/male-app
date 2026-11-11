@@ -1141,21 +1141,6 @@
     // ==========================================
     // 3. STATE MANAGEMENT & REALTIME SYNC
     // ==========================================
-    let activeWeek = localStorage.getItem('mg_active_week') || 'sem1';
-    let activeDay = localStorage.getItem('mg_active_day') || guessBestDayForToday();
-    let activeView = 'train';
-
-    let allLogs = JSON.parse(localStorage.getItem('mg_logs_v2') || '{}');
-    let allCompleted = JSON.parse(localStorage.getItem('mg_completed_v2') || '{}');
-    let activeReplacements = JSON.parse(localStorage.getItem('mg_replacements_v2') || '{}');
-    let extraSetsMap = JSON.parse(localStorage.getItem('mg_extrasets_v2') || '{}');
-    let remoteOverrides = {};
-    let stepsMap = JSON.parse(localStorage.getItem('mg_steps_v2') || '{}');
-    let cardioMap = JSON.parse(localStorage.getItem('mg_cardio_v2') || '{}');
-    let bodyMetrics = JSON.parse(localStorage.getItem('mg_bodymetrics_v2') || '[]');
-    let rpModalSelection = { pump: 'bueno', joint: 'cero', fatigue: 'optima' };
-    let currentReplacementExId = null;
-
     function getTodayKey(d = new Date()) {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -1171,6 +1156,32 @@
       if (dow === 5) return 'dia4'; // Viernes
       return 'dia5'; // Sábado / Domingo
     }
+
+    function resolveInitialDay() {
+      const today = getTodayKey();
+      const savedDate = localStorage.getItem('mg_active_day_date');
+      const savedDay = localStorage.getItem('mg_active_day');
+      // Si el usuario seleccionó un día hoy mismo, mantener su selección manual
+      if (savedDate === today && savedDay && BASE_ROUTINE[savedDay]) {
+        return savedDay;
+      }
+      return guessBestDayForToday();
+    }
+
+    let activeWeek = localStorage.getItem('mg_active_week') || 'sem1';
+    let activeDay = resolveInitialDay();
+    let activeView = 'train';
+
+    let allLogs = JSON.parse(localStorage.getItem('mg_logs_v2') || '{}');
+    let allCompleted = JSON.parse(localStorage.getItem('mg_completed_v2') || '{}');
+    let activeReplacements = JSON.parse(localStorage.getItem('mg_replacements_v2') || '{}');
+    let extraSetsMap = JSON.parse(localStorage.getItem('mg_extrasets_v2') || '{}');
+    let remoteOverrides = {};
+    let stepsMap = JSON.parse(localStorage.getItem('mg_steps_v2') || '{}');
+    let cardioMap = JSON.parse(localStorage.getItem('mg_cardio_v2') || '{}');
+    let bodyMetrics = JSON.parse(localStorage.getItem('mg_bodymetrics_v2') || '[]');
+    let rpModalSelection = { pump: 'bueno', joint: 'cero', fatigue: 'optima' };
+    let currentReplacementExId = null;
 
     function showToast(msg) {
       const el = document.getElementById('toast-box');
@@ -1347,10 +1358,19 @@
       const w = RP_WEEKS[activeWeek];
       const isDayDone = !!allCompleted?.[activeWeek]?.[activeDay]?.completed;
 
+      const suggestedDay = guessBestDayForToday();
+      const showNextPrompt = isDayDone && suggestedDay !== activeDay && !allCompleted?.[activeWeek]?.[suggestedDay]?.completed;
+      const nextPromptHtml = showNextPrompt ? `
+        <div class="mt-2.5 p-2 rounded-xl bg-violet-950/60 border border-violet-500/40 flex items-center justify-between gap-2 text-xs">
+          <span class="text-zinc-300">📅 Hoy te toca: <strong class="text-white">${BASE_ROUTINE[suggestedDay].shortLabel} (${BASE_ROUTINE[suggestedDay].emoji} ${BASE_ROUTINE[suggestedDay].title})</strong></span>
+          <button onclick="selectDay('${suggestedDay}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-extrabold text-[11px] shadow">Ir a ${BASE_ROUTINE[suggestedDay].shortLabel} ➔</button>
+        </div>
+      ` : '';
+
       // Hero
       document.getElementById('active-day-hero').innerHTML = `
         <div class="flex items-start justify-between gap-2">
-          <div>
+          <div class="w-full">
             <div class="flex items-center gap-1.5 mb-1">
               <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">${dayObj.dayHint}</span>
               <span class="text-[10px] font-bold text-zinc-400">⏱️ ${dayObj.duration}</span>
@@ -1358,6 +1378,7 @@
             </div>
             <h2 class="text-base font-black text-white leading-snug">${dayObj.emoji} ${dayObj.title}</h2>
             <p class="text-[11px] text-zinc-400 mt-0.5 leading-snug">${dayObj.subtitle}</p>
+            ${nextPromptHtml}
           </div>
         </div>
       `;
@@ -1843,6 +1864,8 @@
     function selectDay(dk) {
       activeDay = dk;
       localStorage.setItem('mg_active_day', dk);
+      localStorage.setItem('mg_active_day_date', getTodayKey());
+      db.ref('gym_v2/state/activeDay').set(dk).catch(() => {});
       renderAll();
     }
 
@@ -2255,6 +2278,16 @@ ${exSummary}`;
         if (wk && RP_WEEKS[wk] && wk !== activeWeek) {
           activeWeek = wk;
           localStorage.setItem('mg_active_week', wk);
+          renderAll();
+        }
+      });
+
+      db.ref('gym_v2/state/activeDay').on('value', snap => {
+        const dk = snap.val();
+        if (dk && BASE_ROUTINE[dk] && dk !== activeDay) {
+          activeDay = dk;
+          localStorage.setItem('mg_active_day', dk);
+          localStorage.setItem('mg_active_day_date', getTodayKey());
           renderAll();
         }
       });
