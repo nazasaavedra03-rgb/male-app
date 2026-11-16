@@ -2014,23 +2014,28 @@
       ensureInitialBaseline();
       const sorted = [...bodyMetrics].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       const latest = sorted[0] || { peso: 55.0 };
+      const latestPeso = latest.peso ?? latest.weight ?? 55.0;
       const latestWaist = sorted.find(m => m.cintura)?.cintura;
       const latestGlute = sorted.find(m => m.gluteo)?.gluteo;
 
-      document.getElementById('metric-latest-weight').textContent = `${latest.peso} kg`;
+      document.getElementById('metric-latest-weight').textContent = `${latestPeso} kg`;
       document.getElementById('metric-latest-waist').textContent = latestWaist ? `${latestWaist} cm` : '— cm';
       document.getElementById('metric-latest-glute').textContent = latestGlute ? `${latestGlute} cm` : '— cm';
 
-      document.getElementById('body-metrics-history').innerHTML = sorted.slice(0, 5).map(m => `
+      document.getElementById('body-metrics-history').innerHTML = sorted.slice(0, 5).map(m => {
+        const pesoVal = m.peso ?? m.weight;
+        const dateVal = m.dateKey || m.date || '';
+        return `
         <div class="flex items-center justify-between text-[11px] bg-zinc-950/80 border border-zinc-800/80 rounded-xl px-3 py-1.5">
-          <span class="text-zinc-400 font-semibold">${m.dateKey}</span>
+          <span class="text-zinc-400 font-semibold">${dateVal}</span>
           <span class="font-bold text-zinc-200">
-            ${m.peso ? m.peso + ' kg' : ''}
+            ${pesoVal ? pesoVal + ' kg' : ''}
             ${m.cintura ? ' • Cint: ' + m.cintura + 'cm' : ''}
             ${m.gluteo ? ' • Glút: ' + m.gluteo + 'cm' : ''}
           </span>
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       // PRs showcase (combines real historical records + any new higher logs)
       const keyLifts = [
