@@ -361,6 +361,18 @@
           { id: 'cen_tortilla', name: 'Tortilla sin fritura (2 huevos + 2 claras + papa chica al horno) + cherrys', kcal: 400, p: 28, c: 34, f: 14 },
           { id: 'cen_pescado', name: 'Filet de merluza o suprema al horno con limón + calabaza/brócoli del táper', kcal: 385, p: 32, c: 30, f: 11 }
         ]
+      },
+      {
+        id: 'permitidos',
+        icon: '🍫',
+        title: 'Gustitos & Permitidos (80/20)',
+        targetHint: 'Cero culpa • Se suma directo al día',
+        isPermitidoSlot: true,
+        options: [
+          { id: 'perm_choco', name: '2 cuadraditos de chocolate', kcal: 70, p: 1, c: 7, f: 4.5 },
+          { id: 'perm_helado', name: 'Helado compartido (½ pote / ~125g)', kcal: 240, p: 4, c: 30, f: 12 },
+          { id: 'perm_alfajor', name: '½ Alfajor o golosina chica', kcal: 135, p: 2, c: 18, f: 6 }
+        ]
       }
     ];
 
@@ -833,6 +845,144 @@
         baseC: 16,
         baseF: 0,
         formatName: (q) => `${q} ${q === 1 ? 'Fruta' : 'Frutas'}`
+      },
+
+      // --- GUSTITOS & PERMITIDOS (REGLA 80/20) ---
+      choc_cuad: {
+        id: 'choc_cuad',
+        emoji: '🍫',
+        shortName: 'Cuadradito chocolate',
+        unit: 'cuad.',
+        pluralUnit: 'cuad.',
+        step: 1,
+        defaultQty: 2,
+        min: 1,
+        max: 12,
+        baseQty: 1,
+        baseKcal: 35,
+        baseP: 0.4,
+        baseC: 3.5,
+        baseF: 2.2,
+        formatName: (q) => `${q} ${q === 1 ? 'Cuadradito choco' : 'Cuadraditos choco'}`
+      },
+      helado_porc: {
+        id: 'helado_porc',
+        emoji: '🍦',
+        shortName: 'Helado (bocha / ~100g)',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 0.5,
+        defaultQty: 1,
+        min: 0.5,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 200,
+        baseP: 3.5,
+        baseC: 24,
+        baseF: 10,
+        formatName: (q) => `${q} Porc. Helado`
+      },
+      alfajor_medio: {
+        id: 'alfajor_medio',
+        emoji: '🍪',
+        shortName: '½ Alfajor',
+        unit: '½ ud.',
+        pluralUnit: '½ ud.',
+        step: 0.5,
+        defaultQty: 1,
+        min: 0.5,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 135,
+        baseP: 2,
+        baseC: 18,
+        baseF: 6,
+        formatName: (q) => q === 2 ? '1 Alfajor entero' : `${q} × ½ Alfajor`
+      },
+      galletitas_3: {
+        id: 'galletitas_3',
+        emoji: '🍪',
+        shortName: 'Galletitas (x3 uds)',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 5,
+        baseQty: 1,
+        baseKcal: 140,
+        baseP: 1.5,
+        baseC: 21,
+        baseF: 5.5,
+        formatName: (q) => `${q * 3} Galletitas`
+      },
+      factura: {
+        id: 'factura',
+        emoji: '🥐',
+        shortName: 'Factura / Medialuna',
+        unit: 'ud.',
+        pluralUnit: 'uds.',
+        step: 0.5,
+        defaultQty: 1,
+        min: 0.5,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 190,
+        baseP: 3.5,
+        baseC: 25,
+        baseF: 8.5,
+        formatName: (q) => `${q} ${q === 1 ? 'Factura/Medialuna' : 'Facturas/Medialunas'}`
+      },
+      pizza_porc: {
+        id: 'pizza_porc',
+        emoji: '🍕',
+        shortName: 'Porción de Pizza',
+        unit: 'porc.',
+        pluralUnit: 'porc.',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 6,
+        baseQty: 1,
+        baseKcal: 260,
+        baseP: 10,
+        baseC: 30,
+        baseF: 10,
+        formatName: (q) => `${q} ${q === 1 ? 'Porc. Pizza' : 'Porc. Pizza'}`
+      },
+      snack_frutos: {
+        id: 'snack_frutos',
+        emoji: '🥜',
+        shortName: 'Puñado Frutos Secos',
+        unit: 'puñado',
+        pluralUnit: 'puñados',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 3,
+        baseQty: 1,
+        baseKcal: 110,
+        baseP: 3.5,
+        baseC: 3,
+        baseF: 9.5,
+        formatName: (q) => `${q} ${q === 1 ? 'Puñado Frutos Secos' : 'Puñados Frutos Secos'}`
+      },
+      bebida_dulce: {
+        id: 'bebida_dulce',
+        emoji: '🥤',
+        shortName: 'Gaseosa / Jugo / Licuado',
+        unit: 'vaso',
+        pluralUnit: 'vasos',
+        step: 1,
+        defaultQty: 1,
+        min: 1,
+        max: 4,
+        baseQty: 1,
+        baseKcal: 95,
+        baseP: 0,
+        baseC: 24,
+        baseF: 0,
+        formatName: (q) => `${q} ${q === 1 ? 'Vaso bebida dulce' : 'Vasos bebida dulce'}`
       }
     };
 
@@ -898,6 +1048,16 @@
         'queso_port_salut',
         'leche_desc',
         'leche_prot'
+      ],
+      permitidos: [
+        'choc_cuad',
+        'helado_porc',
+        'alfajor_medio',
+        'galletitas_3',
+        'factura',
+        'pizza_porc',
+        'snack_frutos',
+        'bebida_dulce'
       ]
     };
 
@@ -1166,6 +1326,9 @@
         const activeKeys = Object.keys(foodMap).filter(k => typeof foodMap[k] === 'number' && foodMap[k] > 0 && PANTRY_CATALOG[k]);
         const slotFoodIds = SLOT_FOOD_ITEMS[slot.id] || [];
 
+        const isPermSlot = !!slot.isPermitidoSlot;
+        const extraItems = Array.isArray(saved.extraItems) ? saved.extraItems : [];
+
         const pantryChips = slotFoodIds.map(itemId => {
           const item = PANTRY_CATALOG[itemId];
           if (!item) return '';
@@ -1175,12 +1338,16 @@
           if (isAct) {
             const ratio = qty / item.baseQty;
             const computedP = Math.round(item.baseP * ratio * 10) / 10;
+            const computedKcal = Math.round(item.baseKcal * ratio);
             const isMin = qty <= item.min;
             const unitLabel = (qty > 1 && item.pluralUnit) ? item.pluralUnit : item.unit;
+            const activeBg = isPermSlot ? 'bg-rose-500 border-rose-600' : 'bg-emerald-600 border-emerald-700';
+            const btnBg = isPermSlot ? 'bg-rose-600/90 hover:bg-rose-700' : 'bg-emerald-700/90 hover:bg-emerald-800';
+            const badgeText = isPermSlot ? `${computedKcal} kcal` : `+${computedP}g`;
             return `
-              <div class="inline-flex items-center rounded-2xl bg-emerald-600 text-white font-black shadow-2xs text-[11px] border border-emerald-700 select-none py-0.5 px-0.5">
+              <div class="inline-flex items-center rounded-2xl ${activeBg} text-white font-black shadow-2xs text-[11px] border select-none py-0.5 px-0.5">
                 <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', -1)"
-                  class="w-6 h-6 flex items-center justify-center bg-emerald-700/90 hover:bg-emerald-800 active:scale-90 font-black text-xs rounded-xl transition"
+                  class="w-6 h-6 flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
                   title="${isMin ? 'Quitar' : 'Restar'}">
                   ${isMin ? '✕' : '−'}
                 </button>
@@ -1188,25 +1355,44 @@
                   ${item.emoji} ${qty} ${unitLabel}
                 </span>
                 <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', 1)"
-                  class="w-6 h-6 flex items-center justify-center bg-emerald-700/90 hover:bg-emerald-800 active:scale-90 font-black text-xs rounded-xl transition"
+                  class="w-6 h-6 flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
                   title="Sumar">
                   ＋
                 </button>
-                <span class="px-1.5 text-[9px] text-emerald-200 font-bold">
-                  +${computedP}g
+                <span class="px-1.5 text-[9px] text-white/85 font-bold">
+                  ${badgeText}
                 </span>
               </div>
             `;
           } else {
             return `
               <button type="button" onclick="selectPantryItem('${slot.id}', '${item.id}')"
-                class="px-2.5 py-1 rounded-2xl text-[11px] transition flex items-center gap-1 border active:scale-95 bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50 font-semibold">
+                class="px-2.5 py-1 rounded-2xl text-[11px] transition flex items-center gap-1 border active:scale-95 ${isPermSlot ? 'bg-rose-50/40 border-rose-200/80 text-slate-700 hover:bg-rose-50' : 'bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50'} font-semibold">
                 <span>${item.emoji} ${item.shortName}</span>
-                <span class="text-[9px] text-emerald-700 font-bold">+${item.baseP}g</span>
+                <span class="text-[9px] ${isPermSlot ? 'text-rose-600' : 'text-emerald-700'} font-bold">${isPermSlot ? `~${item.baseKcal} kcal` : `+${item.baseP}g`}</span>
               </button>
             `;
           }
         }).join('');
+
+        const extraItemsHtml = extraItems.length > 0 ? `
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            ${extraItems.map((ex, i) => `
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-rose-100/90 border border-rose-300 text-rose-900 text-[11px] font-bold">
+                <span>✨ ${ex.name} (${ex.kcal} kcal)</span>
+                <button type="button" onclick="removeExtraItem('${slot.id}', ${i})" class="w-4 h-4 rounded-full bg-rose-200 hover:bg-rose-300 text-rose-900 flex items-center justify-center text-[10px] font-black">✕</button>
+              </div>
+            `).join('')}
+          </div>
+        ` : '';
+
+        const inlinePermitidoBar = isPermSlot ? `
+          <div class="flex items-center gap-1.5 pt-1">
+            <input id="perm-free-name" type="text" placeholder="Otro gustito (ej: 1 bombón / torta)" class="flex-1 min-w-0 bg-rose-50/40 border border-rose-200 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400">
+            <input id="perm-free-kcal" type="number" inputmode="numeric" placeholder="kcal" class="w-16 bg-rose-50/40 border border-rose-200 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 placeholder-slate-400 text-center focus:outline-none focus:border-rose-400">
+            <button type="button" onclick="addInlinePermitido()" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-[11px] font-black transition active:scale-95">+ Sumar</button>
+          </div>
+        ` : '';
 
         const optsHtml = slot.options.map(o => `
           <option value="${o.id}" ${(!saved.custom && o.id === chosenOpt.id) ? 'selected' : ''}>
@@ -1214,45 +1400,54 @@
           </option>
         `).join('');
 
+        const cardBorder = isEaten
+          ? (isPermSlot ? 'border-rose-400 ring-1 ring-rose-400/30' : 'border-emerald-400 ring-1 ring-emerald-400/30')
+          : (isPermSlot ? 'border-rose-200/80' : 'border-emerald-200/70');
+        const iconBg = isEaten
+          ? (isPermSlot ? 'bg-rose-500 text-white' : 'bg-emerald-600 text-white')
+          : (isPermSlot ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-700');
+
         return `
-          <article class="bg-white border ${isEaten ? 'border-emerald-400 ring-1 ring-emerald-400/30' : 'border-emerald-200/70'} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
+          <article class="bg-white border ${cardBorder} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
             <div class="flex items-center justify-between gap-2">
               <div class="flex items-center gap-2">
-                <span class="w-8 h-8 rounded-2xl ${isEaten ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'} flex items-center justify-center text-base">${slot.icon}</span>
+                <span class="w-8 h-8 rounded-2xl ${iconBg} flex items-center justify-center text-base">${slot.icon}</span>
                 <div>
                   <h3 class="text-xs font-black text-slate-900">${slot.title}</h3>
-                  <span class="text-[10px] font-bold ${isEaten ? 'text-emerald-600' : 'text-slate-400'}">
+                  <span class="text-[10px] font-bold ${isEaten ? (isPermSlot ? 'text-rose-600' : 'text-emerald-600') : 'text-slate-400'}">
                     ${isEaten ? `✓ Sumado: ${dispKcal} kcal • ${dispP}g Prot` : slot.targetHint}
                   </span>
                 </div>
               </div>
-              <button onclick="toggleMealEaten('${slot.id}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition ${isEaten ? 'bg-emerald-600 text-white shadow-sm' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'}">
+              <button onclick="toggleMealEaten('${slot.id}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition ${isEaten ? (isPermSlot ? 'bg-rose-500 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm') : (isPermSlot ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200')}">
                 ${isEaten ? 'Comido ✓' : 'Marcar ✓'}
               </button>
             </div>
 
             <!-- MODULAR FOOD PILLS (TOCÁ LO QUE COMISTE) -->
-            <div class="space-y-1.5 pt-1 border-t border-emerald-100/60">
+            <div class="space-y-1.5 pt-1 border-t ${isPermSlot ? 'border-rose-100/70' : 'border-emerald-100/60'}">
               <div class="flex items-center justify-between text-[10px] font-extrabold text-slate-500">
-                <span>🥣 Tocá lo que comiste (Elegí cantidades exactas):</span>
-                ${activeKeys.length ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
+                <span>${isPermSlot ? '🍫 Tocá tu gustito para sumarlo sin culpa:' : '🥣 Tocá lo que comiste (Elegí cantidades exactas):'}</span>
+                ${(activeKeys.length || extraItems.length) ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
               </div>
               <div class="flex flex-wrap gap-1.5 items-center">
                 ${pantryChips}
               </div>
+              ${extraItemsHtml}
+              ${inlinePermitidoBar}
             </div>
 
             ${saved.custom ? `
-              <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl px-3 py-2 flex items-center justify-between text-xs">
+              <div class="${isPermSlot ? 'bg-rose-50/70 border-rose-200' : 'bg-emerald-50/80 border-emerald-200'} border rounded-2xl px-3 py-2 flex items-center justify-between text-xs">
                 <div class="flex-1 pr-2">
-                  <span class="font-extrabold text-emerald-950 block leading-snug">✏️ ${saved.customName}</span>
-                  <span class="text-[10px] font-bold text-emerald-700">${saved.kcal} kcal • ${saved.p}g Proteína</span>
+                  <span class="font-extrabold ${isPermSlot ? 'text-rose-950' : 'text-emerald-950'} block leading-snug">✏️ ${saved.customName}</span>
+                  <span class="text-[10px] font-bold ${isPermSlot ? 'text-rose-700' : 'text-emerald-700'}">${saved.kcal} kcal • ${saved.p}g Proteína</span>
                 </div>
                 <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-black text-rose-600 bg-white border border-rose-200 px-2 py-1 rounded-xl shrink-0 hover:bg-rose-50 transition">Borrar</button>
               </div>
             ` : `
               <details class="text-[11px] text-slate-500">
-                <summary class="cursor-pointer font-bold hover:text-emerald-700 py-1">O elegí un combo armado completo ▾</summary>
+                <summary class="cursor-pointer font-bold hover:text-emerald-700 py-1">${isPermSlot ? 'O elegí un permitido rápido de lista ▾' : 'O elegí un combo armado completo ▾'}</summary>
                 <div class="pt-1.5">
                   <select onchange="changeMealOption('${slot.id}', this.value)" class="w-full bg-[#F6FAF7] border border-emerald-200/90 rounded-2xl px-3 py-2 text-[11px] font-semibold text-slate-700 focus:outline-none focus:border-emerald-500">
                     ${optsHtml}
@@ -1261,11 +1456,13 @@
               </details>
             `}
 
-            <div class="flex justify-end">
-              <button onclick="promptCustomMeal('${slot.id}')" class="text-[10px] font-bold text-slate-400 hover:text-emerald-700 transition">
-                ✏️ Escribir otro alimento que no esté
-              </button>
-            </div>
+            ${isPermSlot ? '' : `
+              <div class="flex justify-end">
+                <button onclick="promptCustomMeal('${slot.id}')" class="text-[10px] font-bold text-slate-400 hover:text-emerald-700 transition">
+                  ✏️ Escribir otro alimento que no esté
+                </button>
+              </div>
+            `}
           </article>
         `;
       }).join('');
@@ -1418,9 +1615,10 @@
     }
 
     function recalculateMealFromMap(slotId, map) {
+      const prevExtras = Array.isArray(dailyLog.meals?.[slotId]?.extraItems) ? dailyLog.meals[slotId].extraItems : [];
       const keys = Object.keys(map).filter(k => typeof map[k] === 'number' && map[k] > 0 && PANTRY_CATALOG[k]);
 
-      if (keys.length === 0) {
+      if (keys.length === 0 && prevExtras.length === 0) {
         delete dailyLog.meals[slotId];
         persistDailyNutri();
         renderTodayDashboard();
@@ -1442,12 +1640,21 @@
         names.push(item.formatName(qty));
       });
 
+      prevExtras.forEach(ex => {
+        sumK += Math.round(Number(ex.kcal) || 0);
+        sumP += Number(ex.p) || 0;
+        sumC += Math.round(Number(ex.c) || 0);
+        sumF += Math.round(Number(ex.f) || 0);
+        names.push(ex.name);
+      });
+
       sumP = Math.round(sumP * 10) / 10;
       const fullName = names.join(' + ');
 
       dailyLog.meals[slotId] = {
         selectedFoodMap: map,
         selectedFoodIds: keys,
+        extraItems: prevExtras,
         name: fullName,
         custom: true,
         customName: fullName,
@@ -1460,7 +1667,86 @@
 
       persistDailyNutri();
       renderTodayDashboard();
-      showToast(`🥗 ${sumK} kcal • ${sumP}g Prot`);
+      showToast(slotId === 'permitidos' ? `🍫 Gustito sumado: ${sumK} kcal` : `🥗 ${sumK} kcal • ${sumP}g Prot`);
+    }
+
+    function addExtraItemToSlot(slotId, itemObj) {
+      if (!dailyLog.meals) dailyLog.meals = {};
+      const curr = dailyLog.meals[slotId] || {};
+      const map = getMealSelectedMap(curr);
+      const existingExtras = Array.isArray(curr.extraItems) ? [...curr.extraItems] : [];
+
+      // Si había un alimento libre anterior cargado sin extraItems ni pantry chips, migrarlo como extraItem para no perderlo
+      const hasPantry = Object.keys(map).some(k => map[k] > 0 && PANTRY_CATALOG[k]);
+      if (curr.eaten && curr.custom && !hasPantry && existingExtras.length === 0 && curr.name) {
+        existingExtras.push({ name: curr.name, kcal: curr.kcal || 0, p: curr.p || 0, c: curr.c || 0, f: curr.f || 0 });
+      }
+
+      existingExtras.push({
+        name: itemObj.name,
+        kcal: Math.round(Number(itemObj.kcal) || 120),
+        p: Math.round((Number(itemObj.p) || 0) * 10) / 10,
+        c: Math.round(Number(itemObj.c) || 0),
+        f: Math.round(Number(itemObj.f) || 0)
+      });
+
+      if (!dailyLog.meals[slotId]) dailyLog.meals[slotId] = {};
+      dailyLog.meals[slotId].extraItems = existingExtras;
+      recalculateMealFromMap(slotId, map);
+    }
+
+    function addInlinePermitido() {
+      const nameEl = document.getElementById('perm-free-name');
+      const kcalEl = document.getElementById('perm-free-kcal');
+      const name = (nameEl?.value || '').trim();
+      if (!name) {
+        showToast('Escribí qué gustito comiste 🍫');
+        return;
+      }
+      const kcal = parseInt(kcalEl?.value, 10) || 120;
+      const cEst = Math.round((kcal * 0.55) / 4);
+      const fEst = Math.round((kcal * 0.4) / 9);
+      addExtraItemToSlot('permitidos', { name, kcal, p: 1.5, c: cEst, f: fEst });
+    }
+
+    function removeExtraItem(slotId, index) {
+      const curr = dailyLog.meals?.[slotId];
+      if (!curr || !Array.isArray(curr.extraItems)) return;
+      curr.extraItems.splice(index, 1);
+      const map = getMealSelectedMap(curr);
+      recalculateMealFromMap(slotId, map);
+    }
+
+    function applyAiNutriLog(cmd) {
+      const validSlots = ['desayuno', 'almuerzo', 'merienda', 'cena', 'permitidos'];
+      const slotId = validSlots.includes(cmd.slot) ? cmd.slot : 'permitidos';
+      const kcal = Math.max(0, Math.round(Number(cmd.kcal) || 120));
+      const p = Math.max(0, Math.round((Number(cmd.p) || 0) * 10) / 10);
+      const c = Math.max(0, Math.round(Number(cmd.c) || Math.round((kcal * 0.5) / 4)));
+      const f = Math.max(0, Math.round(Number(cmd.f) || Math.round((kcal * 0.35) / 9)));
+      const name = String(cmd.name || 'Alimento registrado').trim();
+
+      if (slotId === 'permitidos') {
+        addExtraItemToSlot('permitidos', { name, kcal, p, c, f });
+      } else {
+        if (!dailyLog.meals) dailyLog.meals = {};
+        if (dailyLog.meals[slotId]?.eaten && cmd.append) {
+          addExtraItemToSlot(slotId, { name, kcal, p, c, f });
+        } else {
+          dailyLog.meals[slotId] = {
+            custom: true,
+            customName: name,
+            name,
+            kcal,
+            p,
+            c,
+            f,
+            eaten: true
+          };
+          persistDailyNutri();
+          renderTodayDashboard();
+        }
+      }
     }
 
     // ==========================================
@@ -1580,8 +1866,15 @@
       return `SOS LA NUTRICIONISTA DEPORTIVA PERSONAL DE MALE (APP MALE NUTRI).
 REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
 1. Hablás ÚNICAMENTE de alimentación, recomposición corporal, porciones caseras, recetas fáciles para ella o su mamá, y manejo nutricional de la ansiedad al estudiar. PROHIBIDO dar rutinas de pesas o sermonear sobre exámenes.
-2. Tono: Español rioplatense cálido, práctico, cero restrictivo ni culposo, respuestas breves y súper concretas (en medidas caseras argentinas: unidades, tazas, cucharadas, palmas).
-3. PERFIL Y CONTEXTO REAL DE MALE:
+2. Tono: Español rioplatense cálido, práctico, cero restrictivo ni culposo, respuestas breves y súper concretas (en medidas caseras argentinas: unidades, tazas, cucharadas, palmas). Llamala "Male" o "Caritas" con cariño natural (NUNCA la llames "reina").
+3. HERRAMIENTA REAL DE REGISTRO EN PLANILLA (¡MUY IMPORTANTE!):
+   - La app ahora tiene una sección nueva llamada **"🍫 Gustitos & Permitidos (80/20)"** en la pestaña "Hoy", además de las 4 comidas principales.
+   - Si Male te dice que comió un permitido o te pide que le anotes/agregues/registres algo en su día (ej: "me anotás el helado?", "agregaste el chocolate?", "comí 2 empanadas, sumalo"), PODÉS Y DEBÉS registrarlo realmente en la base de datos emitiendo al FINAL de tu respuesta esta línea JSON exacta (la app la oculta y la suma sola a su tablero):
+     {"action":"LOG_NUTRI","slot":"permitidos","name":"2 cuadraditos de chocolate","kcal":70,"p":1,"c":7,"f":4.5}
+   - Valores válidos de "slot": "desayuno", "almuerzo", "merienda", "cena" o "permitidos".
+   - Para chocolates, helado, alfajores, facturas, galletitas o picoteos fuera de horario, usá SIEMPRE "slot":"permitidos" (el sistema los va acumulando sin borrar lo anterior).
+   - PROHIBIDO MENTIR: ¡NUNCA digas "anotado" o "ya te lo cargué en tu día" si NO emitiste ese bloque JSON exacto al final!
+4. PERFIL Y CONTEXTO REAL DE MALE:
    - 22 años, mide 1.54 m, pesa 54.5 kg (bajó de 55.0 kg a 54.5 kg de forma impecable). Toma 5g de creatina por día.
    - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
    - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
@@ -1604,68 +1897,94 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - Comidas marcadas hoy hasta ahora: ${eatenList.length > 0 ? eatenList.join(' | ') + ` -> Total parcial: ${sumK} kcal y ${sumP}g proteína` : 'Ninguna marcada todavía'}.`;
     }
 
+    let isSendingNutri = false;
     async function sendNutriMessage() {
+      if (isSendingNutri) return;
       const input = document.getElementById('nutri-chat-input');
       const text = input.value.trim();
       if (!text) return;
+      isSendingNutri = true;
       input.value = '';
 
-      await db.ref('nutri_v2/chat_messages').push({
-        sender: 'Male',
-        text,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        timestamp: Date.now()
-      });
-
-      const box = document.getElementById('nutri-chat-messages');
-      const typing = document.createElement('div');
-      typing.className = 'text-[11px] text-emerald-600 italic px-2';
-      typing.textContent = 'Nutri calculando porción...';
-      box.appendChild(typing);
-      box.scrollTop = box.scrollHeight;
-
-      let hist = '';
       try {
-        const snap = await db.ref('nutri_v2/chat_messages').limitToLast(6).once('value');
-        const val = snap.val();
-        if (val) hist = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
-      } catch (e) {}
+        await db.ref('nutri_v2/chat_messages').push({
+          sender: 'Male',
+          text,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          timestamp: Date.now()
+        });
 
-      const payload = {
-        contents: [{
-          role: 'user',
-          parts: [{ text: `${buildNutriSystemPrompt()}\n\nHISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }]
-        }]
-      };
+        const box = document.getElementById('nutri-chat-messages');
+        const typing = document.createElement('div');
+        typing.className = 'text-[11px] text-emerald-600 italic px-2';
+        typing.textContent = 'Nutri calculando porción...';
+        box.appendChild(typing);
+        box.scrollTop = box.scrollHeight;
 
-      const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
-      let reply = null;
-      for (const m of models) {
+        let hist = '';
         try {
-          const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 16000);
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal: ctrl.signal
-          });
-          clearTimeout(t);
-          if (!res.ok) continue;
-          const data = await res.json();
-          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (txt) { reply = txt.trim(); break; }
+          const snap = await db.ref('nutri_v2/chat_messages').limitToLast(6).once('value');
+          const val = snap.val();
+          if (val) hist = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
         } catch (e) {}
+
+        const payload = {
+          contents: [{
+            role: 'user',
+            parts: [{ text: `${buildNutriSystemPrompt()}\n\nHISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }]
+          }]
+        };
+
+        const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+        let reply = null;
+        for (const m of models) {
+          try {
+            const ctrl = new AbortController();
+            const t = setTimeout(() => ctrl.abort(), 16000);
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal: ctrl.signal
+            });
+            clearTimeout(t);
+            if (!res.ok) continue;
+            const data = await res.json();
+            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (txt) { reply = txt.trim(); break; }
+          } catch (e) {}
+        }
+
+        if (typing.parentNode) typing.parentNode.removeChild(typing);
+
+        // Parse real database logging command (LOG_NUTRI)
+        if (reply) {
+          const logRegex = /```(?:json)?\s*(\{[\s\S]*?"action"\s*:\s*"LOG_NUTRI"[\s\S]*?\})\s*```|(\{[\s\S]*?"action"\s*:\s*"LOG_NUTRI"[\s\S]*?\})/gi;
+          let loggedItems = [];
+          reply = reply.replace(logRegex, (full, g1, g2) => {
+            try {
+              const cmd = JSON.parse(g1 || g2);
+              applyAiNutriLog(cmd);
+              loggedItems.push(`${cmd.name || 'Alimento'} (${cmd.kcal || 0} kcal)`);
+            } catch (e) {
+              console.warn('Error parseando LOG_NUTRI:', e);
+            }
+            return '';
+          }).trim();
+          if (loggedItems.length > 0) {
+            reply += `\n\n✅ *Registrado en tu pestaña "Hoy": ${loggedItems.join(', ')}*`;
+          }
+        }
+
+        await db.ref('nutri_v2/chat_messages').push({
+          sender: 'Nutri IA',
+          text: reply || 'Se me cortó un segundito la conexión, hermosa. Escribime de nuevo qué hay de comer y te digo la porción justa 🥗',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          timestamp: Date.now()
+        });
+      } finally {
+        isSendingNutri = false;
       }
-
-      if (typing.parentNode) typing.parentNode.removeChild(typing);
-
-      await db.ref('nutri_v2/chat_messages').push({
-        sender: 'Nutri IA',
-        text: reply || 'Se me cortó un segundito la conexión, hermosa. Escribime de nuevo qué hay de comer y te digo la porción justa 🥗',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        timestamp: Date.now()
-      });
     }
 
     function formatMd(str) {
