@@ -64,8 +64,8 @@
 
       <div class="flex items-center justify-between">
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 block">Recomposición Corporal • 1.54m / 55kg</span>
-          <h1 id="nutri-day-type-badge" class="text-xs font-bold text-slate-600 mt-0.5">Meta hoy: 1.520 kcal • 110g Proteína</h1>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 block">Recomposición & Glúteos • 1.54m / 54.5kg</span>
+          <h1 id="nutri-day-type-badge" class="text-xs font-bold text-slate-600 mt-0.5">Meta hoy: 1.500 kcal • 110g Proteína</h1>
         </div>
         <div class="text-right">
           <span id="header-prot-pill" class="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-xl">0 / 110g Prot</span>
@@ -85,10 +85,10 @@
         <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">Balance Diario Suave (-15%)</span>
+              <span id="nutri-phase-subtitle" class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">Recomposición & Cintura Finita</span>
               <div class="flex items-baseline gap-1.5 mt-0.5">
                 <span id="kcal-current" class="text-2xl font-black text-slate-900">0</span>
-                <span id="kcal-target-label" class="text-xs font-bold text-slate-400">/ 1.520 kcal</span>
+                <span id="kcal-target-label" class="text-xs font-bold text-slate-400">/ 1.500 kcal</span>
               </div>
             </div>
             <div id="gym-bridge-chip" class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -240,7 +240,7 @@
           <!-- Quick Chips -->
           <div class="px-3 py-2 border-b border-emerald-100/80 flex gap-1.5 overflow-x-auto shrink-0 bg-[#FAFDFB]">
             <button onclick="askQuickNutri('Estoy estudiando con ansiedad y quiero picotear algo rico sin salirme del plan, ¿qué agarro en 1 minuto?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🍫 Ansiedad estudiando</button>
-            <button onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis 1520 kcal y cómo sumo proteína?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
+            <button onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis calorías y sumar proteína?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
             <button onclick="askQuickNutri('Salgo a comer con Naza hoy, ¿qué me conviene pedir para disfrutar sin culpa?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥂 Salida con Naza</button>
           </div>
 
@@ -1217,11 +1217,19 @@
       window._ntTimer = setTimeout(() => t.classList.add('hidden'), 2500);
     }
 
+    function isPreWeddingMaintenancePhase() {
+      // Hasta el domingo 22/11 (cierre semana Cirugía) mantiene déficit suave (1500/1520/1550).
+      // Desde el lunes 23/11 pasa automático a Mantenimiento Limpio Pre-Casamiento (1580/1630/1700) sin tapar cintura.
+      return todayKey >= '2026-11-23';
+    }
+
     function getCalorieTargetToday() {
+      const fase2 = isPreWeddingMaintenancePhase();
       if (gymBridgeToday?.trainedToday) {
+        if (fase2) return gymBridgeToday.isLowerBody ? 1700 : 1630;
         return gymBridgeToday.isLowerBody ? 1550 : 1520;
       }
-      return 1500;
+      return fase2 ? 1580 : 1500;
     }
 
     // ==========================================
@@ -1234,10 +1242,20 @@
     }
 
     function renderTodayDashboard() {
+      const fase2 = isPreWeddingMaintenancePhase();
       const targetKcal = getCalorieTargetToday();
       const targetP = 110;
-      const targetC = gymBridgeToday?.isLowerBody ? 172 : 162;
-      const targetF = 46;
+      const targetC = fase2
+        ? (gymBridgeToday?.isLowerBody ? 202 : (gymBridgeToday?.trainedToday ? 185 : 175))
+        : (gymBridgeToday?.isLowerBody ? 172 : 162);
+      const targetF = fase2 ? 48 : 46;
+
+      const phaseSubEl = document.getElementById('nutri-phase-subtitle');
+      if (phaseSubEl) {
+        phaseSubEl.textContent = fase2
+          ? 'Mantenimiento Limpio Pre-Casamiento (Firmeza & Cintura)'
+          : 'Déficit Suave (Cierre Semana Ciru • Cintura Finita)';
+      }
 
       // Gym Bridge Chip
       const chip = document.getElementById('gym-bridge-chip');
@@ -1248,7 +1266,7 @@
         sub.textContent = `Sincronizado con Gym • Meta: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Prot`;
       } else {
         chip.className = 'text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
-        chip.textContent = '🌿 Recomposición activa';
+        chip.textContent = fase2 ? '🌿 Tono & Glúteo Limpio' : '🌿 Recomposición activa';
         sub.textContent = `Meta hoy: ${targetKcal.toLocaleString('es-AR')} kcal • 110g Proteína`;
       }
 
@@ -1875,9 +1893,12 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - Para chocolates, helado, alfajores, facturas, galletitas o picoteos fuera de horario, usá SIEMPRE "slot":"permitidos" (el sistema los va acumulando sin borrar lo anterior).
    - PROHIBIDO MENTIR: ¡NUNCA digas "anotado" o "ya te lo cargué en tu día" si NO emitiste ese bloque JSON exacto al final!
 4. PERFIL Y CONTEXTO REAL DE MALE:
-   - 22 años, mide 1.54 m, pesa 54.5 kg (bajó de 55.0 kg a 54.5 kg de forma impecable). Toma 5g de creatina por día.
-   - Meta: Recomposición corporal (reducir grasa de abdomen bajo y espalda mientras aumenta masa muscular en glúteo "forma de P", piernas y espalda).
-   - Números diarios: ~${targetKcal} kcal/día y 105-110g de proteína/día (déficit suave ~250-300 kcal para que tenga energía mental en finales).
+   - 22 años, mide 1.54 m, pesa 54.5 kg (bajó de 55.0 kg a 54.5 kg, afinó cintura y espalda alta en 15 días). Toma 5g de creatina por día.
+   - FASE ACTUAL DEL PLAN PRE-CASAMIENTO (CASAMIENTO 13 DE DICIEMBRE):
+     * Del 17/11 al 22/11 (cierre de exámenes / Cirugía): sigue en déficit suave exacto (1.500 descanso / 1.520 torso / 1.550 piernas) para desinflamar y afinar cintura.
+     * Desde el Lunes 23/11 hasta el Casamiento (13/12): pasa automático a **Mantenimiento Limpio Inteligente (1.580 descanso / 1.630 torso / 1.700 piernas)** con 110g de proteína. Eso NO engorda ni tapa el abdomen; solo le da nafta justa al glúteo para que se pare, se redondee y calce firme en el vestido.
+   - Meta actual de hoy en tablero: **${targetKcal} kcal/día** y **110g de proteína/día**.
+   - NUNCA sugerir comer menos de 1.300 kcal ni fomentar miedos a "engordar" por cumplir sus calorías completas; explicarle con calma que 1.500-1.700 kcal limpias con 110g de proteína mantienen cintura chica mientras tonifican y paran el glúteo.
    - PROTOCOLO ESTRICTO ANTI-ANSIEDAD & PICOTEO DE ESTUDIO (14:00 A 17:30 HS O ENTRE COMIDAS):
      * ¡PROHIBIDO mandarla a merendar formalmente antes de hora si son las 14:00-16:30 hs! La merienda formal (con tostada, ricota, leche, 250-380 kcal) es para las 17:30-19:00 hs.
      * Si Male dice que está estudiando y siente ansiedad, ganas de un "gustito", tentación o antojo entre comidas:
@@ -1890,7 +1911,7 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
        3) Explicále la estrategia: "Meté este gustito express de 60-90 kcal ahora para calmar la dopamina y seguir leyendo, y más tarde tipo 18:00 hs te hacés tu merienda con café con leche y tostada rica como corresponde."
    - HÁBITO INFALTABLE: Male SIEMPRE toma leche o café con leche en desayuno y merienda (~200ml). Puede ser leche descremada clásica (~6.2g P en 200ml) o proteica tipo Serenísima/3 Niñas (~5.3g P cada 100ml -> ~10.6g P en 200ml). Le fascina untar tostadas con abundante ricota (2 a 3 cucharadas colmadas estilo cheesecake dulce). En la app ahora puede elegir los mililitros exactos de leche, los huevos exactos (1, 2, 3) y las cucharadas exactas de ricota con botones interactivos que recalculan todo al instante.
    - CONTROL TÁCTICO DE MERIENDAS: Si Male consulta por una merienda a su horario habitual (17:30 en adelante), reservale siempre un presupuesto de 350-400 kcal para una cena completa (como su lata de atún tuneada o carne/pollo con ensalada), guiándola hacia opciones livianas y fáciles para no sobrecargar el día.
-   - HITO CORPORAL RECIENTE & REFUERZO DE CONFIANZA: Male hoy notó frente al espejo que se le volvió a marcar la línea del medio del abdomen (línea alba). Si Male menciona algo sobre su cuerpo, cómo se ve, su motivación o sus resultados, celebráselo con calidez genuina. Recordale que en recomposición la balanza a veces se mueve lento porque el músculo tonifica con las pesas, pero que esa línea del abdomen es la prueba irrefutable de que la grasa subcutánea está bajando gracias a su déficit moderado (~1520 kcal) y su constancia con la proteína.
+   - HITO CORPORAL RECIENTE & REFUERZO DE CONFIANZA: En sus fotos comparativas (02/11 vs 17/11) ya afinó visiblemente la cintura, marcó más la línea vertical abdominal y limpió la espalda debajo del corpiño. Si Male menciona inseguridad por su volumen de cola o caderas, validala sin mentir: explicále que en 15 días bajó grasa primero, pero que **para agrandar caderas laterales y culito el músculo necesita meses de pesas + comida completa (~${targetKcal} kcal y 110g de proteína sin pasar hambre)** para ir rellenando el glúteo medio lateral y superior.
    ${vicNames.length > 0 ? `- Sensaciones / Victorias del espejo que Male tildó hoy: ${vicNames.join(', ')}.` : ''}
    - Dato clave de su casa: Male come de todo (le gusta todo), pero le da fiaca lavar/pelar verdura y fruta (recomendar siempre opciones de fricción cero: cherrys, fruta directa, hojas lavadas, calabaza ya hecha). Le encanta la tostada con mermelada (su hack estrella es untarla con ricota abundante estilo cheesecake para sumar 23-25g de proteína con su café con leche sin gastar batido). NUNCA prohibirle alimentos ni demonizar comidas que le gusten; se adaptan con proteína. Su mamá le cocina con todo el amor pero en la casa también hay comida comprada para Martín (más calórica).
    - Entreno hoy: ${gymBridgeToday?.trainedToday ? 'SÍ entrenó hoy (' + gymBridgeToday.dayTitle + ')' : 'Hoy aún no registró entreno'}.
@@ -2020,7 +2041,7 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
           box.innerHTML = `
             <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3 text-slate-700 leading-relaxed">
               <strong class="text-emerald-800 block mb-1">🥑 ¡Bienvenida a Male Nutri!</strong>
-              Tus objetivos ya están calibrados a <strong>1.520 kcal y 110g de proteína</strong>. Preguntame cuando quieras cómo adaptar cualquier comida que haya hecho tu mamá o qué picotear estudiando.
+              Tus objetivos están calibrados para mantener cintura chica y darle tono y volumen al glúteo y cadera (<strong>110g de proteína</strong>). Preguntame cuando quieras cómo adaptar cualquier comida de casa, qué picotear estudiando o pedime que te anote un permitido.
             </div>
           `;
           return;
