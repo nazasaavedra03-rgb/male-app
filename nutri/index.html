@@ -385,6 +385,7 @@
         id: 'leche_desc',
         emoji: '🥛',
         shortName: 'Leche descremada',
+        activeTag: 'Desc.',
         unit: 'ml',
         pluralUnit: 'ml',
         step: 50,
@@ -402,6 +403,7 @@
         id: 'leche_prot',
         emoji: '🥛',
         shortName: 'Leche proteica (Serenísima/3 Niñas)',
+        activeTag: 'Prot.',
         unit: 'ml',
         pluralUnit: 'ml',
         step: 50,
@@ -1141,7 +1143,7 @@
     ];
 
     const NON_SCALE_VICTORIES = [
-      { id: 'vic_abdomen', emoji: '✨', label: 'Línea del abdomen visible', toast: '¡Esaaa reina! 🔥 Línea del abdomen marcada. ¡Recomposición pura!' },
+      { id: 'vic_abdomen', emoji: '✨', label: 'Línea del abdomen visible', toast: '¡Esaaa Male! 🔥 Línea del abdomen marcada. ¡Recomposición pura!' },
       { id: 'vic_desinflamada', emoji: '🧘', label: 'Cero hinchazón / liviana', toast: '¡Genial! 🧘 Digestión liviana y abdomen desinflamado.' },
       { id: 'vic_fuerza', emoji: '💪', label: 'Mucha fuerza en el gym', toast: '¡Fuerza récord! 💪 Músculos firmes respondiendo con todo.' },
       { id: 'vic_ropa', emoji: '👗', label: 'Ropa más suelta / cómoda', toast: '¡Se nota en la ropa! ✨ La grasa baja y el cuerpo tonifica.' },
@@ -1217,14 +1219,14 @@
       window._ntTimer = setTimeout(() => t.classList.add('hidden'), 2500);
     }
 
-    function isPreWeddingMaintenancePhase() {
-      // Hasta el domingo 22/11 (cierre semana Cirugía) mantiene déficit suave (1500/1520/1550).
-      // Desde el lunes 23/11 pasa automático a Mantenimiento Limpio Pre-Casamiento (1580/1630/1700) sin tapar cintura.
-      return todayKey >= '2026-11-23';
+    function isPostWeddingMaintenancePhase() {
+      // Hasta el domingo 13/12 (casamiento) mantiene su déficit suave habitual (1500/1520/1550) para llegar cómoda y desinflamada.
+      // Desde el lunes 14/12 (post-casamiento) pasa automático a Mantenimiento Limpio / Crecimiento Glúteo (1580/1630/1700).
+      return todayKey >= '2026-12-14';
     }
 
     function getCalorieTargetToday() {
-      const fase2 = isPreWeddingMaintenancePhase();
+      const fase2 = isPostWeddingMaintenancePhase();
       if (gymBridgeToday?.trainedToday) {
         if (fase2) return gymBridgeToday.isLowerBody ? 1700 : 1630;
         return gymBridgeToday.isLowerBody ? 1550 : 1520;
@@ -1242,7 +1244,7 @@
     }
 
     function renderTodayDashboard() {
-      const fase2 = isPreWeddingMaintenancePhase();
+      const fase2 = isPostWeddingMaintenancePhase();
       const targetKcal = getCalorieTargetToday();
       const targetP = 110;
       const targetC = fase2
@@ -1253,8 +1255,8 @@
       const phaseSubEl = document.getElementById('nutri-phase-subtitle');
       if (phaseSubEl) {
         phaseSubEl.textContent = fase2
-          ? 'Mantenimiento Limpio Pre-Casamiento (Firmeza & Cintura)'
-          : 'Déficit Suave (Cierre Semana Ciru • Cintura Finita)';
+          ? 'Mantenimiento Limpio Post-Casamiento (Firmeza & Glúteos)'
+          : 'Déficit Suave Pre-Casamiento (Cintura Finita & Desinflamada)';
       }
 
       // Gym Bridge Chip
@@ -1281,6 +1283,7 @@
           sumF += entry.f || 0;
         }
       });
+      sumP = Math.round(sumP * 10) / 10;
 
       document.getElementById('kcal-current').textContent = sumKcal.toLocaleString('es-AR');
       document.getElementById('kcal-target-label').textContent = `/ ${targetKcal.toLocaleString('es-AR')} kcal`;
@@ -1370,7 +1373,7 @@
                   ${isMin ? '✕' : '−'}
                 </button>
                 <span class="px-2 font-black tracking-tight text-[11px] whitespace-nowrap">
-                  ${item.emoji} ${qty} ${unitLabel}
+                  ${item.emoji} ${qty} ${unitLabel}${item.activeTag ? ` ${item.activeTag}` : ''}
                 </span>
                 <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', 1)"
                   class="w-6 h-6 flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
@@ -1584,9 +1587,7 @@
       const saved = dailyLog.meals[slotId] || {};
       const map = getMealSelectedMap(saved);
 
-      // Exclusiones mutuas lógicas (leche y cocciones)
-      if (itemId === 'leche_desc') delete map['leche_prot'];
-      if (itemId === 'leche_prot') delete map['leche_desc'];
+      // Exclusiones mutuas lógicas (solo cocciones de milanesa; las leches SÍ se pueden combinar)
       if (itemId === 'mila_carne_spray') delete map['mila_carne_aceite'];
       if (itemId === 'mila_carne_aceite') delete map['mila_carne_spray'];
       if (itemId === 'mila_pollo_spray') delete map['mila_pollo_aceite'];
@@ -1595,7 +1596,16 @@
       const item = PANTRY_CATALOG[itemId];
       if (!item) return;
 
-      map[itemId] = item.defaultQty;
+      // Si combina ambas leches en la misma taza, arranca 100 ml + 100 ml automáticamente
+      const otherMilk = itemId === 'leche_desc' ? 'leche_prot' : (itemId === 'leche_prot' ? 'leche_desc' : null);
+      if (otherMilk && typeof map[otherMilk] === 'number' && map[otherMilk] > 0) {
+        if (map[otherMilk] === PANTRY_CATALOG[otherMilk].defaultQty) {
+          map[otherMilk] = 100;
+        }
+        map[itemId] = 100;
+      } else {
+        map[itemId] = item.defaultQty;
+      }
       recalculateMealFromMap(slotId, map);
     }
 
@@ -1894,11 +1904,11 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
    - PROHIBIDO MENTIR: ¡NUNCA digas "anotado" o "ya te lo cargué en tu día" si NO emitiste ese bloque JSON exacto al final!
 4. PERFIL Y CONTEXTO REAL DE MALE:
    - 22 años, mide 1.54 m, pesa 54.5 kg (bajó de 55.0 kg a 54.5 kg, afinó cintura y espalda alta en 15 días). Toma 5g de creatina por día.
-   - FASE ACTUAL DEL PLAN PRE-CASAMIENTO (CASAMIENTO 13 DE DICIEMBRE):
-     * Del 17/11 al 22/11 (cierre de exámenes / Cirugía): sigue en déficit suave exacto (1.500 descanso / 1.520 torso / 1.550 piernas) para desinflamar y afinar cintura.
-     * Desde el Lunes 23/11 hasta el Casamiento (13/12): pasa automático a **Mantenimiento Limpio Inteligente (1.580 descanso / 1.630 torso / 1.700 piernas)** con 110g de proteína. Eso NO engorda ni tapa el abdomen; solo le da nafta justa al glúteo para que se pare, se redondee y calce firme en el vestido.
+   - FASE ACTUAL DEL PLAN (CASAMIENTO 13 DE DICIEMBRE):
+     * Hasta el Domingo 13/12 (Pre-Casamiento): mantiene su déficit suave habitual (1.500 descanso / 1.520 torso / 1.550 piernas) con 110g de proteína para llegar cómoda, desinflamada y con la cintura finita al casamiento (Male prefirió seguir en déficit hasta después del casamiento para sentirse 100% segura y cero hinchada).
+     * Desde el Lunes 14/12 (Post-Casamiento): pasa automático a **Mantenimiento Limpio / Crecimiento Glúteo (1.580 descanso / 1.630 torso / 1.700 piernas)** con 110g de proteína para darle nafta extra al crecimiento de glúteos y caderas laterales.
    - Meta actual de hoy en tablero: **${targetKcal} kcal/día** y **110g de proteína/día**.
-   - NUNCA sugerir comer menos de 1.300 kcal ni fomentar miedos a "engordar" por cumplir sus calorías completas; explicarle con calma que 1.500-1.700 kcal limpias con 110g de proteína mantienen cintura chica mientras tonifican y paran el glúteo.
+   - NUNCA sugerir comer menos de 1.300 kcal ni fomentar miedos a "engordar" por cumplir sus calorías completas; explicarle con calma que 1.500-1.550 kcal limpias con 110g de proteína (y 1.580-1.700 post-casamiento) mantienen cintura chica mientras tonifican y paran el glúteo.
    - PROTOCOLO ESTRICTO ANTI-ANSIEDAD & PICOTEO DE ESTUDIO (14:00 A 17:30 HS O ENTRE COMIDAS):
      * ¡PROHIBIDO mandarla a merendar formalmente antes de hora si son las 14:00-16:30 hs! La merienda formal (con tostada, ricota, leche, 250-380 kcal) es para las 17:30-19:00 hs.
      * Si Male dice que está estudiando y siente ansiedad, ganas de un "gustito", tentación o antojo entre comidas:
