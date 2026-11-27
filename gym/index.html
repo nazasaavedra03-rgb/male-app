@@ -56,20 +56,19 @@
     .animate-pop { animation: popIn 0.2s ease-out forwards; }
   </style>
 </head>
-<body class="bg-[#09090b] text-zinc-100 antialiased min-h-screen flex flex-col justify-between selection:bg-rose-500/30">
+<body class="bg-[#09090b] text-zinc-100 antialiased h-[100dvh] overflow-hidden flex flex-col selection:bg-rose-500/30">
 
   <!-- APP SHELL -->
-  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#09090b] shadow-2xl relative border-x border-zinc-900">
+  <div class="w-full max-w-md mx-auto flex-1 min-h-0 h-full flex flex-col overflow-hidden bg-[#09090b] shadow-2xl relative border-x border-zinc-900">
 
-    <!-- TOP SUITE SWITCHER + HEADER -->
-    <header class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/80 px-3.5 pt-2.5 pb-2.5 z-30 mc-safe-top">
-      <!-- Ecosystem Switcher -->
-      <div class="flex items-center justify-between gap-2 mb-2">
-        <div class="inline-flex items-center bg-zinc-900/90 p-0.5 rounded-full border border-zinc-800 text-[11px] font-bold">
+    <!-- TOP SUITE SWITCHER + HEADER (1 compact row) -->
+    <header class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/80 px-3 pt-2 pb-2 z-30 mc-safe-top">
+      <div class="flex items-center justify-between gap-2">
+        <div class="inline-flex items-center bg-zinc-900/90 p-0.5 rounded-full border border-zinc-800 text-[11px] font-bold shrink-0 whitespace-nowrap">
           <a href="../index.html" class="px-2.5 py-1 rounded-full text-zinc-400 hover:text-zinc-200 transition flex items-center gap-1">
             <span>🌸</span><span>Día</span>
           </a>
-          <span class="px-3 py-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-sm flex items-center gap-1">
+          <span class="px-2.5 py-1 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-sm flex items-center gap-1">
             <span>🍑</span><span>Gym</span>
           </span>
           <a href="../nutri/index.html" class="px-2.5 py-1 rounded-full text-zinc-400 hover:text-zinc-200 transition flex items-center gap-1">
@@ -77,82 +76,80 @@
           </a>
         </div>
 
-        <div class="flex items-center gap-1.5">
-          <button onclick="openAllWeightsModal()" class="text-[11px] font-extrabold bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 px-2.5 py-1 rounded-xl transition flex items-center gap-1">
-            <span>🔍</span><span>Mis Pesos</span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button type="button" onclick="openAllWeightsModal()" class="min-h-[36px] text-[11px] font-extrabold bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 px-2.5 rounded-xl transition flex items-center gap-1 whitespace-nowrap">
+            <span>🔍</span><span>Pesos</span>
           </button>
-          <button onclick="openWeekMenuModal()" class="text-[11px] font-bold bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 px-2.5 py-1 rounded-xl transition flex items-center gap-1">
-            <span>⚙️</span><span id="header-week-short">Sem 1</span>
+          <button type="button" onclick="openWeekMenuModal()" title="Estado de sincronización y semana" class="min-h-[36px] text-[11px] font-bold bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 px-2.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap">
+            <span id="sync-dot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+            <span id="sync-label">Sync</span>
+            <span aria-hidden="true">⚙️</span>
           </button>
-          <span id="sync-badge" class="inline-flex items-center gap-1 text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded-full" title="Estado de sincronización">
-            <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Mesociclo & RIR Status Banner -->
-      <div class="flex items-center justify-between">
-        <div>
-          <div class="flex items-center gap-1.5">
-            <span id="header-meso-title" class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Mesociclo 2 • RP Hypertrophy</span>
-            <span id="header-rir-pill" class="text-[10px] font-black px-2 py-0.2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/30">RIR 3</span>
-          </div>
-          <h1 id="header-meso-subtitle" class="text-xs font-medium text-zinc-400 mt-0.5">Semana 1: Calibración técnica & cargas base</h1>
-        </div>
-        <div class="text-right">
-          <span id="week-progress-count" class="text-sm font-black text-white">0/5</span>
-          <span class="block text-[9px] uppercase tracking-wider text-zinc-500 font-bold">Sesiones</span>
         </div>
       </div>
     </header>
 
     <!-- MAIN SCROLLABLE CONTENT -->
-    <main id="main-scroll" class="flex-1 overflow-y-auto px-3.5 pt-3 pb-28 space-y-4">
+    <main id="main-scroll" class="flex-1 min-h-0 overflow-y-auto px-3 pt-2.5 pb-36 space-y-2">
 
       <!-- ========================================== -->
       <!-- VIEW 1: ENTRENAR (ACTIVE WORKOUT)          -->
       <!-- ========================================== -->
-      <section id="view-train" class="space-y-3.5">
+      <section id="view-train" class="space-y-2">
 
-        <!-- Week Pills Strip -->
-        <div class="grid grid-cols-5 gap-1.5 bg-zinc-900/70 p-1 rounded-2xl border border-zinc-800/80" id="week-pills-container">
-          <!-- Rendered by JS -->
+        <!-- Collapsible Meso + Week Sub-bar (~36px closed) -->
+        <div class="bg-zinc-900/90 border border-zinc-800 rounded-2xl px-3 py-1.5 flex items-center justify-between gap-2 min-h-[36px]">
+          <button type="button" onclick="toggleDrawer('week-pills-drawer')" class="flex items-center gap-1.5 text-left min-w-0 flex-1 py-0.5">
+            <span id="header-meso-title" class="text-[11px] font-black uppercase tracking-wide text-rose-400 whitespace-nowrap">MESO 2</span>
+            <span class="text-zinc-600">·</span>
+            <span id="header-week-short" class="text-xs font-black text-white whitespace-nowrap">Sem 3</span>
+            <span id="header-rir-pill" class="text-[11px] font-extrabold px-1.5 py-0.5 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/30 whitespace-nowrap">RIR 1</span>
+            <span class="text-[11px] text-zinc-400">▾</span>
+          </button>
+          <span id="week-progress-count" class="text-[11px] font-black text-emerald-300 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded-lg tabular-nums shrink-0">0/5</span>
         </div>
 
-        <!-- 5-Day Flexible Selector -->
+        <div id="week-pills-drawer" class="hidden bg-zinc-900/95 border border-zinc-800 rounded-2xl p-2 space-y-1.5">
+          <p id="header-meso-subtitle" class="text-[11px] text-zinc-400 px-1 leading-snug"></p>
+          <div class="grid grid-cols-5 gap-1.5" id="week-pills-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Ultra-Compact 5-Day Strip (~42px) -->
         <div class="grid grid-cols-5 gap-1.5" id="day-selector-container">
           <!-- Rendered by JS -->
         </div>
 
-        <!-- Smart Autonomous Copilot (Auto-Day, Sede Almagro/Cid, Retorno Post-Pausa, Express) -->
-        <div id="smart-copilot-card" class="bg-zinc-900/95 border border-zinc-800 rounded-3xl p-3.5 space-y-2.5 shadow-md">
+        <!-- Smart Autonomous Copilot (2 lines max closed) -->
+        <div id="smart-copilot-card" class="bg-zinc-900/95 border border-zinc-800 rounded-2xl p-2.5 space-y-2 shadow-md">
           <!-- Rendered by JS -->
         </div>
 
-        <!-- Active Day Hero Card -->
-        <div id="active-day-hero" class="bg-gradient-to-br from-zinc-900 via-zinc-900 to-rose-950/40 border border-zinc-800 rounded-3xl p-4 shadow-lg relative overflow-hidden">
+        <!-- Compact 1-Line Active Day Header -->
+        <div id="active-day-hero" class="px-1 pt-0.5 flex items-center justify-between gap-2 min-h-[28px]">
           <!-- Rendered by JS -->
         </div>
 
-        <!-- RP Autoregulation Banner (if previous week feedback adjusted today) -->
-        <div id="rp-autoreg-banner" class="hidden bg-violet-950/40 border border-violet-500/30 rounded-2xl p-3 text-xs text-violet-200 flex items-start gap-2.5">
-          <span class="text-base shrink-0">🧬</span>
-          <div id="rp-autoreg-text" class="leading-snug"></div>
+        <!-- RP Autoregulation Banner (toggled cleanly when needed) -->
+        <div id="rp-autoreg-banner" class="hidden bg-violet-950/40 border border-violet-500/30 rounded-2xl p-2.5 text-xs text-violet-200 flex items-start gap-2">
+          <span class="text-sm shrink-0">🧬</span>
+          <div id="rp-autoreg-text" class="leading-snug text-[11px]"></div>
         </div>
 
         <!-- Exercise List -->
-        <div id="exercises-container" class="space-y-3.5">
+        <div id="exercises-container" class="space-y-3">
           <!-- Rendered by JS -->
         </div>
 
         <!-- Session Cardio Card -->
-        <div id="session-cardio-card" class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-4 space-y-3">
+        <div id="session-cardio-card" class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-3.5 space-y-2.5">
           <!-- Rendered by JS -->
         </div>
 
         <!-- Finish Workout CTA -->
         <div class="pt-1 pb-4">
-          <button id="btn-finish-workout" onclick="openFinishSessionModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-500 hover:from-rose-400 hover:to-pink-500 text-white font-black text-sm shadow-lg shadow-rose-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
+          <button id="btn-finish-workout" onclick="openFinishSessionModal()" class="w-full min-h-[48px] py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-500 hover:from-rose-400 hover:to-pink-500 text-white font-black text-sm shadow-lg shadow-rose-500/20 active:scale-[0.99] transition flex items-center justify-center gap-2">
             <span>🏆</span>
             <span id="btn-finish-label">Finalizar Sesión & Check RP</span>
           </button>
@@ -342,19 +339,20 @@
     </main>
 
     <!-- FLOATING REST TIMER BAR (HEVY / RP STYLE) -->
-    <div id="rest-timer-bar" class="hidden absolute bottom-[72px] left-3 right-3 z-40 bg-zinc-900/95 backdrop-blur-md border border-rose-500/40 rounded-2xl p-2.5 shadow-2xl animate-pop">
+    <div id="rest-timer-bar" class="hidden absolute bottom-[calc(66px+env(safe-area-inset-bottom,0px))] left-3 right-3 z-40 bg-zinc-900/95 backdrop-blur-md border border-rose-500/40 rounded-2xl p-2.5 shadow-2xl animate-pop">
       <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-sm">⏱️</div>
-          <div>
-            <span id="rest-timer-label" class="text-[10px] uppercase tracking-wider font-extrabold text-rose-400 block">Descanso RP • 🔒 Pantalla activa</span>
-            <span id="rest-timer-clock" class="text-base font-black text-white tabular-nums">01:30</span>
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-sm shrink-0">⏱️</div>
+          <div class="min-w-0">
+            <span id="rest-timer-label" class="text-[11px] uppercase tracking-wider font-extrabold text-rose-400 block truncate">Descanso RP • 🔒 Pantalla activa</span>
+            <span id="rest-timer-clock" class="text-lg font-black text-white tabular-nums leading-tight">01:30</span>
           </div>
         </div>
-        <div class="flex items-center gap-1.5">
-          <button onclick="adjustRestTimer(-15)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">-15s</button>
-          <button onclick="adjustRestTimer(30)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">+30s</button>
-          <button onclick="stopRestTimer()" class="px-2.5 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-[11px] font-extrabold border border-rose-500/30">Saltar</button>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" id="rest-sound-btn" onclick="toggleRestSound()" title="Sonido al finalizar" class="min-w-[36px] min-h-[36px] bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-xs font-bold border border-zinc-700 flex items-center justify-center">🔔</button>
+          <button type="button" onclick="adjustRestTimer(-15)" class="min-h-[36px] px-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">-15s</button>
+          <button type="button" onclick="adjustRestTimer(30)" class="min-h-[36px] px-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">+30s</button>
+          <button type="button" onclick="stopRestTimer()" class="min-h-[36px] px-2.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-[11px] font-extrabold border border-rose-500/30">Saltar</button>
         </div>
       </div>
       <div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden mt-2">
@@ -363,23 +361,23 @@
     </div>
 
     <!-- BOTTOM TAB BAR -->
-    <nav class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/90 px-2 py-1.5 z-30 mc-safe-bottom">
+    <nav class="shrink-0 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/90 px-2 py-1 z-30 mc-safe-bottom">
       <div class="grid grid-cols-4 gap-1">
-        <button id="nav-train" onclick="switchGymView('train')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition">
+        <button id="nav-train" onclick="switchGymView('train')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition">
           <span class="text-base">🏋️‍♀️</span>
-          <span class="text-[10px]">Entrenar</span>
+          <span class="text-[11px]">Entrenar</span>
         </button>
-        <button id="nav-cardio" onclick="switchGymView('cardio')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
+        <button id="nav-cardio" onclick="switchGymView('cardio')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
           <span class="text-base">🏃‍♀️</span>
-          <span class="text-[10px]">Cardio</span>
+          <span class="text-[11px]">Cardio</span>
         </button>
-        <button id="nav-progress" onclick="switchGymView('progress')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
+        <button id="nav-progress" onclick="switchGymView('progress')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
           <span class="text-base">📈</span>
-          <span class="text-[10px]">Progreso</span>
+          <span class="text-[11px]">Progreso</span>
         </button>
-        <button id="nav-coach" onclick="switchGymView('coach')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
+        <button id="nav-coach" onclick="switchGymView('coach')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition">
           <span class="text-base">🧬</span>
-          <span class="text-[10px]">Coach RP</span>
+          <span class="text-[11px]">Coach RP</span>
         </button>
       </div>
     </nav>
@@ -1981,7 +1979,7 @@
     function renderHeaderAndWeekPills() {
       const w = getWeekObj(activeWeek);
       const mesoTitleEl = document.getElementById('header-meso-title');
-      if (mesoTitleEl) mesoTitleEl.textContent = `Mesociclo ${activeMeso} • RP Hypertrophy`;
+      if (mesoTitleEl) mesoTitleEl.textContent = `MESO ${activeMeso}`;
       document.getElementById('header-week-short').textContent = w.short;
       document.getElementById('header-rir-pill').textContent = w.rir;
       document.getElementById('header-meso-subtitle').textContent = w.desc;
@@ -1995,9 +1993,9 @@
         const itemW = getWeekObj(item.key);
         const isAct = item.key === activeWeek;
         return `
-          <button onclick="selectWeek('${item.key}')" class="py-1.5 rounded-xl text-center transition ${isAct ? 'bg-rose-600 text-white shadow font-black' : 'text-zinc-400 hover:text-zinc-200 font-bold'}">
+          <button type="button" onclick="selectWeek('${item.key}'); toggleDrawer('week-pills-drawer', false);" class="min-h-[42px] py-1 rounded-xl text-center transition ${isAct ? 'bg-rose-600 text-white shadow font-black' : 'bg-zinc-950/70 text-zinc-400 hover:text-zinc-200 font-bold border border-zinc-800'}">
             <span class="block text-[11px] leading-tight">${item.short}</span>
-            <span class="block text-[9px] ${isAct ? 'text-rose-100' : 'text-zinc-500'}">${itemW.rir}</span>
+            <span class="block text-[11px] ${isAct ? 'text-rose-100' : 'text-zinc-500'}">${itemW.rir}</span>
           </button>
         `;
       }).join('');
@@ -2006,19 +2004,18 @@
     function renderDaySelector() {
       const compWeek = allCompleted[activeWeek] || {};
       const container = document.getElementById('day-selector-container');
-      container.innerHTML = Object.values(BASE_ROUTINE).map(d => {
+      container.innerHTML = Object.values(BASE_ROUTINE).map((d, i) => {
         const isAct = d.key === activeDay;
         const isDone = !!compWeek[d.key]?.completed;
-        let cls = 'bg-zinc-900/90 border-zinc-800 text-zinc-400';
+        let cls = 'bg-zinc-900/90 border-zinc-800 text-zinc-400 hover:text-zinc-200';
         if (isAct) cls = 'bg-gradient-to-b from-rose-500/25 to-zinc-900 border-rose-500 text-white ring-1 ring-rose-500/40';
-        else if (isDone) cls = 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300';
+        else if (isDone) cls = 'bg-emerald-950/35 border-emerald-500/45 text-emerald-300';
 
         return `
-          <button onclick="selectDay('${d.key}')" class="p-2 rounded-2xl border text-center transition relative ${cls}">
-            ${isDone ? '<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-zinc-950 text-[9px] font-black flex items-center justify-center shadow">✓</span>' : ''}
-            <span class="text-sm block">${d.emoji}</span>
-            <span class="text-[11px] font-black block mt-0.5">${d.shortLabel}</span>
-            <span class="text-[9px] opacity-75 block truncate">${d.dayHint}</span>
+          <button type="button" onclick="selectDay('${d.key}')" class="min-h-[42px] px-1 py-1.5 rounded-2xl border text-center transition relative flex items-center justify-center gap-1 ${cls}">
+            <span class="text-xs leading-none">${d.emoji}</span>
+            <span class="text-xs font-black leading-none">D${i + 1}</span>
+            ${isDone ? '<span class="w-3.5 h-3.5 rounded-full bg-emerald-500 text-zinc-950 text-[10px] font-black flex items-center justify-center leading-none">✓</span>' : ''}
           </button>
         `;
       }).join('');
@@ -2134,16 +2131,15 @@
 
       const eq = computeEquivalentRepsRange(refKg, refReps, newKg);
       if (eq) {
-        const w = getWeekObj(activeWeek);
-        badgeEl.textContent = `⚖️ Con ${newKg}kg ➔ ${eq.lo}-${eq.hi} reps (${returnMode ? 'RIR 2' : w.rir})`;
-        badgeEl.className = 'text-[10px] font-extrabold text-amber-300 block leading-tight';
+        badgeEl.textContent = `⚖️ ${eq.lo}-${eq.hi} reps`;
+        badgeEl.className = 'text-[11px] font-extrabold text-amber-300 block leading-tight';
         const isDone = !!allLogs?.[activeWeek]?.[activeDay]?.[exId]?.[setIdx]?.completed;
         if (repsInput && !isDone) {
           repsInput.value = eq.mid;
         }
       } else {
         badgeEl.textContent = origBadge;
-        badgeEl.className = 'text-[10px] font-semibold text-zinc-400 block leading-tight';
+        badgeEl.className = 'text-[11px] font-semibold text-zinc-400 block leading-tight';
       }
 
       if (setIdx === 0) {
@@ -2172,11 +2168,12 @@
       const compWeek = allCompleted?.[activeWeek] || {};
       const showSwitchBtn = sug.day !== activeDay && !compWeek[sug.day]?.completed;
       const curW = getWeekObj(activeWeek);
+      const sugLabel = BASE_ROUTINE[sug.day]?.shortLabel || sug.day;
 
       let lastBadge = 'Primera sesión';
       if (insight.latest) {
-        const dTxt = insight.daysAgo === 0 ? 'hoy' : (insight.daysAgo === 1 ? 'ayer' : `hace ${insight.daysAgo} días`);
-        lastBadge = `Último: ${insight.latest.dateKey || ''} (${dTxt})`;
+        const dTxt = insight.daysAgo === 0 ? 'hoy' : (insight.daysAgo === 1 ? 'ayer' : `hace ${insight.daysAgo}d`);
+        lastBadge = `Últ: ${insight.latest.dateKey || ''} (${dTxt})`;
       }
 
       let transitionBannerHtml = '';
@@ -2191,14 +2188,14 @@
           if (lastTransition.rirKey === 'sem5') {
             msgTxt = `🧘 ${fromShort} cerrada con ${lastTransition.doneCount}/5. Toca semana de descarga (60% carga).`;
           } else if (lastTransition.held) {
-            msgTxt = `🔁 ${fromShort} cerrada con ${lastTransition.doneCount}/5 días. Para no perder el hilo, ${toShort} repite intensidad ${rirTxt} en vez de subir. Cero culpa: el músculo se mantiene y seguís progresando.`;
+            msgTxt = `🔁 ${fromShort} cerrada con ${lastTransition.doneCount}/5 días. ${toShort} repite intensidad ${rirTxt} para consolidar sin apuros.`;
           } else {
             msgTxt = `⬆️ ${fromShort} cerrada con ${lastTransition.doneCount}/5 ✓ → ${toShort} sube a ${rirTxt}.`;
           }
           transitionBannerHtml = `
-            <div class="bg-violet-950/60 border border-violet-500/40 rounded-2xl px-3 py-2 flex items-start justify-between gap-2 text-[11px] text-violet-100 leading-snug">
+            <div class="bg-violet-950/60 border border-violet-500/40 rounded-xl px-2.5 py-2 flex items-start justify-between gap-2 text-[11px] text-violet-100 leading-snug">
               <span>${msgTxt}</span>
-              <button onclick="dismissWeekTransition('${dismissKey}')" class="shrink-0 text-violet-300 hover:text-white font-black text-xs px-1">✕</button>
+              <button type="button" onclick="dismissWeekTransition('${dismissKey}')" class="shrink-0 text-violet-300 hover:text-white font-black text-xs px-1">✕</button>
             </div>
           `;
         }
@@ -2207,50 +2204,266 @@
       let mesoCloseBannerHtml = '';
       if (getEffRirKey(activeWeek) === 'sem5' && countDone('sem5') >= 1) {
         mesoCloseBannerHtml = `
-          <button onclick="openMesoWrappedModal()" class="w-full text-left bg-gradient-to-r from-amber-500/20 via-rose-500/15 to-amber-500/20 border border-amber-400/50 rounded-2xl px-3 py-2.5 flex items-center justify-between gap-2 transition hover:brightness-110">
-            <span class="text-[11px] font-extrabold text-amber-200 leading-snug">🏆 ¡Mesociclo ${activeMeso} completándose! Tocá acá para ver tu Resumen Wrapped e iniciar el Mesociclo ${activeMeso + 1}.</span>
+          <button type="button" onclick="openMesoWrappedModal()" class="w-full text-left bg-gradient-to-r from-amber-500/20 via-rose-500/15 to-amber-500/20 border border-amber-400/50 rounded-xl px-2.5 py-2 flex items-center justify-between gap-2 transition hover:brightness-110">
+            <span class="text-[11px] font-extrabold text-amber-200 leading-snug">🏆 ¡Mesociclo ${activeMeso} completándose! Ver Wrapped e iniciar Meso ${activeMeso + 1}</span>
             <span class="shrink-0 text-xs font-black text-amber-300">➔</span>
           </button>
         `;
       }
 
+      const hasUnreadNotice = !!(transitionBannerHtml || mesoCloseBannerHtml);
+      const detailsOpen = openDrawers.has('copilot-details-drawer');
+      const shortStatus = returnMode
+        ? `🛡️ Retorno RIR 2 · ${sugLabel} sugerido`
+        : `${curW.held ? '🔁 Repite ' + curW.rir : '🧭 ' + sugLabel + ' sugerido'} · ${lastBadge}`;
+
       box.innerHTML = `
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5">
-            <span class="text-xs">🧭</span>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Copiloto Autónomo</span>
+        <div class="flex items-center justify-between gap-1.5 min-h-[30px]">
+          <span class="text-xs font-extrabold ${returnMode ? 'text-emerald-300' : 'text-zinc-200'} truncate flex-1">${shortStatus}</span>
+          <div class="flex items-center gap-1 shrink-0">
+            ${showSwitchBtn ? `<button type="button" onclick="selectDay('${sug.day}')" class="min-h-[28px] px-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-[11px] shadow whitespace-nowrap">Ir a ${sugLabel} ➔</button>` : ''}
+            <button type="button" onclick="toggleDrawer('copilot-details-drawer')" aria-label="Detalles del Copiloto" class="relative min-w-[30px] min-h-[28px] rounded-xl bg-zinc-950 border ${detailsOpen ? 'border-rose-500/50 text-rose-300' : 'border-zinc-800 text-zinc-300'} text-xs font-black flex items-center justify-center">
+              ⓘ
+              ${hasUnreadNotice ? '<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>' : ''}
+            </button>
           </div>
-          <span class="text-[10px] font-bold text-zinc-400 bg-zinc-950 px-2 py-0.5 rounded-full border border-zinc-800">${lastBadge}</span>
         </div>
 
-        ${mesoCloseBannerHtml}
-        ${transitionBannerHtml}
-
-        <div class="flex items-center justify-between gap-2 bg-zinc-950/90 border border-zinc-800/90 rounded-2xl px-3 py-2">
-          <p class="text-[11px] text-zinc-300 leading-snug flex-1">${sug.reason}</p>
-          ${showSwitchBtn ? `<button onclick="selectDay('${sug.day}')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-[10px] shadow">Ir a ${BASE_ROUTINE[sug.day].shortLabel} ➔</button>` : ''}
-        </div>
-
-        <div class="flex flex-wrap gap-1.5">
-          <button onclick="toggleGymBranch()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${activeBranch === 'cid' ? 'bg-pink-500/20 border-pink-500/50 text-pink-200' : 'bg-zinc-950 border-zinc-700 text-zinc-200 hover:border-zinc-600'}">
-            📍 ${activeBranch === 'cid' ? 'Sede: Fiter Cid (con Naza)' : 'Sede: Fiter Almagro'}
+        <div class="grid grid-cols-4 gap-1.5">
+          <button type="button" onclick="toggleGymBranch()" class="min-h-[34px] px-1.5 rounded-xl text-[11px] font-extrabold border transition truncate ${activeBranch === 'cid' ? 'bg-pink-500/20 border-pink-500/50 text-pink-200' : 'bg-zinc-950 border-zinc-700 text-zinc-200 hover:border-zinc-600'}">
+            📍 ${activeBranch === 'cid' ? 'Cid' : 'Almagro'}
           </button>
-          <button onclick="toggleReturnMode()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${returnMode ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-200' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200'}">
-            🛡️ ${returnMode ? 'Retorno Post-Pausa ✓' : 'Modo Retorno'}
+          <button type="button" onclick="toggleExpressMode()" class="min-h-[34px] px-1.5 rounded-xl text-[11px] font-extrabold border transition truncate ${expressMode ? 'bg-amber-500/20 border-amber-500/50 text-amber-200' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'}">
+            ⚡ ${expressMode ? '35m ✓' : 'Express'}
           </button>
-          <button onclick="toggleExpressMode()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${expressMode ? 'bg-amber-500/20 border-amber-500/50 text-amber-200' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200'}">
-            ⚡ ${expressMode ? 'Express 35m ✓' : 'Express 35m'}
+          <button type="button" onclick="toggleGymVoiceDictation(true)" class="min-h-[34px] px-1.5 rounded-xl text-[11px] font-extrabold bg-zinc-950 border border-rose-500/35 text-rose-300 hover:bg-rose-500/15 transition truncate">
+            🎙️ Dictar
           </button>
-          ${curW.held ? `<span class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-violet-500/20 border border-violet-500/40 text-violet-200">🔁 Repite RIR</span>` : ''}
-          <button onclick="toggleGymVoiceDictation(true)" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-zinc-950 border border-rose-500/35 text-rose-300 hover:bg-rose-500/15 transition">
-            🎙️ Dictar serie
-          </button>
-          <button onclick="switchGymView('coach'); document.getElementById('gym-chat-input').focus();" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 transition">
-            💬 Coach / Imprevisto
+          <button type="button" onclick="switchGymView('coach'); document.getElementById('gym-chat-input').focus();" class="min-h-[34px] px-1.5 rounded-xl text-[11px] font-extrabold bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 transition truncate">
+            💬 Coach
           </button>
         </div>
 
-        ${returnMode ? `<p class="text-[10px] text-emerald-300/90 leading-snug bg-emerald-950/35 border border-emerald-500/30 rounded-xl px-2.5 py-1.5">✨ <strong>Retorno inteligente activo:</strong> como pasaron varios días desde tu último entreno, calibré los objetivos a tus marcas reales a RIR 2 (sin exigir salto de récord hoy) para reactivar firme y sin agujetas fuertes.</p>` : ''}
+        <div id="copilot-details-drawer" class="${detailsOpen ? '' : 'hidden'} pt-1 border-t border-zinc-800/80 space-y-2">
+          ${mesoCloseBannerHtml}
+          ${transitionBannerHtml}
+          <p class="text-[11px] text-zinc-300 leading-snug bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-2">${sug.reason}</p>
+          <div class="flex items-center justify-between gap-2">
+            <button type="button" onclick="toggleReturnMode()" class="flex-1 min-h-[34px] px-2.5 rounded-xl text-[11px] font-extrabold border transition ${returnMode ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-200' : 'bg-zinc-950 border-zinc-800 text-zinc-300'}">
+              🛡️ ${returnMode ? 'Modo Retorno RIR 2 Activo ✓' : 'Activar Modo Retorno (RIR 2)'}
+            </button>
+          </div>
+          ${returnMode ? `<p class="text-[11px] text-emerald-300/90 leading-snug bg-emerald-950/35 border border-emerald-500/30 rounded-xl px-2.5 py-1.5">✨ Calibrado a tus marcas reales sin exigir salto de récord hoy para reactivar firme y sin agujetas.</p>` : ''}
+        </div>
+      `;
+    }
+
+    const openDrawers = new Set();
+
+    function formatCleanSetRef(target, effEx) {
+      if (!target) return '';
+      if (effEx.painMode) return `⚠️ ${target.sugKg} × ${target.sugReps}`;
+      if (getEffRirKey(activeWeek) === 'sem5') {
+        const numK = parseFloat(String(target.sugKg).replace(',', '.')) || 0;
+        return numK > 0 ? `Desc: ${target.sugKg} × ${target.sugReps}` : `Desc: ${target.sugReps} reps`;
+      }
+      const isNonLoad = effEx.unit === 'corporal' || target.sugKg === '0';
+      const prefix = String(target.badge || '').startsWith('⬆️')
+        ? '⬆️ '
+        : (String(target.badge || '').startsWith('🔁') ? '🔁 ' : 'Obj: ');
+      return isNonLoad ? `${prefix}${target.sugReps} reps` : `${prefix}${target.sugKg} × ${target.sugReps}`;
+    }
+
+    function renderSetRowHtml(ex, s, totalSets, w) {
+      const target = computeRPTarget(activeDay, ex, s, activeWeek);
+      const exLogs = allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || [];
+      const saved = exLogs[s] || {};
+      const isSetDone = !!saved.completed;
+      const valKg = (saved.kg !== undefined && saved.kg !== '') ? saved.kg : target.sugKg;
+      const eqSaved = (!isSetDone && valKg !== target.sugKg) ? computeEquivalentRepsRange(target.sugKg, target.sugReps, valKg) : null;
+      const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : (eqSaved ? eqSaved.mid : target.sugReps);
+      const cleanRef = formatCleanSetRef(target, ex);
+      const shownBadge = eqSaved ? `⚖️ ${eqSaved.lo}-${eqSaved.hi} reps` : cleanRef;
+
+      return `
+        <div data-ex-id="${ex.id}" data-set-idx="${s}" class="grid grid-cols-12 items-center gap-1.5 py-1.5 px-2 min-h-[48px] rounded-xl border transition ${isSetDone ? 'bg-emerald-950/35 border-emerald-500/40' : 'bg-zinc-950/80 border-zinc-800/80'}">
+          <div class="col-span-1 text-center">
+            <span id="setnum_${ex.id}_${s}" class="text-xs font-black ${isSetDone ? 'text-emerald-400' : 'text-zinc-500'}">${s + 1}</span>
+          </div>
+          <div class="col-span-4 pr-1 min-w-0">
+            <span id="badge_${ex.id}_${s}" class="text-[11px] truncate ${saved.isPR ? 'font-extrabold text-amber-300' : (eqSaved ? 'font-extrabold text-amber-300' : (isSetDone ? 'font-semibold text-emerald-300' : 'font-semibold text-zinc-400'))} block leading-tight">${saved.isPR ? '🏆 PR! ' + shownBadge : shownBadge}</span>
+          </div>
+          <div class="col-span-3">
+            <input id="kg_${ex.id}_${s}" type="text" inputmode="decimal" value="${valKg}"
+              data-ref-kg="${target.sugKg}" data-ref-reps="${target.sugReps}" data-orig-badge="${cleanRef.replace(/"/g, '&quot;')}"
+              oninput="onKgInputLive('${ex.id}', ${s})"
+              onchange="updateSetInput('${ex.id}', ${s})"
+              class="w-full h-[42px] min-h-[42px] bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-xl px-1 text-center text-base font-black tabular-nums focus:outline-none focus:border-rose-500">
+          </div>
+          <div class="col-span-2">
+            <input id="reps_${ex.id}_${s}" type="number" inputmode="numeric" value="${valReps}"
+              onchange="updateSetInput('${ex.id}', ${s})"
+              class="w-full h-[42px] min-h-[42px] bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-xl px-1 text-center text-base font-black tabular-nums focus:outline-none focus:border-rose-500">
+          </div>
+          <div class="col-span-2 flex justify-end">
+            <button type="button" id="chk_${ex.id}_${s}" onclick="toggleSetComplete('${ex.id}', ${s}, ${ex.restSec})"
+              aria-label="Completar serie ${s + 1}"
+              class="w-[42px] h-[42px] min-w-[42px] min-h-[42px] rounded-xl font-black text-sm flex items-center justify-center transition active:scale-90 ${isSetDone ? 'bg-emerald-500 text-zinc-950 shadow shadow-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700'}">
+              ✓
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSingleExerciseCard(rawEx, idx) {
+      const w = getWeekObj(activeWeek);
+      const autoregDelta = getAutoregSetDelta(activeWeek, activeDay);
+      const ex = getEffectiveExercise(activeDay, rawEx);
+
+      if (ex.painSkip) {
+        return `
+          <article id="ex_card_${ex.id}" data-card-ex-id="${ex.id}" class="bg-zinc-900/60 border border-amber-500/30 rounded-3xl p-3 flex items-center justify-between gap-2">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="w-6 h-6 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+              <div class="min-w-0">
+                <h3 class="text-sm font-black text-zinc-300 leading-snug truncate">${ex.nombre}</h3>
+                <p class="text-[11px] text-amber-300/90 font-semibold">⏭️ Salteado hoy por molestia</p>
+              </div>
+            </div>
+            <button type="button" onclick="unskipExerciseToday('${ex.id}')" class="shrink-0 min-h-[36px] text-[11px] font-extrabold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-3 rounded-xl">Deshacer</button>
+          </article>
+        `;
+      }
+
+      const manualDelta = extraSetsMap?.[activeWeek]?.[activeDay]?.[ex.id] || 0;
+      const expressDelta = (expressMode && idx >= 2) ? -1 : 0;
+      const isOptionalExpress = expressMode && idx >= 3;
+      const autoDeltaForEx = getEffRirKey(activeWeek) === 'sem5' ? -1 : ((idx < 2 && autoregDelta !== 0) ? autoregDelta : 0);
+      const totalSets = Math.max(1, Math.min(6, ex.series + autoDeltaForEx + expressDelta + manualDelta));
+      const exLogs = allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || [];
+
+      const lastRec = findLastExerciseRecord(rawEx.id, null, activeBranch, ex.altIdx ?? null);
+      let historyPillHtml = '';
+      if (lastRec && lastRec.sets?.length) {
+        const rawLastKg = lastRec.sets[0].kg;
+        const rawLastReps = lastRec.sets.map(s => s.reps).join(', ');
+        const branchTag = lastRec.branch === 'cid' ? 'Cid' : 'Almagro';
+        const dateTag = lastRec.dateKey || (RP_WEEKS[lastRec.weekKey]?.short || '');
+        const adaptNote = lastRec.adaptedKg ? ` ➔ Hoy (${activeBranch === 'cid' ? 'Cid' : 'Almagro'}): <strong>${lastRec.adaptedKg} kg</strong>` : '';
+        historyPillHtml = `
+          <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1 text-[11px] text-zinc-300 leading-snug">
+            📌 <strong class="text-emerald-300">Última (${dateTag} · ${branchTag}):</strong> ${rawLastKg}${ex.unit === 'corporal' ? '' : ' ' + ex.unit} × ${rawLastReps}${adaptNote}
+          </div>
+        `;
+      } else if (ex.branchNote) {
+        historyPillHtml = `
+          <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1 text-[11px] text-zinc-300 leading-snug">
+            📍 <strong class="text-amber-300">Sede:</strong> ${ex.branchNote}
+          </div>
+        `;
+      }
+
+      const painBoxHtml = ex.painMode ? `
+        <div class="bg-amber-950/40 border border-amber-500/40 rounded-2xl p-2 flex items-center justify-between gap-2 text-[11px] text-amber-200 leading-snug">
+          <span>⚠️ <strong>Modo cuidado:</strong> carga −20% a RIR 3. ${ex.painTip || ''}</span>
+          <button type="button" onclick="skipExerciseToday('${ex.id}')" class="shrink-0 min-h-[34px] px-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-100 font-extrabold text-[11px]">⏭️ Saltear</button>
+        </div>
+      ` : '';
+
+      const firstTarget = computeRPTarget(activeDay, ex, 0, activeWeek);
+      const firstSetWorkKg = (exLogs[0]?.kg !== undefined && exLogs[0]?.kg !== '') ? exLogs[0].kg : firstTarget.sugKg;
+
+      let setsRowsHtml = '';
+      for (let s = 0; s < totalSets; s++) {
+        setsRowsHtml += renderSetRowHtml(ex, s, totalSets, w);
+      }
+
+      const stepsListHtml = (ex.steps || []).map((st, i) => `
+        <li class="flex items-start gap-2">
+          <span class="w-4 h-4 rounded-full bg-rose-500/20 text-rose-300 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">${i + 1}</span>
+          <span>${st}</span>
+        </li>
+      `).join('');
+
+      const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.videoQuery || ex.nombre)}`;
+      const warmupBodyHtml = idx === 0
+        ? `<div id="warmcalc_${ex.id}">${renderWarmupHtml(ex, firstSetWorkKg)}</div>`
+        : `<strong class="text-amber-400">Calentamiento sugerido:</strong> ${ex.warmup}`;
+
+      const isGuideOpen = openDrawers.has(`guide_${ex.id}`);
+
+      return `
+        <article id="ex_card_${ex.id}" data-card-ex-id="${ex.id}" class="bg-zinc-900/90 border ${isOptionalExpress ? 'border-zinc-800/50 opacity-75' : 'border-zinc-800'} rounded-3xl p-3 space-y-2 shadow-md">
+          <!-- Card Top -->
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-start gap-2 min-w-0 flex-1">
+              <span class="w-6 h-6 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+              <div class="min-w-0">
+                <h3 class="text-sm font-black text-white leading-snug">${ex.nombre}</h3>
+                <p class="text-[11px] text-zinc-400 font-medium leading-tight">${ex.musculo}</p>
+                ${ex.isReplaced ? `<span class="inline-block mt-1 text-[11px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">🔄 Reemplazo activo${ex.altNote ? ' (' + ex.altNote + ')' : ''}</span>` : ''}
+                ${isOptionalExpress ? `<span class="inline-block mt-1 text-[11px] font-bold text-amber-200 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">⚡ Express: opcional</span>` : ''}
+              </div>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <span class="text-[11px] font-black px-2 py-1 rounded-lg bg-zinc-800 text-rose-300 border border-zinc-700 whitespace-nowrap">${ex.painMode ? 'RIR 3' : (returnMode ? 'RIR 2' : w.rir)}</span>
+              <button type="button" onclick="askAboutExercise('${ex.id}')" title="Consultar al Coach" class="w-8 h-8 rounded-lg bg-zinc-950 border border-zinc-800 text-emerald-300 flex items-center justify-center text-xs hover:bg-zinc-800 transition">💬</button>
+            </div>
+          </div>
+
+          ${historyPillHtml}
+          ${painBoxHtml}
+
+          <!-- Single-Row Clean Action Bar -->
+          <div class="grid grid-cols-4 gap-1.5">
+            <button type="button" onclick="toggleDrawer('guide_${ex.id}')" class="min-h-[38px] text-[11px] font-bold px-1.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 ${isGuideOpen ? 'text-rose-200 border-rose-500/40' : 'text-zinc-200 border-zinc-800'} border transition truncate">
+              📖 Guía
+            </button>
+            <button type="button" onclick="quickSwap('${ex.id}','ocupada')" class="min-h-[38px] text-[11px] font-bold px-1.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 transition truncate">
+              🔄 Ocupada
+            </button>
+            <button type="button" onclick="quickSwap('${ex.id}','molestia')" class="min-h-[38px] text-[11px] font-bold px-1.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-orange-300 border border-orange-500/30 transition truncate">
+              ⚠️ Molestia
+            </button>
+            <button type="button" onclick="openExerciseOptionsSheet('${ex.id}')" class="min-h-[38px] text-[11px] font-extrabold px-1.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 transition truncate">
+              ⋯ Más
+            </button>
+          </div>
+
+          <!-- Unified Guide Drawer (Warmup + Technique + Video) -->
+          <div id="guide_${ex.id}" class="${isGuideOpen ? '' : 'hidden'} bg-zinc-950 border border-rose-500/25 rounded-2xl p-3 space-y-2.5 text-[11px] text-zinc-300 leading-snug">
+            <div class="bg-amber-500/10 border border-amber-500/25 rounded-xl p-2">
+              <div class="font-extrabold text-amber-300 mb-0.5">🔥 ${idx === 0 ? 'Calentamiento automático' : 'Aproximación'}</div>
+              ${warmupBodyHtml}
+            </div>
+            <div class="space-y-1.5 border-t border-zinc-800/80 pt-2">
+              <div class="font-extrabold text-rose-300">📖 Técnica clave</div>
+              <ul class="space-y-1.5">${stepsListHtml}</ul>
+            </div>
+            <a href="${ytUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-rose-300 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 px-3 py-2 rounded-xl transition">
+              <span>▶️</span><span>Ver demostración corta en YouTube</span>
+            </a>
+          </div>
+
+          <!-- Sets Table -->
+          <div class="space-y-1.5">
+            <div class="grid grid-cols-12 px-2 text-[11px] font-extrabold uppercase tracking-wider text-zinc-500">
+              <div class="col-span-1 text-center">#</div>
+              <div class="col-span-4">Objetivo</div>
+              <div class="col-span-3 text-center">${ex.unit === 'corporal' ? 'PESO' : 'KG'}</div>
+              <div class="col-span-2 text-center">REPS</div>
+              <div class="col-span-2 text-right pr-2">OK</div>
+            </div>
+            ${setsRowsHtml}
+          </div>
+
+          <!-- Compact Footer -->
+          <div class="flex items-center justify-between pt-0.5">
+            <span class="text-[11px] text-zinc-500 font-medium">⏱️ Descanso: ${ex.restSec}s</span>
+            ${(ex.isReplaced || ex.painMode) ? `<button type="button" onclick="revertQuickSwap('${ex.id}')" class="min-h-[28px] text-[11px] font-extrabold px-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition">↩️ Original</button>` : ''}
+          </div>
+        </article>
       `;
     }
 
@@ -2260,264 +2473,71 @@
       const w = getWeekObj(activeWeek);
       const isDayDone = !!allCompleted?.[activeWeek]?.[activeDay]?.completed;
 
-      const suggestedDay = guessBestDayForToday();
-      const showNextPrompt = isDayDone && suggestedDay !== activeDay && !allCompleted?.[activeWeek]?.[suggestedDay]?.completed;
-      const nextPromptHtml = showNextPrompt ? `
-        <div class="mt-2.5 p-2 rounded-xl bg-violet-950/60 border border-violet-500/40 flex items-center justify-between gap-2 text-xs">
-          <span class="text-zinc-300">📅 Próxima sugerida: <strong class="text-white">${BASE_ROUTINE[suggestedDay].shortLabel} (${BASE_ROUTINE[suggestedDay].emoji} ${BASE_ROUTINE[suggestedDay].title})</strong></span>
-          <button onclick="selectDay('${suggestedDay}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-extrabold text-[11px] shadow">Ir a ${BASE_ROUTINE[suggestedDay].shortLabel} ➔</button>
-        </div>
-      ` : '';
-
-      // Hero
-      document.getElementById('active-day-hero').innerHTML = `
-        <div class="flex items-start justify-between gap-2">
-          <div class="w-full">
-            <div class="flex items-center gap-1.5 mb-1 flex-wrap">
-              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">${dayObj.dayHint}</span>
-              <span class="text-[10px] font-bold text-zinc-400">⏱️ ${expressMode ? '35 min Express' : dayObj.duration}</span>
-              <span class="text-[10px] font-bold text-rose-300">• ${activeBranch === 'cid' ? 'Fiter Cid' : 'Fiter Almagro'}</span>
-              ${isDayDone ? '<span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Completado ✓</span>' : ''}
-            </div>
-            <h2 class="text-base font-black text-white leading-snug">${dayObj.emoji} ${dayObj.title}</h2>
-            <p class="text-[11px] text-zinc-400 mt-0.5 leading-snug">${dayObj.subtitle}</p>
-            ${nextPromptHtml}
-          </div>
-        </div>
-      `;
-
-      // Autoregulation banner check
       const prevKey = getPrevWeekKey(activeWeek);
       const prevFb = prevKey ? allCompleted?.[prevKey]?.[activeDay]?.rpFeedback : null;
       const volDec = computeVolumeAutoregDecision(prevFb, getEffRirKey(activeWeek) === 'sem5', expressMode, returnMode);
+
+      let autoregPill = '';
+      if (prevFb && !returnMode) {
+        if (volDec.mode === 'protect') {
+          autoregPill = `<button type="button" onclick="toggleDrawer('rp-autoreg-banner')" class="shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">🧬 −1 serie ⓘ</button>`;
+        } else if (volDec.mode === 'boost') {
+          autoregPill = `<button type="button" onclick="toggleDrawer('rp-autoreg-banner')" class="shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/30">🧬 ${autoregNeutralToday ? 'Base' : '+1 serie'} ⓘ</button>`;
+        }
+      }
+
+      // Compact 1-Line Active Day Header
+      document.getElementById('active-day-hero').innerHTML = `
+        <h2 class="text-xs font-black text-zinc-100 truncate min-w-0 flex-1">
+          ${dayObj.emoji} ${dayObj.title} <span class="text-zinc-400 font-semibold">· ${expressMode ? '35m Express' : dayObj.duration}</span>
+        </h2>
+        <div class="flex items-center gap-1.5 shrink-0">
+          ${autoregPill}
+          ${isDayDone ? '<span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Hecho ✓</span>' : ''}
+        </div>
+      `;
+
+      // Autoregulation banner (collapsed unless opened by user or protect alert active)
       const bannerEl = document.getElementById('rp-autoreg-banner');
       const bannerTxt = document.getElementById('rp-autoreg-text');
-      if (prevFb && !returnMode) {
-        bannerEl.classList.remove('hidden');
+      if (prevFb && !returnMode && (volDec.mode === 'protect' || volDec.mode === 'boost')) {
+        const showBanner = openDrawers.has('rp-autoreg-banner');
+        bannerEl.classList.toggle('hidden', !showBanner);
         if (volDec.mode === 'protect') {
-          bannerTxt.innerHTML = `<strong class="text-amber-300">Protección & Recuperación RP (−1 serie):</strong> ${volDec.reason} Si hoy sentís molestia en alguna máquina, tocá <em>"⚠️ Molestia"</em>.`;
-        } else if (volDec.mode === 'boost') {
-          bannerTxt.innerHTML = autoregNeutralToday
-            ? `<strong class="text-zinc-300">Series base activas:</strong> Hoy optaste por mantener las series estándar. <button onclick="toggleAutoregNeutralToday()" class="underline text-violet-300 font-bold ml-1">Activar +1 serie</button>`
-            : `<strong class="text-violet-300">Sobrecarga RP (+1 Serie):</strong> ${volDec.reason} <button onclick="toggleAutoregNeutralToday()" class="underline text-zinc-300 font-semibold ml-1">Dejar series base</button>`;
+          bannerTxt.innerHTML = `<strong class="text-amber-300">Protección RP (−1 serie):</strong> ${volDec.reason}`;
         } else {
-          bannerTxt.innerHTML = `<strong class="text-violet-300">Progresión RP calibrada:</strong> Targets calculados sobre tus marcas reales buscando <strong>${w.rir}</strong>. <em>(Si cambiás los KG en una casilla, las REPS se recalculan solas)</em>.`;
+          bannerTxt.innerHTML = autoregNeutralToday
+            ? `<strong class="text-zinc-300">Series base activas:</strong> Hoy mantenés las series estándar. <button type="button" onclick="toggleAutoregNeutralToday()" class="underline text-violet-300 font-bold ml-1">Activar +1 serie</button>`
+            : `<strong class="text-violet-300">Sobrecarga RP (+1 Serie):</strong> ${volDec.reason} <button type="button" onclick="toggleAutoregNeutralToday()" class="underline text-zinc-300 font-semibold ml-1">Dejar series base</button>`;
         }
       } else {
         bannerEl.classList.add('hidden');
       }
 
       // Render Exercise Cards
-      const autoregDelta = getAutoregSetDelta(activeWeek, activeDay);
       const exContainer = document.getElementById('exercises-container');
-
-      exContainer.innerHTML = dayObj.exercises.map((rawEx, idx) => {
-        const ex = getEffectiveExercise(activeDay, rawEx);
-
-        if (ex.painSkip) {
-          return `
-            <article class="bg-zinc-900/60 border border-amber-500/30 rounded-3xl p-3.5 flex items-center justify-between gap-2">
-              <div class="flex items-start gap-2.5 min-w-0">
-                <span class="w-6 h-6 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
-                <div class="min-w-0">
-                  <h3 class="text-sm font-black text-zinc-300 leading-snug truncate">${ex.nombre}</h3>
-                  <p class="text-[11px] text-amber-300/90 font-semibold">⏭️ Salteado hoy por molestia (no cuenta en contra)</p>
-                </div>
-              </div>
-              <button onclick="unskipExerciseToday('${ex.id}')" class="shrink-0 text-[10px] font-extrabold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-2.5 py-1.5 rounded-xl">Deshacer</button>
-            </article>
-          `;
-        }
-
-        const manualDelta = extraSetsMap?.[activeWeek]?.[activeDay]?.[ex.id] || 0;
-        const expressDelta = (expressMode && idx >= 2) ? -1 : 0;
-        const isOptionalExpress = expressMode && idx >= 3;
-        const autoDeltaForEx = getEffRirKey(activeWeek) === 'sem5' ? -1 : ((idx < 2 && autoregDelta !== 0) ? autoregDelta : 0);
-        const totalSets = Math.max(1, Math.min(6, ex.series + autoDeltaForEx + expressDelta + manualDelta));
-        const exLogs = allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || [];
-
-        // Historial real visible directamente en la tarjeta (separado por alternativa)
-        const lastRec = findLastExerciseRecord(rawEx.id, null, activeBranch, ex.altIdx ?? null);
-        let historyPillHtml = '';
-        if (lastRec && lastRec.sets?.length) {
-          const rawLastKg = lastRec.sets[0].kg;
-          const rawLastReps = lastRec.sets.map(s => s.reps).join(', ');
-          const branchTag = lastRec.branch === 'cid' ? 'Cid' : 'Almagro';
-          const dateTag = lastRec.dateKey || (RP_WEEKS[lastRec.weekKey]?.short || '');
-          const adaptNote = lastRec.adaptedKg ? ` ➔ Equivalencia hoy (${activeBranch === 'cid' ? 'Cid' : 'Almagro'}): <strong>${lastRec.adaptedKg} kg</strong>` : '';
-          historyPillHtml = `
-            <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1.5 text-[10.5px] text-zinc-300 flex items-center justify-between gap-2">
-              <span>📌 <strong class="text-emerald-300">Tu última vez (${dateTag} • ${branchTag}):</strong> ${rawLastKg}${ex.unit === 'corporal' ? '' : ' ' + ex.unit} × ${rawLastReps}${adaptNote}</span>
-            </div>
-          `;
-        } else if (ex.branchNote) {
-          historyPillHtml = `
-            <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1.5 text-[10.5px] text-zinc-300">
-              📍 <strong class="text-amber-300">Referencia sede:</strong> ${ex.branchNote}
-            </div>
-          `;
-        }
-
-        const painBoxHtml = ex.painMode ? `
-          <div class="bg-amber-950/40 border border-amber-500/40 rounded-2xl p-2.5 flex items-center justify-between gap-2 text-[10.5px] text-amber-200 leading-snug">
-            <span>⚠️ <strong>Modo cuidado hoy:</strong> carga −20% y RIR 3. ${ex.painTip ? ex.painTip + ' ' : ''}Si el dolor es punzante, salteálo hoy.</span>
-            <button onclick="skipExerciseToday('${ex.id}')" class="shrink-0 px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-100 font-extrabold text-[10px]">⏭️ Saltear hoy</button>
-          </div>
-        ` : '';
-
-        let firstSetWorkKg = ex.baseKg;
-        let setsRowsHtml = '';
-        for (let s = 0; s < totalSets; s++) {
-          const target = computeRPTarget(activeDay, ex, s, activeWeek);
-          const saved = exLogs[s] || {};
-          const isSetDone = !!saved.completed;
-          const valKg = (saved.kg !== undefined && saved.kg !== '') ? saved.kg : target.sugKg;
-          if (s === 0) firstSetWorkKg = valKg;
-          const eqSaved = (!isSetDone && valKg !== target.sugKg) ? computeEquivalentRepsRange(target.sugKg, target.sugReps, valKg) : null;
-          const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : (eqSaved ? eqSaved.mid : target.sugReps);
-          const shownBadge = eqSaved
-            ? `⚖️ Con ${valKg}kg ➔ ${eqSaved.lo}-${eqSaved.hi} reps (${returnMode ? 'RIR 2' : w.rir})`
-            : target.badge;
-
-          setsRowsHtml += `
-            <div class="grid grid-cols-12 items-center gap-1.5 py-1.5 px-2 rounded-xl border transition ${isSetDone ? 'bg-emerald-950/35 border-emerald-500/40' : 'bg-zinc-950/80 border-zinc-800/80'}">
-              <div class="col-span-1 text-center">
-                <span class="text-xs font-black ${isSetDone ? 'text-emerald-400' : 'text-zinc-500'}">${s + 1}</span>
-              </div>
-              <div class="col-span-5 pr-1">
-                <span id="badge_${ex.id}_${s}" class="text-[10px] ${saved.isPR ? 'font-extrabold text-amber-300' : (eqSaved ? 'font-extrabold text-amber-300' : (isSetDone ? 'font-semibold text-emerald-300' : 'font-semibold text-zinc-400'))} block leading-tight">${saved.isPR ? '🏆 PR! ' + shownBadge : shownBadge}</span>
-              </div>
-              <div class="col-span-2">
-                <input id="kg_${ex.id}_${s}" type="text" inputmode="decimal" value="${valKg}"
-                  data-ref-kg="${target.sugKg}" data-ref-reps="${target.sugReps}" data-orig-badge="${target.badge.replace(/"/g, '&quot;')}"
-                  oninput="onKgInputLive('${ex.id}', ${s})"
-                  onchange="updateSetInput('${ex.id}', ${s})"
-                  class="w-full bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-lg py-1.5 px-1 text-center text-xs font-black focus:outline-none focus:border-rose-500">
-              </div>
-              <div class="col-span-2">
-                <input id="reps_${ex.id}_${s}" type="number" inputmode="numeric" value="${valReps}"
-                  onchange="updateSetInput('${ex.id}', ${s})"
-                  class="w-full bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-lg py-1.5 px-1 text-center text-xs font-black focus:outline-none focus:border-rose-500">
-              </div>
-              <div class="col-span-2 flex justify-end">
-                <button onclick="toggleSetComplete('${ex.id}', ${s}, ${ex.restSec})"
-                  class="w-9 h-8 rounded-xl font-black text-xs flex items-center justify-center transition active:scale-90 ${isSetDone ? 'bg-emerald-500 text-zinc-950 shadow shadow-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-400 border border-zinc-700'}">
-                  ✓
-                </button>
-              </div>
-            </div>
-          `;
-        }
-
-        const stepsListHtml = (ex.steps || []).map((st, i) => `
-          <li class="flex items-start gap-2">
-            <span class="w-4 h-4 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">${i + 1}</span>
-            <span>${st}</span>
-          </li>
-        `).join('');
-
-        const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.videoQuery || ex.nombre)}`;
-        const warmupBodyHtml = idx === 0
-          ? `<div id="warmcalc_${ex.id}">${renderWarmupHtml(ex, firstSetWorkKg)}</div>`
-          : `<strong class="text-amber-400">Aproximación sugerida:</strong> ${ex.warmup}`;
-
-        return `
-          <article class="bg-zinc-900/90 border ${isOptionalExpress ? 'border-zinc-800/50 opacity-75' : 'border-zinc-800'} rounded-3xl p-3.5 space-y-2.5 shadow-md">
-            <!-- Card Top -->
-            <div class="flex items-start justify-between gap-2">
-              <div class="flex items-start gap-2.5">
-                <span class="w-6 h-6 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
-                <div>
-                  <h3 class="text-sm font-black text-white leading-snug">${ex.nombre}</h3>
-                  <p class="text-[11px] text-zinc-400 font-medium">${ex.musculo}</p>
-                  ${ex.isReplaced ? `<span class="inline-block mt-1 text-[10px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">🔄 Reemplazo activo (${ex.altNote || ''})</span>` : ''}
-                  ${isOptionalExpress ? `<span class="inline-block mt-1 text-[10px] font-bold text-amber-200 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">⚡ Express: opcional si te queda tiempo</span>` : ''}
-                </div>
-              </div>
-              <span class="shrink-0 text-[10px] font-black px-2 py-0.5 rounded-lg bg-zinc-800 text-rose-300 border border-zinc-700">${ex.painMode ? 'RIR 3' : (returnMode ? 'RIR 2' : w.rir)}</span>
-            </div>
-
-            ${historyPillHtml}
-            ${painBoxHtml}
-
-            <!-- Helper Pills: Warmup | Execution + Video | 1-Tap Ocupada / Molestia | Ask Coach -->
-            <div class="flex flex-wrap items-center gap-1.5">
-              <button onclick="toggleDrawer('warm_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition">
-                ${idx === 0 ? '🔥 Calentamiento auto' : '🔥 Calentamiento'}
-              </button>
-              <button onclick="toggleDrawer('guide_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-rose-300 border border-zinc-800 transition">
-                📖 Técnica + Video
-              </button>
-              <button onclick="quickSwap('${ex.id}','ocupada')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 transition">
-                🔄 Ocupada
-              </button>
-              <button onclick="quickSwap('${ex.id}','molestia')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-orange-300 border border-orange-500/30 transition">
-                ⚠️ Molestia
-              </button>
-              <button onclick="openReplacementsModal('${ex.id}')" class="text-[10px] font-bold px-2 py-1 rounded-xl text-zinc-400 hover:text-zinc-200 transition">
-                ▾ Más opciones
-              </button>
-              ${(ex.isReplaced || ex.painMode) ? `<button onclick="revertQuickSwap('${ex.id}')" class="text-[10px] font-extrabold px-2.5 py-1 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition">↩️ Original</button>` : ''}
-              <button onclick="askAboutExercise('${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-emerald-300 border border-zinc-800 transition">
-                💬 Dudas / Peso
-              </button>
-            </div>
-
-            <!-- Warmup Drawer -->
-            <div id="warm_${ex.id}" class="hidden bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5 text-[11px] text-zinc-300 leading-snug">
-              ${warmupBodyHtml}
-            </div>
-
-            <!-- Execution & Video Drawer -->
-            <div id="guide_${ex.id}" class="hidden bg-zinc-950 border border-rose-500/25 rounded-2xl p-3 space-y-2.5 text-[11px] text-zinc-300">
-              <ul class="space-y-1.5">${stepsListHtml}</ul>
-              <a href="${ytUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-rose-300 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 px-3 py-1.5 rounded-xl transition">
-                <span>▶️</span><span>Ver demostración corta en YouTube</span>
-              </a>
-            </div>
-
-            <!-- Sets Header -->
-            <div class="space-y-1.5">
-              <div class="grid grid-cols-12 px-2 text-[9px] font-extrabold uppercase tracking-wider text-zinc-500">
-                <div class="col-span-1 text-center">#</div>
-                <div class="col-span-5">Referencia / Equivalencia</div>
-                <div class="col-span-2 text-center">${ex.unit === 'corporal' ? 'PESO' : 'KG'}</div>
-                <div class="col-span-2 text-center">REPS</div>
-                <div class="col-span-2 text-right pr-2">OK</div>
-              </div>
-              ${setsRowsHtml}
-            </div>
-
-            <!-- Add/Remove Set Controls -->
-            <div class="flex items-center justify-between pt-1">
-              <span class="text-[10px] text-zinc-500 font-medium">⏱️ Descanso: ${ex.restSec}s</span>
-              <div class="flex items-center gap-1.5">
-                <button onclick="changeSetCount('${ex.id}', -1)" class="text-[10px] font-bold text-zinc-400 hover:text-zinc-200 bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded-lg">- Serie</button>
-                <button onclick="changeSetCount('${ex.id}', 1)" class="text-[10px] font-bold text-zinc-300 hover:text-white bg-zinc-950 border border-zinc-800 px-2 py-0.5 rounded-lg">+ Serie</button>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
+      exContainer.dataset.week = activeWeek;
+      exContainer.dataset.day = activeDay;
+      exContainer.innerHTML = dayObj.exercises.map((rawEx, idx) => renderSingleExerciseCard(rawEx, idx)).join('');
 
       // Session Cardio Block
       const todayKey = getTodayKey();
       const savedCardioToday = cardioMap[todayKey];
       const cDef = dayObj.cardioDefault;
       document.getElementById('session-cardio-card').innerHTML = `
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-2">
           <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider ${cDef.required ? 'text-emerald-400' : 'text-zinc-400'}">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider ${cDef.required ? 'text-emerald-400' : 'text-zinc-400'}">
               ${cDef.required ? '🏃‍♀️ Bloque Cardio del Día' : '🏃‍♀️ Cardio Post-Pesas (Opcional)'}
             </span>
             <h3 class="text-sm font-black text-white mt-0.5">${cDef.desc}</h3>
           </div>
-          ${savedCardioToday ? '<span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Hecho ✓</span>' : ''}
+          ${savedCardioToday ? '<span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shrink-0">Hecho ✓</span>' : ''}
         </div>
         <div class="flex items-center gap-2">
-          <input id="session-cardio-min" type="number" inputmode="numeric" value="${savedCardioToday?.minutes || cDef.minutes}" class="w-20 bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-2 text-xs font-black text-white text-center">
+          <input id="session-cardio-min" type="number" inputmode="numeric" value="${savedCardioToday?.minutes || cDef.minutes}" class="w-20 min-h-[42px] bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-2 text-base font-black text-white text-center tabular-nums">
           <span class="text-xs text-zinc-400 font-semibold">min</span>
-          <button onclick="toggleSessionCardio('${cDef.desc.replace(/'/g, '')}')" class="flex-1 py-2 rounded-xl text-xs font-extrabold transition ${savedCardioToday ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700'}">
+          <button type="button" onclick="toggleSessionCardio('${cDef.desc.replace(/'/g, '')}')" class="flex-1 min-h-[42px] py-2 rounded-xl text-xs font-extrabold transition ${savedCardioToday ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700'}">
             ${savedCardioToday ? '✓ Cardio Registrado Hoy' : 'Marcar Cardio Completado'}
           </button>
         </div>
@@ -2529,9 +2549,171 @@
         : `Finalizar ${dayObj.shortLabel} & Check RP`;
     }
 
-    function toggleDrawer(id) {
+    function patchSetRowDOM(exId, setIdx) {
+      const row = document.querySelector(`[data-ex-id="${exId}"][data-set-idx="${setIdx}"]`);
+      if (!row) return false;
+      const rawEx = BASE_ROUTINE[activeDay]?.exercises?.find(e => e.id === exId);
+      if (!rawEx) return false;
+      const eff = getEffectiveExercise(activeDay, rawEx);
+      const w = getWeekObj(activeWeek);
+      const target = computeRPTarget(activeDay, eff, setIdx, activeWeek);
+      const saved = allLogs?.[activeWeek]?.[activeDay]?.[exId]?.[setIdx] || {};
+      const isSetDone = !!saved.completed;
+      const valKg = (saved.kg !== undefined && saved.kg !== '') ? saved.kg : target.sugKg;
+      const eqSaved = (!isSetDone && valKg !== target.sugKg) ? computeEquivalentRepsRange(target.sugKg, target.sugReps, valKg) : null;
+      const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : (eqSaved ? eqSaved.mid : target.sugReps);
+      const cleanRef = formatCleanSetRef(target, eff);
+      const shownBadge = eqSaved ? `⚖️ ${eqSaved.lo}-${eqSaved.hi} reps` : cleanRef;
+
+      row.className = `grid grid-cols-12 items-center gap-1.5 py-1.5 px-2 min-h-[48px] rounded-xl border transition ${isSetDone ? 'bg-emerald-950/35 border-emerald-500/40' : 'bg-zinc-950/80 border-zinc-800/80'}`;
+
+      const numEl = document.getElementById(`setnum_${exId}_${setIdx}`);
+      if (numEl) numEl.className = `text-xs font-black ${isSetDone ? 'text-emerald-400' : 'text-zinc-500'}`;
+
+      const badgeEl = document.getElementById(`badge_${exId}_${setIdx}`);
+      if (badgeEl) {
+        badgeEl.className = `text-[11px] truncate ${saved.isPR ? 'font-extrabold text-amber-300' : (eqSaved ? 'font-extrabold text-amber-300' : (isSetDone ? 'font-semibold text-emerald-300' : 'font-semibold text-zinc-400'))} block leading-tight`;
+        badgeEl.textContent = saved.isPR ? `🏆 PR! ${shownBadge}` : shownBadge;
+      }
+
+      const kgEl = document.getElementById(`kg_${exId}_${setIdx}`);
+      if (kgEl) {
+        if (document.activeElement !== kgEl) kgEl.value = valKg;
+        kgEl.dataset.refKg = target.sugKg;
+        kgEl.dataset.refReps = target.sugReps;
+        kgEl.dataset.origBadge = cleanRef;
+        kgEl.className = `w-full h-[42px] min-h-[42px] bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-xl px-1 text-center text-base font-black tabular-nums focus:outline-none focus:border-rose-500`;
+      }
+
+      const repsEl = document.getElementById(`reps_${exId}_${setIdx}`);
+      if (repsEl) {
+        if (document.activeElement !== repsEl) repsEl.value = valReps;
+        repsEl.className = `w-full h-[42px] min-h-[42px] bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-xl px-1 text-center text-base font-black tabular-nums focus:outline-none focus:border-rose-500`;
+      }
+
+      const chkEl = document.getElementById(`chk_${exId}_${setIdx}`);
+      if (chkEl) {
+        chkEl.className = `w-[42px] h-[42px] min-w-[42px] min-h-[42px] rounded-xl font-black text-sm flex items-center justify-center transition active:scale-90 ${isSetDone ? 'bg-emerald-500 text-zinc-950 shadow shadow-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700'}`;
+      }
+
+      if (setIdx === 0) {
+        const warmEl = document.getElementById(`warmcalc_${exId}`);
+        if (warmEl && BASE_ROUTINE[activeDay]?.exercises?.[0]?.id === exId) {
+          warmEl.innerHTML = renderWarmupHtml(eff, valKg);
+        }
+      }
+      return true;
+    }
+
+    function patchExerciseCardDOM(exId) {
+      const cardEl = document.getElementById(`ex_card_${exId}`);
+      const exercises = BASE_ROUTINE[activeDay]?.exercises || [];
+      const idx = exercises.findIndex(e => e.id === exId);
+      if (!cardEl || idx === -1) {
+        renderActiveWorkout();
+        return;
+      }
+      const prevFocusId = document.activeElement?.id || null;
+      cardEl.outerHTML = renderSingleExerciseCard(exercises[idx], idx);
+      if (prevFocusId) {
+        const el = document.getElementById(prevFocusId);
+        if (el) try { el.focus(); } catch (e) {}
+      }
+    }
+
+    function syncLogsSurgically() {
+      const exContainer = document.getElementById('exercises-container');
+      if (!exContainer || exContainer.dataset.week !== activeWeek || exContainer.dataset.day !== activeDay) {
+        renderActiveWorkout();
+        return;
+      }
+      const exercises = BASE_ROUTINE[activeDay]?.exercises || [];
+      exercises.forEach(rawEx => {
+        const rows = exContainer.querySelectorAll(`[data-ex-id="${rawEx.id}"]`);
+        rows.forEach(row => {
+          const sIdx = parseInt(row.dataset.setIdx, 10);
+          if (!isNaN(sIdx)) patchSetRowDOM(rawEx.id, sIdx);
+        });
+      });
+    }
+
+    function toggleDrawer(id, forceOpen = null) {
       const el = document.getElementById(id);
-      if (el) el.classList.toggle('hidden');
+      if (!el) return;
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : el.classList.contains('hidden');
+      el.classList.toggle('hidden', !shouldOpen);
+      if (shouldOpen) openDrawers.add(id);
+      else openDrawers.delete(id);
+    }
+
+    function openExerciseOptionsSheet(exId) {
+      const dayObj = BASE_ROUTINE[activeDay];
+      const rawEx = dayObj?.exercises?.find(e => e.id === exId);
+      if (!rawEx) return;
+      const effEx = getEffectiveExercise(activeDay, rawEx);
+      const currAltIdx = activeReplacements?.[activeDay]?.[exId];
+      const manualDelta = extraSetsMap?.[activeWeek]?.[activeDay]?.[exId] || 0;
+      const idx = dayObj.exercises.findIndex(e => e.id === exId);
+      const expressDelta = (expressMode && idx >= 2) ? -1 : 0;
+      const autoregDelta = getAutoregSetDelta(activeWeek, activeDay);
+      const autoDeltaForEx = getEffRirKey(activeWeek) === 'sem5' ? -1 : ((idx < 2 && autoregDelta !== 0) ? autoregDelta : 0);
+      const totalSets = Math.max(1, Math.min(6, effEx.series + autoDeltaForEx + expressDelta + manualDelta));
+
+      const altsHtml = (rawEx.alternativas || []).map((alt, i) => {
+        const isSel = currAltIdx === i;
+        return `
+          <button type="button" onclick="applyReplacementFromSheet('${exId}', ${i})" class="w-full min-h-[44px] p-3 rounded-2xl border text-left transition ${isSel ? 'border-amber-500 bg-amber-500/15 text-white' : 'border-zinc-800 bg-zinc-950 text-zinc-200 hover:border-zinc-700'}">
+            <span class="text-xs font-black block">🔄 ${MaleCore.escapeHtml(alt.nombre)}</span>
+            <span class="text-[11px] text-amber-300 font-semibold block">Equivalencia: ${MaleCore.escapeHtml(alt.baseKg)} ${MaleCore.escapeHtml(rawEx.unit)}</span>
+            <span class="text-[11px] text-zinc-400 block mt-0.5">${MaleCore.escapeHtml(alt.nota || '')}</span>
+          </button>
+        `;
+      }).join('');
+
+      const html = `
+        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-3 flex items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-black text-white block">Series de hoy</span>
+            <span class="text-[11px] text-zinc-400">Actual: <strong id="sheet-sets-count" class="text-rose-300">${totalSets}</strong> series</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="changeSetCount('${exId}', -1)" class="min-w-[42px] min-h-[42px] rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-black text-base border border-zinc-700">−</button>
+            <button type="button" onclick="changeSetCount('${exId}', 1)" class="min-w-[42px] min-h-[42px] rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-black text-base border border-zinc-700">+</button>
+          </div>
+        </div>
+
+        <button type="button" onclick="MaleCore.closeSheet(); askAboutExercise('${exId}');" class="w-full min-h-[44px] px-3.5 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/35 text-emerald-200 text-xs font-black flex items-center justify-between">
+          <span>💬 Preguntar al Coach RP sobre este ejercicio</span>
+          <span>➔</span>
+        </button>
+
+        <div class="space-y-1.5">
+          <span class="text-[11px] font-extrabold uppercase tracking-wider text-zinc-400 block">Alternativas en Fiter</span>
+          <button type="button" onclick="applyReplacementFromSheet('${exId}', null)" class="w-full min-h-[44px] p-3 rounded-2xl border text-left transition ${currAltIdx === undefined || currAltIdx === null ? 'border-emerald-500 bg-emerald-500/15 text-white' : 'border-zinc-800 bg-zinc-950 text-zinc-300'}">
+            <span class="text-xs font-black block">⭐ Original: ${MaleCore.escapeHtml(rawEx.nombre)}</span>
+            <span class="text-[11px] text-zinc-400">Carga base: ${MaleCore.escapeHtml(rawEx.baseKg)} ${MaleCore.escapeHtml(rawEx.unit)}</span>
+          </button>
+          ${altsHtml}
+        </div>
+
+        <div class="grid ${(effEx.isReplaced || effEx.painMode) ? 'grid-cols-2' : 'grid-cols-1'} gap-2 pt-1">
+          ${(effEx.isReplaced || effEx.painMode) ? `<button type="button" onclick="MaleCore.closeSheet(); revertQuickSwap('${exId}');" class="min-h-[44px] px-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 text-emerald-200 text-xs font-extrabold">↩️ Volver al original</button>` : ''}
+          <button type="button" onclick="MaleCore.closeSheet(); skipExerciseToday('${exId}');" class="min-h-[44px] px-3 rounded-2xl bg-amber-500/15 border border-amber-500/35 text-amber-200 text-xs font-extrabold">⏭️ Saltear hoy por molestia</button>
+        </div>
+      `;
+
+      MaleCore.openSheet({
+        dark: true,
+        title: effEx.nombre,
+        subtitle: effEx.musculo,
+        html
+      });
+    }
+
+    function applyReplacementFromSheet(exId, idx) {
+      currentReplacementExId = exId;
+      applyReplacement(idx);
+      MaleCore.closeSheet();
     }
 
     // ==========================================
@@ -2596,11 +2778,13 @@
       }
 
       persistLogs(exId);
-      renderActiveWorkout();
+      if (!patchSetRowDOM(exId, setIdx)) {
+        patchExerciseCardDOM(exId);
+      }
 
       if (slot.completed) {
         const secs = restSec || 90;
-        const typeLabel = secs >= 120 ? 'Compuesto • 🔒 Pantalla activa' : 'Aislado • 🔒 Pantalla activa';
+        const typeLabel = secs >= 120 ? 'Compuesto' : 'Aislado';
         startRestTimer(secs, typeLabel);
       }
     }
@@ -2617,23 +2801,38 @@
       extraSetsMap[activeWeek][activeDay][exId] = Math.max(-2, Math.min(3, curr + delta));
       localStorage.setItem('mg_extrasets_v2', JSON.stringify(extraSetsMap));
       db.ref(`gym_v2/extra_sets/${activeWeek}/${activeDay}/${exId}`).set(extraSetsMap[activeWeek][activeDay][exId]).catch(() => {});
-      renderActiveWorkout();
+      patchExerciseCardDOM(exId);
+      const sheetCountEl = document.getElementById('sheet-sets-count');
+      if (sheetCountEl) {
+        const card = document.getElementById(`ex_card_${exId}`);
+        if (card) sheetCountEl.textContent = String(card.querySelectorAll(`[data-ex-id="${exId}"]`).length);
+      }
     }
 
-    // Rest Timer (Wall-Clock Driftless + Background Persistence)
+    // Rest Timer (Wall-Clock Driftless + Background Persistence + Sound/Pulse)
     let restInterval = null;
     let restRemaining = 0;
     let restTotal = 90;
     let restEndAt = 0;
     let restBaseLabel = 'Descanso RP';
+    let restDoneHideTimeout = null;
+    let restSoundEnabled = localStorage.getItem('mg_rest_sound') !== '0';
     const REST_STORAGE_KEY = 'mg_active_rest_v1';
+
+    function toggleRestSound() {
+      restSoundEnabled = !restSoundEnabled;
+      localStorage.setItem('mg_rest_sound', restSoundEnabled ? '1' : '0');
+      const btn = document.getElementById('rest-sound-btn');
+      if (btn) btn.textContent = restSoundEnabled ? '🔔' : '🔕';
+      showToast(restSoundEnabled ? '🔔 Sonido suave al terminar activado' : '🔕 Timer en silencio (solo vibración)');
+    }
 
     function refreshRestTimerWakeBadge() {
       const lblEl = document.getElementById('rest-timer-label');
       if (!lblEl) return;
       const statusText = isWakeLockHeld()
         ? '🔒 Pantalla activa'
-        : (workoutWakeActive && 'wakeLock' in navigator ? '🔓 Tocá para fijar pantalla' : '⏱️ Reloj en tiempo real');
+        : (workoutWakeActive && 'wakeLock' in navigator ? '🔓 Tocá para fijar' : '⏱️ Tiempo real');
       lblEl.textContent = `${restBaseLabel} • ${statusText}`;
     }
 
@@ -2653,12 +2852,18 @@
 
     function startRestTimer(seconds, labelHint = 'Descanso RP') {
       clearInterval(restInterval);
+      clearTimeout(restDoneHideTimeout);
+      const bar = document.getElementById('rest-timer-bar');
+      if (bar) {
+        bar.classList.remove('mc-timer-done-pulse', 'hidden');
+      }
+      const soundBtn = document.getElementById('rest-sound-btn');
+      if (soundBtn) soundBtn.textContent = restSoundEnabled ? '🔔' : '🔕';
       restBaseLabel = String(labelHint || 'Descanso RP').split('•')[0].trim() || 'Descanso RP';
       restTotal = Math.max(5, Number(seconds) || 90);
       restEndAt = Date.now() + restTotal * 1000;
       restRemaining = restTotal;
       persistActiveRestTimer();
-      document.getElementById('rest-timer-bar').classList.remove('hidden');
       refreshRestTimerWakeBadge();
       updateRestTimerUI();
 
@@ -2674,10 +2879,29 @@
       const msLeft = restEndAt - Date.now();
       restRemaining = Math.max(0, Math.ceil(msLeft / 1000));
       if (msLeft <= 0) {
-        stopRestTimer();
-        playTimerChime();
+        clearInterval(restInterval);
+        restInterval = null;
+        restEndAt = 0;
+        restRemaining = 0;
+        try { localStorage.removeItem(REST_STORAGE_KEY); } catch (e) {}
+
+        const bar = document.getElementById('rest-timer-bar');
+        const lbl = document.getElementById('rest-timer-label');
+        const clk = document.getElementById('rest-timer-clock');
+        const prog = document.getElementById('rest-timer-progress');
+        if (bar) bar.classList.add('mc-timer-done-pulse');
+        if (lbl) lbl.textContent = '⚡ ¡Tiempo cumplido! Lista para tu serie';
+        if (clk) clk.textContent = '00:00';
+        if (prog) prog.style.width = '100%';
+
+        if (restSoundEnabled) playTimerChime();
         if (navigator.vibrate) navigator.vibrate([220, 90, 220, 90, 300]);
         showToast('⚡ ¡Tiempo cumplido! Lista para la siguiente serie');
+
+        clearTimeout(restDoneHideTimeout);
+        restDoneHideTimeout = setTimeout(() => {
+          stopRestTimer();
+        }, 2200);
       } else {
         updateRestTimerUI();
       }
@@ -2685,6 +2909,9 @@
 
     function adjustRestTimer(delta) {
       if (!restEndAt) return;
+      clearTimeout(restDoneHideTimeout);
+      const bar = document.getElementById('rest-timer-bar');
+      if (bar) bar.classList.remove('mc-timer-done-pulse');
       restEndAt = Math.max(Date.now() + 5000, restEndAt + delta * 1000);
       restRemaining = Math.max(5, Math.ceil((restEndAt - Date.now()) / 1000));
       restTotal = Math.max(restTotal, restRemaining);
@@ -2694,11 +2921,16 @@
 
     function stopRestTimer() {
       clearInterval(restInterval);
+      clearTimeout(restDoneHideTimeout);
       restInterval = null;
       restEndAt = 0;
       restRemaining = 0;
       try { localStorage.removeItem(REST_STORAGE_KEY); } catch (e) {}
-      document.getElementById('rest-timer-bar').classList.add('hidden');
+      const bar = document.getElementById('rest-timer-bar');
+      if (bar) {
+        bar.classList.remove('mc-timer-done-pulse');
+        bar.classList.add('hidden');
+      }
     }
 
     function updateRestTimerUI() {
@@ -2804,13 +3036,14 @@
     }
 
     function applyReplacement(idx) {
+      const targetExId = currentReplacementExId;
       if (!activeReplacements[activeDay]) activeReplacements[activeDay] = {};
       if (idx === null) {
-        delete activeReplacements[activeDay][currentReplacementExId];
-        if (replacementDates[activeDay]) delete replacementDates[activeDay][currentReplacementExId];
+        delete activeReplacements[activeDay][targetExId];
+        if (replacementDates[activeDay]) delete replacementDates[activeDay][targetExId];
       } else {
-        activeReplacements[activeDay][currentReplacementExId] = idx;
-        if (replacementDates[activeDay]) delete replacementDates[activeDay][currentReplacementExId];
+        activeReplacements[activeDay][targetExId] = idx;
+        if (replacementDates[activeDay]) delete replacementDates[activeDay][targetExId];
       }
 
       localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
@@ -2818,7 +3051,7 @@
       db.ref(`gym_v2/replacements/${activeDay}`).set(activeReplacements[activeDay] || {}).catch(() => {});
       db.ref(`gym_v2/replacement_dates/${activeDay}`).set(replacementDates[activeDay] || {}).catch(() => {});
       closeReplacementsModal();
-      renderActiveWorkout();
+      patchExerciseCardDOM(targetExId);
       showToast('🔄 Ejercicio actualizado con equivalencia Fiter');
     }
 
@@ -2829,7 +3062,7 @@
       const { altIdx, tip } = pickQuickSwapAlt(exId, reason, activeBranch);
 
       if (reason === 'ocupada' && altIdx === -1) {
-        showToast('No hay reemplazo cargado: tocá 💬 Dudas / Peso');
+        showToast('Sin reemplazo directo: abrí 💬 Coach para adaptarlo');
         return;
       }
 
@@ -2856,7 +3089,7 @@
       const branchLabel = activeBranch === 'cid' ? 'Cid' : 'Almagro';
       const shortName = eff.nombre.split('(')[0].trim();
 
-      renderActiveWorkout();
+      patchExerciseCardDOM(exId);
       if (reason === 'molestia') {
         showToast(`⚠️ Modo cuidado: ${shortName} (${t0.sugKg} ${eff.unit === 'corporal' ? 'reps' : eff.unit} • RIR 3)`);
       } else {
@@ -2881,7 +3114,7 @@
         localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
         db.ref(`gym_v2/pain_flags/${today}/${exId}`).remove().catch(() => {});
       }
-      renderActiveWorkout();
+      patchExerciseCardDOM(exId);
       showToast('↩️ Ejercicio original restaurado');
     }
 
@@ -2892,7 +3125,7 @@
       painFlags[today][exId] = { ...curr, skip: true, at: Date.now() };
       localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
       db.ref(`gym_v2/pain_flags/${today}/${exId}`).set(painFlags[today][exId]).catch(() => {});
-      renderActiveWorkout();
+      patchExerciseCardDOM(exId);
       showToast('⏭️ Ejercicio salteado hoy por cuidado articular');
     }
 
@@ -2902,7 +3135,7 @@
         painFlags[today][exId].skip = false;
         localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
         db.ref(`gym_v2/pain_flags/${today}/${exId}`).set(painFlags[today][exId]).catch(() => {});
-        renderActiveWorkout();
+        patchExerciseCardDOM(exId);
         showToast('↩️ Ejercicio restaurado');
       }
     }
@@ -3208,9 +3441,15 @@
       if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
     }
 
-    function launchNextMesocycle() {
+    async function launchNextMesocycle() {
       const nextNum = activeMeso + 1;
-      if (!confirm(`¿Archivar el Mesociclo ${activeMeso} y arrancar el Mesociclo ${nextNum} en Semana 1 (RIR 3) con tus pesos nuevos calibrados?`)) return;
+      const ok = await MaleCore.confirmSheet({
+        dark: true,
+        title: `🚀 Iniciar Mesociclo ${nextNum}`,
+        message: `¿Archivar el Mesociclo ${activeMeso} y arrancar el Mesociclo ${nextNum} en Semana 1 (RIR 3) con tus pesos nuevos calibrados?`,
+        confirmLabel: `Arrancar Meso ${nextNum}`
+      });
+      if (!ok) return;
 
       const st = buildMesoWrappedStats();
       const snapshot = {
@@ -3315,7 +3554,7 @@
       m.classList.remove('flex');
     }
 
-    function advanceToNextWeek() {
+    async function advanceToNextWeek() {
       const done = countDone(activeWeek);
       const dec = decideWeekTransition(activeWeek, done, getEffRirKey(activeWeek));
       if (!dec.nextWeek) {
@@ -3323,19 +3562,32 @@
         showToast(dec.reason);
         return;
       }
-      if (!confirm(`${dec.reason}\n\n¿Querés pasar ahora a ${RP_WEEKS[dec.nextWeek].short}?`)) return;
-      applyWeekTransition(activeWeek, dec, 'manual');
       closeWeekMenuModal();
+      const ok = await MaleCore.confirmSheet({
+        dark: true,
+        title: `⏭️ Pasar a ${RP_WEEKS[dec.nextWeek].short}`,
+        message: dec.reason,
+        confirmLabel: `Pasar a ${RP_WEEKS[dec.nextWeek].short}`
+      });
+      if (!ok) return;
+      applyWeekTransition(activeWeek, dec, 'manual');
       showToast(`⏭️ ${dec.reason}`);
     }
 
-    function resetCurrentWeekProgress() {
-      if (!confirm(`¿Querés reiniciar los días marcados de ${RP_WEEKS[activeWeek].short} para arrancar limpia desde el Día 1?`)) return;
+    async function resetCurrentWeekProgress() {
+      closeWeekMenuModal();
+      const ok = await MaleCore.confirmSheet({
+        dark: true,
+        danger: true,
+        title: `🔄 Reiniciar ${RP_WEEKS[activeWeek].short}`,
+        message: `¿Querés reiniciar los días marcados de ${RP_WEEKS[activeWeek].short} para arrancar limpia desde el Día 1?`,
+        confirmLabel: 'Sí, reiniciar semana'
+      });
+      if (!ok) return;
       allCompleted[activeWeek] = {};
       localStorage.setItem('mg_completed_v2', JSON.stringify(allCompleted));
       db.ref(`gym_v2/completed/${activeWeek}`).remove().catch(() => {});
       selectDay('dia1');
-      closeWeekMenuModal();
       renderAll();
       showToast('🔄 Semana reiniciada al Día 1');
     }
@@ -3368,12 +3620,19 @@
       setStepsForToday(curr + amount);
     }
 
-    function promptExactSteps() {
+    async function promptExactSteps() {
       const todayKey = getTodayKey();
       const curr = stepsMap[todayKey]?.steps || 0;
-      const val = prompt('Ingresá tus pasos totales de hoy (según tu celu/reloj):', curr);
-      if (val !== null && !isNaN(parseInt(val))) {
-        setStepsForToday(Math.max(0, parseInt(val)));
+      const val = await MaleCore.promptSheet({
+        dark: true,
+        title: '👣 Editar pasos de hoy',
+        message: 'Ingresá tus pasos totales según tu celu o reloj:',
+        defaultValue: String(curr),
+        inputType: 'number',
+        confirmLabel: 'Guardar pasos'
+      });
+      if (val !== null && val !== '' && !isNaN(parseInt(val, 10))) {
+        setStepsForToday(Math.max(0, parseInt(val, 10)));
       }
     }
 
@@ -3550,9 +3809,9 @@
         document.getElementById(`view-${v}`).classList.toggle('hidden', v !== view);
         const btn = document.getElementById(`nav-${v}`);
         if (v === view) {
-          btn.className = 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition';
+          btn.className = 'min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-rose-400 bg-rose-500/10 font-extrabold transition';
         } else {
-          btn.className = 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition';
+          btn.className = 'min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-zinc-400 hover:text-zinc-200 font-bold transition';
         }
       });
       if (view === 'coach') scrollGymChatBottom();
@@ -3927,9 +4186,9 @@ ${fullCatalogLines}`;
       db.ref('.info/connected').on('value', snap => {
         const ok = snap.val() === true;
         const dot = document.getElementById('sync-dot');
-        if (dot) dot.className = `w-1.5 h-1.5 rounded-full ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`;
+        if (dot) dot.className = `w-2 h-2 rounded-full shrink-0 ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`;
         const lbl = document.getElementById('sync-label');
-        if (lbl) lbl.textContent = ok ? 'RP Sync' : 'Local';
+        if (lbl) lbl.textContent = ok ? 'Sync' : 'Local';
       });
 
       // Remote routine overrides
@@ -3997,11 +4256,7 @@ ${fullCatalogLines}`;
         if (val) {
           allLogs = val;
           localStorage.setItem('mg_logs_v2', JSON.stringify(allLogs));
-          const ae = document.activeElement;
-          const isTypingSet = ae && ae.id && (ae.id.startsWith('kg_') || ae.id.startsWith('reps_'));
-          if (!isTypingSet) {
-            renderActiveWorkout();
-          }
+          syncLogsSurgically();
           renderProgressView();
         }
       });
