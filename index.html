@@ -96,10 +96,10 @@
           </a>
         </div>
 
-        <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm">
+        <button type="button" id="header-role-pill" onclick="handleRolePillTap()" class="flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm active:scale-95 transition">
           <span>🌸</span>
-          <span>Caritas</span>
-        </div>
+          <span id="header-role-label">Caritas</span>
+        </button>
       </div>
 
       <div class="flex items-center justify-between">
@@ -697,7 +697,7 @@
           </div>
 
           <div class="flex items-center justify-between pt-1 border-t border-blue-50 text-[11px] text-slate-500">
-            <span>Meta: 10 vasos (2.5L)</span>
+            <span id="water-goal-footer-label">Meta: 10 vasos (2.5L)</span>
             <button onclick="resetWater()" class="text-rose-500 hover:underline font-medium">Reiniciar día</button>
           </div>
         </div>
@@ -1644,6 +1644,35 @@
       </div>
     </div>
 
+    <!-- ============================================== -->
+    <!-- MODAL 10: MODO NAZA SILENCIOSO (SOLO LECTURA)  -->
+    <!-- ============================================== -->
+    <div id="modal-modo-naza" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+      <div class="bg-white rounded-3xl p-4 sm:p-5 max-w-md w-full border border-purple-200 shadow-2xl space-y-3 max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between pb-2 border-b border-purple-100 shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center text-base">🛠️</div>
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900">Modo Naza — Tablero Silencioso</h3>
+              <p class="text-[10px] text-slate-500 font-medium">Solo lectura: adherencia, alertas articulares & backup</p>
+            </div>
+          </div>
+          <button onclick="closeModoNazaModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">✕</button>
+        </div>
+        <div id="modo-naza-content" class="overflow-y-auto space-y-3 pr-1 flex-1 text-slate-800 text-xs">
+          <!-- Renderizado dinámicamente -->
+        </div>
+        <div class="pt-2 border-t border-slate-100 flex items-center gap-2 shrink-0">
+          <button onclick="downloadFullFirebaseBackup()" class="flex-1 py-2 px-3 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-[11px] rounded-xl transition flex items-center justify-center gap-1.5">
+            <span>💾</span><span>Backup JSON</span>
+          </button>
+          <button onclick="toggleRoleFromNazaModal()" id="btn-naza-chat-role" class="py-2 px-3 bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold text-[11px] rounded-xl transition">
+            Escribir como Naza 💕
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -2218,6 +2247,12 @@ ${formatted.join('\n')}
     // ESTADO DE ENTRENAMIENTO EN VIVO (CROSS-APP BRIDGE GYM V2)
     // ==========================================
     let gymBridgeToday = null;
+    let gymV2State = {};
+    let gymV2Completed = {};
+    let gymV2Logs = {};
+    let gymV2PainFlags = {};
+    let nutriRecentLogs = {};
+    let showNightlyPreviewManual = false;
 
     function initGymBridgeListener() {
       const todayKey = getTodayDateKey();
@@ -2226,7 +2261,15 @@ ${formatted.join('\n')}
         renderGymBridgeCard();
         renderDynamicDayFocusCard();
         updateHeaderBridgeStatus();
+        renderWaterCups();
+        updateWaterUI();
+        updateWaterPacingUI();
       });
+      db.ref('gym_v2/state').on('value', snap => { gymV2State = snap.val() || {}; renderDynamicDayFocusCard(); });
+      db.ref('gym_v2/completed').on('value', snap => { gymV2Completed = snap.val() || {}; renderDynamicDayFocusCard(); });
+      db.ref('gym_v2/logs').on('value', snap => { gymV2Logs = snap.val() || {}; });
+      db.ref('gym_v2/pain_flags').limitToLast(25).on('value', snap => { gymV2PainFlags = snap.val() || {}; });
+      db.ref('nutri_v2/daily_logs').limitToLast(14).on('value', snap => { nutriRecentLogs = snap.val() || {}; });
     }
 
     function updateHeaderBridgeStatus() {
@@ -2284,17 +2327,37 @@ ${formatted.join('\n')}
     }
 
     function getGymContextForCoach() {
+      let lastSessTxt = 'Sin sesiones previas cargadas aún.';
+      let latestTs = 0;
+      Object.keys(gymV2Completed || {}).forEach(wk => {
+        Object.keys(gymV2Completed[wk] || {}).forEach(dk => {
+          const c = gymV2Completed[wk][dk];
+          if (c && c.completed && (c.completedAt || 0) > latestTs) {
+            latestTs = c.completedAt || 1;
+            lastSessTxt = `Última sesión registrada: ${c.dateKey || c.date || wk} -> ${wk} ${dk} (${c.dayTitle || dk}). Resumen: ${c.summary || ''}`;
+          }
+        });
+      });
+
+      const realMarksSummary = `MARCAS REALES DE MALE EN GYM (MESOCICLO 2 DE 5 DÍAS RP):
+- Día 1 (Glúteo A & Isquios): Hip Thrust máq. 25-30 kg en Fiter Almagro (x12,11,10) / 40 kg en Fiter Cid (x13,11,10) | RDL mancuernas 16 kg/mano (x11,11,9) | Seated Leg Curl 23 kg Almagro / 27 kg Cid (x13,12,11) | Abductores inclinada 72 kg Almagro / 62 kg Cid (x16-20).
+- Día 2 (Torso A + 20m Cinta): Jalón abierto 23 kg (x11,9,8) | Remo polea 18 kg (x11,11,9) | Press hombros máq. 9 kg (x11,10,8) | Vuelos laterales manc. 4 kg/mano (x10,9,8) | Face Pull 3 ladrillos (x12,11,11) | Dead Bugs (3x12).
+- Día 3 (Glúteo B & Piernas): Prensa 45° 100 kg (x12,11,11) | Sentadilla Búlgara 1 mancuerna en mano contraria 14 kg (x11,11,10) | Extensión cuádriceps 32 kg (x11,10,10) | Aductores 36 kg (x12,11,10) | Patada diagonal 30° polea 9.1 kg (x11,11,10).
+- Día 4 (Torso B + 25m Cinta): Jalón neutro 23 kg (x11,10,9) | Remo pecho apoyado 8 kg (x11,11,10) | Vuelos polea 4 kg (x11,11,10) | Posteriores / Face Pull 9 kg o 3 ladrillos.
+- Día 5 (Glúteo C "Forma de P" en Fiter Cid con Naza): Hip Thrust máq. Cid 40 kg (x15,13,11) | Extensión 32 kg (x10,9) | Sentadilla Smith 20 kg/lado (x10,10,10) | Hiperextensiones 10 kg (x15,15,14) | Leg Curl 27 kg (x12,10) | Abductores espalda pegada 50 kg (x15,15,14).
+- Semana actual en Male Gym: ${gymV2State.activeWeek || 'sem3'} | ${lastSessTxt}`;
+
       if (gymBridgeToday && gymBridgeToday.trainedToday) {
         return `ESTADO DE ENTRENAMIENTO HOY (APP MALE GYM):
 ✅ Male YA ENTRENÓ HOY: "${gymBridgeToday.dayTitle}".
-Resumen de la sesión completada: ${gymBridgeToday.summary || 'Sesión completa'}
+Resumen de hoy: ${gymBridgeToday.summary || 'Sesión completa'}
 Cardio hoy: ${gymBridgeToday.cardioMinutes ? gymBridgeToday.cardioMinutes + ' min cumplidos' : 'Completado'}.
-(Felicitala con enorme orgullo y cariño por haber cumplido).`;
+${realMarksSummary}`;
       } else {
         return `ESTADO DE ENTRENAMIENTO HOY (APP MALE GYM):
-⏳ Male hoy todavía no registró sesión en Male Gym.
-Tiene disponible su rutina del Mesociclo 2 de 5 días RP (Glúteo Proyección "Forma de P", V-Taper de Espalda y Piernas).
-Si Male pregunta qué hacer o sobre pesos y series, indicale con cariño que en su app dedicada 'Male Gym' tiene los videos de técnica, su cronómetro y sus marcas registradas.`;
+⏳ Male hoy todavía no cerró sesión en Male Gym.
+${realMarksSummary}
+Si Male te pregunta acá por un peso, repeticiones o qué día hacer hoy, RESPONDELE CON PRECISIÓN TOTAL usando sus marcas reales de arriba (y recordale que arriba en la pestaña 🍑 Gym ahora tiene el botón "🔍 Mis Pesos", ajuste automático Almagro/Cid y Coach RP autónomo).`;
       }
     }
 
@@ -2534,6 +2597,9 @@ REGLAS DE COHERENCIA NOVIEMBRE:
 
     // INICIALIZACIÓN AL CARGAR LA PÁGINA
     window.addEventListener('DOMContentLoaded', () => {
+      // INICIALIZACIÓN DE MODO NAZA SI VIENE EN URL
+      if (typeof checkUrlModoNaza === 'function') checkUrlModoNaza();
+
       // 1. Reset automático de agua, creatina y hábitos si es un nuevo día
       checkAndApplyDailyReset();
 
@@ -2858,12 +2924,110 @@ REGLAS DE COHERENCIA NOVIEMBRE:
       if (navigator.vibrate) navigator.vibrate(35);
     }
 
+    function getTomorrowDateKey(now = new Date()) {
+      const tom = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      return getTodayDateKey(tom);
+    }
+
+    function computeTomorrowGymPlan(now = new Date()) {
+      const tom = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      const tomDow = tom.getDay(); // 0 Sun .. 6 Sat
+      const wk = gymV2State?.activeWeek || 'sem3';
+      const compWk = gymV2Completed?.[wk] || {};
+      const allDays = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'];
+      const pending = allDays.filter(d => !compWk[d]?.completed);
+
+      if (pending.length === 0) {
+        return { shouldTrain: false, label: 'Semana 5/5 completa (descanso)' };
+      }
+      if (tomDow === 6 && pending.includes('dia5')) {
+        return { shouldTrain: true, dayKey: 'dia5', label: 'Día 5 (Glúteo C "Forma de P") con Naza', branch: 'cid' };
+      }
+      if (tomDow === 0) {
+        if (pending.includes('dia5')) {
+          return { shouldTrain: true, dayKey: 'dia5', label: 'Día 5 (Glúteo C "Forma de P") con Naza', branch: 'cid' };
+        }
+        return { shouldTrain: false, label: 'Domingo de descanso pleno' };
+      }
+      const lowerSet = ['dia1', 'dia3', 'dia5'];
+      const trainedLowerToday = !!(gymBridgeToday?.trainedToday && gymBridgeToday?.isLowerBody);
+      if (trainedLowerToday) {
+        const torsoPick = pending.find(d => d === 'dia2' || d === 'dia4');
+        if (torsoPick) {
+          const nm = torsoPick === 'dia2' ? 'Día 2 (Torso A + 20m Cinta)' : 'Día 4 (Torso B + 25m Cinta)';
+          return { shouldTrain: true, dayKey: torsoPick, label: nm, branch: 'almagro' };
+        }
+        return { shouldTrain: false, label: 'Descanso de piernas (hoy entrenaste tren inferior)' };
+      }
+      const firstPick = pending[0];
+      const names = {
+        dia1: 'Día 1 (Glúteo A & Isquios + Cinta)',
+        dia2: 'Día 2 (Torso A + 20m Cinta)',
+        dia3: 'Día 3 (Glúteo B & Piernas)',
+        dia4: 'Día 4 (Torso B + 25m Cinta)',
+        dia5: 'Día 5 (Glúteo C con Naza)'
+      };
+      return {
+        shouldTrain: true,
+        dayKey: firstPick,
+        label: names[firstPick] || firstPick,
+        branch: firstPick === 'dia5' ? 'cid' : 'almagro'
+      };
+    }
+
+    function buildNightlyChecklistItems(now = new Date()) {
+      const dayKeysMap = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const tom = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      const tomKey = dayKeysMap[tom.getDay()];
+      const tomDateKey = getTodayDateKey(tom);
+      const tomSched = WEEK_SCHEDULE[tomKey] || {};
+      const blocksTxt = (tomSched.blocks || []).map(b => `${b.titulo} ${b.desc} ${b.tag}`).join(' ').toLowerCase();
+      const gymPlan = computeTomorrowGymPlan(now);
+
+      const items = [];
+      const tomorrowExam = (typeof fechasClave !== 'undefined' && Array.isArray(fechasClave))
+        ? fechasClave.find(f => f.fecha === tomDateKey)
+        : null;
+
+      if (tomorrowExam) {
+        items.push({ id: 'examen', icon: '📄', label: `DNI, libreta y lapiceras listas para: ${tomorrowExam.titulo}` });
+      }
+      if (/clínica|clinica|periodoncia|cirugía|cirugia/.test(blocksTxt)) {
+        items.push({ id: 'clinica', icon: '🩺', label: 'Ambos limpios, barbijos/cofia y caja de instrumental / guantes' });
+      }
+      if (/cursada/.test(blocksTxt)) {
+        items.push({ id: 'taper', icon: '🍱', label: 'Táper proteico + fruta/snack anti-ansiedad para la facu' });
+      }
+      if (gymPlan.shouldTrain) {
+        const sedeStr = gymPlan.branch === 'cid' ? 'Fiter Cid con Naza' : 'Fiter Almagro';
+        items.push({ id: 'gym', icon: '👟', label: `Bolso Gym (${sedeStr}): calza, medias, botellita y auris — ${gymPlan.label}` });
+      }
+      items.push({ id: 'creatina', icon: '✨', label: 'Dejar a mano 5g creatina para el desayuno' });
+      items.push({ id: 'botella', icon: '💧', label: gymPlan.shouldTrain ? 'Botella de agua preparada (mañana objetivo 3.0 L)' : 'Botella de agua preparada (objetivo 2.5 L)' });
+
+      return items;
+    }
+
+    function toggleNightlyCheckItem(dateKey, itemId) {
+      const storageKey = 'mochila_checks_' + dateKey;
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      saved[itemId] = !saved[itemId];
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+      renderDynamicDayFocusCard();
+    }
+
+    function toggleNightlyChecklistPreview() {
+      showNightlyPreviewManual = !showNightlyPreviewManual;
+      renderDynamicDayFocusCard();
+    }
+
     function renderDynamicDayFocusCard() {
       const container = document.getElementById('dynamic-day-focus-card');
       if (!container) return;
 
       const info = getDayFocusInfo();
       const liters = (waterMl / 1000).toFixed(1);
+      const wTarget = typeof getWaterTargetToday === 'function' ? getWaterTargetToday() : { litersStr: '2.5', isBoost: false };
       const creatinaDone = localStorage.getItem('creatina_hoy') === 'true';
       const isGymDone = !!(gymBridgeToday && gymBridgeToday.trainedToday);
       const gymBadgeText = isGymDone ? '✓ Gym Hecho Hoy' : info.gymTag;
@@ -2882,6 +3046,35 @@ REGLAS DE COHERENCIA NOVIEMBRE:
           <div class="bg-amber-100/60 p-2.5 rounded-2xl border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-1.5 font-medium">
             <span class="text-xs">⚖️</span>
             <span><strong>Batería media:</strong> Ritmo constante y parejo. Cumplí lo básico del día sin sobreexigirte en exceso.</span>
+          </div>
+        `;
+      }
+
+      const now = new Date();
+      const isNightWindow = now.getHours() >= 20;
+      const tomDateKey = getTomorrowDateKey(now);
+      const tomDateLabel = new Date(now.getTime() + 86400000).toLocaleDateString('es-AR', { weekday: 'long' });
+      let nightlyHtml = '';
+      if (isNightWindow || showNightlyPreviewManual) {
+        const checklist = buildNightlyChecklistItems(now);
+        const savedChecks = JSON.parse(localStorage.getItem('mochila_checks_' + tomDateKey) || '{}');
+        nightlyHtml = `
+          <div class="bg-indigo-50/75 border border-indigo-200/80 rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10.5px] font-extrabold text-indigo-900">🎒 Checklist Mochila para mañana (${tomDateLabel})</span>
+              ${!isNightWindow ? '<button type="button" onclick="toggleNightlyChecklistPreview()" class="text-[10px] font-bold text-indigo-600">Ocultar</button>' : ''}
+            </div>
+            <div class="space-y-1.5">
+              ${checklist.map(it => {
+                const done = !!savedChecks[it.id];
+                return `
+                  <button type="button" onclick="toggleNightlyCheckItem('${tomDateKey}','${it.id}')" class="w-full text-left flex items-center gap-2 px-2.5 py-1.5 rounded-xl border text-[11px] transition ${done ? 'bg-emerald-50 border-emerald-200 text-emerald-800 line-through opacity-80' : 'bg-white border-indigo-100 text-slate-700 hover:bg-indigo-50/40'}">
+                    <span class="w-4 h-4 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${done ? 'bg-emerald-500 text-white' : 'border border-indigo-300 text-transparent'}">✓</span>
+                    <span>${it.icon} ${it.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
           </div>
         `;
       }
@@ -2916,6 +3109,7 @@ REGLAS DE COHERENCIA NOVIEMBRE:
         </div>
 
         ${batteryNoticeHtml}
+        ${nightlyHtml}
 
         <div class="flex items-center justify-between pt-1 border-t border-rose-100 text-[11px]">
           <span class="text-slate-600 flex items-center gap-1">
@@ -2924,9 +3118,12 @@ REGLAS DE COHERENCIA NOVIEMBRE:
               ${creatinaDone ? `Tomada ✔️ (Día ${getCreatineDay()})` : `100% Sat. (Día ${getCreatineDay()})`}
             </strong>
           </span>
-          <span class="text-slate-600 flex items-center gap-1">
-            <span>💧</span> Agua: <strong id="quick-water-count" class="text-rose-600 font-bold">${liters}L / 2.5L</strong>
-          </span>
+          <div class="flex items-center gap-2">
+            ${(!isNightWindow && !showNightlyPreviewManual) ? '<button type="button" onclick="toggleNightlyChecklistPreview()" class="text-[10px] font-bold text-indigo-600 hover:underline">🎒 Mochila mañana</button>' : ''}
+            <span class="text-slate-600 flex items-center gap-1">
+              <span>💧</span> Agua: <strong id="quick-water-count" class="${wTarget.isBoost ? 'text-sky-600' : 'text-rose-600'} font-bold">${liters}L / ${wTarget.litersStr}L</strong>
+            </span>
+          </div>
         </div>
       `;
     }
@@ -3225,9 +3422,10 @@ REGLAS DE COHERENCIA NOVIEMBRE:
       const typingIndicator = showTypingIndicator();
 
       const candidateModels = [
-        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash"
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
       ];
 
       const batteryNotice = currentBattery === 'reserva'
@@ -3303,18 +3501,21 @@ REGLAS DE COHERENCIA NOVIEMBRE:
               { text: `${getCoachSystemPrompt()}\n\n${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${topesContext}\n\n${victoriasContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"` }
             ]
           }
-        ]
+        ],
+        generationConfig: {
+          maxOutputTokens: 1200
+        }
       };
 
       let replyText = null;
       let lastApiError = null;
 
       try {
-        // Cascada de modelos invisible: mantiene 'Coach escribiendo...' hasta obtener respuesta (18s de tolerancia)
         for (const model of candidateModels) {
           try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 18000);
+            const timeoutMs = model === "gemini-3.6-flash" ? 12000 : 8000;
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
               method: "POST",
@@ -3342,12 +3543,12 @@ REGLAS DE COHERENCIA NOVIEMBRE:
           }
         }
 
-        // Reintento silencioso final con gemini-3.6-flash si ocurrió micro-corte (18s de tolerancia)
+        // Reintento silencioso final con gemini-flash-lite-latest si ocurrió micro-corte
         if (!replyText) {
           try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 18000);
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_KEY}`, {
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${GEMINI_KEY}`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),
@@ -3650,9 +3851,10 @@ REGLAS DE TONO Y ESTILO:
 
       let briefingText = null;
       const candidateModels = [
-        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash"
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
       ];
 
       for (const model of candidateModels) {
@@ -5967,9 +6169,10 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
 
       // Generar devolución con Gemini
       const candidateModels = [
-        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash"
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
       ];
 
       let feedbackText = null;
@@ -6180,13 +6383,20 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       }
     ];
 
+    function getWaterTargetToday() {
+      const trained = !!(gymBridgeToday && gymBridgeToday.trainedToday);
+      return trained
+        ? { ml: 3000, litersStr: '3.0', cups: 12, isBoost: true }
+        : { ml: 2500, litersStr: '2.5', cups: 10, isBoost: false };
+    }
+
     function getRecommendedCupsAtCurrentTime(now = new Date()) {
+      const target = getWaterTargetToday();
       const hour = now.getHours() + (now.getMinutes() / 60);
       if (hour < 8) return 0;
-      if (hour >= 21.5) return 10;
-      // Ventana activa de 8:00 a 21:30 (13.5 horas divididas en 9 intervalos de 90 min)
+      if (hour >= 21.5) return target.cups;
       const progress = (hour - 8) / 13.5;
-      return Math.min(10, Math.floor(1 + (progress * 9)));
+      return Math.min(target.cups, Math.floor(1 + (progress * (target.cups - 1))));
     }
 
     function renderWaterCups() {
@@ -6194,7 +6404,9 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       if (!container) return;
       container.innerHTML = '';
 
-      const totalCups = 10; // 10 x 250ml = 2500ml
+      const target = getWaterTargetToday();
+      const totalCups = target.cups;
+      container.className = totalCups === 12 ? 'grid grid-cols-6 gap-1.5 pt-0.5' : 'grid grid-cols-5 gap-2 pt-0.5';
       const filledCups = Math.min(totalCups, Math.floor(waterMl / 250));
 
       for (let i = 1; i <= totalCups; i++) {
@@ -6224,8 +6436,9 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
     }
 
     function addOneWaterCup() {
-      if (waterMl < 2500) {
-        waterMl = Math.min(2500, waterMl + 250);
+      const target = getWaterTargetToday();
+      if (waterMl < target.ml) {
+        waterMl = Math.min(target.ml, waterMl + 250);
         localStorage.setItem('water_ml', waterMl);
         localStorage.setItem('water_last_date', getTodayDateKey());
         updateWaterUI();
@@ -6247,10 +6460,17 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
     function updateWaterUI() {
       const display = document.getElementById('water-stat-display');
       const quick = document.getElementById('quick-water-count');
+      const footerLbl = document.getElementById('water-goal-footer-label');
       const liters = (waterMl / 1000).toFixed(1);
-      
-      if (display) display.innerText = `${liters} / 2.5 Litros`;
-      if (quick) quick.innerText = `${liters}L / 2.5L`;
+      const target = getWaterTargetToday();
+
+      if (display) display.innerText = `${liters} / ${target.litersStr} Litros${target.isBoost ? ' ⚡' : ''}`;
+      if (quick) quick.innerText = `${liters}L / ${target.litersStr}L`;
+      if (footerLbl) {
+        footerLbl.innerText = target.isBoost
+          ? `Meta Día de Entreno: ${target.cups} vasos (${target.litersStr}L) ⚡`
+          : `Meta: ${target.cups} vasos (${target.litersStr}L)`;
+      }
     }
 
     function initWaterReminders() {
@@ -6312,13 +6532,14 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       if (!pacingEl) return;
 
       const now = new Date();
+      const target = getWaterTargetToday();
       const currentCups = Math.floor(waterMl / 250);
       const recommendedCups = getRecommendedCupsAtCurrentTime(now);
 
-      if (currentCups >= 10) {
+      if (currentCups >= target.cups) {
         pacingEl.innerHTML = `
           <div class="bg-emerald-50 border border-emerald-200 p-2 rounded-xl flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-800">
-            <span>🎉</span> ¡Meta de 2.5L cumplida hoy! Hidratación impecable.
+            <span>🎉</span> ¡Meta de ${target.litersStr}L cumplida hoy! Hidratación impecable.
           </div>
         `;
       } else if (currentCups >= recommendedCups) {
@@ -6370,8 +6591,8 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
         return;
       }
 
-      // Si ya completó los 10 vasos (2500 ml), no insistir
-      if (waterMl >= 2500) {
+      // Si ya completó la meta diaria, no insistir
+      if (waterMl >= getWaterTargetToday().ml) {
         updateWaterPacingUI();
         return;
       }
@@ -6807,9 +7028,10 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       }
 
       const candidateModels = [
-        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash"
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
       ];
 
       const sosPrompt = `
@@ -6990,9 +7212,10 @@ Instrucciones para tu respuesta:
       }
 
       const candidateModels = [
-        "gemini-3.6-flash",
         "gemini-3.5-flash-lite",
-        "gemini-3.8-flash"
+        "gemini-flash-lite-latest",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash"
       ];
 
       const victoriaPrompt = `
@@ -7214,6 +7437,212 @@ INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
       }
       const box = document.getElementById('viaje-timer-box');
       if (box) box.classList.add('hidden');
+    }
+
+    // ==========================================
+    // 🛠️ MODO NAZA SILENCIOSO (SOLO LECTURA + ALERTAS + BACKUP)
+    // ==========================================
+    let _roleTapCount = 0;
+    let _roleTapTimer = null;
+
+    function handleRolePillTap() {
+      if (activeRole === 'naza') {
+        openModoNazaModal();
+        return;
+      }
+      _roleTapCount++;
+      clearTimeout(_roleTapTimer);
+      _roleTapTimer = setTimeout(() => { _roleTapCount = 0; }, 1200);
+      if (_roleTapCount >= 3) {
+        _roleTapCount = 0;
+        openModoNazaModal();
+      }
+    }
+
+    function checkUrlModoNaza() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('modo') === 'naza') {
+          setTimeout(() => openModoNazaModal(), 600);
+        }
+      } catch (e) {}
+    }
+
+    function analyzePainAlerts(completedMap, painFlagsMap, cutoffMs = Date.now() - 21 * 86400000) {
+      const grouped = {};
+      const addHit = (areaKey, label, dateKey, detail) => {
+        const k = String(areaKey || label || 'general').toLowerCase().trim();
+        if (!grouped[k]) grouped[k] = { area: label || areaKey, count: 0, events: [] };
+        grouped[k].count++;
+        grouped[k].events.push({ dateKey, detail });
+      };
+
+      Object.keys(completedMap || {}).forEach(wk => {
+        Object.keys(completedMap[wk] || {}).forEach(dk => {
+          const c = completedMap[wk][dk];
+          if (!c || !c.completed) return;
+          const dKey = c.dateKey || c.date || '';
+          const ts = c.completedAt || (dKey ? new Date(dKey + 'T12:00:00').getTime() : 0);
+          if (ts < cutoffMs) return;
+          const fb = c.rpFeedback || {};
+          const noteStr = fb.notes || '';
+          if (fb.joint && fb.joint !== 'cero') {
+            const area = fb.jointArea || c.dayTitle || dk;
+            addHit(area, area, dKey, `${fb.joint}: ${fb.jointArea || noteStr || c.dayTitle}`);
+          } else if (/molest|dolor|rodilla|rótula|rotula|lumbar/i.test(noteStr)) {
+            addHit(noteStr.slice(0, 28), dk + ' (nota)', dKey, noteStr);
+          }
+        });
+      });
+
+      Object.keys(painFlagsMap || {}).forEach(dateKey => {
+        const ts = new Date(dateKey + 'T12:00:00').getTime();
+        if (isNaN(ts) || ts < cutoffMs) return;
+        const dayMap = painFlagsMap[dateKey] || {};
+        Object.keys(dayMap).forEach(exId => {
+          const pf = dayMap[exId];
+          if (!pf) return;
+          addHit(exId, exId, dateKey, `${pf.skip ? 'Salteado' : 'Modo cuidado −20%'}: ${pf.tip || ''}`);
+        });
+      });
+
+      const list = Object.values(grouped).sort((a, b) => b.count - a.count);
+      return {
+        all: list,
+        repeated: list.filter(item => item.count >= 2)
+      };
+    }
+
+    function openModoNazaModal() {
+      const modal = document.getElementById('modal-modo-naza');
+      const box = document.getElementById('modo-naza-content');
+      if (!modal || !box) return;
+
+      const curWk = gymV2State?.activeWeek || 'sem3';
+      const curMeso = gymV2State?.activeMeso || 2;
+      const wkComp = gymV2Completed?.[curWk] || {};
+      const wkDone = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'].filter(d => wkComp[d]?.completed).length;
+
+      const recentSessions = [];
+      Object.keys(gymV2Completed || {}).forEach(wk => {
+        Object.keys(gymV2Completed[wk] || {}).forEach(dk => {
+          const c = gymV2Completed[wk][dk];
+          if (c && c.completed) recentSessions.push({ wk, dk, ...c });
+        });
+      });
+      recentSessions.sort((a, b) => (b.completedAt || 0) - (a.completedAt || 0));
+
+      const nutriDays = Object.entries(nutriRecentLogs || {}).filter(([, v]) => v && v.meals);
+      let avgKcal = 0;
+      let avgProt = 0;
+      if (nutriDays.length > 0) {
+        let sumK = 0, sumP = 0, valid = 0;
+        nutriDays.forEach(([, d]) => {
+          let k = 0, p = 0;
+          Object.values(d.meals || {}).forEach(m => {
+            if (m && m.eaten) { k += (m.kcal || 0); p += (m.p || 0); }
+          });
+          if (k > 300) { sumK += k; sumP += p; valid++; }
+        });
+        if (valid > 0) {
+          avgKcal = Math.round(sumK / valid);
+          avgProt = Math.round(sumP / valid);
+        }
+      }
+
+      const painAnalysis = analyzePainAlerts(gymV2Completed, gymV2PainFlags);
+      const roleBtn = document.getElementById('btn-naza-chat-role');
+      if (roleBtn) roleBtn.textContent = activeRole === 'naza' ? 'Volver a Modo Male 🌸' : 'Escribir como Naza 💕';
+
+      box.innerHTML = `
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Gym Actual</span>
+            <span class="text-xs font-black text-slate-900">Meso ${curMeso} • ${curWk}</span>
+            <span class="text-[10px] font-bold text-rose-600 block">${wkDone}/5 hechas</span>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Prom. Nutri</span>
+            <span class="text-xs font-black text-emerald-700">${avgKcal ? avgKcal + ' kcal' : 'Sin logs'}</span>
+            <span class="text-[10px] font-bold text-slate-500 block">${avgProt ? avgProt + 'g Prot' : '—'}</span>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-2">
+            <span class="text-[9px] font-bold text-slate-500 uppercase block">Último Gym</span>
+            <span class="text-xs font-black text-slate-900">${recentSessions[0]?.dateKey || '—'}</span>
+            <span class="text-[10px] font-bold text-slate-500 block">${recentSessions[0]?.tonnageKg ? recentSessions[0].tonnageKg + ' kg' : ''}</span>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-3 border ${painAnalysis.repeated.length > 0 ? 'bg-amber-50 border-amber-300' : 'bg-emerald-50/70 border-emerald-200'} space-y-1.5">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider ${painAnalysis.repeated.length > 0 ? 'text-amber-900' : 'text-emerald-800'} block">
+            🩺 Alertas Articulares / ⚠️ Molestia (Últimos 21 días)
+          </span>
+          ${painAnalysis.repeated.length > 0 ? `
+            <p class="text-[11px] font-bold text-amber-900">⚠️ Ojo: se repitieron molestias en:</p>
+            ${painAnalysis.repeated.map(r => `<div class="text-[11px] bg-white/80 rounded-xl px-2.5 py-1.5 border border-amber-200 text-amber-950 font-semibold">• <strong>${r.area}</strong> (${r.count} veces): ${r.events.map(e => e.dateKey).join(', ')}</div>`).join('')}
+          ` : (painAnalysis.all.length > 0
+            ? `<p class="text-[11px] text-slate-700">1 evento aislado reciente: ${painAnalysis.all.map(a => `${a.area} (${a.events[0]?.dateKey || ''})`).join(', ')}. Sin patrón repetido.</p>`
+            : `<p class="text-[11px] font-bold text-emerald-800">✅ 0 molestias repetidas registradas en las últimas 3 semanas.</p>`)}
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-1.5">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">🏋️‍♀️ Últimas 4 sesiones registradas</span>
+          ${recentSessions.slice(0, 4).map(s => `
+            <div class="bg-white border border-slate-200/80 rounded-xl px-2.5 py-1.5 text-[10.5px]">
+              <div class="flex justify-between font-extrabold text-slate-800">
+                <span>${s.wk.toUpperCase()} ${s.dk.toUpperCase()} (${s.dateKey || ''})</span>
+                <span class="text-rose-600">${s.tonnageKg || 0} kg</span>
+              </div>
+              <p class="text-slate-500 truncate">${s.summary || ''}</p>
+            </div>
+          `).join('') || '<p class="text-[11px] text-slate-400">Sin sesiones registradas todavía.</p>'}
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModoNazaModal() {
+      const m = document.getElementById('modal-modo-naza');
+      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    }
+
+    function toggleRoleFromNazaModal() {
+      activeRole = activeRole === 'naza' ? 'male' : 'naza';
+      const lbl = document.getElementById('header-role-label');
+      const pill = document.getElementById('header-role-pill');
+      if (activeRole === 'naza') {
+        if (lbl) lbl.textContent = 'Naza 🛠️';
+        if (pill) pill.className = 'flex items-center gap-1.5 bg-purple-100 border border-purple-300 rounded-full px-3 py-1 text-[11px] font-bold text-purple-800 shadow-sm active:scale-95 transition';
+      } else {
+        if (lbl) lbl.textContent = 'Caritas';
+        if (pill) pill.className = 'flex items-center gap-1.5 bg-rose-50 border border-rose-200/80 rounded-full px-3 py-1 text-[11px] font-bold text-rose-700 shadow-sm active:scale-95 transition';
+      }
+      closeModoNazaModal();
+    }
+
+    async function downloadFullFirebaseBackup() {
+      try {
+        const res = await fetch('https://male-app-default-rtdb.firebaseio.com/.json');
+        const data = await res.json();
+        const backupObj = {
+          backupDate: new Date().toISOString(),
+          ecosystem: 'Male 360',
+          data
+        };
+        const blob = new Blob([JSON.stringify(backupObj, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `male-360-backup-${getTodayDateKey()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        alert('No pude descargar el backup en este momento: ' + e.message);
+      }
     }
 
     function escapeHtml(string) {
