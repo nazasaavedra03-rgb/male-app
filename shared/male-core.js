@@ -149,6 +149,205 @@
     }, duration);
   }
 
+  // Reusable Native Bottom Sheet Controller
+  let _sheetState = null;
+
+  function _ensureSheetDom() {
+    if (typeof document === 'undefined' || !document.body) return null;
+    let backdrop = document.getElementById('mc-bottom-sheet-backdrop');
+    if (backdrop) return backdrop;
+
+    backdrop = document.createElement('div');
+    backdrop.id = 'mc-bottom-sheet-backdrop';
+    backdrop.className = 'mc-sheet-backdrop';
+    backdrop.setAttribute('role', 'dialog');
+    backdrop.setAttribute('aria-modal', 'true');
+    backdrop.innerHTML = `
+      <div id="mc-bottom-sheet-panel" class="mc-sheet-panel mc-sheet-panel--dark">
+        <div id="mc-sheet-drag-zone" class="cursor-grab active:cursor-grabbing">
+          <div class="mc-sheet-handle"></div>
+          <div id="mc-sheet-header" class="flex items-start justify-between gap-2 pb-2.5 mb-2.5 border-b border-zinc-800/80">
+            <div class="min-w-0">
+              <h3 id="mc-sheet-title" class="text-sm font-black leading-snug"></h3>
+              <p id="mc-sheet-subtitle" class="text-[11px] opacity-70 font-medium mt-0.5"></p>
+            </div>
+            <button type="button" id="mc-sheet-close-btn" aria-label="Cerrar" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black shrink-0 bg-zinc-800/80 text-zinc-300">✕</button>
+          </div>
+        </div>
+        <div id="mc-sheet-body" class="space-y-3"></div>
+      </div>
+    `;
+    document.body.appendChild(backdrop);
+
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeSheet(null);
+    });
+
+    const closeBtn = backdrop.querySelector('#mc-sheet-close-btn');
+    if (closeBtn) closeBtn.addEventListener('click', () => closeSheet(null));
+
+    const dragZone = backdrop.querySelector('#mc-sheet-drag-zone');
+    const panel = backdrop.querySelector('#mc-bottom-sheet-panel');
+    let touchStartY = null;
+    if (dragZone && panel) {
+      dragZone.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches && e.touches[0] ? e.touches[0].clientY : null;
+      }, { passive: true });
+      dragZone.addEventListener('touchmove', (e) => {
+        if (touchStartY === null || !e.touches || !e.touches[0]) return;
+        const dy = e.touches[0].clientY - touchStartY;
+        if (dy > 0) panel.style.transform = `translateY(${Math.min(dy, 240)}px)`;
+      }, { passive: true });
+      dragZone.addEventListener('touchend', (e) => {
+        if (touchStartY === null) return;
+        const endY = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientY : touchStartY;
+        panel.style.transform = '';
+        if (endY - touchStartY > 65) closeSheet(null);
+        touchStartY = null;
+      }, { passive: true });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && _sheetState) closeSheet(null);
+    });
+
+    return backdrop;
+  }
+
+  function closeSheet(result = null) {
+    const backdrop = typeof document !== 'undefined' ? document.getElementById('mc-bottom-sheet-backdrop') : null;
+    if (backdrop) {
+      backdrop.classList.remove('mc-sheet-backdrop--open');
+    }
+    const prev = _sheetState;
+    _sheetState = null;
+    if (prev) {
+      if (typeof prev.onClose === 'function') {
+        try { prev.onClose(result); } catch (e) {}
+      }
+      if (typeof prev.resolve === 'function') {
+        prev.resolve(result);
+      }
+    }
+  }
+
+  function openSheet(opts = {}) {
+    const backdrop = _ensureSheetDom();
+    if (!backdrop) return Promise.resolve(null);
+
+    if (_sheetState) {
+      const prev = _sheetState;
+      _sheetState = null;
+      if (typeof prev.resolve === 'function') prev.resolve(null);
+    }
+
+    const isDark = typeof opts.dark === 'boolean'
+      ? opts.dark
+      : document.documentElement.classList.contains('dark');
+    const panel = document.getElementById('mc-bottom-sheet-panel');
+    const headerEl = document.getElementById('mc-sheet-header');
+    const titleEl = document.getElementById('mc-sheet-title');
+    const subEl = document.getElementById('mc-sheet-subtitle');
+    const closeBtn = document.getElementById('mc-sheet-close-btn');
+    const bodyEl = document.getElementById('mc-sheet-body');
+
+    if (panel) {
+      panel.style.transform = '';
+      panel.className = `mc-sheet-panel ${isDark ? 'mc-sheet-panel--dark' : 'mc-sheet-panel--light'}`;
+    }
+    if (headerEl) {
+      headerEl.className = `flex items-start justify-between gap-2 pb-2.5 mb-2.5 border-b ${isDark ? 'border-zinc-800/80' : 'border-rose-100'}`;
+    }
+    if (closeBtn) {
+      closeBtn.className = `w-8 h-8 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${isDark ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-100 text-slate-600'}`;
+    }
+    if (titleEl) titleEl.textContent = String(opts.title || '');
+    if (subEl) {
+      subEl.textContent = String(opts.subtitle || '');
+      subEl.classList.toggle('hidden', !opts.subtitle);
+    }
+    if (bodyEl) bodyEl.innerHTML = String(opts.html || '');
+
+    return new Promise((resolve) => {
+      _sheetState = { resolve, onClose: opts.onClose };
+      void backdrop.offsetWidth;
+      backdrop.classList.add('mc-sheet-backdrop--open');
+    });
+  }
+
+  function confirmSheet(opts = {}) {
+    const isDark = typeof opts.dark === 'boolean'
+      ? opts.dark
+      : document.documentElement.classList.contains('dark');
+    const msg = opts.message ? `<p class="text-xs leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-600'}">${escapeHtml(opts.message)}</p>` : '';
+    const confirmCls = opts.danger
+      ? 'bg-rose-600 hover:bg-rose-500 text-white'
+      : 'bg-emerald-500 hover:bg-emerald-400 text-zinc-950';
+    const cancelCls = isDark ? 'bg-zinc-800 text-zinc-200 border border-zinc-700' : 'bg-slate-100 text-slate-700 border border-slate-200';
+    const html = `
+      ${msg}
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" id="mc-sheet-cancel-btn" class="min-h-[44px] rounded-2xl text-xs font-bold ${cancelCls}">${escapeHtml(opts.cancelLabel || 'Cancelar')}</button>
+        <button type="button" id="mc-sheet-ok-btn" class="min-h-[44px] rounded-2xl text-xs font-black ${confirmCls}">${escapeHtml(opts.confirmLabel || 'Confirmar')}</button>
+      </div>
+    `;
+    const p = openSheet({
+      title: opts.title || 'Confirmar',
+      subtitle: opts.subtitle || '',
+      html,
+      dark: isDark
+    });
+    const okBtn = document.getElementById('mc-sheet-ok-btn');
+    const cancelBtn = document.getElementById('mc-sheet-cancel-btn');
+    if (okBtn) okBtn.onclick = () => closeSheet(true);
+    if (cancelBtn) cancelBtn.onclick = () => closeSheet(false);
+    return p.then(res => res === true);
+  }
+
+  function promptSheet(opts = {}) {
+    const isDark = typeof opts.dark === 'boolean'
+      ? opts.dark
+      : document.documentElement.classList.contains('dark');
+    const msg = opts.message ? `<p class="text-xs leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-600'}">${escapeHtml(opts.message)}</p>` : '';
+    const inputCls = isDark
+      ? 'bg-zinc-950 border border-zinc-700 text-white placeholder-zinc-500 focus:border-rose-500'
+      : 'bg-slate-50 border border-rose-200 text-slate-900 placeholder-slate-400 focus:border-rose-500';
+    const cancelCls = isDark ? 'bg-zinc-800 text-zinc-200 border border-zinc-700' : 'bg-slate-100 text-slate-700 border border-slate-200';
+    const inpType = opts.inputType || 'text';
+    const inputMode = inpType === 'number' ? 'numeric' : (opts.inputMode || 'text');
+    const html = `
+      ${msg}
+      <input id="mc-sheet-prompt-input" type="${escapeHtml(inpType)}" inputmode="${escapeHtml(inputMode)}"
+        value="${escapeHtml(opts.defaultValue != null ? opts.defaultValue : '')}"
+        placeholder="${escapeHtml(opts.placeholder || '')}"
+        style="font-size: 16px;"
+        class="w-full min-h-[44px] rounded-2xl px-3.5 py-2 font-black focus:outline-none ${inputCls}">
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" id="mc-sheet-prompt-cancel" class="min-h-[44px] rounded-2xl text-xs font-bold ${cancelCls}">${escapeHtml(opts.cancelLabel || 'Cancelar')}</button>
+        <button type="button" id="mc-sheet-prompt-ok" class="min-h-[44px] rounded-2xl text-xs font-black bg-rose-600 hover:bg-rose-500 text-white">${escapeHtml(opts.confirmLabel || 'Guardar')}</button>
+      </div>
+    `;
+    const p = openSheet({
+      title: opts.title || 'Ingresar valor',
+      subtitle: opts.subtitle || '',
+      html,
+      dark: isDark
+    });
+    const inp = document.getElementById('mc-sheet-prompt-input');
+    const okBtn = document.getElementById('mc-sheet-prompt-ok');
+    const cancelBtn = document.getElementById('mc-sheet-prompt-cancel');
+    const submitVal = () => closeSheet(inp ? inp.value : '');
+    if (okBtn) okBtn.onclick = submitVal;
+    if (cancelBtn) cancelBtn.onclick = () => closeSheet(null);
+    if (inp) {
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submitVal(); }
+      });
+      setTimeout(() => { try { inp.focus(); inp.select(); } catch (e) {} }, 60);
+    }
+    return p;
+  }
+
   async function callGemini(options = {}) {
     const systemPrompt = String(options.systemPrompt || '').trim();
     const rawMessages = Array.isArray(options.messages)
@@ -286,6 +485,10 @@
     escapeHtml,
     formatMarkdown,
     toast,
+    openSheet,
+    closeSheet,
+    confirmSheet,
+    promptSheet,
     registerSW
   };
 })(window);
