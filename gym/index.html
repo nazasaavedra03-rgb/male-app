@@ -73,14 +73,16 @@
           </a>
         </div>
 
-        <div class="flex items-center gap-2">
-          <span id="sync-badge" class="inline-flex items-center gap-1 text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full">
-            <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span id="sync-label">RP Sync</span>
-          </span>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openAllWeightsModal()" class="text-[11px] font-extrabold bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 px-2.5 py-1 rounded-xl transition flex items-center gap-1">
+            <span>🔍</span><span>Mis Pesos</span>
+          </button>
           <button onclick="openWeekMenuModal()" class="text-[11px] font-bold bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 px-2.5 py-1 rounded-xl transition flex items-center gap-1">
             <span>⚙️</span><span id="header-week-short">Sem 1</span>
           </button>
+          <span id="sync-badge" class="inline-flex items-center gap-1 text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded-full" title="Estado de sincronización">
+            <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          </span>
         </div>
       </div>
 
@@ -88,7 +90,7 @@
       <div class="flex items-center justify-between">
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Mesociclo 2 • RP Hypertrophy</span>
+            <span id="header-meso-title" class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Mesociclo 2 • RP Hypertrophy</span>
             <span id="header-rir-pill" class="text-[10px] font-black px-2 py-0.2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/30">RIR 3</span>
           </div>
           <h1 id="header-meso-subtitle" class="text-xs font-medium text-zinc-400 mt-0.5">Semana 1: Calibración técnica & cargas base</h1>
@@ -115,6 +117,11 @@
 
         <!-- 5-Day Flexible Selector -->
         <div class="grid grid-cols-5 gap-1.5" id="day-selector-container">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Smart Autonomous Copilot (Auto-Day, Sede Almagro/Cid, Retorno Post-Pausa, Express) -->
+        <div id="smart-copilot-card" class="bg-zinc-900/95 border border-zinc-800 rounded-3xl p-3.5 space-y-2.5 shadow-md">
           <!-- Rendered by JS -->
         </div>
 
@@ -307,9 +314,11 @@
 
           <!-- Quick Prompts -->
           <div class="px-3 py-2 border-b border-zinc-800/70 flex gap-1.5 overflow-x-auto shrink-0">
+            <button onclick="askQuickGymCoach('No sé bien qué día hacer hoy ni cómo organizar mi semana con los días que puedo ir, ¿me lo armás y me cambiás el día en pantalla?')" class="shrink-0 text-[10px] font-bold bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 px-2.5 py-1 rounded-full border border-rose-500/40">🗓️ ¿Qué día hago hoy?</button>
+            <button onclick="askQuickGymCoach('¿Me decís mis últimos pesos reales de los ejercicios de hoy y a cuántas repes apunto?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">⚖️ Mis pesos y repes</button>
+            <button onclick="askQuickGymCoach('Hoy tengo poco tiempo (35 min aprox), activame el Modo Express y decime qué priorizar')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">⚡ Poco tiempo (35m)</button>
             <button onclick="askQuickGymCoach('Está ocupada la máquina que me toca ahora en Fiter, ¿con qué la reemplazo y con qué peso?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🔄 Máquina ocupada</button>
-            <button onclick="askQuickGymCoach('¿Cómo ajusto mi postura para sentir más la parte alta del glúteo y no los lumbares?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🍑 Sentir más glúteo</button>
-            <button onclick="askQuickGymCoach('En espalda siento que canso los brazos antes que la espalda, ¿qué tip técnico uso?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🦋 Activar espalda</button>
+            <button onclick="askQuickGymCoach('Siento una molestia articular leve hoy, ¿cómo adapto el ejercicio o el peso para cuidar todo?')" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2.5 py-1 rounded-full border border-zinc-700">🩹 Molestia / Adaptar</button>
           </div>
 
           <!-- Messages -->
@@ -319,7 +328,8 @@
 
           <!-- Input -->
           <form onsubmit="event.preventDefault(); sendGymCoachMessage();" class="p-2.5 border-t border-zinc-800 bg-zinc-950/80 flex items-center gap-2 shrink-0">
-            <input id="gym-chat-input" type="text" autocomplete="off" placeholder="Preguntá sobre técnica, peso o reemplazo..." class="flex-1 bg-zinc-900 border border-zinc-700/80 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500">
+            <button type="button" id="gym-mic-btn" onclick="toggleGymVoiceDictation()" title="Dictar por voz (es-AR)" class="w-9 h-9 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-rose-400 flex items-center justify-center text-sm transition shrink-0">🎤</button>
+            <input id="gym-chat-input" type="text" autocomplete="off" placeholder="Preguntá o dictá tus series por voz..." class="flex-1 bg-zinc-900 border border-zinc-700/80 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500">
             <button type="submit" id="gym-chat-send-btn" class="px-3.5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-xs transition shrink-0">Enviar</button>
           </form>
         </div>
@@ -333,13 +343,13 @@
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-sm">⏱️</div>
           <div>
-            <span class="text-[10px] uppercase tracking-wider font-extrabold text-rose-400 block">Descanso RP</span>
+            <span id="rest-timer-label" class="text-[10px] uppercase tracking-wider font-extrabold text-rose-400 block">Descanso RP • 🔒 Pantalla activa</span>
             <span id="rest-timer-clock" class="text-base font-black text-white tabular-nums">01:30</span>
           </div>
         </div>
         <div class="flex items-center gap-1.5">
           <button onclick="adjustRestTimer(-15)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">-15s</button>
-          <button onclick="adjustRestTimer(15)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">+15s</button>
+          <button onclick="adjustRestTimer(30)" class="px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-xl text-[11px] font-bold border border-zinc-700">+30s</button>
           <button onclick="stopRestTimer()" class="px-2.5 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-[11px] font-extrabold border border-rose-500/30">Saltar</button>
         </div>
       </div>
@@ -412,9 +422,19 @@
         </div>
       </div>
 
-      <!-- Q3: Fatigue -->
+      <!-- Q3: Soreness -->
       <div class="space-y-1.5">
-        <label class="text-xs font-extrabold text-zinc-200 block">3. Energía y fatiga de hoy</label>
+        <label class="text-xs font-extrabold text-zinc-200 block">3. ¿Cómo llegaste hoy de agujetas previas?</label>
+        <div class="grid grid-cols-3 gap-1.5" id="rp-q-soreness">
+          <button onclick="selectRpOption('soreness','ninguna')" data-val="ninguna" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">0 Agujetas ✨</button>
+          <button onclick="selectRpOption('soreness','justa')" data-val="justa" class="rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300">Curadas ✓</button>
+          <button onclick="selectRpOption('soreness','alta')" data-val="alta" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Dolorida 🦿</button>
+        </div>
+      </div>
+
+      <!-- Q4: Fatigue -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-extrabold text-zinc-200 block">4. Energía general / facu hoy</label>
         <div class="grid grid-cols-3 gap-1.5" id="rp-q-fatigue">
           <button onclick="selectRpOption('fatigue','fresca')" data-val="fresca" class="rp-opt py-2 px-2 rounded-xl border border-zinc-700 bg-zinc-950 text-[11px] font-bold text-zinc-400">Sobraba 💪</button>
           <button onclick="selectRpOption('fatigue','optima')" data-val="optima" class="rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300">Justa / Bien ✓</button>
@@ -445,9 +465,14 @@
       <p class="text-xs text-zinc-400 leading-snug">
         Podés cambiar de semana arriba cuando quieras. Si una semana de finales no pudiste ir y querés arrancar esa semana limpia desde el Día 1, usá reiniciar:
       </p>
+      <p id="week-decision-preview" class="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-2xl px-3 py-2 hidden"></p>
       <button onclick="advanceToNextWeek()" class="w-full py-2.5 px-3 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 rounded-2xl text-xs font-extrabold text-left flex items-center justify-between">
         <span>⏭️ Pasar a la siguiente semana del Mesociclo</span>
         <span>➔</span>
+      </button>
+      <button onclick="closeWeekMenuModal(); openMesoWrappedModal();" class="w-full py-2.5 px-3 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/35 text-amber-200 rounded-2xl text-xs font-extrabold text-left flex items-center justify-between">
+        <span>🏆 Resumen del Mesociclo / Nuevo Meso</span>
+        <span>✨</span>
       </button>
       <button onclick="resetCurrentWeekProgress()" class="w-full py-2.5 px-3 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-2xl text-xs font-bold text-left flex items-center justify-between">
         <span>🔄 Reiniciar tildes de la semana actual (volver a Día 1)</span>
@@ -471,6 +496,42 @@
       </div>
       <div id="rep-options-list" class="space-y-2"></div>
       <button onclick="closeReplacementsModal()" class="w-full py-2 bg-zinc-950 text-zinc-400 rounded-xl text-xs font-bold">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- ================================================= -->
+  <!-- MODAL 4: BUSCADOR RÁPIDO DE TODOS TUS PESOS       -->
+  <!-- ================================================= -->
+  <div id="modal-all-weights" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3.5">
+    <div class="bg-zinc-900 border border-zinc-700/80 rounded-3xl p-4 max-w-sm w-full max-h-[84dvh] flex flex-col space-y-3 shadow-2xl animate-pop">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5 shrink-0">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Historial Completo en 1 Toque</span>
+          <h3 class="text-sm font-black text-white">🔍 Todos tus Pesos & Repes</h3>
+        </div>
+        <button onclick="closeAllWeightsModal()" class="w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold">✕</button>
+      </div>
+      <input id="all-weights-search" type="text" oninput="renderAllWeightsList()" placeholder="Escribí ej: búlgara, hip thrust, prensa, remo..." class="w-full bg-zinc-950 border border-zinc-700/80 rounded-2xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 shrink-0">
+      <div id="all-weights-list" class="flex-1 overflow-y-auto space-y-2 pr-0.5"></div>
+      <button onclick="closeAllWeightsModal()" class="w-full py-2 bg-zinc-950 text-zinc-400 rounded-xl text-xs font-bold shrink-0">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- ================================================= -->
+  <!-- MODAL 5: CIERRE DE MESOCICLO (WRAPPED & LANZAR)   -->
+  <!-- ================================================= -->
+  <div id="modal-meso-wrapped" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-3.5">
+    <div id="meso-wrapped-content" class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-4 max-w-sm w-full max-h-[88dvh] overflow-y-auto space-y-3.5 shadow-2xl animate-pop"></div>
+  </div>
+
+  <!-- PR CELEBRATION BANNER -->
+  <div id="pr-celebration-banner" class="fixed top-16 left-3 right-3 max-w-sm mx-auto z-50 hidden bg-gradient-to-r from-amber-950/95 via-zinc-900/95 to-amber-950/95 border border-amber-400/50 text-amber-100 px-4 py-3 rounded-2xl shadow-2xl animate-pop">
+    <div class="flex items-center gap-3">
+      <span class="text-xl shrink-0">🏆</span>
+      <div class="min-w-0 flex-1">
+        <span id="pr-banner-title" class="text-[10px] font-extrabold uppercase tracking-wider text-amber-300 block">Nuevo Récord en Fiter</span>
+        <p id="pr-banner-body" class="text-xs font-black text-white leading-snug truncate"></p>
+      </div>
     </div>
   </div>
 
@@ -527,7 +588,7 @@
             unit: 'kg',
             metaReps: [12, 11, 10],
             repRange: [10, 12],
-            restSec: 90,
+            restSec: 150,
             warmup: '2 series de aproximación: 1x10 con 12-15 kg ➔ 1x6 con 20 kg.',
             steps: [
               'Apoyá la base de las escápulas y mantené el mentón pegado al pecho mirando al frente.',
@@ -549,7 +610,7 @@
             unit: 'kg x mano',
             metaReps: [10, 10, 9],
             repRange: [8, 11],
-            restSec: 90,
+            restSec: 150,
             warmup: '2 series previas: 1x8 con 10 kg/mano ➔ 1x4 con 14 kg/mano.',
             steps: [
               'Destrabá apenitas las rodillas (semiflexión fija) y pegá las mancuernas a tus muslos.',
@@ -567,11 +628,11 @@
             nombre: 'Seated Leg Curl (Camilla Sentada)',
             musculo: 'Isquiotibiales (Volumen Posterior Pierna)',
             series: 3,
-            baseKg: '27',
+            baseKg: '23',
             unit: 'kg',
             metaReps: [12, 11, 10],
             repRange: [10, 13],
-            restSec: 75,
+            restSec: 90,
             warmup: '💡 Clave rodilla: alineá el eje rojo circular de la máquina con el centro de tu rodilla y trabá bien los muslos.',
             steps: [
               'Alineá el eje circular de la máquina con el centro de tu rodilla para eliminar toda tensión en la rótula.',
@@ -580,7 +641,7 @@
             ],
             videoQuery: 'curl femoral sentado tecnica correcta isquios',
             alternativas: [
-              { nombre: 'Camilla de Isquios Acostada (Lying Leg Curl)', baseKg: '23', nota: '¡Alternativa ideal si la sentada tira la rodilla! Cero presión en rótula.' },
+              { nombre: 'Camilla de Isquios Acostada (Lying Leg Curl)', baseKg: '23', availableAt: ['cid'], nota: '¡Alternativa ideal si la sentada tira la rodilla! Cero presión en rótula.' },
               { nombre: 'Curl Femoral con Mancuerna entre Pies', baseKg: '10', nota: 'Acostada boca abajo en banco plano.' }
             ]
           },
@@ -593,7 +654,7 @@
             unit: 'kg',
             metaReps: [17, 16, 15],
             repRange: [15, 20],
-            restSec: 60,
+            restSec: 75,
             warmup: '1 serie de activación con 50 kg x 10 reps.',
             steps: [
               'Sentate e incliná el torso unos 20°-30° hacia adelante agarrándote del frente.',
@@ -603,7 +664,7 @@
             videoQuery: 'abductores en maquina inclinada hacia adelante gluteo medio',
             alternativas: [
               { nombre: 'Abducción Lateral/Diagonal en Polea Baja', baseKg: '6.8', nota: 'Con tobillera, 15 reps por pierna.' },
-              { nombre: 'Abductores Erguida con Pausa 2s', baseKg: '68', nota: 'Pausa isométrica estricta de 2s afuera.' }
+              { nombre: 'Abductores Erguida con Pausa 2s', baseKg: '68', branchKg: { almagro: '68', cid: '58' }, nota: 'Pausa isométrica estricta de 2s afuera.' }
             ]
           }
         ]
@@ -628,7 +689,7 @@
             unit: 'kg',
             metaReps: [11, 10, 9],
             repRange: [9, 12],
-            restSec: 90,
+            restSec: 120,
             warmup: '1x12 con 14 kg ➔ 1x8 con 18 kg sintiendo bajar las escápulas.',
             steps: [
               'Tomá la barra un poco más ancho que tus hombros y trabá los muslos bajo los rodillos.',
@@ -650,7 +711,7 @@
             unit: 'kg',
             metaReps: [11, 11, 9],
             repRange: [9, 12],
-            restSec: 90,
+            restSec: 120,
             warmup: '1x8 con 14 kg.',
             steps: [
               'Sentate con rodillas semiflexionadas y el torso derecho (sin balancear la cintura).',
@@ -672,7 +733,7 @@
             unit: 'kg',
             metaReps: [12, 12, 11],
             repRange: [10, 13],
-            restSec: 75,
+            restSec: 90,
             warmup: '1x8 liviana con 4.5 kg para lubricar hombros.',
             steps: [
               'Ajustá el asiento para que los agarres arranquen a la altura de tus orejas/mentón.',
@@ -694,7 +755,7 @@
             unit: 'kg x mano',
             metaReps: [13, 12, 12],
             repRange: [11, 15],
-            restSec: 60,
+            restSec: 75,
             warmup: 'Directo a series efectivas. Clave: 4 a 5 kg por mano con brazos largos (codos apenas destrabados, no a 90°), cero envión y hombros bajos para que trabaje 100% el hombro lateral y no el cuello/trapecio.',
             steps: [
               'Parada o sentada, bajá los hombros lejos de las orejas (cero encoger el cuello/trapecio).',
@@ -716,7 +777,7 @@
             unit: 'ladrillos',
             metaReps: [12, 11, 10],
             repRange: [10, 15],
-            restSec: 60,
+            restSec: 75,
             warmup: 'Directo a series efectivas.',
             steps: [
               'Ubicá la polea a la altura de tu nariz/frente con la soga de las dos pelotitas puesta.',
@@ -738,7 +799,7 @@
             unit: 'corporal',
             metaReps: [12, 12, 12],
             repRange: [10, 16],
-            restSec: 45,
+            restSec: 60,
             warmup: 'Directo en colchoneta (0 oblicuos pesados para mantener la cintura bien fina).',
             steps: [
               'Acostate boca arriba con brazos extendidos al techo y rodillas flexionadas a 90° en el aire.',
@@ -773,7 +834,7 @@
             unit: 'kg',
             metaReps: [11, 10, 10],
             repRange: [9, 12],
-            restSec: 90,
+            restSec: 150,
             warmup: '2 series previas: 1x10 con 50 kg ➔ 1x5 con 80 kg.',
             steps: [
               'Apoyá los pies a ancho de hombros en la mitad superior de la plataforma.',
@@ -791,11 +852,11 @@
             nombre: 'Sentadilla Búlgara con Apoyo de Mano',
             musculo: 'Glúteo Profundo & Pierna Unilateral',
             series: 3,
-            baseKg: '8',
+            baseKg: '14',
             unit: 'kg',
             metaReps: [10, 10, 9],
             repRange: [8, 11],
-            restSec: 90,
+            restSec: 150,
             warmup: '1x5 por pierna sin peso para medir exactamente la distancia al banco.',
             steps: [
               'Sostené la mancuerna en la mano contraria a la pierna que trabaja y apoyá la otra mano en un rack/soporte para equilibrio total.',
@@ -804,7 +865,7 @@
             ],
             videoQuery: 'sentadilla bulgara enfocada en gluteo con apoyo',
             alternativas: [
-              { nombre: 'Step-Up en Cajón Alto con Apoyo', baseKg: '8', nota: 'Subir empujando 100% con talón de arriba sin impulso abajo.' },
+              { nombre: 'Step-Up en Cajón Alto con Apoyo', baseKg: '10', nota: 'Subir empujando 100% con talón de arriba sin impulso abajo.' },
               { nombre: 'Estocadas Estáticas Atrás en Smith', baseKg: '20', nota: '10 kg por lado con torso inclinado 20°.' }
             ]
           },
@@ -813,11 +874,11 @@
             nombre: 'Sillón de Extensión de Cuádriceps',
             musculo: 'Cuádriceps (Volumen Firme de Piernas)',
             series: 3,
-            baseKg: '36',
+            baseKg: '32',
             unit: 'kg',
             metaReps: [12, 12, 11],
             repRange: [10, 14],
-            restSec: 75,
+            restSec: 90,
             warmup: 'Directo (cuádriceps ya calientes por Prensa y Búlgara).',
             steps: [
               'Alineá la rodilla con el eje de giro de la máquina y agarrate fuerte a los costados.',
@@ -839,7 +900,7 @@
             unit: 'kg',
             metaReps: [16, 15, 15],
             repRange: [14, 18],
-            restSec: 60,
+            restSec: 75,
             warmup: '1x8 suave con 25 kg.',
             steps: [
               'Espalda bien apoyada y apertura amplia pero cómoda para tu cadera.',
@@ -861,7 +922,7 @@
             unit: 'kg',
             metaReps: [14, 13, 12],
             repRange: [12, 16],
-            restSec: 60,
+            restSec: 75,
             warmup: 'Empezá SIEMPRE por la pierna izquierda fresca y descansá 30s antes de pasar a la derecha (evita fatiga de estabilización).',
             steps: [
               'Ponete frente a la polea baja con tobillera, incliná apenitas el torso, girá 30° el cuerpo y apenitas la punta del pie hacia afuera.',
@@ -870,7 +931,7 @@
             ],
             videoQuery: 'patada de gluteo diagonal 30 grados polea gluteo medio',
             alternativas: [
-              { nombre: 'Abductores en Máquina Inclinada Adelante', baseKg: '72', nota: 'Reemplazo directo si las poleas están llenas.' },
+              { nombre: 'Abductores en Máquina Inclinada Adelante', baseKg: '72', branchKg: { almagro: '72', cid: '62' }, nota: 'Reemplazo directo si las poleas están llenas.' },
               { nombre: 'Máquina de Patada de Glúteo Unilateral', baseKg: '25', nota: '12-14 reps controladas por pierna.' }
             ]
           }
@@ -896,7 +957,7 @@
             unit: 'kg',
             metaReps: [11, 10, 9],
             repRange: [9, 12],
-            restSec: 90,
+            restSec: 120,
             warmup: '1x10 con 14 kg estirando bien los dorsales arriba.',
             steps: [
               'Usá el triángulo o barra paralela neutra y sacá pecho hacia el techo.',
@@ -914,11 +975,11 @@
             nombre: 'Remo con Pecho Apoyado (o Polea Baja)',
             musculo: 'Espalda Media (2da Frecuencia)',
             series: 3,
-            baseKg: '18',
+            baseKg: '8',
             unit: 'kg',
             metaReps: [11, 10, 9],
             repRange: [9, 12],
-            restSec: 90,
+            restSec: 120,
             warmup: 'Directo a series efectivas.',
             steps: [
               'Apoyá el pecho en la almohadilla (o en banco inclinado a 45° con mancuernas).',
@@ -927,7 +988,7 @@
             ],
             videoQuery: 'remo con pecho apoyado en maquina o banco espalda',
             alternativas: [
-              { nombre: 'Remo en Polea Baja con Barra Abierta', baseKg: '22.5', nota: 'Enfatiza espalda media-alta.' },
+              { nombre: 'Remo en Polea Baja con Barra Abierta', baseKg: '18', nota: 'Enfatiza espalda media-alta.' },
               { nombre: 'Remo a 1 Brazo con Mancuerna en Banco', baseKg: '10', nota: '10-12 reps por lado.' }
             ]
           },
@@ -936,11 +997,11 @@
             nombre: 'Vuelos Laterales en Polea Baja (o Manc.)',
             musculo: 'Deltoides Lateral (2da Frecuencia)',
             series: 3,
-            baseKg: '3.5',
+            baseKg: '4',
             unit: 'kg',
-            metaReps: [15, 14, 12],
-            repRange: [12, 16],
-            restSec: 60,
+            metaReps: [12, 11, 10],
+            repRange: [10, 14],
+            restSec: 75,
             warmup: 'Directo.',
             steps: [
               'Polea abajo del todo; pasá el cable por delante o detrás de tus piernas.',
@@ -949,7 +1010,7 @@
             ],
             videoQuery: 'elevaciones laterales en polea baja un brazo',
             alternativas: [
-              { nombre: 'Vuelos Laterales Sentada con Mancuernas', baseKg: '3.5', nota: 'Sentada elimina cualquier impulso.' },
+              { nombre: 'Vuelos Laterales Sentada con Mancuernas', baseKg: '4', nota: 'Sentada elimina cualquier impulso.' },
               { nombre: 'Máquina de Vuelos Laterales', baseKg: '10', nota: '12-15 reps prolijas.' }
             ]
           },
@@ -958,11 +1019,11 @@
             nombre: 'Peck Deck Inverso / Posteriores',
             musculo: 'Deltoides Posterior & Postura (Cierre)',
             series: 3,
-            baseKg: '15',
+            baseKg: '9',
             unit: 'kg',
-            metaReps: [15, 14, 14],
-            repRange: [14, 18],
-            restSec: 60,
+            metaReps: [12, 11, 10],
+            repRange: [10, 15],
+            restSec: 75,
             warmup: 'Directo a series efectivas.',
             steps: [
               'Sentate mirando hacia la máquina de mariposa con los brazos a altura del hombro.',
@@ -971,7 +1032,7 @@
             ],
             videoQuery: 'peck deck inverso hombro posterior tecnica',
             alternativas: [
-              { nombre: 'Face Pull en Polea Alta con Soga', baseKg: '12.5', nota: 'Igual que en Torso A.' },
+              { nombre: 'Face Pull en Polea Alta con Soga', baseKg: '3 ladrillos', nota: 'Igual que en Torso A.' },
               { nombre: 'Pájaros con Mancuernas de 3 kg', baseKg: '3', nota: 'Inclinada hacia adelante.' }
             ]
           }
@@ -997,7 +1058,7 @@
             unit: 'kg',
             metaReps: [15, 13, 11],
             repRange: [11, 15],
-            restSec: 90,
+            restSec: 150,
             warmup: '1x10 liviano (20 kg) ➔ 1x6 intermedio (30 kg) antes de las series efectivas.',
             steps: [
               '💡 Tip Fiter Cid Campeador: la máquina tiene un rango de movimiento excelente. Aprovechá a bajar bien profundo con control.',
@@ -1019,7 +1080,7 @@
             unit: 'kg',
             metaReps: [10, 9],
             repRange: [9, 12],
-            restSec: 60,
+            restSec: 75,
             warmup: '1x8 suave con 18 kg para lubricar la rótula.',
             steps: [
               '💡 Nota Fiter Cid Campeador: la polea/palanca se siente más pesada que en Almagro. 32 kg acá equivalen a ~36 kg de Almagro.',
@@ -1039,7 +1100,7 @@
             unit: 'kg x lado',
             metaReps: [10, 10, 10],
             repRange: [8, 12],
-            restSec: 90,
+            restSec: 150,
             warmup: '1x8 sin discos ➔ 1x5 con 10 kg por lado.',
             steps: [
               'Pies a ancho de hombros, bajada profunda y controlada llevando cadera atrás.',
@@ -1060,7 +1121,7 @@
             unit: 'kg disco',
             metaReps: [15, 15, 14],
             repRange: [12, 16],
-            restSec: 75,
+            restSec: 90,
             warmup: 'Directo a series efectivas.',
             steps: [
               'Almohadilla debajo de la cresta de la cadera para poder doblar libremente.',
@@ -1082,7 +1143,7 @@
             unit: 'kg',
             metaReps: [12, 10],
             repRange: [10, 13],
-            restSec: 75,
+            restSec: 90,
             warmup: '1x6 con 18 kg.',
             steps: [
               '2 series intensas y limpias con retorno controlado de 2-3 segundos.',
@@ -1090,7 +1151,7 @@
             ],
             videoQuery: 'curl femoral acostado o sentado tecnica',
             alternativas: [
-              { nombre: 'Lying Leg Curl (Camilla Acostada)', baseKg: '25', nota: 'Cadera pegada al banco.' },
+              { nombre: 'Lying Leg Curl (Camilla Acostada)', baseKg: '25', availableAt: ['cid'], nota: 'Cadera pegada al banco.' },
               { nombre: 'RDL con Mancuernas', baseKg: '14', nota: '14 kg por mano.' }
             ]
           },
@@ -1103,7 +1164,7 @@
             unit: 'kg',
             metaReps: [15, 15, 14],
             repRange: [12, 16],
-            restSec: 60,
+            restSec: 75,
             warmup: '1x10 con 36 kg.',
             steps: [
               'Espalda y sacro bien apoyados contra el respaldo (sin inclinarte adelante).',
@@ -1120,8 +1181,86 @@
     };
 
     // ==========================================
-    // 3. STATE MANAGEMENT & REALTIME SYNC
+    // 3. STATE MANAGEMENT, COPILOT & REALTIME SYNC
     // ==========================================
+    const BRANCH_CALIBRATION = {
+      d1_hipthrust: {
+        almagro: { baseKg: '25', note: 'Máq. Almagro: 25-30 kg' },
+        cid: { baseKg: '40', note: 'Máq. Cid: 40 kg (rango largo)' }
+      },
+      d1_abductores: {
+        almagro: { baseKg: '72', note: 'Máq. Almagro: 72 kg' },
+        cid: { baseKg: '62', note: 'Máq. Cid: 62 kg' }
+      },
+      d1_legcurl: {
+        almagro: { baseKg: '23', note: 'Seated Almagro: 23 kg' },
+        cid: { baseKg: '27', note: 'Camilla Cid: 27 kg' }
+      },
+      d3_extension: {
+        almagro: { baseKg: '32', note: 'Máq. Almagro: 32-36 kg' },
+        cid: { baseKg: '32', note: 'Máq. Cid: 32 kg (polea firme)' }
+      },
+      d5_kas: {
+        almagro: { baseKg: '25', note: 'Máq. Almagro: 25-30 kg' },
+        cid: { baseKg: '40', note: 'Máq. Cid: 40 kg' }
+      },
+      d5_ext_prep: {
+        almagro: { baseKg: '34', note: 'Máq. Almagro: 32-36 kg' },
+        cid: { baseKg: '32', note: 'Máq. Cid: 32 kg' }
+      },
+      d5_legcurl2: {
+        almagro: { baseKg: '23', note: 'Seated Almagro: 23 kg' },
+        cid: { baseKg: '27', note: 'Camilla Cid: 27 kg' }
+      },
+      d5_abd_drop: {
+        almagro: { baseKg: '65', note: 'Espalda pegada Almagro: ~65 kg' },
+        cid: { baseKg: '50', note: 'Espalda pegada Cid: 50 kg' }
+      }
+    };
+
+    const QUICK_SWAP = {
+      d1_hipthrust: { ocupada: 0, molestia: 1, tip: 'Smith estable: cola metida arriba, sin arquear lumbar.' },
+      d1_rdl: { ocupada: 0, molestia: 1, tip: 'Bisagra corta, espalda neutra; frená antes si tira la lumbar.' },
+      d1_legcurl: { ocupada: { almagro: 1, cid: 0 }, molestia: { almagro: 1, cid: 0 }, tip: 'Cero tirón en rótula: bajada de 3s.' },
+      d1_abductores: { ocupada: 0, molestia: 0, tip: 'Rango cómodo, sin forzar la apertura máxima.' },
+      d2_jalon: { ocupada: 1, molestia: 0, tip: 'Agarre neutro, hombros lejos de las orejas.' },
+      d2_remo: { ocupada: 1, molestia: 0, tip: 'Pecho apoyado: cero carga lumbar.' },
+      d2_press_hombro: { ocupada: 0, molestia: 0, tip: 'Bajá solo hasta la altura de las orejas.' },
+      d2_laterales: { ocupada: 1, molestia: 1, tip: 'Cable suave, brazos largos, sin trapecio.' },
+      d2_facepull: { ocupada: 1, molestia: 0, tip: 'Movimiento lento, sin tirones.' },
+      d2_deadbug: { ocupada: 1, molestia: 0, tip: 'Lumbar pegada; si molesta, plancha corta.' },
+      d3_prensa: { ocupada: 1, molestia: 1, tip: 'Rango hasta 90° de rodilla, sin rebotar.' },
+      d3_bulgara: { ocupada: 0, molestia: 0, tip: 'Cajón más bajo y torso apenas inclinado.' },
+      d3_extension: { ocupada: 1, molestia: null, tip: 'Rango corto (no bajes más de 90°), tempo 3s.' },
+      d3_aductores: { ocupada: 0, molestia: 0, tip: 'Apertura cómoda, sin estirar de más.' },
+      d3_patada_diag: { ocupada: 0, molestia: 0, tip: 'Sin arquear la cintura baja.' },
+      d4_jalon_neutro: { ocupada: 0, molestia: 0, tip: 'Brazos semirrígidos, sin tirar con codos.' },
+      d4_remo_maq: { ocupada: 1, molestia: null, tip: 'Más liviano con pausa de 1s atrás.' },
+      d4_lat_polea: { ocupada: 0, molestia: 1, tip: 'Brazos largos, hasta la horizontal.' },
+      d4_pajaros: { ocupada: 1, molestia: 1, tip: 'Liviano y controlado.' },
+      d5_kas: { ocupada: 0, molestia: 0, tip: 'Recorrido corto arriba, cola metida.' },
+      d5_ext_prep: { ocupada: 0, molestia: null, tip: 'Rango corto, tempo 3s.' },
+      d5_hack_inv: { ocupada: 1, molestia: 1, tip: 'Prensa con rango cómodo, sin rebote.' },
+      d5_hiperext: { ocupada: 0, molestia: 0, tip: 'Pull-through: bisagra suave sin carga axial.' },
+      d5_legcurl2: { ocupada: { almagro: 1, cid: 0 }, molestia: { almagro: 1, cid: 0 }, tip: 'Bajada de 3s.' },
+      d5_abd_drop: { ocupada: 0, molestia: 0, tip: 'Rango cómodo.' }
+    };
+
+    const WEEK_ORDER = ['sem1', 'sem2', 'sem3', 'sem4', 'sem5'];
+    let weekPlan = {};          // gym_v2/state/weekPlan/{semX} = {rirKey, held, fromWeek, doneCount, startedAt, decidedAt, source}
+    let lastTransition = null;  // gym_v2/state/lastTransition = {from,to,held,doneCount,rirKey,dateKey,source}
+    let stateLoaded = false;
+    let completedLoaded = false;
+    let replacementDates = JSON.parse(localStorage.getItem('mg_replacement_dates_v1') || '{}');
+    let painFlags = JSON.parse(localStorage.getItem('mg_pain_flags_v1') || '{}');
+    let activeMeso = parseInt(localStorage.getItem('mg_active_meso') || '2', 10) || 2;
+    let mesoHistory = JSON.parse(localStorage.getItem('mg_meso_history_v1') || '{}');
+    let autoregNeutralToday = (localStorage.getItem('mg_autoreg_neutral_date') === getTodayKey());
+    let wakeLockSentinel = null;
+    let workoutWakeActive = false;
+    let gymSpeechRec = null;
+    let isDictatingGym = false;
+
     function getTodayKey(d = new Date()) {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -1129,29 +1268,13 @@
       return `${y}-${m}-${day}`;
     }
 
-    function guessBestDayForToday() {
-      const dow = new Date().getDay(); // 0 Sun .. 6 Sat
-      if (dow === 2) return 'dia1'; // Martes
-      if (dow === 3 || dow === 1) return 'dia2'; // Miércoles o Lunes
-      if (dow === 4) return 'dia3'; // Jueves
-      if (dow === 5) return 'dia4'; // Viernes
-      return 'dia5'; // Sábado / Domingo
+    function daysBetweenDateKeys(fromKey, toKey) {
+      if (!fromKey || !toKey) return null;
+      const a = new Date(fromKey + 'T12:00:00');
+      const b = new Date(toKey + 'T12:00:00');
+      if (isNaN(a.getTime()) || isNaN(b.getTime())) return null;
+      return Math.max(0, Math.round((b.getTime() - a.getTime()) / 86400000));
     }
-
-    function resolveInitialDay() {
-      const today = getTodayKey();
-      const savedDate = localStorage.getItem('mg_active_day_date');
-      const savedDay = localStorage.getItem('mg_active_day');
-      // Si el usuario seleccionó un día hoy mismo, mantener su selección manual
-      if (savedDate === today && savedDay && BASE_ROUTINE[savedDay]) {
-        return savedDay;
-      }
-      return guessBestDayForToday();
-    }
-
-    let activeWeek = localStorage.getItem('mg_active_week') || 'sem1';
-    let activeDay = resolveInitialDay();
-    let activeView = 'train';
 
     let allLogs = JSON.parse(localStorage.getItem('mg_logs_v2') || '{}');
     let allCompleted = JSON.parse(localStorage.getItem('mg_completed_v2') || '{}');
@@ -1161,8 +1284,106 @@
     let stepsMap = JSON.parse(localStorage.getItem('mg_steps_v2') || '{}');
     let cardioMap = JSON.parse(localStorage.getItem('mg_cardio_v2') || '{}');
     let bodyMetrics = JSON.parse(localStorage.getItem('mg_bodymetrics_v2') || '[]');
-    let rpModalSelection = { pump: 'bueno', joint: 'cero', fatigue: 'optima' };
+    let rpModalSelection = { pump: 'bueno', joint: 'cero', soreness: 'justa', fatigue: 'optima' };
     let currentReplacementExId = null;
+
+    let activeWeek = localStorage.getItem('mg_active_week') || 'sem1';
+    let activeBranch = localStorage.getItem('mg_branch') || ((new Date().getDay() === 0 || new Date().getDay() === 6) ? 'cid' : 'almagro');
+    let expressMode = (localStorage.getItem('mg_express_date') === getTodayKey() && localStorage.getItem('mg_express_mode') === '1');
+    let returnMode = false;
+
+    function detectSessionBranch(weekKey, dayKey) {
+      const comp = allCompleted?.[weekKey]?.[dayKey];
+      if (comp?.branch === 'cid' || comp?.branch === 'almagro') return comp.branch;
+      const txt = `${comp?.dayTitle || ''} ${comp?.rpFeedback?.notes || ''} ${comp?.summary || ''}`;
+      if (/cid/i.test(txt)) return 'cid';
+      if (dayKey === 'dia5') return 'cid';
+      return 'almagro';
+    }
+
+    function getWorkoutHistoryInsight() {
+      const today = getTodayKey();
+      let latest = null;
+      Object.keys(allCompleted || {}).forEach(wk => {
+        Object.keys(allCompleted[wk] || {}).forEach(dk => {
+          const c = allCompleted[wk][dk];
+          if (!c || !c.completed) return;
+          const dKey = c.dateKey || c.date || '';
+          const ts = c.completedAt || (dKey ? new Date(dKey + 'T18:00:00').getTime() : 0);
+          if (!latest || ts > latest.ts) {
+            latest = { weekKey: wk, dayKey: dk, dateKey: dKey, ts, dayTitle: c.dayTitle || BASE_ROUTINE[dk]?.title || dk };
+          }
+        });
+      });
+      const daysAgo = latest?.dateKey ? daysBetweenDateKeys(latest.dateKey, today) : null;
+      return { latest, daysAgo, isLongBreak: daysAgo !== null && daysAgo >= 6 };
+    }
+
+    function syncReturnModeDefault() {
+      const today = getTodayKey();
+      const insight = getWorkoutHistoryInsight();
+      if (localStorage.getItem('mg_return_mode_date') === today) {
+        returnMode = localStorage.getItem('mg_return_mode') === '1';
+      } else {
+        returnMode = !!insight.isLongBreak;
+      }
+    }
+
+    function computeSmartDaySuggestion(wk = activeWeek) {
+      const dow = new Date().getDay(); // 0 Sun .. 6 Sat
+      const compWeek = allCompleted?.[wk] || {};
+      const allDays = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'];
+      const pending = allDays.filter(d => !compWeek[d]?.completed);
+      const insight = getWorkoutHistoryInsight();
+
+      if (pending.length === 0) {
+        return { day: 'dia1', reason: 'Completaste los 5 días de esta semana. Podés avanzar a la siguiente semana en ⚙️.' };
+      }
+
+      if ((dow === 0 || dow === 6) && pending.includes('dia5')) {
+        return { day: 'dia5', reason: 'Finde: ideal para hacer tu Día 5 (Glúteo C "Forma de P") en Cid Campeador con Naza.' };
+      }
+
+      if (insight.latest && insight.daysAgo !== null && insight.daysAgo <= 1) {
+        const lastWasLower = ['dia1', 'dia3', 'dia5'].includes(insight.latest.dayKey);
+        if (lastWasLower) {
+          const nextTorso = pending.find(d => d === 'dia2' || d === 'dia4');
+          if (nextTorso) {
+            return { day: nextTorso, reason: `Como ${insight.daysAgo === 0 ? 'hoy' : 'ayer'} entrenaste piernas, te toca Torso para dejar recuperar el glúteo.` };
+          }
+        } else {
+          const nextLower = pending.find(d => d === 'dia1' || d === 'dia3' || d === 'dia5');
+          if (nextLower) {
+            return { day: nextLower, reason: `Venís de hacer Torso, así que hoy tenés las piernas frescas para atacar ${BASE_ROUTINE[nextLower].shortLabel}.` };
+          }
+        }
+      }
+
+      // Si arranca la semana (o vuelve de varios días), elegir el primer día pendiente (Día 1)
+      const firstPending = pending[0];
+      if (compWeek && pending.length === 5) {
+        return { day: 'dia1', reason: `Tenés ${RP_WEEKS[wk]?.short || 'la semana'} en 0/5: lo ideal es arrancar en orden por el Día 1 (Glúteo A & Isquios).` };
+      }
+      return { day: firstPending, reason: `Siguiente sesión pendiente de ${RP_WEEKS[wk]?.short || 'tu semana'}: ${BASE_ROUTINE[firstPending].shortLabel}.` };
+    }
+
+    function guessBestDayForToday() {
+      return computeSmartDaySuggestion(activeWeek).day;
+    }
+
+    function resolveInitialDay() {
+      const today = getTodayKey();
+      const savedDate = localStorage.getItem('mg_active_day_date');
+      const savedDay = localStorage.getItem('mg_active_day');
+      if (savedDate === today && savedDay && BASE_ROUTINE[savedDay]) {
+        return savedDay;
+      }
+      return guessBestDayForToday();
+    }
+
+    syncReturnModeDefault();
+    let activeDay = resolveInitialDay();
+    let activeView = 'train';
 
     function showToast(msg) {
       const el = document.getElementById('toast-box');
@@ -1172,22 +1393,445 @@
       window._toastTimer = setTimeout(() => el.classList.add('hidden'), 2600);
     }
 
+    function getEffRirKey(wk) {
+      return weekPlan?.[wk]?.rirKey || wk;
+    }
+
+    function getWeekObj(wk) {
+      const slot = RP_WEEKS[wk] || RP_WEEKS.sem1;
+      const effKey = getEffRirKey(wk);
+      const rirSrc = RP_WEEKS[effKey] || slot;
+      const held = !!weekPlan?.[wk]?.held;
+      const desc = held
+        ? `${slot.short}: repite intensidad ${rirSrc.rir} (la semana anterior quedó incompleta)`
+        : rirSrc.desc;
+      return {
+        ...rirSrc,
+        key: slot.key,
+        num: slot.num,
+        short: slot.short,
+        effRirKey: effKey,
+        held,
+        desc
+      };
+    }
+
+    function countDone(wk) {
+      const compWeek = allCompleted?.[wk] || {};
+      return ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'].filter(d => compWeek[d]?.completed).length;
+    }
+
+    function decideWeekTransition(fromWeek, doneCount, effRirKey) {
+      const idx = WEEK_ORDER.indexOf(fromWeek);
+      if (fromWeek === 'sem5' || idx < 0 || idx >= WEEK_ORDER.length - 1) {
+        return { nextWeek: null, rirKey: effRirKey, held: false, doneCount, reason: 'Mesociclo terminado' };
+      }
+      const nextWeek = WEEK_ORDER[idx + 1];
+      if (fromWeek === 'sem4') {
+        return {
+          nextWeek: 'sem5',
+          rirKey: 'sem5',
+          held: false,
+          doneCount,
+          reason: `Hiciste ${doneCount}/5: toca semana de descarga (60% carga)`
+        };
+      }
+      if (doneCount >= 4) {
+        const curRirIdx = Math.max(0, WEEK_ORDER.indexOf(effRirKey));
+        const nextRirKey = WEEK_ORDER[Math.min(3, curRirIdx + 1)];
+        const rirLabel = RP_WEEKS[nextRirKey]?.rir || 'RIR 1';
+        return {
+          nextWeek,
+          rirKey: nextRirKey,
+          held: false,
+          doneCount,
+          reason: `Hiciste ${doneCount}/5: subimos a ${rirLabel}`
+        };
+      }
+      const holdRirKey = effRirKey || fromWeek;
+      const holdRirLabel = RP_WEEKS[holdRirKey]?.rir || 'RIR';
+      return {
+        nextWeek,
+        rirKey: holdRirKey,
+        held: true,
+        doneCount,
+        reason: `Hiciste ${doneCount}/5 (finales/clínica): repetimos ${holdRirLabel} para consolidar`
+      };
+    }
+
+    function getWeekStartKey(wk) {
+      if (weekPlan?.[wk]?.startedAt) return weekPlan[wk].startedAt;
+      const compWeek = allCompleted?.[wk] || {};
+      let earliest = null;
+      ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'].forEach(d => {
+        const c = compWeek[d];
+        if (!c || !c.completed) return;
+        const dk = c.dateKey || c.date || '';
+        if (dk && (!earliest || dk < earliest)) earliest = dk;
+      });
+      return earliest;
+    }
+
+    function shouldAutoCloseWeek(wk, todayKey) {
+      const done = countDone(wk);
+      if (done === 0) return false;
+      const compWeek = allCompleted?.[wk] || {};
+      const trainedTodayInWeek = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'].some(d => {
+        const c = compWeek[d];
+        return c?.completed && (c.dateKey || c.date) === todayKey;
+      });
+      if (trainedTodayInWeek) return false;
+      if (done === 5) return true;
+      const start = getWeekStartKey(wk);
+      return !!(start && daysBetweenDateKeys(start, todayKey) >= 7);
+    }
+
+    function applyWeekTransition(fromWeek, decision, source = 'auto') {
+      if (!decision || !decision.nextWeek) return;
+      const today = getTodayKey();
+      const next = decision.nextWeek;
+      const plan = {
+        rirKey: decision.rirKey,
+        held: !!decision.held,
+        fromWeek,
+        doneCount: decision.doneCount,
+        startedAt: today,
+        decidedAt: Date.now(),
+        source
+      };
+      const transition = {
+        from: fromWeek,
+        to: next,
+        held: !!decision.held,
+        doneCount: decision.doneCount,
+        rirKey: decision.rirKey,
+        dateKey: today,
+        source
+      };
+      if (!weekPlan) weekPlan = {};
+      weekPlan[next] = plan;
+      lastTransition = transition;
+      activeWeek = next;
+      localStorage.setItem('mg_active_week', next);
+      db.ref('gym_v2/state').update({
+        activeWeek: next,
+        ['weekPlan/' + next]: plan,
+        lastTransition: transition,
+        updatedAt: Date.now()
+      }).catch(() => {});
+      activeDay = computeSmartDaySuggestion(next).day;
+      renderAll();
+    }
+
+    function maybeAutoCloseWeek() {
+      if (!stateLoaded || !completedLoaded) return;
+      if (lastTransition?.from === activeWeek) return;
+      const today = getTodayKey();
+      if (shouldAutoCloseWeek(activeWeek, today)) {
+        const dec = decideWeekTransition(activeWeek, countDone(activeWeek), getEffRirKey(activeWeek));
+        applyWeekTransition(activeWeek, dec, 'auto');
+      }
+    }
+
+    function computeWarmupSets(workKg, unit) {
+      if (!unit || unit === 'corporal' || unit === 'ladrillos' || unit === 'kg disco') return null;
+      const kg = parseFloat(String(workKg).replace(',', '.'));
+      if (isNaN(kg) || kg <= 0) return null;
+      const step = unit.includes('mano') ? 1 : (unit.includes('lado') ? 2.5 : (kg >= 20 ? 2.5 : 1));
+      const floorTo = v => Math.round((Math.floor(v / step) * step) * 10) / 10;
+      const s1 = { kg: floorTo(kg * 0.5), reps: 8 };
+      const s2 = { kg: floorTo(kg * 0.75), reps: 4 };
+      if (s2.kg <= 0) return null;
+      if (s1.kg <= 0 || s1.kg >= s2.kg) return [s2];
+      return [s1, s2];
+    }
+
+    function renderWarmupHtml(ex, workKg) {
+      const sets = computeWarmupSets(workKg, ex.unit);
+      if (!sets) {
+        return `<strong class="text-amber-400">Aproximación sugerida:</strong> ${ex.warmup}`;
+      }
+      const branchLabel = activeBranch === 'cid' ? 'Fiter Cid' : 'Fiter Almagro';
+      const unitLbl = ex.unit === 'kg x mano' ? 'kg/mano' : (ex.unit === 'kg x lado' ? 'kg/lado' : ex.unit);
+      const setsStr = sets.map(s => `${s.kg} ${unitLbl} × ${s.reps}`).join(' ➔ ');
+      return `📍 <strong class="text-amber-300">${branchLabel}:</strong> <span class="font-bold text-white">${setsStr}</span> ➔ series efectivas con <strong class="text-emerald-300">${workKg} ${unitLbl}</strong>. Descansá ~60s entre aproximaciones.`;
+    }
+
+    function pickQuickSwapAlt(exId, reason, branch) {
+      let rawEx = null;
+      Object.values(BASE_ROUTINE).some(d => {
+        const f = d.exercises.find(e => e.id === exId);
+        if (f) { rawEx = f; return true; }
+        return false;
+      });
+      const entry = QUICK_SWAP[exId];
+      const tip = entry?.tip || 'Movimiento controlado cuidando la articulación.';
+      let choice = entry ? entry[reason] : (reason === 'ocupada' ? 0 : null);
+      if (choice && typeof choice === 'object') {
+        choice = choice[branch] !== undefined ? choice[branch] : choice.almagro;
+      }
+      if (choice === null || choice === undefined) {
+        return { altIdx: null, tip };
+      }
+      const alts = rawEx?.alternativas || [];
+      const isAvail = a => a && (!a.availableAt || a.availableAt.includes(branch));
+      if (isAvail(alts[choice])) {
+        return { altIdx: choice, tip };
+      }
+      const fallbackIdx = alts.findIndex(isAvail);
+      if (fallbackIdx >= 0) {
+        return { altIdx: fallbackIdx, tip };
+      }
+      return { altIdx: reason === 'ocupada' ? -1 : null, tip };
+    }
+
     function getEffectiveExercise(dayKey, ex) {
       const ov = (remoteOverrides && remoteOverrides[ex.id]) ? remoteOverrides[ex.id] : {};
-      const merged = { ...ex, ...ov };
+      const branchCal = BRANCH_CALIBRATION[ex.id]?.[activeBranch];
+      const merged = {
+        ...ex,
+        ...(branchCal ? { baseKg: branchCal.baseKg, branchNote: branchCal.note } : {}),
+        ...ov
+      };
+      const today = getTodayKey();
+      const pf = painFlags?.[today]?.[ex.id] || null;
+      const painExtra = {
+        painMode: !!pf,
+        painTip: pf?.tip || '',
+        painSkip: !!pf?.skip
+      };
+
       const repIdx = activeReplacements?.[dayKey]?.[ex.id];
-      if (typeof repIdx === 'number' && merged.alternativas && merged.alternativas[repIdx]) {
+      const repDate = replacementDates?.[dayKey]?.[ex.id];
+      const isRepExpired = Boolean(repDate && repDate !== today);
+
+      if (typeof repIdx === 'number' && !isRepExpired && merged.alternativas && merged.alternativas[repIdx]) {
         const alt = merged.alternativas[repIdx];
         return {
           ...merged,
+          ...painExtra,
           isReplaced: true,
+          altIdx: repIdx,
           originalName: merged.nombre,
           nombre: alt.nombre,
-          baseKg: alt.baseKg || merged.baseKg,
+          baseKg: alt.branchKg?.[activeBranch] || alt.baseKg || merged.baseKg,
           altNote: alt.nota
         };
       }
-      return merged;
+      return {
+        ...merged,
+        ...painExtra,
+        altIdx: null
+      };
+    }
+
+    // Busca el último registro real completado de un ejercicio en todas las semanas previas (o en todo el historial)
+    function findLastExerciseRecord(exId, beforeWeekKey = null, preferBranch = activeBranch, altIdx = null) {
+      const maxIdx = beforeWeekKey ? WEEK_ORDER.indexOf(beforeWeekKey) : WEEK_ORDER.length;
+      const searchWeeks = WEEK_ORDER.slice(0, Math.max(0, maxIdx)).reverse();
+      const hasBranchDiff = (altIdx === null) && !!BRANCH_CALIBRATION[exId];
+
+      let bestAny = null;
+      let bestSameBranch = null;
+
+      searchWeeks.forEach(wk => {
+        Object.keys(allLogs?.[wk] || {}).forEach(dk => {
+          const sets = (allLogs[wk][dk]?.[exId] || []).filter(s => s && s.completed && s.reps && ((typeof s.alt === 'number') ? s.alt : null) === altIdx);
+          if (sets.length === 0) return;
+          const comp = allCompleted?.[wk]?.[dk];
+          const dateKey = comp?.dateKey || comp?.date || '';
+          const sessBranch = detectSessionBranch(wk, dk);
+          const rec = { weekKey: wk, dayKey: dk, sets, dateKey, branch: sessBranch };
+          if (!bestAny) bestAny = rec;
+          if (!bestSameBranch && sessBranch === preferBranch) bestSameBranch = rec;
+        });
+      });
+
+      // Respaldo de mesociclos previos archivados si en el actual todavía no hay registro
+      if (!bestSameBranch && mesoHistory) {
+        Object.keys(mesoHistory).sort().reverse().forEach(mKey => {
+          const mObj = mesoHistory[mKey];
+          if (!mObj?.logs) return;
+          WEEK_ORDER.slice().reverse().forEach(wk => {
+            Object.keys(mObj.logs?.[wk] || {}).forEach(dk => {
+              const sets = (mObj.logs[wk][dk]?.[exId] || []).filter(s => s && s.completed && s.reps && ((typeof s.alt === 'number') ? s.alt : null) === altIdx);
+              if (sets.length === 0) return;
+              const comp = mObj.completed?.[wk]?.[dk];
+              const dateKey = comp?.dateKey || comp?.date || mKey;
+              const sessBranch = comp?.branch || (dk === 'dia5' ? 'cid' : 'almagro');
+              const rec = { weekKey: wk, dayKey: dk, sets, dateKey, branch: sessBranch };
+              if (!bestAny) bestAny = rec;
+              if (!bestSameBranch && sessBranch === preferBranch) bestSameBranch = rec;
+            });
+          });
+        });
+      }
+
+      if (hasBranchDiff && bestSameBranch) return bestSameBranch;
+      if (hasBranchDiff && bestAny && bestAny.branch !== preferBranch) {
+        const cal = BRANCH_CALIBRATION[exId]?.[preferBranch];
+        if (cal) {
+          return {
+            ...bestAny,
+            adaptedToBranch: preferBranch,
+            adaptedKg: cal.baseKg
+          };
+        }
+      }
+      return bestSameBranch || bestAny;
+    }
+
+    function calcEst1RM(kg, reps) {
+      const k = parseFloat(String(kg).replace(',', '.'));
+      const r = parseInt(reps, 10);
+      if (isNaN(k) || k <= 0 || isNaN(r) || r <= 0 || r > 30) return 0;
+      return Math.round(k * (1 + r / 30) * 10) / 10;
+    }
+
+    function getPreviousBest1RM(exId, branch, altIdx = null, excludeWeek = null, excludeDay = null) {
+      let best1RM = 0;
+      let bestKg = '';
+      let bestReps = 0;
+      let countPriorSets = 0;
+
+      const scanLogsSource = (logsMap, completedMap) => {
+        Object.keys(logsMap || {}).forEach(wk => {
+          Object.keys(logsMap[wk] || {}).forEach(dk => {
+            if (excludeWeek && excludeDay && logsMap === allLogs && wk === excludeWeek && dk === excludeDay) return;
+            const sets = logsMap[wk][dk]?.[exId] || [];
+            const comp = completedMap?.[wk]?.[dk];
+            const sessBranch = comp?.branch || ((comp && /cid/i.test(`${comp.dayTitle || ''} ${comp.summary || ''}`)) ? 'cid' : (dk === 'dia5' ? 'cid' : 'almagro'));
+            if (sessBranch !== branch) return;
+            sets.forEach(s => {
+              if (!s || !s.completed || !s.reps) return;
+              const sAlt = (typeof s.alt === 'number') ? s.alt : null;
+              if (sAlt !== altIdx) return;
+              const est = calcEst1RM(s.kg, s.reps);
+              if (est > 0) {
+                countPriorSets++;
+                if (est > best1RM) {
+                  best1RM = est;
+                  bestKg = s.kg;
+                  bestReps = parseInt(s.reps, 10) || 0;
+                }
+              }
+            });
+          });
+        });
+      };
+
+      Object.values(mesoHistory || {}).forEach(mObj => {
+        if (mObj?.logs) scanLogsSource(mObj.logs, mObj.completed);
+      });
+      scanLogsSource(allLogs, allCompleted);
+
+      return { best1RM, bestKg, bestReps, countPriorSets };
+    }
+
+    function triggerGymPrCelebration(effEx, kgVal, repsVal, new1RM, prev1RM, branch) {
+      const branchLabel = branch === 'cid' ? 'Fiter Cid Campeador' : 'Fiter Almagro';
+      const exShort = effEx.nombre.split('(')[0].trim();
+
+      const banner = document.getElementById('pr-celebration-banner');
+      const titleEl = document.getElementById('pr-banner-title');
+      const bodyEl = document.getElementById('pr-banner-body');
+      if (banner && titleEl && bodyEl) {
+        titleEl.textContent = `🏆 Nuevo récord en ${branchLabel}`;
+        bodyEl.textContent = `${exShort}: ${kgVal} ${effEx.unit} × ${repsVal} (1RM est. ${new1RM} kg)`;
+        banner.classList.remove('hidden');
+        clearTimeout(window._prBannerTimer);
+        window._prBannerTimer = setTimeout(() => banner.classList.add('hidden'), 4500);
+      }
+
+      if (navigator.vibrate) navigator.vibrate([120, 60, 180]);
+
+      const today = getTodayKey();
+      const vicId = `vic_pr_${today}_${effEx.id}_${branch}`;
+      const now = new Date();
+      const vicPayload = {
+        id: vicId,
+        categoria: 'Récord Histórico en Gym 🏆',
+        texto: `Nuevo PR en ${branchLabel}: ${exShort} con ${kgVal} ${effEx.unit} × ${repsVal} reps (1RM estimado ${new1RM} kg vs marca anterior ${prev1RM} kg).`,
+        fecha: now.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' }),
+        hora: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: Date.now(),
+        source: 'gym_auto_pr',
+        coachFeedback: `¡Bestia total, Caritas! Rompiste tu récord real de ${branchLabel} en ${exShort} (${kgVal} ${effEx.unit} × ${repsVal} reps). Cada kilo de más acá es músculo firme en tus glúteos y piernas sin perder la cintura ✨🔥`
+      };
+      db.ref(`victorias_male/${vicId}`).set(vicPayload).catch(() => {});
+    }
+
+    function isWakeLockHeld() {
+      return Boolean(wakeLockSentinel && !wakeLockSentinel.released);
+    }
+
+    async function requestGymWakeLock() {
+      workoutWakeActive = true;
+      try {
+        if ('wakeLock' in navigator && !isWakeLockHeld()) {
+          wakeLockSentinel = await navigator.wakeLock.request('screen');
+          if (wakeLockSentinel && typeof wakeLockSentinel.addEventListener === 'function') {
+            wakeLockSentinel.addEventListener('release', () => {
+              if (wakeLockSentinel && wakeLockSentinel.released) wakeLockSentinel = null;
+              if (typeof refreshRestTimerWakeBadge === 'function') refreshRestTimerWakeBadge();
+            });
+          }
+        }
+      } catch (e) {}
+      if (typeof refreshRestTimerWakeBadge === 'function') refreshRestTimerWakeBadge();
+    }
+
+    async function releaseGymWakeLock() {
+      workoutWakeActive = false;
+      if (wakeLockSentinel) {
+        try { await wakeLockSentinel.release(); } catch (e) {}
+        wakeLockSentinel = null;
+      }
+      if (typeof refreshRestTimerWakeBadge === 'function') refreshRestTimerWakeBadge();
+    }
+
+    function handleAppForegroundResume() {
+      if (typeof syncRestTimerTick === 'function' && restEndAt > 0) {
+        syncRestTimerTick();
+      }
+      if (workoutWakeActive && document.visibilityState === 'visible') {
+        requestGymWakeLock();
+        setTimeout(() => {
+          if (workoutWakeActive && document.visibilityState === 'visible' && !isWakeLockHeld()) {
+            requestGymWakeLock();
+          }
+        }, 250);
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        handleAppForegroundResume();
+      } else if (typeof refreshRestTimerWakeBadge === 'function') {
+        refreshRestTimerWakeBadge();
+      }
+    });
+    window.addEventListener('pageshow', handleAppForegroundResume);
+    window.addEventListener('focus', handleAppForegroundResume);
+    ['touchstart', 'click'].forEach(ev => {
+      document.addEventListener(ev, () => {
+        if (workoutWakeActive && document.visibilityState === 'visible' && !isWakeLockHeld()) {
+          requestGymWakeLock();
+        }
+      }, { passive: true });
+    });
+
+    function computeEquivalentRepsRange(refKg, refReps, newKg) {
+      const rKg = parseFloat(String(refKg).replace(',', '.')) || 0;
+      const nKg = parseFloat(String(newKg).replace(',', '.')) || 0;
+      const rReps = parseInt(refReps) || 10;
+      if (rKg <= 0 || nKg <= 0 || Math.abs(rKg - nKg) < 0.2) return null;
+      const est1RM = rKg * (1 + rReps / 28);
+      let rawReps = Math.round(28 * (est1RM / nKg - 1));
+      rawReps = Math.max(4, Math.min(24, rawReps));
+      const lo = Math.max(4, rawReps - 1);
+      const hi = Math.min(25, rawReps + 1);
+      return { mid: rawReps, lo, hi };
     }
 
     // ==========================================
@@ -1199,26 +1843,48 @@
       return idx > 0 ? order[idx - 1] : null;
     }
 
-    function getAutoregSetDelta(weekKey, dayKey) {
-      if (weekKey === 'sem5') return -1; // Deload reduces volume
-      const prevKey = getPrevWeekKey(weekKey);
-      if (!prevKey) return 0;
-      const prevComp = allCompleted?.[prevKey]?.[dayKey];
-      const fb = prevComp?.rpFeedback;
-      if (!fb) return 0;
-      if (fb.joint === 'molesto' || fb.fatigue === 'alta') return 0; // Hold or protect
-      if ((fb.pump === 'bueno' || fb.pump === 'explosivo') && fb.fatigue === 'fresca' && fb.joint === 'cero') {
-        return 1; // RP rule: great pump + zero soreness/fatigue + 0 pain => +1 set on key movements
+    function computeVolumeAutoregDecision(prevFb, isDeload, isExpress, isReturn) {
+      if (isDeload) return { delta: -1, mode: 'deload', reason: 'Semana de descarga activa: reducimos volumen un 50% al 60% de carga.' };
+      if (isExpress || isReturn || !prevFb) return { delta: 0, mode: 'normal', reason: '' };
+      if (prevFb.joint === 'molesto' || prevFb.soreness === 'alta' || (prevFb.fatigue === 'alta' && prevFb.joint === 'leve')) {
+        return {
+          delta: -1,
+          mode: 'protect',
+          reason: 'Arrastrabas agujetas altas o molestia articular: recortamos 1 serie hoy en los básicos para recuperar al 100%.'
+        };
       }
-      return 0;
+      if (prevFb.joint === 'cero' && (prevFb.soreness === 'ninguna' || prevFb.fatigue === 'fresca') && (prevFb.pump === 'bueno' || prevFb.pump === 'explosivo')) {
+        return {
+          delta: 1,
+          mode: 'boost',
+          reason: 'Llegaste 100% recuperada, sin agujetas y con 0 molestia articular: sumamos +1 serie en los básicos.'
+        };
+      }
+      return { delta: 0, mode: 'normal', reason: '' };
     }
 
-    function computeRPTarget(dayKey, effEx, setIdx, weekKey) {
-      const weekObj = RP_WEEKS[weekKey] || RP_WEEKS.sem1;
+    function toggleAutoregNeutralToday() {
+      autoregNeutralToday = !autoregNeutralToday;
+      localStorage.setItem('mg_autoreg_neutral_date', autoregNeutralToday ? getTodayKey() : '');
+      renderActiveWorkout();
+      showToast(autoregNeutralToday ? '👌 Hoy hacemos las series base estándar' : '🔥 Sobrecarga +1 serie activada');
+    }
+
+    function getAutoregSetDelta(weekKey, dayKey) {
+      const isDeload = getEffRirKey(weekKey) === 'sem5';
+      const prevKey = getPrevWeekKey(weekKey);
+      const prevComp = prevKey ? allCompleted?.[prevKey]?.[dayKey] : null;
+      const dec = computeVolumeAutoregDecision(prevComp?.rpFeedback, isDeload, expressMode, returnMode);
+      if (autoregNeutralToday && dec.delta > 0) return 0;
+      return dec.delta;
+    }
+
+    function computeRPTargetCore(dayKey, effEx, setIdx, weekKey) {
+      const weekObj = getWeekObj(weekKey);
       const baseRep = effEx.metaReps[setIdx] || effEx.metaReps[effEx.metaReps.length - 1] || 10;
 
       // Deload week
-      if (weekKey === 'sem5') {
+      if (getEffRirKey(weekKey) === 'sem5') {
         const numKg = parseFloat(effEx.baseKg) || 0;
         const deloadKg = numKg > 0 ? Math.max(2, Math.round((numKg * 0.6) * 2) / 2) : 0;
         return {
@@ -1228,27 +1894,40 @@
         };
       }
 
-      // Check previous week actual log for real RP progression
-      const prevKey = getPrevWeekKey(weekKey);
-      const prevSet = prevKey ? allLogs?.[prevKey]?.[dayKey]?.[effEx.id]?.[setIdx] : null;
-      const prevFb = prevKey ? allCompleted?.[prevKey]?.[dayKey]?.rpFeedback : null;
+      // Buscar el último registro real (separado por alternativa y sede)
+      const hist = findLastExerciseRecord(effEx.id, weekKey, activeBranch, effEx.altIdx ?? null);
+      const prevSet = hist ? (hist.sets[setIdx] || hist.sets[hist.sets.length - 1]) : null;
+      const prevFb = hist ? allCompleted?.[hist.weekKey]?.[hist.dayKey]?.rpFeedback : null;
 
       if (prevSet && (prevSet.kg !== undefined && prevSet.kg !== '') && prevSet.reps) {
-        const pKg = parseFloat(String(prevSet.kg).replace(',', '.')) || 0;
+        const effectivePrevKg = hist.adaptedKg || String(prevSet.kg);
+        const pKg = parseFloat(String(effectivePrevKg).replace(',', '.')) || 0;
         const pReps = parseInt(prevSet.reps) || baseRep;
         const maxRange = effEx.repRange ? effEx.repRange[1] : baseRep + 2;
         const minRange = effEx.repRange ? effEx.repRange[0] : Math.max(8, baseRep - 1);
 
         if (prevFb && prevFb.joint === 'molesto') {
           return {
-            sugKg: String(prevSet.kg),
+            sugKg: effectivePrevKg,
             sugReps: pReps,
-            badge: `Cuidar artic.: ${prevSet.kg} × ${pReps}`
+            badge: `Cuidar artic.: ${effectivePrevKg} × ${pReps}`
+          };
+        }
+
+        // Modo Retorno tras pausa (>=6 días sin ir): igualar última marca real a RIR 2 sin forzar salto
+        if (returnMode) {
+          const safeReps = Math.max(minRange, pReps - (setIdx === 2 ? 1 : 0));
+          return {
+            sugKg: effectivePrevKg,
+            sugReps: safeReps,
+            badge: (pKg === 0 || effEx.unit === 'corporal')
+              ? `Retorno: ${safeReps} reps (RIR 2)`
+              : `Retorno: ${effectivePrevKg} × ${safeReps} (RIR 2)`
           };
         }
 
         // Hit top of rep range => small load jump!
-        if (pKg > 0 && pReps >= maxRange) {
+        if (pKg > 0 && pReps >= maxRange && !hist.adaptedKg && !weekObj.held) {
           const step = pKg >= 20 ? 2.5 : 1;
           const nextKg = Math.round((pKg + step) * 10) / 10;
           return {
@@ -1258,25 +1937,58 @@
           };
         }
 
+        // Semana repetida (held): mantener marca y consolidar sin forzar +1 rep
+        if (weekObj.held) {
+          return {
+            sugKg: effectivePrevKg,
+            sugReps: pReps,
+            badge: (pKg === 0 || effEx.unit === 'corporal')
+              ? `🔁 Repite: ${pReps} reps (${weekObj.rir})`
+              : `🔁 Repite: ${effectivePrevKg} × ${pReps} (${weekObj.rir})`
+          };
+        }
+
         // Standard RP progression: same load, +1 rep
         return {
-          sugKg: String(prevSet.kg),
+          sugKg: effectivePrevKg,
           sugReps: pReps + 1,
           badge: (pKg === 0 || effEx.unit === 'corporal')
             ? `Meta RP: ${pReps + 1} reps (${weekObj.rir})`
-            : `Meta RP: ${prevSet.kg} × ${pReps + 1} (${weekObj.rir})`
+            : `Meta RP: ${effectivePrevKg} × ${pReps + 1} (${weekObj.rir})`
         };
       }
 
       // Default baseline (Sem 1 or no prev log yet)
-      const weekOffset = Math.max(0, weekObj.num - 1);
-      const targetR = baseRep + (weekOffset > 0 ? 1 : 0);
+      const weekOffset = (!returnMode && !weekObj.held && weekObj.num > 1) ? 1 : 0;
+      const targetR = baseRep + weekOffset;
       return {
         sugKg: String(effEx.baseKg),
         sugReps: targetR,
         badge: effEx.baseKg === '0'
-          ? `Meta: ${targetR} reps (${weekObj.rir})`
+          ? `Meta: ${targetR} reps (${returnMode ? 'RIR 2' : weekObj.rir})`
           : `Base: ${effEx.baseKg} ${effEx.unit} × ${targetR}`
+      };
+    }
+
+    function computeRPTarget(dayKey, effEx, setIdx, weekKey) {
+      const t = computeRPTargetCore(dayKey, effEx, setIdx, weekKey);
+      if (!effEx.painMode) return t;
+      const isNonKgUnit = effEx.unit === 'corporal' || effEx.unit === 'ladrillos';
+      const numKg = parseFloat(String(t.sugKg).replace(',', '.'));
+      if (isNonKgUnit || isNaN(numKg) || numKg <= 0) {
+        return {
+          sugKg: t.sugKg,
+          sugReps: t.sugReps,
+          badge: `⚠️ Cuidado: ${t.sugKg} × ${t.sugReps} (RIR 3)`
+        };
+      }
+      const step = numKg >= 20 ? 2.5 : 1;
+      const reducedKg = Math.max(step, Math.floor((numKg * 0.8) / step) * step);
+      const kgStr = String(Math.round(reducedKg * 10) / 10);
+      return {
+        sugKg: kgStr,
+        sugReps: t.sugReps,
+        badge: `⚠️ Cuidado: ${kgStr} × ${t.sugReps} (RIR 3)`
       };
     }
 
@@ -1292,7 +2004,9 @@
     }
 
     function renderHeaderAndWeekPills() {
-      const w = RP_WEEKS[activeWeek] || RP_WEEKS.sem1;
+      const w = getWeekObj(activeWeek);
+      const mesoTitleEl = document.getElementById('header-meso-title');
+      if (mesoTitleEl) mesoTitleEl.textContent = `Mesociclo ${activeMeso} • RP Hypertrophy`;
       document.getElementById('header-week-short').textContent = w.short;
       document.getElementById('header-rir-pill').textContent = w.rir;
       document.getElementById('header-meso-subtitle').textContent = w.desc;
@@ -1303,11 +2017,12 @@
 
       const container = document.getElementById('week-pills-container');
       container.innerHTML = Object.values(RP_WEEKS).map(item => {
+        const itemW = getWeekObj(item.key);
         const isAct = item.key === activeWeek;
         return `
           <button onclick="selectWeek('${item.key}')" class="py-1.5 rounded-xl text-center transition ${isAct ? 'bg-rose-600 text-white shadow font-black' : 'text-zinc-400 hover:text-zinc-200 font-bold'}">
             <span class="block text-[11px] leading-tight">${item.short}</span>
-            <span class="block text-[9px] ${isAct ? 'text-rose-100' : 'text-zinc-500'}">${item.rir}</span>
+            <span class="block text-[9px] ${isAct ? 'text-rose-100' : 'text-zinc-500'}">${itemW.rir}</span>
           </button>
         `;
       }).join('');
@@ -1334,16 +2049,247 @@
       }).join('');
     }
 
+    function toggleGymBranch(forceBranch = null) {
+      activeBranch = forceBranch || (activeBranch === 'almagro' ? 'cid' : 'almagro');
+      localStorage.setItem('mg_branch', activeBranch);
+      renderAll();
+      showToast(activeBranch === 'cid' ? '📍 Sede Fiter Cid Campeador activa (pesos calibrados)' : '📍 Sede Fiter Almagro activa (pesos calibrados)');
+    }
+
+    function toggleReturnMode(forceVal = null) {
+      returnMode = typeof forceVal === 'boolean' ? forceVal : !returnMode;
+      localStorage.setItem('mg_return_mode', returnMode ? '1' : '0');
+      localStorage.setItem('mg_return_mode_date', getTodayKey());
+      renderActiveWorkout();
+      showToast(returnMode ? '🛡️ Modo Retorno activo: pesos reales a RIR 2 sin forzar PR' : '🔥 Modo Progresión RP normal activo');
+    }
+
+    function toggleExpressMode(forceVal = null) {
+      expressMode = typeof forceVal === 'boolean' ? forceVal : !expressMode;
+      localStorage.setItem('mg_express_mode', expressMode ? '1' : '0');
+      localStorage.setItem('mg_express_date', getTodayKey());
+      renderActiveWorkout();
+      showToast(expressMode ? '⚡ Modo Express 35m activo: foco en los 3 básicos clave' : '🏋️‍♀️ Sesión completa restaurada');
+    }
+
+    function askAboutExercise(exId) {
+      let foundEx = null;
+      Object.values(BASE_ROUTINE).forEach(d => {
+        const m = d.exercises.find(e => e.id === exId);
+        if (m) foundEx = getEffectiveExercise(d.key, m);
+      });
+      switchGymView('coach');
+      const inp = document.getElementById('gym-chat-input');
+      if (inp && foundEx) {
+        inp.value = `En ${foundEx.nombre}: `;
+        inp.focus();
+      }
+    }
+
+    function openAllWeightsModal() {
+      const m = document.getElementById('modal-all-weights');
+      if (!m) return;
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+      const inp = document.getElementById('all-weights-search');
+      if (inp) inp.value = '';
+      renderAllWeightsList();
+    }
+
+    function closeAllWeightsModal() {
+      const m = document.getElementById('modal-all-weights');
+      if (!m) return;
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function renderAllWeightsList() {
+      const q = (document.getElementById('all-weights-search')?.value || '').trim().toLowerCase();
+      const box = document.getElementById('all-weights-list');
+      if (!box) return;
+
+      const items = [];
+      Object.values(BASE_ROUTINE).forEach(d => {
+        d.exercises.forEach(rawEx => {
+          const hay = `${rawEx.nombre} ${rawEx.musculo} ${d.shortLabel} ${d.title}`.toLowerCase();
+          if (q && !hay.includes(q)) return;
+          const recAlm = findLastExerciseRecord(rawEx.id, null, 'almagro');
+          const recCid = findLastExerciseRecord(rawEx.id, null, 'cid');
+          const primaryRec = activeBranch === 'cid' ? (recCid || recAlm) : (recAlm || recCid);
+          let lastLine = `Base calibrada: ${rawEx.baseKg} ${rawEx.unit}`;
+          if (primaryRec && primaryRec.sets?.length) {
+            const kgShown = primaryRec.adaptedKg || primaryRec.sets[0].kg;
+            const repsShown = primaryRec.sets.map(s => s.reps).join(', ');
+            const when = primaryRec.dateKey || (RP_WEEKS[primaryRec.weekKey]?.short || '');
+            lastLine = `${kgShown} ${rawEx.unit === 'corporal' ? '' : rawEx.unit} × ${repsShown} reps (${when})`;
+          }
+          const branchCal = BRANCH_CALIBRATION[rawEx.id];
+          const branchExtra = branchCal ? `Almagro: ${branchCal.almagro.baseKg}kg • Cid: ${branchCal.cid.baseKg}kg` : '';
+          items.push(`
+            <div class="bg-zinc-950 border border-zinc-800/90 rounded-2xl p-3 space-y-1.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[9px] font-extrabold uppercase tracking-wider text-rose-400">${d.shortLabel} • ${d.title.split(' ')[0]}</span>
+                  <h4 class="text-xs font-black text-white leading-snug">${rawEx.nombre}</h4>
+                </div>
+                <button onclick="closeAllWeightsModal(); selectDay('${d.key}');" class="shrink-0 text-[10px] font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-2 py-1 rounded-lg border border-zinc-700">Ir a ${d.shortLabel}</button>
+              </div>
+              <div class="text-[11px] font-extrabold text-emerald-300">📌 Última marca: ${lastLine}</div>
+              ${branchExtra ? `<div class="text-[10px] text-amber-300/90 font-semibold">📍 ${branchExtra}</div>` : ''}
+            </div>
+          `);
+        });
+      });
+
+      box.innerHTML = items.length > 0
+        ? items.join('')
+        : '<p class="text-xs text-zinc-500 text-center py-6">No encontré ese ejercicio. Probá con "búlgara", "hip", "prensa", "remo"...</p>';
+    }
+
+    function onKgInputLive(exId, setIdx) {
+      const kgInput = document.getElementById(`kg_${exId}_${setIdx}`);
+      const repsInput = document.getElementById(`reps_${exId}_${setIdx}`);
+      const badgeEl = document.getElementById(`badge_${exId}_${setIdx}`);
+      if (!kgInput || !badgeEl) return;
+
+      const refKg = kgInput.dataset.refKg || '';
+      const refReps = kgInput.dataset.refReps || '';
+      const origBadge = kgInput.dataset.origBadge || '';
+      const newKg = kgInput.value.trim();
+
+      const eq = computeEquivalentRepsRange(refKg, refReps, newKg);
+      if (eq) {
+        const w = getWeekObj(activeWeek);
+        badgeEl.textContent = `⚖️ Con ${newKg}kg ➔ ${eq.lo}-${eq.hi} reps (${returnMode ? 'RIR 2' : w.rir})`;
+        badgeEl.className = 'text-[10px] font-extrabold text-amber-300 block leading-tight';
+        const isDone = !!allLogs?.[activeWeek]?.[activeDay]?.[exId]?.[setIdx]?.completed;
+        if (repsInput && !isDone) {
+          repsInput.value = eq.mid;
+        }
+      } else {
+        badgeEl.textContent = origBadge;
+        badgeEl.className = 'text-[10px] font-semibold text-zinc-400 block leading-tight';
+      }
+
+      if (setIdx === 0) {
+        const warmEl = document.getElementById(`warmcalc_${exId}`);
+        if (warmEl) {
+          const rawEx = BASE_ROUTINE[activeDay]?.exercises?.find(e => e.id === exId);
+          if (rawEx) {
+            const effEx = getEffectiveExercise(activeDay, rawEx);
+            warmEl.innerHTML = renderWarmupHtml(effEx, newKg);
+          }
+        }
+      }
+    }
+
+    function dismissWeekTransition(key) {
+      localStorage.setItem('mg_dismiss_transition', key);
+      renderSmartCopilotCard();
+    }
+
+    function renderSmartCopilotCard() {
+      const box = document.getElementById('smart-copilot-card');
+      if (!box) return;
+      const today = getTodayKey();
+      const insight = getWorkoutHistoryInsight();
+      const sug = computeSmartDaySuggestion(activeWeek);
+      const compWeek = allCompleted?.[activeWeek] || {};
+      const showSwitchBtn = sug.day !== activeDay && !compWeek[sug.day]?.completed;
+      const curW = getWeekObj(activeWeek);
+
+      let lastBadge = 'Primera sesión';
+      if (insight.latest) {
+        const dTxt = insight.daysAgo === 0 ? 'hoy' : (insight.daysAgo === 1 ? 'ayer' : `hace ${insight.daysAgo} días`);
+        lastBadge = `Último: ${insight.latest.dateKey || ''} (${dTxt})`;
+      }
+
+      let transitionBannerHtml = '';
+      if (lastTransition && lastTransition.dateKey) {
+        const transAge = daysBetweenDateKeys(lastTransition.dateKey, today);
+        const dismissKey = `${lastTransition.to}${lastTransition.dateKey}`;
+        if (transAge !== null && transAge <= 3 && localStorage.getItem('mg_dismiss_transition') !== dismissKey) {
+          const fromShort = RP_WEEKS[lastTransition.from]?.short || lastTransition.from;
+          const toShort = RP_WEEKS[lastTransition.to]?.short || lastTransition.to;
+          const rirTxt = RP_WEEKS[lastTransition.rirKey]?.rir || '';
+          let msgTxt = '';
+          if (lastTransition.rirKey === 'sem5') {
+            msgTxt = `🧘 ${fromShort} cerrada con ${lastTransition.doneCount}/5. Toca semana de descarga (60% carga).`;
+          } else if (lastTransition.held) {
+            msgTxt = `🔁 ${fromShort} cerrada con ${lastTransition.doneCount}/5 días. Para no perder el hilo, ${toShort} repite intensidad ${rirTxt} en vez de subir. Cero culpa: el músculo se mantiene y seguís progresando.`;
+          } else {
+            msgTxt = `⬆️ ${fromShort} cerrada con ${lastTransition.doneCount}/5 ✓ → ${toShort} sube a ${rirTxt}.`;
+          }
+          transitionBannerHtml = `
+            <div class="bg-violet-950/60 border border-violet-500/40 rounded-2xl px-3 py-2 flex items-start justify-between gap-2 text-[11px] text-violet-100 leading-snug">
+              <span>${msgTxt}</span>
+              <button onclick="dismissWeekTransition('${dismissKey}')" class="shrink-0 text-violet-300 hover:text-white font-black text-xs px-1">✕</button>
+            </div>
+          `;
+        }
+      }
+
+      let mesoCloseBannerHtml = '';
+      if (getEffRirKey(activeWeek) === 'sem5' && countDone('sem5') >= 1) {
+        mesoCloseBannerHtml = `
+          <button onclick="openMesoWrappedModal()" class="w-full text-left bg-gradient-to-r from-amber-500/20 via-rose-500/15 to-amber-500/20 border border-amber-400/50 rounded-2xl px-3 py-2.5 flex items-center justify-between gap-2 transition hover:brightness-110">
+            <span class="text-[11px] font-extrabold text-amber-200 leading-snug">🏆 ¡Mesociclo ${activeMeso} completándose! Tocá acá para ver tu Resumen Wrapped e iniciar el Mesociclo ${activeMeso + 1}.</span>
+            <span class="shrink-0 text-xs font-black text-amber-300">➔</span>
+          </button>
+        `;
+      }
+
+      box.innerHTML = `
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs">🧭</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400">Copiloto Autónomo</span>
+          </div>
+          <span class="text-[10px] font-bold text-zinc-400 bg-zinc-950 px-2 py-0.5 rounded-full border border-zinc-800">${lastBadge}</span>
+        </div>
+
+        ${mesoCloseBannerHtml}
+        ${transitionBannerHtml}
+
+        <div class="flex items-center justify-between gap-2 bg-zinc-950/90 border border-zinc-800/90 rounded-2xl px-3 py-2">
+          <p class="text-[11px] text-zinc-300 leading-snug flex-1">${sug.reason}</p>
+          ${showSwitchBtn ? `<button onclick="selectDay('${sug.day}')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-[10px] shadow">Ir a ${BASE_ROUTINE[sug.day].shortLabel} ➔</button>` : ''}
+        </div>
+
+        <div class="flex flex-wrap gap-1.5">
+          <button onclick="toggleGymBranch()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${activeBranch === 'cid' ? 'bg-pink-500/20 border-pink-500/50 text-pink-200' : 'bg-zinc-950 border-zinc-700 text-zinc-200 hover:border-zinc-600'}">
+            📍 ${activeBranch === 'cid' ? 'Sede: Fiter Cid (con Naza)' : 'Sede: Fiter Almagro'}
+          </button>
+          <button onclick="toggleReturnMode()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${returnMode ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-200' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200'}">
+            🛡️ ${returnMode ? 'Retorno Post-Pausa ✓' : 'Modo Retorno'}
+          </button>
+          <button onclick="toggleExpressMode()" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold border transition ${expressMode ? 'bg-amber-500/20 border-amber-500/50 text-amber-200' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200'}">
+            ⚡ ${expressMode ? 'Express 35m ✓' : 'Express 35m'}
+          </button>
+          ${curW.held ? `<span class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-violet-500/20 border border-violet-500/40 text-violet-200">🔁 Repite RIR</span>` : ''}
+          <button onclick="toggleGymVoiceDictation(true)" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-zinc-950 border border-rose-500/35 text-rose-300 hover:bg-rose-500/15 transition">
+            🎙️ Dictar serie
+          </button>
+          <button onclick="switchGymView('coach'); document.getElementById('gym-chat-input').focus();" class="px-2.5 py-1 rounded-xl text-[10px] font-extrabold bg-rose-500/15 border border-rose-500/30 text-rose-300 hover:bg-rose-500/25 transition">
+            💬 Coach / Imprevisto
+          </button>
+        </div>
+
+        ${returnMode ? `<p class="text-[10px] text-emerald-300/90 leading-snug bg-emerald-950/35 border border-emerald-500/30 rounded-xl px-2.5 py-1.5">✨ <strong>Retorno inteligente activo:</strong> como pasaron varios días desde tu último entreno, calibré los objetivos a tus marcas reales a RIR 2 (sin exigir salto de récord hoy) para reactivar firme y sin agujetas fuertes.</p>` : ''}
+      `;
+    }
+
     function renderActiveWorkout() {
+      renderSmartCopilotCard();
       const dayObj = BASE_ROUTINE[activeDay];
-      const w = RP_WEEKS[activeWeek];
+      const w = getWeekObj(activeWeek);
       const isDayDone = !!allCompleted?.[activeWeek]?.[activeDay]?.completed;
 
       const suggestedDay = guessBestDayForToday();
       const showNextPrompt = isDayDone && suggestedDay !== activeDay && !allCompleted?.[activeWeek]?.[suggestedDay]?.completed;
       const nextPromptHtml = showNextPrompt ? `
         <div class="mt-2.5 p-2 rounded-xl bg-violet-950/60 border border-violet-500/40 flex items-center justify-between gap-2 text-xs">
-          <span class="text-zinc-300">📅 Hoy te toca: <strong class="text-white">${BASE_ROUTINE[suggestedDay].shortLabel} (${BASE_ROUTINE[suggestedDay].emoji} ${BASE_ROUTINE[suggestedDay].title})</strong></span>
+          <span class="text-zinc-300">📅 Próxima sugerida: <strong class="text-white">${BASE_ROUTINE[suggestedDay].shortLabel} (${BASE_ROUTINE[suggestedDay].emoji} ${BASE_ROUTINE[suggestedDay].title})</strong></span>
           <button onclick="selectDay('${suggestedDay}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-extrabold text-[11px] shadow">Ir a ${BASE_ROUTINE[suggestedDay].shortLabel} ➔</button>
         </div>
       ` : '';
@@ -1352,9 +2298,10 @@
       document.getElementById('active-day-hero').innerHTML = `
         <div class="flex items-start justify-between gap-2">
           <div class="w-full">
-            <div class="flex items-center gap-1.5 mb-1">
+            <div class="flex items-center gap-1.5 mb-1 flex-wrap">
               <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300">${dayObj.dayHint}</span>
-              <span class="text-[10px] font-bold text-zinc-400">⏱️ ${dayObj.duration}</span>
+              <span class="text-[10px] font-bold text-zinc-400">⏱️ ${expressMode ? '35 min Express' : dayObj.duration}</span>
+              <span class="text-[10px] font-bold text-rose-300">• ${activeBranch === 'cid' ? 'Fiter Cid' : 'Fiter Almagro'}</span>
               ${isDayDone ? '<span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Completado ✓</span>' : ''}
             </div>
             <h2 class="text-base font-black text-white leading-snug">${dayObj.emoji} ${dayObj.title}</h2>
@@ -1367,16 +2314,19 @@
       // Autoregulation banner check
       const prevKey = getPrevWeekKey(activeWeek);
       const prevFb = prevKey ? allCompleted?.[prevKey]?.[activeDay]?.rpFeedback : null;
+      const volDec = computeVolumeAutoregDecision(prevFb, getEffRirKey(activeWeek) === 'sem5', expressMode, returnMode);
       const bannerEl = document.getElementById('rp-autoreg-banner');
       const bannerTxt = document.getElementById('rp-autoreg-text');
-      if (prevFb) {
+      if (prevFb && !returnMode) {
         bannerEl.classList.remove('hidden');
-        if (prevFb.joint === 'molesto') {
-          bannerTxt.innerHTML = `<strong class="text-amber-300">Protección Articular RP activa:</strong> La semana pasada marcaste molestia (${prevFb.jointArea || 'articular'}). Mantuvimos cargas conservadoras; si molesta hoy, tocá <em>"Máquina ocupada / Reemplazo"</em>.`;
-        } else if (getAutoregSetDelta(activeWeek, activeDay) > 0) {
-          bannerTxt.innerHTML = `<strong class="text-violet-300">Sobrecarga RP (+Volumen):</strong> Como recuperaste genial con gran bombeo y 0 molestias en ${RP_WEEKS[prevKey].short}, el sistema habilitó +1 serie en los ejercicios principales.`;
+        if (volDec.mode === 'protect') {
+          bannerTxt.innerHTML = `<strong class="text-amber-300">Protección & Recuperación RP (−1 serie):</strong> ${volDec.reason} Si hoy sentís molestia en alguna máquina, tocá <em>"⚠️ Molestia"</em>.`;
+        } else if (volDec.mode === 'boost') {
+          bannerTxt.innerHTML = autoregNeutralToday
+            ? `<strong class="text-zinc-300">Series base activas:</strong> Hoy optaste por mantener las series estándar. <button onclick="toggleAutoregNeutralToday()" class="underline text-violet-300 font-bold ml-1">Activar +1 serie</button>`
+            : `<strong class="text-violet-300">Sobrecarga RP (+1 Serie):</strong> ${volDec.reason} <button onclick="toggleAutoregNeutralToday()" class="underline text-zinc-300 font-semibold ml-1">Dejar series base</button>`;
         } else {
-          bannerTxt.innerHTML = `<strong class="text-violet-300">Progresión RP calibrada:</strong> Targets calculados sobre tus marcas reales de ${RP_WEEKS[prevKey].short} buscando <strong>${w.rir}</strong>.`;
+          bannerTxt.innerHTML = `<strong class="text-violet-300">Progresión RP calibrada:</strong> Targets calculados sobre tus marcas reales buscando <strong>${w.rir}</strong>. <em>(Si cambiás los KG en una casilla, las REPS se recalculan solas)</em>.`;
         }
       } else {
         bannerEl.classList.add('hidden');
@@ -1388,18 +2338,71 @@
 
       exContainer.innerHTML = dayObj.exercises.map((rawEx, idx) => {
         const ex = getEffectiveExercise(activeDay, rawEx);
+
+        if (ex.painSkip) {
+          return `
+            <article class="bg-zinc-900/60 border border-amber-500/30 rounded-3xl p-3.5 flex items-center justify-between gap-2">
+              <div class="flex items-start gap-2.5 min-w-0">
+                <span class="w-6 h-6 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-black text-zinc-300 leading-snug truncate">${ex.nombre}</h3>
+                  <p class="text-[11px] text-amber-300/90 font-semibold">⏭️ Salteado hoy por molestia (no cuenta en contra)</p>
+                </div>
+              </div>
+              <button onclick="unskipExerciseToday('${ex.id}')" class="shrink-0 text-[10px] font-extrabold bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-2.5 py-1.5 rounded-xl">Deshacer</button>
+            </article>
+          `;
+        }
+
         const manualDelta = extraSetsMap?.[activeWeek]?.[activeDay]?.[ex.id] || 0;
-        const autoDeltaForEx = (idx < 2 && autoregDelta > 0) ? 1 : (activeWeek === 'sem5' ? -1 : 0);
-        const totalSets = Math.max(1, Math.min(6, ex.series + autoDeltaForEx + manualDelta));
+        const expressDelta = (expressMode && idx >= 2) ? -1 : 0;
+        const isOptionalExpress = expressMode && idx >= 3;
+        const autoDeltaForEx = getEffRirKey(activeWeek) === 'sem5' ? -1 : ((idx < 2 && autoregDelta !== 0) ? autoregDelta : 0);
+        const totalSets = Math.max(1, Math.min(6, ex.series + autoDeltaForEx + expressDelta + manualDelta));
         const exLogs = allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || [];
 
+        // Historial real visible directamente en la tarjeta (separado por alternativa)
+        const lastRec = findLastExerciseRecord(rawEx.id, null, activeBranch, ex.altIdx ?? null);
+        let historyPillHtml = '';
+        if (lastRec && lastRec.sets?.length) {
+          const rawLastKg = lastRec.sets[0].kg;
+          const rawLastReps = lastRec.sets.map(s => s.reps).join(', ');
+          const branchTag = lastRec.branch === 'cid' ? 'Cid' : 'Almagro';
+          const dateTag = lastRec.dateKey || (RP_WEEKS[lastRec.weekKey]?.short || '');
+          const adaptNote = lastRec.adaptedKg ? ` ➔ Equivalencia hoy (${activeBranch === 'cid' ? 'Cid' : 'Almagro'}): <strong>${lastRec.adaptedKg} kg</strong>` : '';
+          historyPillHtml = `
+            <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1.5 text-[10.5px] text-zinc-300 flex items-center justify-between gap-2">
+              <span>📌 <strong class="text-emerald-300">Tu última vez (${dateTag} • ${branchTag}):</strong> ${rawLastKg}${ex.unit === 'corporal' ? '' : ' ' + ex.unit} × ${rawLastReps}${adaptNote}</span>
+            </div>
+          `;
+        } else if (ex.branchNote) {
+          historyPillHtml = `
+            <div class="bg-zinc-950/90 border border-zinc-800/90 rounded-xl px-2.5 py-1.5 text-[10.5px] text-zinc-300">
+              📍 <strong class="text-amber-300">Referencia sede:</strong> ${ex.branchNote}
+            </div>
+          `;
+        }
+
+        const painBoxHtml = ex.painMode ? `
+          <div class="bg-amber-950/40 border border-amber-500/40 rounded-2xl p-2.5 flex items-center justify-between gap-2 text-[10.5px] text-amber-200 leading-snug">
+            <span>⚠️ <strong>Modo cuidado hoy:</strong> carga −20% y RIR 3. ${ex.painTip ? ex.painTip + ' ' : ''}Si el dolor es punzante, salteálo hoy.</span>
+            <button onclick="skipExerciseToday('${ex.id}')" class="shrink-0 px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-100 font-extrabold text-[10px]">⏭️ Saltear hoy</button>
+          </div>
+        ` : '';
+
+        let firstSetWorkKg = ex.baseKg;
         let setsRowsHtml = '';
         for (let s = 0; s < totalSets; s++) {
           const target = computeRPTarget(activeDay, ex, s, activeWeek);
           const saved = exLogs[s] || {};
           const isSetDone = !!saved.completed;
           const valKg = (saved.kg !== undefined && saved.kg !== '') ? saved.kg : target.sugKg;
-          const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : target.sugReps;
+          if (s === 0) firstSetWorkKg = valKg;
+          const eqSaved = (!isSetDone && valKg !== target.sugKg) ? computeEquivalentRepsRange(target.sugKg, target.sugReps, valKg) : null;
+          const valReps = (saved.reps !== undefined && saved.reps !== '') ? saved.reps : (eqSaved ? eqSaved.mid : target.sugReps);
+          const shownBadge = eqSaved
+            ? `⚖️ Con ${valKg}kg ➔ ${eqSaved.lo}-${eqSaved.hi} reps (${returnMode ? 'RIR 2' : w.rir})`
+            : target.badge;
 
           setsRowsHtml += `
             <div class="grid grid-cols-12 items-center gap-1.5 py-1.5 px-2 rounded-xl border transition ${isSetDone ? 'bg-emerald-950/35 border-emerald-500/40' : 'bg-zinc-950/80 border-zinc-800/80'}">
@@ -1407,10 +2410,12 @@
                 <span class="text-xs font-black ${isSetDone ? 'text-emerald-400' : 'text-zinc-500'}">${s + 1}</span>
               </div>
               <div class="col-span-5 pr-1">
-                <span class="text-[10px] font-semibold ${isSetDone ? 'text-emerald-300' : 'text-zinc-400'} block leading-tight">${target.badge}</span>
+                <span id="badge_${ex.id}_${s}" class="text-[10px] ${saved.isPR ? 'font-extrabold text-amber-300' : (eqSaved ? 'font-extrabold text-amber-300' : (isSetDone ? 'font-semibold text-emerald-300' : 'font-semibold text-zinc-400'))} block leading-tight">${saved.isPR ? '🏆 PR! ' + shownBadge : shownBadge}</span>
               </div>
               <div class="col-span-2">
                 <input id="kg_${ex.id}_${s}" type="text" inputmode="decimal" value="${valKg}"
+                  data-ref-kg="${target.sugKg}" data-ref-reps="${target.sugReps}" data-orig-badge="${target.badge.replace(/"/g, '&quot;')}"
+                  oninput="onKgInputLive('${ex.id}', ${s})"
                   onchange="updateSetInput('${ex.id}', ${s})"
                   class="w-full bg-zinc-900 border ${isSetDone ? 'border-emerald-500/40 text-emerald-200' : 'border-zinc-700/80 text-white'} rounded-lg py-1.5 px-1 text-center text-xs font-black focus:outline-none focus:border-rose-500">
               </div>
@@ -1437,9 +2442,12 @@
         `).join('');
 
         const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.videoQuery || ex.nombre)}`;
+        const warmupBodyHtml = idx === 0
+          ? `<div id="warmcalc_${ex.id}">${renderWarmupHtml(ex, firstSetWorkKg)}</div>`
+          : `<strong class="text-amber-400">Aproximación sugerida:</strong> ${ex.warmup}`;
 
         return `
-          <article class="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-3.5 space-y-3 shadow-md">
+          <article class="bg-zinc-900/90 border ${isOptionalExpress ? 'border-zinc-800/50 opacity-75' : 'border-zinc-800'} rounded-3xl p-3.5 space-y-2.5 shadow-md">
             <!-- Card Top -->
             <div class="flex items-start justify-between gap-2">
               <div class="flex items-start gap-2.5">
@@ -1448,27 +2456,41 @@
                   <h3 class="text-sm font-black text-white leading-snug">${ex.nombre}</h3>
                   <p class="text-[11px] text-zinc-400 font-medium">${ex.musculo}</p>
                   ${ex.isReplaced ? `<span class="inline-block mt-1 text-[10px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">🔄 Reemplazo activo (${ex.altNote || ''})</span>` : ''}
+                  ${isOptionalExpress ? `<span class="inline-block mt-1 text-[10px] font-bold text-amber-200 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-md">⚡ Express: opcional si te queda tiempo</span>` : ''}
                 </div>
               </div>
-              <span class="shrink-0 text-[10px] font-black px-2 py-0.5 rounded-lg bg-zinc-800 text-rose-300 border border-zinc-700">${w.rir}</span>
+              <span class="shrink-0 text-[10px] font-black px-2 py-0.5 rounded-lg bg-zinc-800 text-rose-300 border border-zinc-700">${ex.painMode ? 'RIR 3' : (returnMode ? 'RIR 2' : w.rir)}</span>
             </div>
 
-            <!-- Helper Pills: Warmup | Execution + Video | Replace Machine -->
-            <div class="flex flex-wrap gap-1.5">
+            ${historyPillHtml}
+            ${painBoxHtml}
+
+            <!-- Helper Pills: Warmup | Execution + Video | 1-Tap Ocupada / Molestia | Ask Coach -->
+            <div class="flex flex-wrap items-center gap-1.5">
               <button onclick="toggleDrawer('warm_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition">
-                🔥 Calentamiento
+                ${idx === 0 ? '🔥 Calentamiento auto' : '🔥 Calentamiento'}
               </button>
               <button onclick="toggleDrawer('guide_${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-rose-300 border border-zinc-800 transition">
-                📖 Cómo se hace + Video
+                📖 Técnica + Video
               </button>
-              <button onclick="openReplacementsModal('${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-amber-300 border border-zinc-800 transition">
-                🔄 Máquina ocupada
+              <button onclick="quickSwap('${ex.id}','ocupada')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 transition">
+                🔄 Ocupada
+              </button>
+              <button onclick="quickSwap('${ex.id}','molestia')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-orange-300 border border-orange-500/30 transition">
+                ⚠️ Molestia
+              </button>
+              <button onclick="openReplacementsModal('${ex.id}')" class="text-[10px] font-bold px-2 py-1 rounded-xl text-zinc-400 hover:text-zinc-200 transition">
+                ▾ Más opciones
+              </button>
+              ${(ex.isReplaced || ex.painMode) ? `<button onclick="revertQuickSwap('${ex.id}')" class="text-[10px] font-extrabold px-2.5 py-1 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition">↩️ Original</button>` : ''}
+              <button onclick="askAboutExercise('${ex.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-emerald-300 border border-zinc-800 transition">
+                💬 Dudas / Peso
               </button>
             </div>
 
             <!-- Warmup Drawer -->
             <div id="warm_${ex.id}" class="hidden bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5 text-[11px] text-zinc-300 leading-snug">
-              <strong class="text-amber-400">Aproximación sugerida:</strong> ${ex.warmup}
+              ${warmupBodyHtml}
             </div>
 
             <!-- Execution & Video Drawer -->
@@ -1483,7 +2505,7 @@
             <div class="space-y-1.5">
               <div class="grid grid-cols-12 px-2 text-[9px] font-extrabold uppercase tracking-wider text-zinc-500">
                 <div class="col-span-1 text-center">#</div>
-                <div class="col-span-5">Referencia RP</div>
+                <div class="col-span-5">Referencia / Equivalencia</div>
                 <div class="col-span-2 text-center">${ex.unit === 'corporal' ? 'PESO' : 'KG'}</div>
                 <div class="col-span-2 text-center">REPS</div>
                 <div class="col-span-2 text-right pr-2">OK</div>
@@ -1549,6 +2571,13 @@
       }
     }
 
+    function getCurrentAltIdx(exId) {
+      const rawEx = BASE_ROUTINE[activeDay]?.exercises?.find(e => e.id === exId);
+      if (!rawEx) return null;
+      const eff = getEffectiveExercise(activeDay, rawEx);
+      return (typeof eff.altIdx === 'number') ? eff.altIdx : null;
+    }
+
     function updateSetInput(exId, setIdx) {
       const kgVal = document.getElementById(`kg_${exId}_${setIdx}`)?.value.trim() || '0';
       const repsVal = parseInt(document.getElementById(`reps_${exId}_${setIdx}`)?.value) || 0;
@@ -1556,6 +2585,7 @@
       const curr = allLogs[activeWeek][activeDay][exId][setIdx];
       curr.kg = kgVal;
       curr.reps = repsVal;
+      curr.alt = getCurrentAltIdx(exId);
       curr.updatedAt = Date.now();
       persistLogs(exId);
     }
@@ -1569,13 +2599,34 @@
       slot.completed = !slot.completed;
       slot.kg = kgVal;
       slot.reps = repsVal;
+      slot.alt = getCurrentAltIdx(exId);
       slot.updatedAt = Date.now();
+
+      if (slot.completed) {
+        requestGymWakeLock();
+        const rawEx = BASE_ROUTINE[activeDay]?.exercises?.find(e => e.id === exId);
+        const eff = rawEx ? getEffectiveExercise(activeDay, rawEx) : null;
+        if (eff && eff.unit !== 'corporal' && eff.unit !== 'ladrillos') {
+          const new1RM = calcEst1RM(kgVal, repsVal);
+          const prev = getPreviousBest1RM(exId, activeBranch, slot.alt, activeWeek, activeDay);
+          if (prev.countPriorSets > 0 && new1RM > prev.best1RM + 0.2) {
+            slot.isPR = true;
+            triggerGymPrCelebration(eff, kgVal, repsVal, new1RM, prev.best1RM, activeBranch);
+          } else {
+            slot.isPR = false;
+          }
+        }
+      } else {
+        slot.isPR = false;
+      }
 
       persistLogs(exId);
       renderActiveWorkout();
 
       if (slot.completed) {
-        startRestTimer(restSec || 90);
+        const secs = restSec || 90;
+        const typeLabel = secs >= 120 ? 'Compuesto • 🔒 Pantalla activa' : 'Aislado • 🔒 Pantalla activa';
+        startRestTimer(secs, typeLabel);
       }
     }
 
@@ -1594,39 +2645,84 @@
       renderActiveWorkout();
     }
 
-    // Rest Timer
+    // Rest Timer (Wall-Clock Driftless + Background Persistence)
     let restInterval = null;
     let restRemaining = 0;
     let restTotal = 90;
+    let restEndAt = 0;
+    let restBaseLabel = 'Descanso RP';
+    const REST_STORAGE_KEY = 'mg_active_rest_v1';
 
-    function startRestTimer(seconds) {
+    function refreshRestTimerWakeBadge() {
+      const lblEl = document.getElementById('rest-timer-label');
+      if (!lblEl) return;
+      const statusText = isWakeLockHeld()
+        ? '🔒 Pantalla activa'
+        : (workoutWakeActive && 'wakeLock' in navigator ? '🔓 Tocá para fijar pantalla' : '⏱️ Reloj en tiempo real');
+      lblEl.textContent = `${restBaseLabel} • ${statusText}`;
+    }
+
+    function persistActiveRestTimer() {
+      try {
+        if (restEndAt > Date.now()) {
+          localStorage.setItem(REST_STORAGE_KEY, JSON.stringify({
+            endAt: restEndAt,
+            total: restTotal,
+            baseLabel: restBaseLabel
+          }));
+        } else {
+          localStorage.removeItem(REST_STORAGE_KEY);
+        }
+      } catch (e) {}
+    }
+
+    function startRestTimer(seconds, labelHint = 'Descanso RP') {
       clearInterval(restInterval);
-      restTotal = seconds;
-      restRemaining = seconds;
+      restBaseLabel = String(labelHint || 'Descanso RP').split('•')[0].trim() || 'Descanso RP';
+      restTotal = Math.max(5, Number(seconds) || 90);
+      restEndAt = Date.now() + restTotal * 1000;
+      restRemaining = restTotal;
+      persistActiveRestTimer();
       document.getElementById('rest-timer-bar').classList.remove('hidden');
+      refreshRestTimerWakeBadge();
       updateRestTimerUI();
 
-      restInterval = setInterval(() => {
-        restRemaining--;
-        if (restRemaining <= 0) {
-          stopRestTimer();
-          playTimerChime();
-          if (navigator.vibrate) navigator.vibrate([180, 80, 180]);
-          showToast('⚡ ¡Tiempo cumplido! Lista para la siguiente serie');
-        } else {
-          updateRestTimerUI();
-        }
-      }, 1000);
+      restInterval = setInterval(syncRestTimerTick, 500);
+    }
+
+    function syncRestTimerTick() {
+      if (!restEndAt) {
+        clearInterval(restInterval);
+        restInterval = null;
+        return;
+      }
+      const msLeft = restEndAt - Date.now();
+      restRemaining = Math.max(0, Math.ceil(msLeft / 1000));
+      if (msLeft <= 0) {
+        stopRestTimer();
+        playTimerChime();
+        if (navigator.vibrate) navigator.vibrate([220, 90, 220, 90, 300]);
+        showToast('⚡ ¡Tiempo cumplido! Lista para la siguiente serie');
+      } else {
+        updateRestTimerUI();
+      }
     }
 
     function adjustRestTimer(delta) {
-      restRemaining = Math.max(5, restRemaining + delta);
+      if (!restEndAt) return;
+      restEndAt = Math.max(Date.now() + 5000, restEndAt + delta * 1000);
+      restRemaining = Math.max(5, Math.ceil((restEndAt - Date.now()) / 1000));
       restTotal = Math.max(restTotal, restRemaining);
+      persistActiveRestTimer();
       updateRestTimerUI();
     }
 
     function stopRestTimer() {
       clearInterval(restInterval);
+      restInterval = null;
+      restEndAt = 0;
+      restRemaining = 0;
+      try { localStorage.removeItem(REST_STORAGE_KEY); } catch (e) {}
       document.getElementById('rest-timer-bar').classList.add('hidden');
     }
 
@@ -1636,6 +2732,40 @@
       document.getElementById('rest-timer-clock').textContent = `${m}:${s}`;
       const pct = Math.max(0, Math.min(100, (restRemaining / restTotal) * 100));
       document.getElementById('rest-timer-progress').style.width = `${pct}%`;
+    }
+
+    function restoreActiveRestTimerIfAny() {
+      try {
+        const raw = localStorage.getItem(REST_STORAGE_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw);
+          if (saved && saved.endAt > Date.now()) {
+            restTotal = Math.max(5, Number(saved.total) || 90);
+            restEndAt = Number(saved.endAt);
+            restBaseLabel = saved.baseLabel || 'Descanso RP';
+            document.getElementById('rest-timer-bar').classList.remove('hidden');
+            requestGymWakeLock();
+            refreshRestTimerWakeBadge();
+            syncRestTimerTick();
+            clearInterval(restInterval);
+            restInterval = setInterval(syncRestTimerTick, 500);
+          } else {
+            localStorage.removeItem(REST_STORAGE_KEY);
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const recentWindowMs = 3 * 3600 * 1000;
+        const dayMap = allLogs?.[activeWeek]?.[activeDay] || {};
+        const hasRecentCompletedSet = Object.values(dayMap).some(sets =>
+          Array.isArray(sets) && sets.some(s => s && s.completed && s.updatedAt && (Date.now() - s.updatedAt < recentWindowMs))
+        );
+        if (hasRecentCompletedSet) {
+          workoutWakeActive = true;
+          requestGymWakeLock();
+        }
+      } catch (e) {}
     }
 
     function playTimerChime() {
@@ -1700,14 +2830,106 @@
 
     function applyReplacement(idx) {
       if (!activeReplacements[activeDay]) activeReplacements[activeDay] = {};
-      if (idx === null) delete activeReplacements[activeDay][currentReplacementExId];
-      else activeReplacements[activeDay][currentReplacementExId] = idx;
+      if (idx === null) {
+        delete activeReplacements[activeDay][currentReplacementExId];
+        if (replacementDates[activeDay]) delete replacementDates[activeDay][currentReplacementExId];
+      } else {
+        activeReplacements[activeDay][currentReplacementExId] = idx;
+        if (replacementDates[activeDay]) delete replacementDates[activeDay][currentReplacementExId];
+      }
 
       localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+      localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
       db.ref(`gym_v2/replacements/${activeDay}`).set(activeReplacements[activeDay] || {}).catch(() => {});
+      db.ref(`gym_v2/replacement_dates/${activeDay}`).set(replacementDates[activeDay] || {}).catch(() => {});
       closeReplacementsModal();
       renderActiveWorkout();
       showToast('🔄 Ejercicio actualizado con equivalencia Fiter');
+    }
+
+    function quickSwap(exId, reason) {
+      const today = getTodayKey();
+      const rawEx = BASE_ROUTINE[activeDay]?.exercises?.find(e => e.id === exId);
+      if (!rawEx) return;
+      const { altIdx, tip } = pickQuickSwapAlt(exId, reason, activeBranch);
+
+      if (reason === 'ocupada' && altIdx === -1) {
+        showToast('No hay reemplazo cargado: tocá 💬 Dudas / Peso');
+        return;
+      }
+
+      if (typeof altIdx === 'number' && altIdx >= 0) {
+        if (!activeReplacements[activeDay]) activeReplacements[activeDay] = {};
+        if (!replacementDates[activeDay]) replacementDates[activeDay] = {};
+        activeReplacements[activeDay][exId] = altIdx;
+        replacementDates[activeDay][exId] = today;
+        localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+        localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
+        db.ref(`gym_v2/replacements/${activeDay}`).set(activeReplacements[activeDay] || {}).catch(() => {});
+        db.ref(`gym_v2/replacement_dates/${activeDay}`).set(replacementDates[activeDay] || {}).catch(() => {});
+      }
+
+      if (reason === 'molestia') {
+        if (!painFlags[today]) painFlags[today] = {};
+        painFlags[today][exId] = { tip, skip: false, at: Date.now() };
+        localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
+        db.ref(`gym_v2/pain_flags/${today}/${exId}`).set(painFlags[today][exId]).catch(() => {});
+      }
+
+      const eff = getEffectiveExercise(activeDay, rawEx);
+      const t0 = computeRPTarget(activeDay, eff, 0, activeWeek);
+      const branchLabel = activeBranch === 'cid' ? 'Cid' : 'Almagro';
+      const shortName = eff.nombre.split('(')[0].trim();
+
+      renderActiveWorkout();
+      if (reason === 'molestia') {
+        showToast(`⚠️ Modo cuidado: ${shortName} (${t0.sugKg} ${eff.unit === 'corporal' ? 'reps' : eff.unit} • RIR 3)`);
+      } else {
+        showToast(`🔄 Ocupada → ${shortName}: ${t0.sugKg} ${eff.unit === 'corporal' ? '' : eff.unit + ' '}× ${t0.sugReps} (${branchLabel})`);
+      }
+    }
+
+    function revertQuickSwap(exId) {
+      const today = getTodayKey();
+      if (activeReplacements[activeDay]) {
+        delete activeReplacements[activeDay][exId];
+        localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+        db.ref(`gym_v2/replacements/${activeDay}`).set(activeReplacements[activeDay] || {}).catch(() => {});
+      }
+      if (replacementDates[activeDay]) {
+        delete replacementDates[activeDay][exId];
+        localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
+        db.ref(`gym_v2/replacement_dates/${activeDay}`).set(replacementDates[activeDay] || {}).catch(() => {});
+      }
+      if (painFlags[today]) {
+        delete painFlags[today][exId];
+        localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
+        db.ref(`gym_v2/pain_flags/${today}/${exId}`).remove().catch(() => {});
+      }
+      renderActiveWorkout();
+      showToast('↩️ Ejercicio original restaurado');
+    }
+
+    function skipExerciseToday(exId) {
+      const today = getTodayKey();
+      if (!painFlags[today]) painFlags[today] = {};
+      const curr = painFlags[today][exId] || { tip: QUICK_SWAP[exId]?.tip || '', at: Date.now() };
+      painFlags[today][exId] = { ...curr, skip: true, at: Date.now() };
+      localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
+      db.ref(`gym_v2/pain_flags/${today}/${exId}`).set(painFlags[today][exId]).catch(() => {});
+      renderActiveWorkout();
+      showToast('⏭️ Ejercicio salteado hoy por cuidado articular');
+    }
+
+    function unskipExerciseToday(exId) {
+      const today = getTodayKey();
+      if (painFlags[today]?.[exId]) {
+        painFlags[today][exId].skip = false;
+        localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
+        db.ref(`gym_v2/pain_flags/${today}/${exId}`).set(painFlags[today][exId]).catch(() => {});
+        renderActiveWorkout();
+        showToast('↩️ Ejercicio restaurado');
+      }
     }
 
     // ==========================================
@@ -1718,13 +2940,24 @@
       document.getElementById('finish-modal-title').textContent = `Cerrar ${dayObj.shortLabel}: ${dayObj.title}`;
 
       const prev = allCompleted?.[activeWeek]?.[activeDay]?.rpFeedback;
+      const today = getTodayKey();
+      const painNames = [];
+      if (!prev) {
+        dayObj.exercises.forEach(rawEx => {
+          if (painFlags?.[today]?.[rawEx.id]) {
+            painNames.push(rawEx.nombre.split('(')[0].trim());
+          }
+        });
+      }
+
       rpModalSelection = {
         pump: prev?.pump || 'bueno',
-        joint: prev?.joint || 'cero',
+        joint: prev?.joint || (painNames.length > 0 ? 'leve' : 'cero'),
+        soreness: prev?.soreness || 'justa',
         fatigue: prev?.fatigue || 'optima'
       };
       document.getElementById('rp-finish-note').value = prev?.notes || '';
-      document.getElementById('rp-joint-area-input').value = prev?.jointArea || '';
+      document.getElementById('rp-joint-area-input').value = prev?.jointArea || painNames.join(', ');
       refreshRpModalButtons();
 
       const modal = document.getElementById('modal-finish-rp');
@@ -1744,15 +2977,15 @@
     }
 
     function refreshRpModalButtons() {
-      ['pump', 'joint', 'fatigue'].forEach(group => {
+      ['pump', 'joint', 'soreness', 'fatigue'].forEach(group => {
         const box = document.getElementById(`rp-q-${group}`);
         if (!box) return;
         box.querySelectorAll('button').forEach(btn => {
           const isSel = btn.dataset.val === rpModalSelection[group];
           if (isSel) {
-            if (group === 'joint' && btn.dataset.val === 'cero') {
+            if ((group === 'joint' && btn.dataset.val === 'cero') || (group === 'soreness' && btn.dataset.val === 'ninguna')) {
               btn.className = 'rp-opt py-2 px-2 rounded-xl border border-emerald-500 bg-emerald-500/20 text-[11px] font-extrabold text-emerald-300';
-            } else if (group === 'joint') {
+            } else if (group === 'joint' || (group === 'soreness' && btn.dataset.val === 'alta')) {
               btn.className = 'rp-opt py-2 px-2 rounded-xl border border-amber-500 bg-amber-500/20 text-[11px] font-extrabold text-amber-300';
             } else {
               btn.className = 'rp-opt py-2 px-2 rounded-xl border border-rose-500 bg-rose-500/20 text-[11px] font-extrabold text-rose-300';
@@ -1776,6 +3009,10 @@
 
       dayObj.exercises.forEach(rawEx => {
         const ex = getEffectiveExercise(activeDay, rawEx);
+        if (ex.painSkip) {
+          summaryParts.push(`${ex.nombre.split('(')[0].trim()} (salteado por molestia)`);
+          return;
+        }
         const sets = dayLogs[ex.id] || [];
         const doneSets = sets.filter(s => s && s.completed);
         if (doneSets.length > 0) {
@@ -1796,15 +3033,18 @@
         completed: true,
         completedAt: Date.now(),
         dateKey: todayKey,
-        dayTitle: dayObj.title,
+        dayKey: activeDay,
+        branch: activeBranch,
+        dayTitle: `${dayObj.title} (${activeBranch === 'cid' ? 'Fiter Cid' : 'Fiter Almagro'})`,
         week: activeWeek,
-        rirTarget: RP_WEEKS[activeWeek].rir,
+        rirTarget: returnMode ? 'RIR 2 (Retorno)' : getWeekObj(activeWeek).rir,
         tonnageKg: Math.round(tonnage),
         summary: summaryParts.join(' • ') || dayObj.title,
         rpFeedback: {
           pump: rpModalSelection.pump,
           joint: rpModalSelection.joint,
           jointArea: document.getElementById('rp-joint-area-input').value.trim(),
+          soreness: rpModalSelection.soreness || 'justa',
           fatigue: rpModalSelection.fatigue,
           notes: document.getElementById('rp-finish-note').value.trim()
         }
@@ -1820,7 +3060,7 @@
         trainedToday: true,
         isLowerBody: ['dia1', 'dia3', 'dia5'].includes(activeDay),
         dayKey: activeDay,
-        dayTitle: dayObj.title,
+        dayTitle: payload.dayTitle,
         summary: payload.summary,
         timestamp: Date.now()
       }).catch(() => {});
@@ -1828,8 +3068,235 @@
 
       closeFinishSessionModal();
       stopRestTimer();
+      releaseGymWakeLock();
       renderAll();
       showToast(`🏆 ¡${dayObj.shortLabel} guardado y sincronizado!`);
+    }
+
+    // ==========================================
+    // 8.5 CIERRE DE MESOCICLO (WRAPPED & AUTO-LANZAMIENTO)
+    // ==========================================
+    function buildMesoWrappedStats() {
+      let totalSessions = 0;
+      let totalTonnage = 0;
+      let jointCeroCount = 0;
+      const jointAreas = [];
+
+      Object.keys(allCompleted || {}).forEach(wk => {
+        Object.keys(allCompleted[wk] || {}).forEach(dk => {
+          const c = allCompleted[wk][dk];
+          if (!c || !c.completed) return;
+          totalSessions++;
+          totalTonnage += (c.tonnageKg || c.tonnage || 0);
+          const fb = c.rpFeedback || {};
+          if (!fb.joint || fb.joint === 'cero') jointCeroCount++;
+          else if (fb.jointArea) jointAreas.push(fb.jointArea);
+        });
+      });
+
+      const adherencePct = Math.min(100, Math.round((totalSessions / 25) * 100));
+      const jointCleanPct = totalSessions > 0 ? Math.round((jointCeroCount / totalSessions) * 100) : 100;
+
+      const gainsList = [];
+      const recalibratedOverrides = {};
+
+      Object.values(BASE_ROUTINE).forEach(d => {
+        d.exercises.forEach(rawEx => {
+          if (rawEx.unit === 'corporal' || rawEx.unit === 'ladrillos') return;
+          let first1RM = 0;
+          let best1RM = 0;
+          let bestKgStr = '';
+          let bestReps = 0;
+
+          WEEK_ORDER.forEach(wk => {
+            if (wk === 'sem5') return;
+            Object.keys(allLogs?.[wk] || {}).forEach(dk => {
+              const sets = (allLogs[wk][dk]?.[rawEx.id] || []).filter(s => s && s.completed && s.reps && ((typeof s.alt === 'number') ? s.alt : null) === null);
+              sets.forEach(s => {
+                const est = calcEst1RM(s.kg, s.reps);
+                if (est > 0) {
+                  if (!first1RM) first1RM = est;
+                  if (est >= best1RM) {
+                    best1RM = est;
+                    bestKgStr = String(s.kg);
+                    bestReps = parseInt(s.reps, 10) || 0;
+                  }
+                }
+              });
+            });
+          });
+
+          if (best1RM > 0) {
+            if (best1RM > first1RM && first1RM > 0) {
+              const deltaPct = Math.round(((best1RM - first1RM) / first1RM) * 100);
+              gainsList.push({
+                name: rawEx.nombre.split('(')[0].trim(),
+                deltaPct,
+                bestStr: `${bestKgStr} ${rawEx.unit} × ${bestReps}`
+              });
+            }
+            const minRep = rawEx.repRange ? rawEx.repRange[0] : 8;
+            if (bestReps >= minRep) {
+              recalibratedOverrides[rawEx.id] = { baseKg: bestKgStr };
+            }
+          }
+        });
+      });
+
+      gainsList.sort((a, b) => b.deltaPct - a.deltaPct);
+      return {
+        mesoNum: activeMeso,
+        totalSessions,
+        adherencePct,
+        totalTonnage,
+        jointCleanPct,
+        jointAreas: [...new Set(jointAreas)],
+        topGains: gainsList.slice(0, 3),
+        recalibratedOverrides
+      };
+    }
+
+    function openMesoWrappedModal() {
+      const modal = document.getElementById('modal-meso-wrapped');
+      const box = document.getElementById('meso-wrapped-content');
+      if (!modal || !box) return;
+
+      const st = buildMesoWrappedStats();
+      const suggestedRotations = [
+        { day: 'dia1', exId: 'd1_rdl', altIdx: 0, from: 'RDL con Mancuernas', to: 'RDL con Barra Corta (o Hiperextensiones)' },
+        { day: 'dia3', exId: 'd3_bulgara', altIdx: 0, from: 'Sentadilla Búlgara', to: 'Step-Up en Cajón Alto con Apoyo' },
+        { day: 'dia4', exId: 'd4_jalon_neutro', altIdx: 0, from: 'Jalón Neutro', to: 'Pull-Over en Polea Alta con Soga' },
+        { day: 'dia2', exId: 'd2_laterales', altIdx: 1, from: 'Vuelos con Mancuernas', to: 'Vuelos Laterales en Polea Baja 1 Brazo' }
+      ];
+
+      box.innerHTML = `
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">Resumen RP Wrapped</span>
+            <h3 class="text-base font-black text-white">🏆 Cierre Mesociclo ${st.mesoNum}</h3>
+          </div>
+          <button onclick="closeMesoWrappedModal()" class="w-7 h-7 rounded-full bg-zinc-800 text-zinc-400 text-xs font-bold">✕</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5">
+            <span class="text-[9px] text-zinc-400 font-bold uppercase block">Adherencia</span>
+            <span class="text-sm font-black text-emerald-400">${st.adherencePct}%</span>
+            <span class="text-[9px] text-zinc-500 block">${st.totalSessions}/25 ses.</span>
+          </div>
+          <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5">
+            <span class="text-[9px] text-zinc-400 font-bold uppercase block">Kilaje Total</span>
+            <span class="text-sm font-black text-rose-400">${st.totalTonnage.toLocaleString('es-AR')} kg</span>
+            <span class="text-[9px] text-zinc-500 block">acumulado</span>
+          </div>
+          <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-2.5">
+            <span class="text-[9px] text-zinc-400 font-bold uppercase block">Articulaciones</span>
+            <span class="text-sm font-black text-amber-300">${st.jointCleanPct}%</span>
+            <span class="text-[9px] text-zinc-500 block">sin dolor</span>
+          </div>
+        </div>
+
+        <div class="bg-zinc-950/90 border border-zinc-800 rounded-2xl p-3 space-y-1.5">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400 block">📈 Donde más creciste en fuerza</span>
+          ${st.topGains.length > 0 ? st.topGains.map(g => `
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-zinc-200 font-bold truncate pr-2">• ${g.name}</span>
+              <span class="text-emerald-300 font-black shrink-0">+${g.deltaPct}% (${g.bestStr})</span>
+            </div>
+          `).join('') : '<p class="text-[11px] text-zinc-400">Consolidaste marcas sólidas preparando el próximo salto.</p>'}
+        </div>
+
+        <div class="bg-zinc-950/90 border border-zinc-800 rounded-2xl p-3 space-y-2">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400 block">🔄 ¿Querés rotar 1 o 2 ejercicios en el Meso ${st.mesoNum + 1}?</span>
+          <p class="text-[10.5px] text-zinc-400 leading-snug">Opcional: tildá alguno si querés variar estímulo (los básicos principales de glúteo se mantienen).</p>
+          <div class="space-y-1.5">
+            ${suggestedRotations.map(r => `
+              <label class="flex items-start gap-2 text-[11px] text-zinc-200 bg-zinc-900 border border-zinc-800 rounded-xl p-2 cursor-pointer">
+                <input type="checkbox" class="meso-rot-chk mt-0.5 accent-rose-500" data-day="${r.day}" data-ex="${r.exId}" data-alt="${r.altIdx}">
+                <span><strong>${r.from}</strong> ➔ ${r.to}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+
+        <button onclick="launchNextMesocycle()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-500 text-white font-black text-xs shadow-lg transition">
+          🚀 Iniciar Mesociclo ${st.mesoNum + 1} (Calibrado a RIR 3)
+        </button>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeMesoWrappedModal() {
+      const m = document.getElementById('modal-meso-wrapped');
+      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    }
+
+    function launchNextMesocycle() {
+      const nextNum = activeMeso + 1;
+      if (!confirm(`¿Archivar el Mesociclo ${activeMeso} y arrancar el Mesociclo ${nextNum} en Semana 1 (RIR 3) con tus pesos nuevos calibrados?`)) return;
+
+      const st = buildMesoWrappedStats();
+      const snapshot = {
+        meso: activeMeso,
+        closedAt: Date.now(),
+        dateKey: getTodayKey(),
+        stats: { adherencePct: st.adherencePct, totalSessions: st.totalSessions, totalTonnage: st.totalTonnage },
+        completed: allCompleted,
+        logs: allLogs
+      };
+
+      if (!mesoHistory) mesoHistory = {};
+      mesoHistory[`meso_${activeMeso}`] = snapshot;
+      localStorage.setItem('mg_meso_history_v1', JSON.stringify(mesoHistory));
+      db.ref(`gym_v2/meso_history/meso_${activeMeso}`).set(snapshot).catch(() => {});
+
+      // Recalibrar cargas base ganadas (sin pisar calibraciones especiales de sede si ya son mayores)
+      remoteOverrides = { ...(remoteOverrides || {}), ...st.recalibratedOverrides };
+      db.ref('gym_v2/routine_overrides').set(remoteOverrides).catch(() => {});
+
+      // Aplicar rotaciones opcionales como reemplazos fijos del nuevo meso (sin fecha de vencimiento)
+      document.querySelectorAll('.meso-rot-chk:checked').forEach(chk => {
+        const d = chk.dataset.day;
+        const ex = chk.dataset.ex;
+        const alt = parseInt(chk.dataset.alt, 10) || 0;
+        if (!activeReplacements[d]) activeReplacements[d] = {};
+        activeReplacements[d][ex] = alt;
+        if (replacementDates[d]) delete replacementDates[d][ex];
+      });
+      localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+      localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
+      db.ref('gym_v2/replacements').set(activeReplacements).catch(() => {});
+      db.ref('gym_v2/replacement_dates').set(replacementDates).catch(() => {});
+
+      activeMeso = nextNum;
+      activeWeek = 'sem1';
+      activeDay = 'dia1';
+      allLogs = {};
+      allCompleted = {};
+      weekPlan = {};
+      lastTransition = null;
+
+      localStorage.setItem('mg_active_meso', String(activeMeso));
+      localStorage.setItem('mg_active_week', 'sem1');
+      localStorage.setItem('mg_active_day', 'dia1');
+      localStorage.setItem('mg_logs_v2', '{}');
+      localStorage.setItem('mg_completed_v2', '{}');
+
+      db.ref('gym_v2/logs').remove().catch(() => {});
+      db.ref('gym_v2/completed').remove().catch(() => {});
+      db.ref('gym_v2/state').set({
+        activeMeso,
+        activeWeek: 'sem1',
+        activeDay: 'dia1',
+        activeDayDate: getTodayKey(),
+        updatedAt: Date.now()
+      }).catch(() => {});
+
+      closeMesoWrappedModal();
+      renderAll();
+      showToast(`🎉 ¡Mesociclo ${activeMeso} iniciado con tus marcas recalibradas!`);
     }
 
     // ==========================================
@@ -1838,20 +3305,31 @@
     function selectWeek(wk) {
       activeWeek = wk;
       localStorage.setItem('mg_active_week', wk);
-      db.ref('gym_v2/state/activeWeek').set(wk).catch(() => {});
+      db.ref('gym_v2/state').update({ activeWeek: wk, updatedAt: Date.now() }).catch(() => {});
       renderAll();
     }
 
     function selectDay(dk) {
       activeDay = dk;
+      const today = getTodayKey();
       localStorage.setItem('mg_active_day', dk);
-      localStorage.setItem('mg_active_day_date', getTodayKey());
-      db.ref('gym_v2/state/activeDay').set(dk).catch(() => {});
+      localStorage.setItem('mg_active_day_date', today);
+      if (dk === 'dia5' && !localStorage.getItem('mg_branch_manual_today_' + today)) {
+        activeBranch = 'cid';
+      }
+      db.ref('gym_v2/state').update({ activeDay: dk, activeDayDate: today, updatedAt: Date.now() }).catch(() => {});
       renderAll();
     }
 
     function openWeekMenuModal() {
       const m = document.getElementById('modal-week-menu');
+      const prevEl = document.getElementById('week-decision-preview');
+      if (prevEl) {
+        const done = countDone(activeWeek);
+        const dec = decideWeekTransition(activeWeek, done, getEffRirKey(activeWeek));
+        prevEl.textContent = `Esta semana: ${done}/5 → si pasás: ${dec.reason}`;
+        prevEl.classList.remove('hidden');
+      }
       m.classList.remove('hidden');
       m.classList.add('flex');
     }
@@ -1863,13 +3341,17 @@
     }
 
     function advanceToNextWeek() {
-      const order = ['sem1', 'sem2', 'sem3', 'sem4', 'sem5'];
-      const idx = order.indexOf(activeWeek);
-      const next = order[Math.min(order.length - 1, idx + 1)];
-      selectWeek(next);
-      selectDay('dia1');
+      const done = countDone(activeWeek);
+      const dec = decideWeekTransition(activeWeek, done, getEffRirKey(activeWeek));
+      if (!dec.nextWeek) {
+        closeWeekMenuModal();
+        showToast(dec.reason);
+        return;
+      }
+      if (!confirm(`${dec.reason}\n\n¿Querés pasar ahora a ${RP_WEEKS[dec.nextWeek].short}?`)) return;
+      applyWeekTransition(activeWeek, dec, 'manual');
       closeWeekMenuModal();
-      showToast(`⏭️ Pasaste a ${RP_WEEKS[next].short} (${RP_WEEKS[next].rir})`);
+      showToast(`⏭️ ${dec.reason}`);
     }
 
     function resetCurrentWeekProgress() {
@@ -2037,16 +3519,20 @@
       `;
       }).join('');
 
-      // PRs showcase (combines real historical records + any new higher logs)
+      // PRs showcase (combines real historical records + all key lifts including Búlgaras!)
       const keyLifts = [
-        { label: 'Prensa 45°', ids: ['d3_prensa'], fallback: '100 kg × 11' },
-        { label: 'Abductores', ids: ['d1_abductores', 'd5_abd_drop'], fallback: '72 kg × 17' },
-        { label: 'RDL Mancuernas', ids: ['d1_rdl'], fallback: '16 kg/mano × 10' },
-        { label: 'Hip Thrust / Kas', ids: ['d1_hipthrust', 'd5_kas'], fallback: '25 kg máq × 12' },
-        { label: 'Extensión Cuád.', ids: ['d3_extension'], fallback: '36 kg × 12' },
-        { label: 'Camilla Isquios', ids: ['d1_legcurl', 'd5_legcurl2'], fallback: '27 kg × 12' },
-        { label: 'Jalón Espalda', ids: ['d2_jalon', 'd4_jalon_neutro'], fallback: 'Base en curso' },
-        { label: 'Hack Inversa', ids: ['d5_hack_inv'], fallback: '15 kg/lado × 12' }
+        { label: 'Sentadilla Búlgara', ids: ['d3_bulgara'], fallback: '14 kg × 11' },
+        { label: 'Hip Thrust (Almagro / Cid)', ids: ['d1_hipthrust', 'd5_kas'], fallback: '25 kg Alm / 40 kg Cid' },
+        { label: 'Prensa 45°', ids: ['d3_prensa'], fallback: '100 kg × 12' },
+        { label: 'Abductores', ids: ['d1_abductores', 'd5_abd_drop'], fallback: '72 kg × 20' },
+        { label: 'RDL Mancuernas', ids: ['d1_rdl'], fallback: '16 kg/mano × 11' },
+        { label: 'Extensión Cuád.', ids: ['d3_extension', 'd5_ext_prep'], fallback: '32 kg × 11' },
+        { label: 'Camilla Isquios', ids: ['d1_legcurl', 'd5_legcurl2'], fallback: '23-27 kg × 13' },
+        { label: 'Patada Diagonal 30°', ids: ['d3_patada_diag'], fallback: '9.1 kg × 11' },
+        { label: 'Aductores', ids: ['d3_aductores'], fallback: '36 kg × 12' },
+        { label: 'Sentadilla Smith', ids: ['d5_hack_inv'], fallback: '20 kg/lado × 10' },
+        { label: 'Jalón Espalda', ids: ['d2_jalon', 'd4_jalon_neutro'], fallback: '23 kg × 11' },
+        { label: 'Remo Espalda', ids: ['d2_remo', 'd4_remo_maq'], fallback: '18 kg polea / 8 kg máq' }
       ];
 
       document.getElementById('prs-board-list').innerHTML = keyLifts.map(item => {
@@ -2073,11 +3559,15 @@
             <span class="text-xs font-black text-amber-300 mt-0.5 block">${bestStr}</span>
           </div>
         `;
-      }).join('');
+      }).join('') + `
+        <button onclick="openAllWeightsModal()" class="col-span-2 py-2.5 bg-zinc-950 hover:bg-zinc-800 border border-rose-500/30 rounded-2xl text-xs font-extrabold text-rose-300 transition">
+          🔍 Ver / Buscar los 25 ejercicios completos
+        </button>
+      `;
     }
 
     // ==========================================
-    // 12. DEDICATED RP BIOMECHANICS AI COACH
+    // 12. DEDICATED AUTONOMOUS RP BIOMECHANICS AI COACH
     // ==========================================
     function switchGymView(view) {
       activeView = view;
@@ -2103,136 +3593,363 @@
       sendGymCoachMessage();
     }
 
-    function buildGymCoachContext() {
-      try {
-        const dayObj = BASE_ROUTINE[activeDay] || BASE_ROUTINE['dia4'] || Object.values(BASE_ROUTINE)[0];
-        const w = RP_WEEKS[activeWeek] || { short: 'Sem 1', rir: 'RIR 3' };
-        const exercises = dayObj?.exercises || [];
-        const exSummary = exercises.map(raw => {
-          const ex = getEffectiveExercise(activeDay, raw);
-          const sets = (allLogs?.[activeWeek]?.[activeDay]?.[ex.id] || []).filter(s => s?.completed);
-          const loggedStr = sets.length > 0 ? sets.map(s => `${s.kg}x${s.reps}`).join(', ') : 'sin registrar hoy';
-          return `- ${ex.nombre} (Base: ${ex.baseKg} ${ex.unit}, Series: ${ex.series}) -> Hoy: ${loggedStr}`;
-        }).join('\n');
+    function toggleGymVoiceDictation(fromCopilot = false) {
+      if (fromCopilot) switchGymView('coach');
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        showToast('Usá el micrófono de tu teclado para dictar 🎙️');
+        return;
+      }
+      if (isDictatingGym && gymSpeechRec) {
+        gymSpeechRec.stop();
+        return;
+      }
 
-        return `SOS EL COACH RP BIOMECÁNICO EXCLUSIVO DE MALE EN EL GIMNASIO FITER.
-REGLAS ESTRICTAS DE FOCO (CERO CONTAMINACIÓN DE CONTEXTO):
-1. Hablás ÚNICAMENTE de entrenamiento de hipertrofia (metodología Renaissance Periodization / RIR), técnica biomecánica, pesos, reemplazos de máquinas en Fiter y cardio LISS. PROHIBIDO hablar de exámenes de odontología, cursadas o temas fuera del entrenamiento físico.
-2. Usá español rioplatense cálido, directo, motivador y conciso (ideal para leer rápido entre series en el gym, máximo 2-3 párrafos cortos o viñetas).
-3. DATOS Y OBJETIVOS ESTÉTICOS REALES DE MALE:
-   - Mide 1.54 m, pesa 54.5 kg (bajó 0.5 kg afinando cintura), 22 años. Toma 5g de creatina diarios.
-   - PRIORIDAD ESTÉTICA N° 1 DECLARADA POR MALE: AGRANDAR Y REDONDEAR LA CADERA LATERAL (Glúteo Medio) + Proyección de Glúteo ("Forma de P") manteniendo la cintura chica. Ella NO quiere achicar la cadera, la quiere ensanchar y llenar con músculo (Abductores espalda pegada, Patada diagonal 30°, Hip Thrust, Búlgaras, Prensa).
-   - Objetivos secundarios: aumentar masa muscular firme en piernas, definir espalda y deltoides laterales (efecto V-Taper que achica cintura) y faja abdominal plana (CERO oblicuos pesados).
-   - Cuidado técnico & detalles de su sede: cuidar rótula (bajadas 2-3s), evitar trapecio en vuelos (4 kg brazos largos), en Patada Diagonal empezar por la pierna izquierda fresca con 30s de pausa entre piernas, y en las cintas de Fiter Almagro elevación 12-14 equivale a ~7-8% real.
-   - FATIGA & RECORTES ESTRATÉGICOS: Si Male avisa que saltea accesorios (como tríceps, bíceps o abs) o que ya está en la cinta, RESPALDALA 100%. En RP recortar accesorios cuando falta energía es la decisión técnica correcta para no arrastrar fatiga sistémica a la sesión de piernas de mañana.
-4. SESIÓN QUE ESTÁ VIENDO AHORA MISMO:
-   - ${w.short} (${w.rir}) — ${dayObj?.shortLabel || 'Día'}: ${dayObj?.title || ''}
-${exSummary}`;
+      const btn = document.getElementById('gym-mic-btn');
+      const inp = document.getElementById('gym-chat-input');
+      gymSpeechRec = new SR();
+      gymSpeechRec.lang = 'es-AR';
+      gymSpeechRec.interimResults = true;
+      gymSpeechRec.continuous = false;
+
+      let finalTranscript = '';
+      isDictatingGym = true;
+      if (btn) {
+        btn.className = 'w-9 h-9 rounded-2xl bg-rose-600 border border-rose-400 text-white flex items-center justify-center text-sm animate-pulse shrink-0';
+        btn.textContent = '🔴';
+      }
+      showToast('🎙️ Escuchando... hablá tranquila');
+
+      gymSpeechRec.onresult = (ev) => {
+        let interim = '';
+        for (let i = ev.resultIndex; i < ev.results.length; i++) {
+          const t = ev.results[i][0].transcript;
+          if (ev.results[i].isFinal) finalTranscript += t + ' ';
+          else interim += t;
+        }
+        if (inp) inp.value = (finalTranscript + interim).trim();
+      };
+
+      gymSpeechRec.onerror = () => {
+        isDictatingGym = false;
+        if (btn) {
+          btn.className = 'w-9 h-9 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-rose-400 flex items-center justify-center text-sm transition shrink-0';
+          btn.textContent = '🎤';
+        }
+      };
+
+      gymSpeechRec.onend = () => {
+        isDictatingGym = false;
+        if (btn) {
+          btn.className = 'w-9 h-9 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-rose-400 flex items-center justify-center text-sm transition shrink-0';
+          btn.textContent = '🎤';
+        }
+        if (inp && inp.value.trim().length > 1) {
+          sendGymCoachMessage();
+        }
+      };
+
+      try {
+        gymSpeechRec.start();
       } catch (e) {
-        return 'SOS EL COACH RP DE MALE EN EL GYM. Respondele con calidez y técnica rápida.';
+        isDictatingGym = false;
       }
     }
 
+    function buildGymCoachContext() {
+      try {
+        const now = new Date();
+        const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const todayStr = `${dayNames[now.getDay()]} ${getTodayKey(now)} (${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
+        const insight = getWorkoutHistoryInsight();
+        const sug = computeSmartDaySuggestion(activeWeek);
+
+        const dayObj = BASE_ROUTINE[activeDay] || Object.values(BASE_ROUTINE)[0];
+        const w = getWeekObj(activeWeek);
+
+        // Resumen completo de TODOS los 5 días y TODOS los pesos históricos reales de Male
+        const fullCatalogLines = Object.values(BASE_ROUTINE).map(d => {
+          const isComp = !!allCompleted?.[activeWeek]?.[d.key]?.completed;
+          const exParts = d.exercises.map(raw => {
+            const eff = getEffectiveExercise(d.key, raw);
+            const recAlm = findLastExerciseRecord(raw.id, null, 'almagro', eff.altIdx ?? null);
+            const recCid = findLastExerciseRecord(raw.id, null, 'cid', eff.altIdx ?? null);
+            const rec = activeBranch === 'cid' ? (recCid || recAlm) : (recAlm || recCid);
+            let histTxt = `base ${eff.baseKg} ${raw.unit}`;
+            if (rec && rec.sets?.length) {
+              histTxt = `última real (${rec.dateKey || rec.weekKey}, ${rec.branch}): ${rec.sets[0].kg} ${raw.unit} x [${rec.sets.map(s => s.reps).join(',')}]`;
+            }
+            const todaySets = (allLogs?.[activeWeek]?.[d.key]?.[raw.id] || []).filter(s => s?.completed);
+            const todayTxt = todaySets.length > 0 ? ` | HOY hizo: ${todaySets.map(s => s.kg + 'x' + s.reps).join(',')}` : '';
+            const alts = (raw.alternativas || []).map((a, i) => `alt${i}:${a.nombre}(${a.branchKg?.[activeBranch] || a.baseKg}kg)`).join(', ');
+            return `  • [${raw.id}] ${eff.nombre}: ${histTxt}${todayTxt}${alts ? ' | Reemplazos: ' + alts : ''}`;
+          }).join('\n');
+          return `${d.shortLabel} (${d.key} - ${d.title}) [${isComp ? 'COMPLETADO en ' + w.short : 'PENDIENTE en ' + w.short}]:\n${exParts}`;
+        }).join('\n');
+
+        return `SOS EL COACH RP Y PREPARADOR FÍSICO AUTÓNOMO DE MALE ("Caritas") EN EL GIMNASIO FITER.
+TU MISIÓN PRINCIPAL: Resolverle a Male el 100% de cualquier duda, cálculo de peso/repes, dolor, falta de tiempo, máquina ocupada o reorganización semanal DIRECTAMENTE EN LA APP, tomando decisiones claras por ella para que NUNCA quede con dudas.
+
+REGLAS DE ORO:
+1. Español rioplatense cálido, seguro, práctico y conciso (2-3 párrafos cortos o viñetas claras para leer rápido en el gym). Llamala "Male" o "Caritas" (PROHIBIDO llamarla "reina").
+2. CONTEXTO TEMPORAL Y ESTADO REAL DE HOY:
+   - Fecha y hora actual: ${todayStr}
+   - Sede seleccionada ahora: ${activeBranch === 'cid' ? 'Fiter Cid Campeador (donde va los findes con Naza)' : 'Fiter Almagro (su sede habitual de semana)'}
+   - Semana activa en pantalla: ${w.short} — Intensidad efectiva: ${w.rir}${w.held ? ' (REPETIDA para consolidar por semana previa incompleta)' : ''} | Día en pantalla: ${dayObj.shortLabel} (${activeDay}: ${dayObj.title})
+   - Regla automática de cambio de semana: ≥4/5 días hechos avanza a la siguiente intensidad RIR; ≤3/5 días hechos repite el mismo RIR la semana siguiente; después de Sem 4 siempre pasa a Descarga (60% carga).
+   - Tarjeta de cada ejercicio: tiene botones directos de 1 toque "🔄 Ocupada" y "⚠️ Molestia" (si no hace falta abrir el chat, podés recordarle que los toque directo).
+   - Último entrenamiento registrado: ${insight.latest ? `${insight.latest.dateKey} (hace ${insight.daysAgo} días) -> ${insight.latest.weekKey} ${insight.latest.dayKey} (${insight.latest.dayTitle})` : 'Sin registro previo'}
+   - Modo Retorno Post-Pausa activo: ${returnMode ? 'SÍ (apuntar a igualar o -1 rep de su última marca a RIR 2 sin exigir récord)' : 'NO'} | Modo Express 35m: ${expressMode ? 'SÍ' : 'NO'}
+   - Sugerencia automática del Copiloto para hoy: ${sug.day} (${sug.reason})
+3. DIFERENCIAS REALES ENTRE SEDES FITER (¡CLAVE!):
+   - Fiter Almagro (habitual): Hip Thrust máquina = 25 a 30 kg (con 25kg hace ~12,11,10; si sube a 30kg apuntar a ~7-9 reps controladas), Abductores = 72 kg, Seated Leg Curl = 23 kg, Extensión Cuádriceps = 32-36 kg, cinta elevación 12-14 = ~7-8% real.
+   - Fiter Cid Campeador (findes con Naza — ahí suele hacer Día 5): Hip Thrust máquina = 40 kg (rango largo, ~13-15 reps), Abductores = 50 kg (espalda pegada) o 62 kg (inclinada), Extensión = 32 kg (polea pesada), Camilla Isquios = 27 kg, Sentadilla Smith = 20 kg por lado.
+4. CRITERIO PARA ORGANIZAR SU SEMANA O IMPREVISTOS:
+   - Si cuenta que tuvo exámenes/finales, no vino hace varios días, tiene poco tiempo o te dice qué días va a poder ir esta semana (ej: "voy hoy jueves, capaz viernes y el sábado con Naza"): ARMALE EL PLAN EXACTO SIN DUDAR.
+   - Regla: evitar dos días seguidos de piernas (intercalar Pierna -> Torso -> Pierna). Si va el finde con Naza al Fiter Cid Campeador, reservale el Día 5 para ese día en pareja. Si vuelve tras >=6 días sin ir, indicále pesos de su última marca real a RIR 2 (Modo Retorno) sin exigir subir kilos hoy.
+   - Si pregunta "si pongo X kg a cuántas repes apunto", calculale el rango exacto usando su última marca real de abajo.
+   - PRIORIDAD ESTÉTICA N° 1 DE MALE: Agrandar y redondear cadera lateral (Glúteo Medio) + proyección de glúteo ("Forma de P") manteniendo cintura finita (cero oblicuos pesados; cuidar rótula con bajadas de 2-3s; vuelos laterales 4 kg brazos largos sin trapecio; patada diagonal arrancar por pierna izquierda fresca + 30s pausa).
+5. ACCIONES REALES EN LA APP (¡USALAS SIEMPRE QUE CORRESPONDA!):
+   Podés modificar la pantalla de Male en vivo agregando AL FINAL de tu respuesta una o más líneas JSON exactas (la app las ejecuta sola y las oculta del texto):
+   - Cambiar el día o semana que ve en pantalla (ej. cuando le decís qué día hacer hoy):
+     {"action":"SWITCH_DAY","day":"dia1","week":"sem3"}
+   - Cambiar sede ("almagro" o "cid"):
+     {"action":"SET_BRANCH","branch":"almagro"}
+   - Activar/desactivar Modo Retorno suave o Modo Express 35m:
+     {"action":"SET_RETURN_MODE","enabled":true}
+     {"action":"SET_EXPRESS_MODE","enabled":true}
+   - Activar reemplazo por máquina ocupada/molestia (altIdx 0 o 1, o null para volver al original):
+     {"action":"SWAP_EXERCISE","day":"dia1","exId":"d1_legcurl","altIdx":0}
+   - Anotar series si Male te pide que le registres lo que hizo:
+     {"action":"LOG_SETS","day":"dia3","exId":"d3_bulgara","sets":[{"kg":"14","reps":10},{"kg":"14","reps":10},{"kg":"14","reps":9}]}
+   - Ajustar peso/repes sugeridos de un ejercicio:
+     {"action":"OVERRIDE_EX","exId":"d1_hipthrust","baseKg":"30","metaReps":[9,8,8]}
+   - Si Male te dicta por voz o texto series ya hechas (ej. "hice 25 kilos por 12, 11 y 10 en hip thrust"), emití LOG_SETS y confirmale en 1 línea corta sin vueltas.
+
+HISTORIAL COMPLETO Y PESOS REALES DE LOS 25 EJERCICIOS DE MALE:
+${fullCatalogLines}`;
+      } catch (e) {
+        return 'SOS EL COACH RP DE MALE EN EL GYM. Respondele con calidez y precisión.';
+      }
+    }
+
+    function applyGymAiAction(cmd) {
+      if (!cmd || !cmd.action) return null;
+      switch (cmd.action) {
+        case 'SWITCH_DAY': {
+          if (cmd.week && RP_WEEKS[cmd.week]) selectWeek(cmd.week);
+          if (cmd.day && BASE_ROUTINE[cmd.day]) {
+            selectDay(cmd.day);
+            return `Pantalla cambiada a ${BASE_ROUTINE[cmd.day].shortLabel} (${BASE_ROUTINE[cmd.day].title})`;
+          }
+          return null;
+        }
+        case 'SET_BRANCH': {
+          if (cmd.branch === 'almagro' || cmd.branch === 'cid') {
+            localStorage.setItem('mg_branch_manual_today_' + getTodayKey(), '1');
+            toggleGymBranch(cmd.branch);
+            return `Sede calibrada a Fiter ${cmd.branch === 'cid' ? 'Cid Campeador' : 'Almagro'}`;
+          }
+          return null;
+        }
+        case 'SET_RETURN_MODE': {
+          toggleReturnMode(!!cmd.enabled);
+          return cmd.enabled ? 'Modo Retorno Post-Pausa activado' : 'Modo Progresión normal activado';
+        }
+        case 'SET_EXPRESS_MODE': {
+          toggleExpressMode(!!cmd.enabled);
+          return cmd.enabled ? 'Modo Express 35m activado' : 'Sesión completa restaurada';
+        }
+        case 'SWAP_EXERCISE': {
+          const dKey = (cmd.day && BASE_ROUTINE[cmd.day]) ? cmd.day : activeDay;
+          if (!cmd.exId) return null;
+          if (cmd.reason === 'molestia' && dKey === activeDay) {
+            quickSwap(cmd.exId, 'molestia');
+            return 'Modo cuidado y reemplazo aplicados en tu rutina';
+          }
+          const today = getTodayKey();
+          if (!activeReplacements[dKey]) activeReplacements[dKey] = {};
+          if (!replacementDates[dKey]) replacementDates[dKey] = {};
+          if (cmd.altIdx === null || cmd.altIdx === undefined) {
+            delete activeReplacements[dKey][cmd.exId];
+            delete replacementDates[dKey][cmd.exId];
+          } else {
+            activeReplacements[dKey][cmd.exId] = Number(cmd.altIdx) || 0;
+            replacementDates[dKey][cmd.exId] = today;
+          }
+          localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+          localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
+          db.ref(`gym_v2/replacements/${dKey}`).set(activeReplacements[dKey] || {}).catch(() => {});
+          db.ref(`gym_v2/replacement_dates/${dKey}`).set(replacementDates[dKey] || {}).catch(() => {});
+          renderActiveWorkout();
+          return 'Reemplazo de máquina aplicado en tu rutina';
+        }
+        case 'LOG_SETS': {
+          const dKey = (cmd.day && BASE_ROUTINE[cmd.day]) ? cmd.day : activeDay;
+          if (!cmd.exId || !Array.isArray(cmd.sets)) return null;
+          const rawEx = BASE_ROUTINE[dKey]?.exercises?.find(e => e.id === cmd.exId);
+          const eff = rawEx ? getEffectiveExercise(dKey, rawEx) : null;
+          const altVal = (eff && typeof eff.altIdx === 'number') ? eff.altIdx : null;
+          cmd.sets.forEach((st, idx) => {
+            ensureLogSlot(activeWeek, dKey, cmd.exId, idx);
+            allLogs[activeWeek][dKey][cmd.exId][idx] = {
+              completed: true,
+              kg: String(st.kg ?? '0'),
+              reps: parseInt(st.reps) || 0,
+              alt: altVal,
+              updatedAt: Date.now()
+            };
+          });
+          localStorage.setItem('mg_logs_v2', JSON.stringify(allLogs));
+          db.ref(`gym_v2/logs/${activeWeek}/${dKey}/${cmd.exId}`).set(allLogs[activeWeek][dKey][cmd.exId]).catch(() => {});
+          renderAll();
+          return `Series guardadas en ${cmd.exId}`;
+        }
+        case 'OVERRIDE_EX': {
+          if (!cmd.exId) return null;
+          const patch = {};
+          if (cmd.baseKg !== undefined) patch.baseKg = String(cmd.baseKg);
+          if (Array.isArray(cmd.metaReps)) patch.metaReps = cmd.metaReps.map(r => parseInt(r) || 10);
+          remoteOverrides[cmd.exId] = { ...(remoteOverrides[cmd.exId] || {}), ...patch };
+          db.ref(`gym_v2/routine_overrides/${cmd.exId}`).update(patch).catch(() => {});
+          renderActiveWorkout();
+          return `Carga/repes ajustadas en tu rutina`;
+        }
+      }
+      return null;
+    }
+
+    let isSendingGymChat = false;
     async function sendGymCoachMessage() {
+      if (isSendingGymChat) return;
       const input = document.getElementById('gym-chat-input');
       const text = input.value.trim();
       if (!text) return;
+      isSendingGymChat = true;
       input.value = '';
 
       const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const chatBox = document.getElementById('gym-chat-messages');
 
-      // 1. RENDER OPTIMISTA INSTANTÁNEO (Para que Male vea su mensaje de inmediato aunque haya lag en el gym)
-      const optDiv = document.createElement('div');
-      optDiv.className = 'flex justify-end animate-fade-in';
-      optDiv.innerHTML = `
-        <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-rose-600 text-white font-medium shadow-2xs">
-          <div>${formatSimpleMarkdown(text)}</div>
-          <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr} ✓</span>
-        </div>
-      `;
-      chatBox.appendChild(optDiv);
-
-      // Typing indicator
-      const typing = document.createElement('div');
-      typing.id = 'gym-typing';
-      typing.className = 'text-[11px] text-rose-400 italic px-2 animate-pulse';
-      typing.textContent = 'Coach RP analizando...';
-      chatBox.appendChild(typing);
-      scrollGymChatBottom();
-
-      // 2. ENVIAR A FIREBASE EN SEGUNDO PLANO SIN BLOQUEAR
       try {
-        db.ref('gym_v2/chat_messages').push({
-          sender: 'Male',
-          text,
-          time: timeStr,
-          timestamp: Date.now()
-        }).catch(e => console.warn('Offline queued:', e));
-      } catch (err) {}
-
-      // 3. CONSULTAR HISTORIAL RECIENTE
-      let historyStr = '';
-      try {
-        const snap = await db.ref('gym_v2/chat_messages').limitToLast(6).once('value');
-        const val = snap.val();
-        if (val) {
-          historyStr = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
-        }
-      } catch (e) {}
-
-      const payload = {
-        contents: [{
-          role: 'user',
-          parts: [{ text: `${buildGymCoachContext()}\n\nHISTORIAL RECIENTE:\n${historyStr}\n\nMale consulta en el gym: "${text}"` }]
-        }]
-      };
-
-      const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
-      let reply = null;
-
-      for (const m of models) {
-        try {
-          const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 12000);
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal: ctrl.signal
-          });
-          clearTimeout(t);
-          if (!res.ok) continue;
-          const data = await res.json();
-          const candidate = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidate) { reply = candidate.trim(); break; }
-        } catch (e) {}
-      }
-
-      if (typing.parentNode) typing.parentNode.removeChild(typing);
-
-      const coachReplyText = reply || '¡Te leí perfecto Male! Si estás en la cinta o en una máquina y la señal de Fiter titubea, dale con todo a tus 20-25 min de caminata inclinada (pendiente 9-12% • 4.8 km/h). Si dejaste afuera tríceps y abs hoy, ¡es una decisión impecable para llegar descansada a las piernas de mañana!';
-
-      // Guardar respuesta en Firebase
-      try {
-        await db.ref('gym_v2/chat_messages').push({
-          sender: 'Coach RP',
-          text: coachReplyText,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          timestamp: Date.now()
-        });
-      } catch (e) {
-        // Render fallback local si Firebase se desconectó totalmente
-        const replyDiv = document.createElement('div');
-        replyDiv.className = 'flex justify-start';
-        replyDiv.innerHTML = `
-          <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-zinc-950 border border-zinc-800 text-zinc-200">
-            <div>${formatSimpleMarkdown(coachReplyText)}</div>
-            <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr}</span>
+        // 1. RENDER OPTIMISTA INSTANTÁNEO
+        const optDiv = document.createElement('div');
+        optDiv.className = 'flex justify-end animate-fade-in';
+        optDiv.innerHTML = `
+          <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-rose-600 text-white font-medium shadow-2xs">
+            <div>${formatSimpleMarkdown(text)}</div>
+            <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr} ✓</span>
           </div>
         `;
-        chatBox.appendChild(replyDiv);
+        chatBox.appendChild(optDiv);
+
+        // Typing indicator
+        const typing = document.createElement('div');
+        typing.id = 'gym-typing';
+        typing.className = 'text-[11px] text-rose-400 italic px-2 animate-pulse';
+        typing.textContent = 'Coach RP respondiendo...';
+        chatBox.appendChild(typing);
         scrollGymChatBottom();
+
+        // 2. ENVIAR A FIREBASE EN SEGUNDO PLANO SIN BLOQUEAR
+        try {
+          db.ref('gym_v2/chat_messages').push({
+            sender: 'Male',
+            text,
+            time: timeStr,
+            timestamp: Date.now()
+          }).catch(e => console.warn('Offline queued:', e));
+        } catch (err) {}
+
+        // 3. CONSULTAR HISTORIAL RECIENTE
+        let historyStr = '';
+        try {
+          const snap = await db.ref('gym_v2/chat_messages').limitToLast(6).once('value');
+          const val = snap.val();
+          if (val) {
+            historyStr = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
+          }
+        } catch (e) {}
+
+        const payload = {
+          contents: [{
+            role: 'user',
+            parts: [{ text: `${buildGymCoachContext()}\n\nHISTORIAL RECIENTE:\n${historyStr}\n\nMale consulta en el gym: "${text}"` }]
+          }],
+          generationConfig: {
+            maxOutputTokens: 1000,
+            temperature: 0.45
+          }
+        };
+
+        // Modelos ultrarrápidos verificados (~1-2s) primero + respaldo completo
+        const models = ['gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.6-flash'];
+        let reply = null;
+
+        for (const m of models) {
+          try {
+            const ctrl = new AbortController();
+            const timeoutMs = m === 'gemini-3.6-flash' ? 12000 : 7500;
+            const t = setTimeout(() => ctrl.abort(), timeoutMs);
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal: ctrl.signal
+            });
+            clearTimeout(t);
+            if (!res.ok) continue;
+            const data = await res.json();
+            const candidate = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (candidate) { reply = candidate.trim(); break; }
+          } catch (e) {}
+        }
+
+        if (typing.parentNode) typing.parentNode.removeChild(typing);
+
+        // Ejecutar acciones autónomas en la app si el Coach emitió bloques JSON
+        if (reply) {
+          const actRegex = /```(?:json)?\s*(\{[\s\S]*?"action"\s*:\s*"[A-Z_]+"[\s\S]*?\})\s*```|(\{[^{}]*"action"\s*:\s*"[A-Z_]+"[^{}]*\})/g;
+          const appliedNotes = [];
+          reply = reply.replace(actRegex, (full, g1, g2) => {
+            try {
+              const cmd = JSON.parse(g1 || g2);
+              const note = applyGymAiAction(cmd);
+              if (note) appliedNotes.push(note);
+            } catch (e) {
+              console.warn('Error parseando GYM_ACTION:', e);
+            }
+            return '';
+          }).trim();
+
+          if (appliedNotes.length > 0) {
+            reply += `\n\n⚡ *Aplicado en tu app: ${appliedNotes.join(' • ')}*`;
+          }
+        }
+
+        const coachReplyText = reply || 'Se cortó un segundito la señal en Fiter, Male. Tocá arriba "🔍 Mis Pesos" para ver todas tus marcas exactas al instante o reenviame tu mensajito que acá estoy.';
+
+        try {
+          await db.ref('gym_v2/chat_messages').push({
+            sender: 'Coach RP',
+            text: coachReplyText,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            timestamp: Date.now()
+          });
+        } catch (e) {
+          const replyDiv = document.createElement('div');
+          replyDiv.className = 'flex justify-start';
+          replyDiv.innerHTML = `
+            <div class="max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed bg-zinc-950 border border-zinc-800 text-zinc-200">
+              <div>${formatSimpleMarkdown(coachReplyText)}</div>
+              <span class="block text-[9px] mt-1 opacity-60 text-right">${timeStr}</span>
+            </div>
+          `;
+          chatBox.appendChild(replyDiv);
+          scrollGymChatBottom();
+        }
+      } finally {
+        isSendingGymChat = false;
       }
     }
 
@@ -2250,43 +3967,76 @@ ${exSummary}`;
     function initRealtimeListeners() {
       db.ref('.info/connected').on('value', snap => {
         const ok = snap.val() === true;
-        document.getElementById('sync-dot').className = `w-1.5 h-1.5 rounded-full ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`;
-        document.getElementById('sync-label').textContent = ok ? 'RP Sync' : 'Local';
+        const dot = document.getElementById('sync-dot');
+        if (dot) dot.className = `w-1.5 h-1.5 rounded-full ${ok ? 'bg-emerald-400' : 'bg-amber-400'}`;
+        const lbl = document.getElementById('sync-label');
+        if (lbl) lbl.textContent = ok ? 'RP Sync' : 'Local';
       });
 
-      // Remote routine overrides (so our AI Analyst can adjust Male's weights/exercises live!)
+      // Remote routine overrides
       db.ref('gym_v2/routine_overrides').on('value', snap => {
         remoteOverrides = snap.val() || {};
         renderActiveWorkout();
       });
 
-      db.ref('gym_v2/state/activeWeek').on('value', snap => {
-        const wk = snap.val();
-        if (wk && RP_WEEKS[wk] && wk !== activeWeek) {
-          activeWeek = wk;
-          localStorage.setItem('mg_active_week', wk);
-          renderAll();
+      db.ref('gym_v2/state').on('value', snap => {
+        const st = snap.val() || {};
+        weekPlan = st.weekPlan || {};
+        lastTransition = st.lastTransition || null;
+        stateLoaded = true;
+        let changed = false;
+        if (st.activeMeso && st.activeMeso !== activeMeso) {
+          activeMeso = parseInt(st.activeMeso, 10) || 2;
+          localStorage.setItem('mg_active_meso', String(activeMeso));
+          changed = true;
         }
+        if (st.activeWeek && RP_WEEKS[st.activeWeek] && st.activeWeek !== activeWeek) {
+          activeWeek = st.activeWeek;
+          localStorage.setItem('mg_active_week', activeWeek);
+          changed = true;
+        }
+        const today = getTodayKey();
+        if (st.activeDay && BASE_ROUTINE[st.activeDay] && st.activeDayDate === today && st.activeDay !== activeDay) {
+          activeDay = st.activeDay;
+          localStorage.setItem('mg_active_day', activeDay);
+          localStorage.setItem('mg_active_day_date', today);
+          changed = true;
+        }
+        if (changed) renderAll();
+        else { renderHeaderAndWeekPills(); renderSmartCopilotCard(); }
+        maybeAutoCloseWeek();
       });
 
-      db.ref('gym_v2/state/activeDay').on('value', snap => {
-        const dk = snap.val();
-        if (dk && BASE_ROUTINE[dk] && dk !== activeDay) {
-          activeDay = dk;
-          localStorage.setItem('mg_active_day', dk);
-          localStorage.setItem('mg_active_day_date', getTodayKey());
-          renderAll();
+      db.ref('gym_v2/meso_history').on('value', snap => {
+        const val = snap.val();
+        if (val) {
+          mesoHistory = val;
+          localStorage.setItem('mg_meso_history_v1', JSON.stringify(mesoHistory));
         }
       });
 
       db.ref('gym_v2/replacements').on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          activeReplacements = val;
-          localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
-          if (!document.activeElement || !document.activeElement.id?.startsWith('kg_') && !document.activeElement.id?.startsWith('reps_')) {
-            renderActiveWorkout();
-          }
+        activeReplacements = snap.val() || {};
+        localStorage.setItem('mg_replacements_v2', JSON.stringify(activeReplacements));
+        if (!document.activeElement || !document.activeElement.id?.startsWith('kg_') && !document.activeElement.id?.startsWith('reps_')) {
+          renderActiveWorkout();
+        }
+      });
+
+      db.ref('gym_v2/replacement_dates').on('value', snap => {
+        replacementDates = snap.val() || {};
+        localStorage.setItem('mg_replacement_dates_v1', JSON.stringify(replacementDates));
+        if (!document.activeElement || !document.activeElement.id?.startsWith('kg_') && !document.activeElement.id?.startsWith('reps_')) {
+          renderActiveWorkout();
+        }
+      });
+
+      db.ref(`gym_v2/pain_flags/${getTodayKey()}`).on('value', snap => {
+        const today = getTodayKey();
+        painFlags[today] = snap.val() || {};
+        localStorage.setItem('mg_pain_flags_v1', JSON.stringify(painFlags));
+        if (!document.activeElement || !document.activeElement.id?.startsWith('kg_') && !document.activeElement.id?.startsWith('reps_')) {
+          renderActiveWorkout();
         }
       });
 
@@ -2306,13 +4056,20 @@ ${exSummary}`;
 
       db.ref('gym_v2/completed').on('value', snap => {
         const val = snap.val();
+        completedLoaded = true;
         if (val) {
           allCompleted = val;
           localStorage.setItem('mg_completed_v2', JSON.stringify(allCompleted));
+          syncReturnModeDefault();
+          const today = getTodayKey();
+          if (localStorage.getItem('mg_active_day_date') !== today) {
+            activeDay = guessBestDayForToday();
+          }
           renderHeaderAndWeekPills();
           renderDaySelector();
           renderActiveWorkout();
         }
+        maybeAutoCloseWeek();
       });
 
       db.ref('gym_v2/cardio_logs').on('value', snap => {
@@ -2373,6 +4130,7 @@ ${exSummary}`;
     window.addEventListener('DOMContentLoaded', () => {
       ensureInitialBaseline();
       renderAll();
+      restoreActiveRestTimerIfAny();
       initRealtimeListeners();
     });
   </script>
