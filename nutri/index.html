@@ -38,16 +38,23 @@
     ::-webkit-scrollbar { width: 3px; height: 3px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    .meal-stepper-btn {
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      min-height: 34px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
-<body class="bg-[#F6FAF7] text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-200">
+<body class="bg-[#F6FAF7] text-slate-800 antialiased h-[100dvh] overflow-hidden flex flex-col selection:bg-emerald-200">
 
   <!-- APP SHELL -->
-  <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#F6FAF7] shadow-2xl relative border-x border-emerald-100/80">
+  <div class="w-full max-w-md mx-auto flex-1 min-h-0 h-full flex flex-col overflow-hidden bg-[#F6FAF7] shadow-2xl relative border-x border-emerald-100/80">
 
     <!-- TOP SUITE SWITCHER + HEADER -->
-    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2.5 pb-2.5 z-30 mc-safe-top">
-      <div class="flex items-center justify-between gap-2 mb-2">
+    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2 pb-2 z-30 mc-safe-top">
+      <div class="flex items-center justify-between gap-2 mb-1.5">
         <!-- Ecosystem Switcher -->
         <div class="inline-flex items-center bg-emerald-100/60 p-0.5 rounded-full border border-emerald-200/80 text-[11px] font-bold">
           <a href="../index.html" class="px-2.5 py-1 rounded-full text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
@@ -61,75 +68,69 @@
           </span>
         </div>
 
-        <a href="./mama.html" class="text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full transition flex items-center gap-1 shadow-2xs">
+        <a href="./mama.html" class="min-h-[32px] text-[11px] font-extrabold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full transition flex items-center gap-1 shadow-2xs">
           <span>👩‍👧</span><span>PDF Mamá</span>
         </a>
       </div>
 
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 block">Recomposición & Glúteos • 1.54m / 54.5kg</span>
-          <h1 id="nutri-day-type-badge" class="text-xs font-bold text-slate-600 mt-0.5">Meta hoy: 1.500 kcal • 110g Proteína</h1>
+      <div class="flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 block truncate">Recomposición & Glúteos • 1.54m / 54.5kg</span>
+          <h1 id="nutri-day-type-badge" class="text-[11px] font-bold text-slate-600 mt-0.5 truncate">Meta hoy: 1.500 kcal • 110g Proteína</h1>
         </div>
-        <div class="text-right">
-          <span id="header-prot-pill" class="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-xl">0 / 110g Prot</span>
+        <div class="text-right shrink-0">
+          <span id="header-prot-pill" class="text-xs font-black text-emerald-800 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-xl tabular-nums">0 / 110g Prot</span>
         </div>
       </div>
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 overflow-y-auto px-3.5 pt-3 pb-24 space-y-4">
+    <main id="nutri-main-scroll" class="flex-1 min-h-0 overflow-y-auto px-3.5 pt-2.5 pb-6 space-y-3">
 
       <!-- ========================================== -->
-      <!-- VIEW 1: HOY (TABLERO DIARIO EN 4 TOQUES)   -->
+      <!-- VIEW 1: HOY (TABLERO + COMIDAS ABOVE FOLD) -->
       <!-- ========================================== -->
-      <section id="view-today" class="space-y-3.5">
+      <section id="view-today" class="space-y-3">
 
-        <!-- Macros Dashboard Card -->
-        <div class="bg-white border border-emerald-200/80 rounded-3xl p-4 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <span id="nutri-phase-subtitle" class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">Recomposición & Cintura Finita</span>
+        <!-- Macros Dashboard Card (Stacked cleanly to avoid label collision) -->
+        <div class="bg-white border border-emerald-200/80 rounded-3xl p-3 shadow-sm space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <span id="nutri-phase-subtitle" class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600 block truncate">Recomposición & Cintura Finita</span>
               <div class="flex items-baseline gap-1.5 mt-0.5">
-                <span id="kcal-current" class="text-2xl font-black text-slate-900">0</span>
-                <span id="kcal-target-label" class="text-xs font-bold text-slate-400">/ 1.500 kcal</span>
+                <span id="kcal-current" class="text-2xl font-black text-slate-900 tabular-nums">0</span>
+                <span id="kcal-target-label" class="text-xs font-bold text-slate-400 tabular-nums">/ 1.500 kcal</span>
               </div>
             </div>
-            <div id="gym-bridge-chip" class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <div id="gym-bridge-chip" class="shrink-0 text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
               🌿 Día equilibrado
             </div>
           </div>
 
           <!-- Main Calorie Bar -->
-          <div class="w-full h-2.5 bg-emerald-50 rounded-full overflow-hidden border border-emerald-100">
+          <div class="w-full h-2 bg-emerald-50 rounded-full overflow-hidden border border-emerald-100">
             <div id="kcal-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
 
-          <!-- 3 Macro Mini Bars -->
-          <div class="grid grid-cols-3 gap-2 pt-1">
-            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
-              <div class="flex justify-between text-[10px] font-extrabold">
-                <span class="text-emerald-800">Proteína</span>
-                <span id="macro-p-val" class="text-emerald-700">0/110g</span>
-              </div>
+          <!-- 3 Macro Mini Bars (label stacked above value, tabular-nums) -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2 min-w-0">
+              <span class="block text-[11px] font-extrabold text-emerald-800 leading-none">Proteína</span>
+              <span id="macro-p-val" class="block text-xs font-black text-emerald-700 tabular-nums leading-tight mt-1">0 / 110g</span>
               <div class="w-full h-1.5 bg-emerald-100 rounded-full mt-1.5 overflow-hidden">
                 <div id="macro-p-bar" class="h-full bg-emerald-600 rounded-full transition-all" style="width:0%"></div>
               </div>
             </div>
-            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
-              <div class="flex justify-between text-[10px] font-extrabold">
-                <span class="text-amber-800">Carbos</span>
-                <span id="macro-c-val" class="text-amber-700">0/165g</span>
-              </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2 min-w-0">
+              <span class="block text-[11px] font-extrabold text-amber-800 leading-none">Carbos</span>
+              <span id="macro-c-val" class="block text-xs font-black text-amber-700 tabular-nums leading-tight mt-1">0 / 165g</span>
               <div class="w-full h-1.5 bg-amber-100 rounded-full mt-1.5 overflow-hidden">
                 <div id="macro-c-bar" class="h-full bg-amber-500 rounded-full transition-all" style="width:0%"></div>
               </div>
             </div>
-            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2">
-              <div class="flex justify-between text-[10px] font-extrabold">
-                <span class="text-rose-800">Grasas</span>
-                <span id="macro-f-val" class="text-rose-700">0/46g</span>
-              </div>
+            <div class="bg-[#F6FAF7] border border-emerald-100 rounded-2xl p-2 min-w-0">
+              <span class="block text-[11px] font-extrabold text-rose-800 leading-none">Grasas</span>
+              <span id="macro-f-val" class="block text-xs font-black text-rose-700 tabular-nums leading-tight mt-1">0 / 46g</span>
               <div class="w-full h-1.5 bg-rose-100 rounded-full mt-1.5 overflow-hidden">
                 <div id="macro-f-bar" class="h-full bg-rose-400 rounded-full transition-all" style="width:0%"></div>
               </div>
@@ -140,38 +141,37 @@
         <!-- WORKOUT-REACTIVE BANNER (MODO DÍA DE ENTRENO) -->
         <div id="workout-nutri-banner" class="hidden"></div>
 
-        <!-- ZERO LAZINESS FRUIT & VEG CHALLENGE -->
-        <div class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 border border-emerald-200 rounded-3xl p-3.5 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">Misión Cero Pereza Hoy</span>
-              <h2 class="text-xs font-black text-slate-800">1 Fruta + 2 Verduras Rápidas (Desinflama y sacia)</h2>
+        <!-- 4 DAILY MEAL SLOTS (ABOVE THE FOLD) -->
+        <div id="meals-slots-container" class="space-y-2.5">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- ZERO LAZINESS FRUIT & VEG CHALLENGE (COMPACTO) -->
+        <div class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 border border-emerald-200 rounded-3xl p-3 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 block">Misión Cero Pereza</span>
+              <h2 class="text-xs font-black text-slate-800 truncate">1 Fruta + 2 Verduras Rápidas</h2>
             </div>
-            <span id="veg-score-badge" class="text-[10px] font-black bg-white text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">0/3</span>
+            <span id="veg-score-badge" class="text-[11px] font-black bg-white text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full shrink-0">0/3</span>
           </div>
           <div class="grid grid-cols-3 gap-1.5" id="veg-checks-container">
             <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- VICTORIAS DEL ESPEJO & SENSACIONES (NON-SCALE VICTORIES) -->
-        <div class="bg-white border border-emerald-200/90 rounded-3xl p-3.5 space-y-2.5 shadow-2xs">
+        <!-- VICTORIAS DEL ESPEJO & SENSACIONES (DEBAJO DE LAS COMIDAS) -->
+        <div class="bg-white border border-emerald-200/90 rounded-3xl p-3 space-y-2 shadow-2xs">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-1.5">
               <span class="text-sm">✨</span>
               <h2 class="text-xs font-black text-slate-900">Victorias del Espejo & Sensaciones</h2>
             </div>
-            <span class="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">1 toque</span>
+            <span class="text-[11px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">1 toque</span>
           </div>
-          <p class="text-[10px] text-slate-500 leading-tight">En recomposición la balanza a veces engaña: lo que de verdad cuenta es cómo te ves y te sentís.</p>
           <div class="flex flex-wrap gap-1.5" id="victories-chips-container">
             <!-- Rendered by JS -->
           </div>
-        </div>
-
-        <!-- 4 DAILY MEAL SLOTS -->
-        <div id="meals-slots-container" class="space-y-3">
-          <!-- Rendered by JS -->
         </div>
 
       </section>
@@ -200,17 +200,17 @@
         <!-- Printable Guide Hero -->
         <div class="bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-3xl p-4 shadow-md space-y-3">
           <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">Lista para mandar</span>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">Lista para mandar</span>
             <h2 class="text-base font-black mt-1.5">Guía de Cocina & Compras para Mamá 🌸</h2>
             <p class="text-xs text-emerald-50 mt-0.5 leading-snug">
               Tiene el truco del rocío vegetal, las compras separadas de las de Martín y 6 platos familiares explicados súper simples.
             </p>
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <a href="./mama.html" class="py-2.5 px-3 bg-white text-emerald-800 rounded-2xl text-xs font-black text-center shadow-sm hover:bg-emerald-50 transition">
+            <a href="./mama.html" class="min-h-[42px] py-2.5 px-3 bg-white text-emerald-800 rounded-2xl text-xs font-black text-center shadow-sm hover:bg-emerald-50 transition flex items-center justify-center">
               📄 Abrir Guía / PDF
             </a>
-            <button onclick="copyShoppingListForWhatsApp()" class="py-2.5 px-3 bg-emerald-900/40 hover:bg-emerald-900/60 border border-white/30 text-white rounded-2xl text-xs font-extrabold text-center transition">
+            <button onclick="copyShoppingListForWhatsApp()" class="min-h-[42px] py-2.5 px-3 bg-emerald-900/40 hover:bg-emerald-900/60 border border-white/30 text-white rounded-2xl text-xs font-extrabold text-center transition">
               📲 Copiar Lista WhatsApp
             </button>
           </div>
@@ -234,30 +234,31 @@
       <!-- ========================================== -->
       <!-- VIEW 4: NUTRI IA                           -->
       <!-- ========================================== -->
-      <section id="view-nutri-ai" class="hidden flex flex-col h-[calc(100dvh-180px)]">
-        <div class="bg-white border border-emerald-200 rounded-3xl flex-1 flex flex-col overflow-hidden shadow-sm">
-          <div class="px-4 py-3 border-b border-emerald-100 bg-emerald-50/50 flex items-center gap-2.5 shrink-0">
+      <section id="view-nutri-ai" class="hidden flex-1 min-h-0 h-full flex flex-col">
+        <div class="bg-white border border-emerald-200 rounded-3xl flex-1 min-h-0 flex flex-col overflow-hidden shadow-sm">
+          <div class="px-4 py-2.5 border-b border-emerald-100 bg-emerald-50/50 flex items-center gap-2.5 shrink-0">
             <div class="w-8 h-8 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-sm shadow-2xs">🥑</div>
-            <div>
+            <div class="min-w-0">
               <h2 class="text-xs font-black text-slate-900">Nutri IA Práctica</h2>
-              <p class="text-[10px] text-slate-500">Porciones reales, reemplazos con lo que cocinó mamá y ansiedad</p>
+              <p class="text-[11px] text-slate-500 truncate">Porciones reales, reemplazos caseros y ansiedad</p>
             </div>
           </div>
 
           <!-- Quick Chips -->
           <div class="px-3 py-2 border-b border-emerald-100/80 flex gap-1.5 overflow-x-auto shrink-0 bg-[#FAFDFB]">
-            <button onclick="askQuickNutri('Estoy estudiando con ansiedad y quiero picotear algo rico sin salirme del plan, ¿qué agarro en 1 minuto?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🍫 Ansiedad estudiando</button>
-            <button onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis calorías y sumar proteína?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
-            <button onclick="askQuickNutri('Salgo a comer con Naza hoy, ¿qué me conviene pedir para disfrutar sin culpa?')" class="shrink-0 text-[10px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥂 Salida con Naza</button>
+            <button type="button" onclick="askQuickNutri('Estoy estudiando con ansiedad y quiero picotear algo rico sin salirme del plan, ¿qué agarro en 1 minuto?')" class="shrink-0 min-h-[32px] text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🍫 Ansiedad estudiando</button>
+            <button type="button" onclick="askQuickNutri('Hoy mamá hizo tarta / empanadas para la casa, ¿cuánto como para cuidar mis calorías y sumar proteína?')" class="shrink-0 min-h-[32px] text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥧 Mamá hizo tarta/empanadas</button>
+            <button type="button" onclick="askQuickNutri('Salgo a comer con Naza hoy, ¿qué me conviene pedir para disfrutar sin culpa?')" class="shrink-0 min-h-[32px] text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full border border-emerald-200">🥂 Salida con Naza</button>
           </div>
 
-          <div id="nutri-chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 text-xs bg-[#FAFDFB]">
+          <div id="nutri-chat-messages" class="flex-1 min-h-0 overflow-y-auto p-3.5 space-y-3 text-xs bg-[#FAFDFB]">
             <!-- Rendered by JS -->
           </div>
 
           <div class="p-2.5 border-t border-emerald-100 bg-white flex items-center gap-2 shrink-0">
-            <input id="nutri-chat-input" type="text" placeholder="Ej: Mamá hizo pastas, ¿cuánto me sirvo?" onkeydown="if(event.key==='Enter') sendNutriMessage()" class="flex-1 bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500">
-            <button onclick="sendNutriMessage()" class="px-3.5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition shrink-0">Enviar</button>
+            <button type="button" id="nutri-mic-btn" onclick="toggleNutriVoiceDictation()" title="Dictar por voz (es-AR)" class="w-10 h-10 min-w-[40px] min-h-[40px] rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center text-sm transition shrink-0">🎤</button>
+            <input id="nutri-chat-input" type="text" autocomplete="off" placeholder="Escribí o dictá qué comiste..." onkeydown="if(event.key==='Enter') sendNutriMessage()" class="flex-1 min-h-[42px] bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2 text-base text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500">
+            <button type="button" onclick="sendNutriMessage()" class="min-h-[42px] px-3.5 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition shrink-0">Enviar</button>
           </div>
         </div>
       </section>
@@ -265,31 +266,28 @@
     </main>
 
     <!-- BOTTOM TAB BAR -->
-    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1.5 z-30 mc-safe-bottom">
+    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1 z-30 mc-safe-bottom">
       <div class="grid grid-cols-4 gap-1">
-        <button id="nav-today" onclick="switchNutriView('today')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition">
+        <button id="nav-today" onclick="switchNutriView('today')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition">
           <span class="text-base">🥗</span>
-          <span class="text-[10px]">Hoy</span>
+          <span class="text-[11px]">Hoy</span>
         </button>
-        <button id="nav-ideas" onclick="switchNutriView('ideas')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+        <button id="nav-ideas" onclick="switchNutriView('ideas')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
           <span class="text-base">🍽️</span>
-          <span class="text-[10px]">Ideas</span>
+          <span class="text-[11px]">Ideas</span>
         </button>
-        <button id="nav-mama" onclick="switchNutriView('mama')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+        <button id="nav-mama" onclick="switchNutriView('mama')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
           <span class="text-base">👩‍👧</span>
-          <span class="text-[10px]">Mamá & Súper</span>
+          <span class="text-[11px]">Mamá</span>
         </button>
-        <button id="nav-nutri-ai" onclick="switchNutriView('nutri-ai')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
+        <button id="nav-nutri-ai" onclick="switchNutriView('nutri-ai')" class="min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition">
           <span class="text-base">🥑</span>
-          <span class="text-[10px]">Nutri IA</span>
+          <span class="text-[11px]">Nutri IA</span>
         </button>
       </div>
     </nav>
 
   </div>
-
-  <!-- TOAST -->
-  <div id="nutri-toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-800 text-white px-4 py-2 rounded-full text-xs font-extrabold shadow-xl"></div>
 
   <script>
     // ==========================================
@@ -1199,6 +1197,39 @@
     let shoppingNeeded = JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}');
     let gymBridgeToday = null;
     let activeIdeasCat = 'ansiedad';
+    const nutriExpandedOverrides = {};
+
+    function getCurrentTimeMealSlotId(now = new Date()) {
+      const h = now.getHours() + now.getMinutes() / 60;
+      if (h < 11) return 'desayuno';
+      if (h < 15) return 'almuerzo';
+      if (h < 19.5) return 'merienda';
+      return 'cena';
+    }
+
+    function isMealSlotExpanded(slot, isEaten) {
+      if (typeof nutriExpandedOverrides[slot.id] === 'boolean') return nutriExpandedOverrides[slot.id];
+      if (isEaten) return false;
+      return slot.id === getCurrentTimeMealSlotId();
+    }
+
+    function getShortMealLabel(slotId) {
+      return ({
+        desayuno: 'Desayuno',
+        almuerzo: 'Almuerzo',
+        merienda: 'Merienda',
+        cena: 'Cena',
+        permitidos: 'Gustitos 80/20'
+      })[slotId] || slotId;
+    }
+
+    function toggleMealCardExpand(slotId) {
+      const isEaten = !!dailyLog.meals?.[slotId]?.eaten;
+      const slot = MEAL_SLOTS.find(s => s.id === slotId) || { id: slotId };
+      const curr = isMealSlotExpanded(slot, isEaten);
+      nutriExpandedOverrides[slotId] = !curr;
+      renderTodayDashboard();
+    }
 
     function showToast(msg) {
       MaleCore.toast(msg, { variant: 'emerald' });
@@ -1274,13 +1305,13 @@
       document.getElementById('kcal-bar').style.width = `${Math.min(100, Math.round((sumKcal / targetKcal) * 100))}%`;
       document.getElementById('header-prot-pill').textContent = `${sumP} / ${targetP}g Prot`;
 
-      document.getElementById('macro-p-val').textContent = `${sumP}/${targetP}g`;
+      document.getElementById('macro-p-val').textContent = `${sumP} / ${targetP}g`;
       document.getElementById('macro-p-bar').style.width = `${Math.min(100, Math.round((sumP / targetP) * 100))}%`;
 
-      document.getElementById('macro-c-val').textContent = `${sumC}/${targetC}g`;
+      document.getElementById('macro-c-val').textContent = `${sumC} / ${targetC}g`;
       document.getElementById('macro-c-bar').style.width = `${Math.min(100, Math.round((sumC / targetC) * 100))}%`;
 
-      document.getElementById('macro-f-val').textContent = `${sumF}/${targetF}g`;
+      document.getElementById('macro-f-val').textContent = `${sumF} / ${targetF}g`;
       document.getElementById('macro-f-bar').style.width = `${Math.min(100, Math.round((sumF / targetF) * 100))}%`;
 
       // Workout-Reactive Nutri Banner ("Modo Día de Entreno")
@@ -1349,13 +1380,15 @@
         }).join('');
       }
 
-      // 4 Meal Slots
+      // 4 Meal Slots (Smart Auto-Collapse)
       document.getElementById('meals-slots-container').innerHTML = MEAL_SLOTS.map(slot => {
         const saved = dailyLog.meals?.[slot.id] || { optId: slot.options[0].id, eaten: false };
         const chosenOpt = slot.options.find(o => o.id === saved.optId) || slot.options[0];
         const dispKcal = saved.custom ? saved.kcal : chosenOpt.kcal;
         const dispP = saved.custom ? saved.p : chosenOpt.p;
         const isEaten = !!saved.eaten;
+        const isExpanded = isMealSlotExpanded(slot, isEaten);
+        const shortName = getShortMealLabel(slot.id);
 
         const foodMap = getMealSelectedMap(saved);
         const activeKeys = Object.keys(foodMap).filter(k => typeof foodMap[k] === 'number' && foodMap[k] > 0 && PANTRY_CATALOG[k]);
@@ -1363,6 +1396,33 @@
 
         const isPermSlot = !!slot.isPermitidoSlot;
         const extraItems = Array.isArray(saved.extraItems) ? saved.extraItems : [];
+
+        const cardBorder = isEaten
+          ? (isPermSlot ? 'border-rose-400 ring-1 ring-rose-400/30' : 'border-emerald-400 ring-1 ring-emerald-400/30')
+          : (isPermSlot ? 'border-rose-200/80' : 'border-emerald-200/70');
+        const iconBg = isEaten
+          ? (isPermSlot ? 'bg-rose-500 text-white' : 'bg-emerald-600 text-white')
+          : (isPermSlot ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-700');
+
+        if (!isExpanded) {
+          return `
+            <article id="meal-card-${slot.id}" data-meal-slot="${slot.id}" data-collapsed="1" onclick="toggleMealCardExpand('${slot.id}')" class="bg-white border ${cardBorder} rounded-2xl px-3 py-2.5 shadow-2xs flex items-center justify-between gap-2 cursor-pointer active:scale-[0.99] transition">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-7 h-7 rounded-xl ${iconBg} flex items-center justify-center text-sm shrink-0">${slot.icon}</span>
+                <div class="min-w-0 truncate text-xs font-bold ${isEaten ? 'text-slate-900' : 'text-slate-700'}">
+                  <span class="font-black">${shortName}</span>
+                  <span class="text-slate-400 mx-1">·</span>
+                  <span class="text-[11px] ${isEaten ? (isPermSlot ? 'text-rose-700 font-extrabold' : 'text-emerald-700 font-extrabold') : 'text-slate-500 font-semibold'} tabular-nums">
+                    ${isEaten ? `${dispKcal} kcal · ${dispP}g Prot` : slot.targetHint}
+                  </span>
+                </div>
+              </div>
+              <span class="shrink-0 text-[11px] font-extrabold px-2.5 py-1 rounded-xl ${isEaten ? (isPermSlot ? 'bg-rose-500 text-white' : 'bg-emerald-600 text-white') : (isPermSlot ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200')}">
+                ${isEaten ? 'Comido ✓ ▾' : 'Elegir ▾'}
+              </span>
+            </article>
+          `;
+        }
 
         const pantryChips = slotFoodIds.map(itemId => {
           const item = PANTRY_CATALOG[itemId];
@@ -1382,7 +1442,7 @@
             return `
               <div class="inline-flex items-center rounded-2xl ${activeBg} text-white font-black shadow-2xs text-[11px] border select-none py-0.5 px-0.5">
                 <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', -1)"
-                  class="w-6 h-6 flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
+                  class="meal-stepper-btn w-[34px] h-[34px] min-w-[34px] min-h-[34px] flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
                   title="${isMin ? 'Quitar' : 'Restar'}">
                   ${isMin ? '✕' : '−'}
                 </button>
@@ -1390,11 +1450,11 @@
                   ${item.emoji} ${qty} ${unitLabel}${item.activeTag ? ` ${item.activeTag}` : ''}
                 </span>
                 <button type="button" onclick="adjustFoodQty('${slot.id}', '${item.id}', 1)"
-                  class="w-6 h-6 flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
+                  class="meal-stepper-btn w-[34px] h-[34px] min-w-[34px] min-h-[34px] flex items-center justify-center ${btnBg} active:scale-90 font-black text-xs rounded-xl transition"
                   title="Sumar">
                   ＋
                 </button>
-                <span class="px-1.5 text-[9px] text-white/85 font-bold">
+                <span class="px-1.5 text-[11px] text-white/90 font-bold">
                   ${badgeText}
                 </span>
               </div>
@@ -1402,9 +1462,9 @@
           } else {
             return `
               <button type="button" onclick="selectPantryItem('${slot.id}', '${item.id}')"
-                class="px-2.5 py-1 rounded-2xl text-[11px] transition flex items-center gap-1 border active:scale-95 ${isPermSlot ? 'bg-rose-50/40 border-rose-200/80 text-slate-700 hover:bg-rose-50' : 'bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50'} font-semibold">
+                class="min-h-[34px] px-2.5 py-1 rounded-2xl text-[11px] transition flex items-center gap-1 border active:scale-95 ${isPermSlot ? 'bg-rose-50/40 border-rose-200/80 text-slate-700 hover:bg-rose-50' : 'bg-[#F8FCF9] border-emerald-200/90 text-slate-700 hover:bg-emerald-50'} font-semibold">
                 <span>${item.emoji} ${item.shortName}</span>
-                <span class="text-[9px] ${isPermSlot ? 'text-rose-600' : 'text-emerald-700'} font-bold">${isPermSlot ? `~${item.baseKcal} kcal` : `+${item.baseP}g`}</span>
+                <span class="text-[11px] ${isPermSlot ? 'text-rose-600' : 'text-emerald-700'} font-bold">${isPermSlot ? `~${item.baseKcal} kcal` : `+${item.baseP}g`}</span>
               </button>
             `;
           }
@@ -1414,8 +1474,8 @@
           <div class="flex flex-wrap gap-1.5 pt-1">
             ${extraItems.map((ex, i) => `
               <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-2xl bg-rose-100/90 border border-rose-300 text-rose-900 text-[11px] font-bold">
-                <span>✨ ${ex.name} (${ex.kcal} kcal)</span>
-                <button type="button" onclick="removeExtraItem('${slot.id}', ${i})" class="w-4 h-4 rounded-full bg-rose-200 hover:bg-rose-300 text-rose-900 flex items-center justify-center text-[10px] font-black">✕</button>
+                <span>✨ ${MaleCore.escapeHtml(ex.name)} (${ex.kcal} kcal)</span>
+                <button type="button" onclick="removeExtraItem('${slot.id}', ${i})" class="w-5 h-5 rounded-full bg-rose-200 hover:bg-rose-300 text-rose-900 flex items-center justify-center text-[11px] font-black">✕</button>
               </div>
             `).join('')}
           </div>
@@ -1423,9 +1483,9 @@
 
         const inlinePermitidoBar = isPermSlot ? `
           <div class="flex items-center gap-1.5 pt-1">
-            <input id="perm-free-name" type="text" placeholder="Otro gustito (ej: 1 bombón / torta)" class="flex-1 min-w-0 bg-rose-50/40 border border-rose-200 rounded-xl px-2.5 py-1.5 text-[11px] text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400">
-            <input id="perm-free-kcal" type="number" inputmode="numeric" placeholder="kcal" class="w-16 bg-rose-50/40 border border-rose-200 rounded-xl px-2 py-1.5 text-[11px] text-slate-800 placeholder-slate-400 text-center focus:outline-none focus:border-rose-400">
-            <button type="button" onclick="addInlinePermitido()" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-[11px] font-black transition active:scale-95">+ Sumar</button>
+            <input id="perm-free-name" type="text" placeholder="Otro gustito (ej: bombón)" class="flex-1 min-w-0 min-h-[40px] bg-rose-50/40 border border-rose-200 rounded-xl px-2.5 py-1.5 text-base text-slate-800 placeholder-slate-400 focus:outline-none focus:border-rose-400">
+            <input id="perm-free-kcal" type="number" inputmode="numeric" placeholder="kcal" class="w-20 min-h-[40px] bg-rose-50/40 border border-rose-200 rounded-xl px-2 py-1.5 text-base text-slate-800 placeholder-slate-400 text-center focus:outline-none focus:border-rose-400">
+            <button type="button" onclick="addInlinePermitido()" class="shrink-0 min-h-[40px] px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-black transition active:scale-95">+ Sumar</button>
           </div>
         ` : '';
 
@@ -1439,35 +1499,54 @@
           </option>
         `).join('');
 
-        const cardBorder = isEaten
-          ? (isPermSlot ? 'border-rose-400 ring-1 ring-rose-400/30' : 'border-emerald-400 ring-1 ring-emerald-400/30')
-          : (isPermSlot ? 'border-rose-200/80' : 'border-emerald-200/70');
-        const iconBg = isEaten
-          ? (isPermSlot ? 'bg-rose-500 text-white' : 'bg-emerald-600 text-white')
-          : (isPermSlot ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-700');
+        const hasChipSelection = activeKeys.length > 0 || extraItems.length > 0;
+        const summaryOrComboHtml = hasChipSelection
+          ? `
+            <div class="flex items-center justify-between gap-2 px-1 pt-1 border-t ${isPermSlot ? 'border-rose-100/70' : 'border-emerald-100/60'} text-[11px]">
+              <span class="font-bold ${isPermSlot ? 'text-rose-700' : 'text-emerald-800'} tabular-nums">Total: ${saved.kcal} kcal · ${saved.p}g Prot</span>
+              <button type="button" onclick="clearCustomMeal('${slot.id}')" class="min-h-[30px] px-2.5 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 font-extrabold">Borrar selección</button>
+            </div>
+          `
+          : (saved.custom ? `
+            <div class="${isPermSlot ? 'bg-rose-50/70 border-rose-200' : 'bg-emerald-50/80 border-emerald-200'} border rounded-2xl px-3 py-2 flex items-center justify-between text-xs">
+              <div class="flex-1 pr-2">
+                <span class="font-extrabold ${isPermSlot ? 'text-rose-950' : 'text-emerald-950'} block leading-snug">✏️ ${MaleCore.escapeHtml(saved.customName)}</span>
+                <span class="text-[11px] font-bold ${isPermSlot ? 'text-rose-700' : 'text-emerald-700'}">${saved.kcal} kcal · ${saved.p}g Prot</span>
+              </div>
+              <button type="button" onclick="clearCustomMeal('${slot.id}')" class="min-h-[32px] text-[11px] font-black text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-xl shrink-0 hover:bg-rose-50 transition">Borrar</button>
+            </div>
+          ` : `
+            <details class="text-[11px] text-slate-600">
+              <summary class="cursor-pointer font-bold hover:text-emerald-700 py-1">${isPermSlot ? 'O elegí un permitido rápido de lista ▾' : 'O elegí un combo armado completo ▾'}</summary>
+              <div class="pt-1.5">
+                <select onchange="changeMealOption('${slot.id}', this.value)" class="w-full min-h-[40px] bg-[#F6FAF7] border border-emerald-200/90 rounded-2xl px-3 py-2 text-base font-semibold text-slate-700 focus:outline-none focus:border-emerald-500">
+                  ${optsHtml}
+                </select>
+              </div>
+            </details>
+          `);
 
         return `
-          <article class="bg-white border ${cardBorder} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
+          <article id="meal-card-${slot.id}" data-meal-slot="${slot.id}" data-collapsed="0" class="bg-white border ${cardBorder} rounded-3xl p-3.5 space-y-2.5 shadow-2xs transition">
             <div class="flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-8 h-8 rounded-2xl ${iconBg} flex items-center justify-center text-base">${slot.icon}</span>
-                <div>
-                  <h3 class="text-xs font-black text-slate-900">${slot.title}</h3>
-                  <span class="text-[10px] font-bold ${isEaten ? (isPermSlot ? 'text-rose-600' : 'text-emerald-600') : 'text-slate-400'}">
-                    ${isEaten ? `✓ Sumado: ${dispKcal} kcal • ${dispP}g Prot` : slot.targetHint}
+              <button type="button" onclick="toggleMealCardExpand('${slot.id}')" class="flex items-center gap-2 text-left min-w-0 flex-1">
+                <span class="w-8 h-8 rounded-2xl ${iconBg} flex items-center justify-center text-base shrink-0">${slot.icon}</span>
+                <div class="min-w-0">
+                  <h3 class="text-xs font-black text-slate-900 truncate">${slot.title} <span class="text-slate-400">▴</span></h3>
+                  <span class="text-[11px] font-bold ${isEaten ? (isPermSlot ? 'text-rose-600' : 'text-emerald-600') : 'text-slate-500'} block truncate tabular-nums">
+                    ${isEaten ? `✓ Sumado: ${dispKcal} kcal · ${dispP}g Prot` : slot.targetHint}
                   </span>
                 </div>
-              </div>
-              <button onclick="toggleMealEaten('${slot.id}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition ${isEaten ? (isPermSlot ? 'bg-rose-500 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm') : (isPermSlot ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200')}">
+              </button>
+              <button type="button" onclick="toggleMealEaten('${slot.id}')" class="min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-extrabold shrink-0 transition ${isEaten ? (isPermSlot ? 'bg-rose-500 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm') : (isPermSlot ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200')}">
                 ${isEaten ? 'Comido ✓' : 'Marcar ✓'}
               </button>
             </div>
 
             <!-- MODULAR FOOD PILLS (TOCÁ LO QUE COMISTE) -->
-            <div class="space-y-1.5 pt-1 border-t ${isPermSlot ? 'border-rose-100/70' : 'border-emerald-100/60'}">
-              <div class="flex items-center justify-between text-[10px] font-extrabold text-slate-500">
-                <span>${isPermSlot ? '🍫 Tocá tu gustito para sumarlo sin culpa:' : '🥣 Tocá lo que comiste (Elegí cantidades exactas):'}</span>
-                ${(activeKeys.length || extraItems.length) ? `<button onclick="clearCustomMeal('${slot.id}')" class="text-rose-600 font-extrabold hover:underline">✕ Desmarcar</button>` : ''}
+            <div class="space-y-1.5 pt-1.5 border-t ${isPermSlot ? 'border-rose-100/70' : 'border-emerald-100/60'}">
+              <div class="flex items-center justify-between text-[11px] font-extrabold text-slate-500">
+                <span>${isPermSlot ? '🍫 Tocá tu gustito:' : '🥣 Tocá lo que comiste:'}</span>
               </div>
               <div class="flex flex-wrap gap-1.5 items-center">
                 ${pantryChips}
@@ -1476,28 +1555,11 @@
               ${inlinePermitidoBar}
             </div>
 
-            ${saved.custom ? `
-              <div class="${isPermSlot ? 'bg-rose-50/70 border-rose-200' : 'bg-emerald-50/80 border-emerald-200'} border rounded-2xl px-3 py-2 flex items-center justify-between text-xs">
-                <div class="flex-1 pr-2">
-                  <span class="font-extrabold ${isPermSlot ? 'text-rose-950' : 'text-emerald-950'} block leading-snug">✏️ ${saved.customName}</span>
-                  <span class="text-[10px] font-bold ${isPermSlot ? 'text-rose-700' : 'text-emerald-700'}">${saved.kcal} kcal • ${saved.p}g Proteína</span>
-                </div>
-                <button onclick="clearCustomMeal('${slot.id}')" class="text-[10px] font-black text-rose-600 bg-white border border-rose-200 px-2 py-1 rounded-xl shrink-0 hover:bg-rose-50 transition">Borrar</button>
-              </div>
-            ` : `
-              <details class="text-[11px] text-slate-500">
-                <summary class="cursor-pointer font-bold hover:text-emerald-700 py-1">${isPermSlot ? 'O elegí un permitido rápido de lista ▾' : 'O elegí un combo armado completo ▾'}</summary>
-                <div class="pt-1.5">
-                  <select onchange="changeMealOption('${slot.id}', this.value)" class="w-full bg-[#F6FAF7] border border-emerald-200/90 rounded-2xl px-3 py-2 text-[11px] font-semibold text-slate-700 focus:outline-none focus:border-emerald-500">
-                    ${optsHtml}
-                  </select>
-                </div>
-              </details>
-            `}
+            ${summaryOrComboHtml}
 
             ${isPermSlot ? '' : `
               <div class="flex justify-end">
-                <button onclick="promptCustomMeal('${slot.id}')" class="text-[10px] font-bold text-slate-400 hover:text-emerald-700 transition">
+                <button type="button" onclick="promptCustomMeal('${slot.id}')" class="min-h-[32px] px-2 text-[11px] font-bold text-slate-500 hover:text-emerald-700 transition">
                   ✏️ Escribir otro alimento que no esté
                 </button>
               </div>
@@ -1514,6 +1576,7 @@
 
     function applyPostWorkoutCombo(slotId) {
       if (!dailyLog.meals) dailyLog.meals = {};
+      delete nutriExpandedOverrides[slotId];
       if (slotId === 'merienda') {
         dailyLog.meals.merienda = {
           selectedFoodMap: { leche_prot: 200, tostada: 2, ricota: 2, banana: 1 },
@@ -1602,16 +1665,59 @@
           Object.assign(curr, { name: opt.name, kcal: opt.kcal, p: opt.p, c: opt.c, f: opt.f });
         }
       }
+      nutriExpandedOverrides[slotId] = !dailyLog.meals[slotId].eaten;
       persistDailyNutri();
       renderTodayDashboard();
       if (dailyLog.meals[slotId].eaten) showToast('🥗 Comida sumada a tu día');
     }
 
     function promptCustomMeal(slotId) {
-      const name = prompt('¿Qué comiste? (Ej: 2 porciones de tarta de pollo y calabaza):');
-      if (!name) return;
-      const kcal = parseInt(prompt('Calorías aproximadas (si no sabés poné 400 o preguntale a Nutri IA):', '400')) || 400;
-      const p = parseInt(prompt('Gramos aprox. de proteína (ej: 25):', '25')) || 25;
+      const slot = MEAL_SLOTS.find(s => s.id === slotId);
+      const shortLbl = getShortMealLabel(slotId);
+      const html = `
+        <div class="space-y-3">
+          <div>
+            <label for="nutri-sheet-food-name" class="block text-[11px] font-extrabold text-slate-600 mb-1">¿Qué comiste?</label>
+            <input id="nutri-sheet-food-name" type="text" placeholder="Ej: 2 porciones tarta de pollo y calabaza" style="font-size: 16px;"
+              class="w-full min-h-[44px] bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2 text-base font-bold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500">
+          </div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label for="nutri-sheet-food-kcal" class="block text-[11px] font-extrabold text-slate-600 mb-1">Calorías aprox.</label>
+              <input id="nutri-sheet-food-kcal" type="number" inputmode="numeric" value="400" style="font-size: 16px;"
+                class="w-full min-h-[44px] bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2 text-base font-black text-slate-900 text-center tabular-nums focus:outline-none focus:border-emerald-500">
+            </div>
+            <div>
+              <label for="nutri-sheet-food-prot" class="block text-[11px] font-extrabold text-slate-600 mb-1">Proteína (g)</label>
+              <input id="nutri-sheet-food-prot" type="number" inputmode="numeric" value="25" style="font-size: 16px;"
+                class="w-full min-h-[44px] bg-[#F6FAF7] border border-emerald-200 rounded-2xl px-3.5 py-2 text-base font-black text-slate-900 text-center tabular-nums focus:outline-none focus:border-emerald-500">
+            </div>
+          </div>
+          <button type="button" id="nutri-sheet-food-save" onclick="saveCustomMealFromSheet('${slotId}')" class="w-full min-h-[46px] rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-sm transition active:scale-95">
+            Guardar en ${shortLbl} ✓
+          </button>
+        </div>
+      `;
+      MaleCore.openSheet({
+        dark: false,
+        title: `Anotar comida libre (${shortLbl})`,
+        subtitle: slot?.targetHint || 'Se suma al instante a tus macros de hoy',
+        html
+      });
+      setTimeout(() => {
+        const inp = document.getElementById('nutri-sheet-food-name');
+        if (inp) try { inp.focus(); } catch (e) {}
+      }, 60);
+    }
+
+    function saveCustomMealFromSheet(slotId) {
+      const name = (document.getElementById('nutri-sheet-food-name')?.value || '').trim();
+      if (!name) {
+        MaleCore.toast('Escribí qué comiste primero 🥗', { variant: 'amber' });
+        return;
+      }
+      const kcal = parseInt(document.getElementById('nutri-sheet-food-kcal')?.value, 10) || 400;
+      const p = parseInt(document.getElementById('nutri-sheet-food-prot')?.value, 10) || 25;
       if (!dailyLog.meals) dailyLog.meals = {};
       dailyLog.meals[slotId] = {
         custom: true,
@@ -1623,6 +1729,8 @@
         f: 12,
         eaten: true
       };
+      nutriExpandedOverrides[slotId] = false;
+      MaleCore.closeSheet(true);
       persistDailyNutri();
       renderTodayDashboard();
       showToast('✏️ Comida personalizada registrada');
@@ -1631,6 +1739,7 @@
     function clearCustomMeal(slotId) {
       if (!dailyLog.meals) dailyLog.meals = {};
       delete dailyLog.meals[slotId];
+      nutriExpandedOverrides[slotId] = true;
       persistDailyNutri();
       renderTodayDashboard();
       showToast('🔄 Comida reiniciada');
@@ -1638,6 +1747,7 @@
 
     function selectPantryItem(slotId, itemId) {
       if (!dailyLog.meals) dailyLog.meals = {};
+      nutriExpandedOverrides[slotId] = true;
       const saved = dailyLog.meals[slotId] || {};
       const map = getMealSelectedMap(saved);
 
@@ -1665,6 +1775,7 @@
 
     function adjustFoodQty(slotId, itemId, delta) {
       if (!dailyLog.meals) dailyLog.meals = {};
+      nutriExpandedOverrides[slotId] = true;
       const saved = dailyLog.meals[slotId] || {};
       const map = getMealSelectedMap(saved);
       const item = PANTRY_CATALOG[itemId];
@@ -1754,6 +1865,7 @@
 
     function addExtraItemToSlot(slotId, itemObj) {
       if (!dailyLog.meals) dailyLog.meals = {};
+      nutriExpandedOverrides[slotId] = true;
       const curr = dailyLog.meals[slotId] || {};
       const map = getMealSelectedMap(curr);
       const existingExtras = Array.isArray(curr.extraItems) ? [...curr.extraItems] : [];
@@ -1902,7 +2014,12 @@
       navigator.clipboard.writeText(text).then(() => {
         showToast('📲 ¡Lista copiada lista para pegarle a Mamá en WhatsApp!');
       }).catch(() => {
-        prompt('Copiá el texto para WhatsApp:', text);
+        MaleCore.openSheet({
+          dark: false,
+          title: 'Lista de compras para Mamá',
+          subtitle: 'Copiá el texto manualmente para WhatsApp',
+          html: `<textarea readonly style="font-size:16px;" class="w-full h-44 bg-[#F6FAF7] border border-emerald-200 rounded-2xl p-3 text-slate-800">${MaleCore.escapeHtml(text)}</textarea>`
+        });
       });
     }
 
@@ -1914,13 +2031,29 @@
         document.getElementById(`view-${k}`).classList.toggle('hidden', k !== v);
         const btn = document.getElementById(`nav-${k}`);
         btn.className = (k === v)
-          ? 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition'
-          : 'py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition';
+          ? 'min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition'
+          : 'min-h-[48px] py-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-slate-500 hover:text-slate-800 font-bold transition';
       });
+      const mainEl = document.getElementById('nutri-main-scroll');
+      if (mainEl) {
+        mainEl.className = (v === 'nutri-ai')
+          ? 'flex-1 min-h-0 overflow-hidden flex flex-col p-3'
+          : 'flex-1 min-h-0 overflow-y-auto px-3.5 pt-2.5 pb-6 space-y-3';
+      }
       if (v === 'nutri-ai') {
         const b = document.getElementById('nutri-chat-messages');
-        if (b) b.scrollTop = b.scrollHeight;
+        if (b) setTimeout(() => { b.scrollTop = b.scrollHeight; }, 30);
       }
+    }
+
+    function toggleNutriVoiceDictation() {
+      MaleCore.toggleVoiceDictation({
+        btnId: 'nutri-mic-btn',
+        inputId: 'nutri-chat-input',
+        idleClass: 'w-10 h-10 min-w-[40px] min-h-[40px] rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center text-sm transition shrink-0',
+        activeClass: 'w-10 h-10 min-w-[40px] min-h-[40px] rounded-2xl bg-rose-600 border border-rose-400 text-white flex items-center justify-center text-sm animate-pulse shrink-0',
+        onSubmit: sendNutriMessage
+      });
     }
 
     function askQuickNutri(q) {
