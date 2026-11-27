@@ -18,6 +18,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
+  <!-- Shared Male 360 Core & Tokens -->
+  <link rel="stylesheet" href="../shared/male-tokens.css">
+  <script src="../shared/male-core.js"></script>
+
   <style>
     :root {
       -webkit-tap-highlight-color: transparent;
@@ -42,7 +46,7 @@
   <div class="w-full max-w-md mx-auto flex-1 flex flex-col h-[100dvh] overflow-hidden bg-[#F6FAF7] shadow-2xl relative border-x border-emerald-100/80">
 
     <!-- TOP SUITE SWITCHER + HEADER -->
-    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2.5 pb-2.5 z-30">
+    <header class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-b border-emerald-200/70 px-3.5 pt-2.5 pb-2.5 z-30 mc-safe-top">
       <div class="flex items-center justify-between gap-2 mb-2">
         <!-- Ecosystem Switcher -->
         <div class="inline-flex items-center bg-emerald-100/60 p-0.5 rounded-full border border-emerald-200/80 text-[11px] font-bold">
@@ -261,7 +265,7 @@
     </main>
 
     <!-- BOTTOM TAB BAR -->
-    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1.5 z-30">
+    <nav class="shrink-0 bg-[#FAFDFB]/95 backdrop-blur-md border-t border-emerald-200/80 px-2 py-1.5 z-30 mc-safe-bottom">
       <div class="grid grid-cols-4 gap-1">
         <button id="nav-today" onclick="switchNutriView('today')" class="py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-emerald-700 bg-emerald-100/80 font-extrabold transition">
           <span class="text-base">🥗</span>
@@ -289,22 +293,10 @@
 
   <script>
     // ==========================================
-    // 1. FIREBASE & GEMINI
+    // 1. SW, FIREBASE & SHARED CORE (MaleCore)
     // ==========================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFUAfIjjff9Luw2-1uaznN7bK0ZuHmGEk",
-      authDomain: "male-app.firebaseapp.com",
-      databaseURL: "https://male-app-default-rtdb.firebaseio.com",
-      projectId: "male-app",
-      storageBucket: "male-app.firebasestorage.app",
-      messagingSenderId: "82609798929",
-      appId: "1:82609798929:web:ddb6851a1894fb652fd6b0",
-      measurementId: "G-TYSRXXCY3Y"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
+    MaleCore.registerSW('../sw.js');
+    const db = MaleCore.db;
 
     // ==========================================
     // 2. CALIBRATED MEAL OPTIONS FOR MALE (1.54m, 55kg -> ~1520 kcal, 110g Prot)
@@ -1201,40 +1193,29 @@
     // ==========================================
     // 3. STATE & SYNC
     // ==========================================
+    const getTodayKey = MaleCore.getTodayKey;
     let todayKey = getTodayKey();
     let dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{},"victories":{}}');
     let shoppingNeeded = JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}');
     let gymBridgeToday = null;
     let activeIdeasCat = 'ansiedad';
 
-    function getTodayKey(d = new Date()) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
-    }
-
     function showToast(msg) {
-      const t = document.getElementById('nutri-toast');
-      t.textContent = msg;
-      t.classList.remove('hidden');
-      clearTimeout(window._ntTimer);
-      window._ntTimer = setTimeout(() => t.classList.add('hidden'), 2500);
+      MaleCore.toast(msg, { variant: 'emerald' });
     }
 
     function isPostWeddingMaintenancePhase() {
       // Hasta el domingo 13/12 (casamiento) mantiene su déficit suave habitual (1500/1520/1550) para llegar cómoda y desinflamada.
       // Desde el lunes 14/12 (post-casamiento) pasa automático a Mantenimiento Limpio / Crecimiento Glúteo (1580/1630/1700).
-      return todayKey >= '2026-12-14';
+      return MaleCore.isPostWeddingPhase(todayKey);
     }
 
     function getCalorieTargetToday() {
-      const fase2 = isPostWeddingMaintenancePhase();
-      if (gymBridgeToday?.trainedToday) {
-        if (fase2) return gymBridgeToday.isLowerBody ? 1700 : 1630;
-        return gymBridgeToday.isLowerBody ? 1550 : 1520;
-      }
-      return fase2 ? 1580 : 1500;
+      return MaleCore.getCalorieTarget({
+        dateKey: todayKey,
+        trainedToday: !!gymBridgeToday?.trainedToday,
+        isLowerBody: !!gymBridgeToday?.isLowerBody
+      });
     }
 
     // ==========================================
@@ -1899,6 +1880,9 @@
       shoppingNeeded[item] = !shoppingNeeded[item];
       if (!shoppingNeeded[item]) delete shoppingNeeded[item];
       localStorage.setItem('mn_shopping_needed', JSON.stringify(shoppingNeeded));
+      try {
+        db.ref('nutri_v2/shopping_needed').set({ items: shoppingNeeded, updatedAt: Date.now() }).catch(() => {});
+      } catch (e) {}
       renderShoppingChecklist();
     }
 
@@ -2032,37 +2016,13 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
           if (val) hist = Object.values(val).slice(0, -1).map(m => `${m.sender}: "${m.text}"`).join('\n');
         } catch (e) {}
 
-        const payload = {
-          contents: [{
-            role: 'user',
-            parts: [{ text: `${buildNutriSystemPrompt()}\n\nHISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }]
-          }],
-          generationConfig: {
-            maxOutputTokens: 1000,
-            temperature: 0.45
-          }
-        };
-
-        const models = ['gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.6-flash'];
-        let reply = null;
-        for (const m of models) {
-          try {
-            const ctrl = new AbortController();
-            const timeoutMs = m === 'gemini-3.6-flash' ? 12000 : 7500;
-            const t = setTimeout(() => ctrl.abort(), timeoutMs);
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${GEMINI_KEY}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-              signal: ctrl.signal
-            });
-            clearTimeout(t);
-            if (!res.ok) continue;
-            const data = await res.json();
-            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (txt) { reply = txt.trim(); break; }
-          } catch (e) {}
-        }
+        let reply = await MaleCore.callGemini({
+          systemPrompt: buildNutriSystemPrompt(),
+          messages: [{ role: 'user', text: `HISTORIAL:\n${hist}\n\nMale consulta: "${text}"` }],
+          timeoutMs: 12000,
+          maxOutputTokens: 1000,
+          temperature: 0.45
+        });
 
         if (typing.parentNode) typing.parentNode.removeChild(typing);
 
@@ -2097,28 +2057,49 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
     }
 
     function formatMd(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-extrabold text-slate-900">$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>');
+      return MaleCore.formatMarkdown(str, { dark: false, compact: true });
     }
 
     // ==========================================
     // 7. REALTIME SYNC
     // ==========================================
-    function initNutriSync() {
-      db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
-        gymBridgeToday = snap.val();
-        renderTodayDashboard();
-      });
+    let _activeNutriSyncDay = null;
+    let _nutriStaticListenersBound = false;
 
-      db.ref(`nutri_v2/daily_logs/${todayKey}`).on('value', snap => {
-        const val = snap.val();
-        if (val) {
-          dailyLog = { meals: val.meals || {}, vegs: val.vegs || {}, victories: val.victories || {} };
-          localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+    function initNutriSync() {
+      if (_activeNutriSyncDay !== todayKey) {
+        if (_activeNutriSyncDay) {
+          db.ref(`gym_v2/daily_bridge/${_activeNutriSyncDay}`).off();
+          db.ref(`nutri_v2/daily_logs/${_activeNutriSyncDay}`).off();
+        }
+        _activeNutriSyncDay = todayKey;
+
+        db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
+          gymBridgeToday = snap.val();
           renderTodayDashboard();
+        });
+
+        db.ref(`nutri_v2/daily_logs/${todayKey}`).on('value', snap => {
+          const val = snap.val();
+          if (val) {
+            dailyLog = { meals: val.meals || {}, vegs: val.vegs || {}, victories: val.victories || {} };
+            localStorage.setItem('mn_daily_' + todayKey, JSON.stringify(dailyLog));
+            renderTodayDashboard();
+          }
+        });
+      }
+
+      if (_nutriStaticListenersBound) return;
+      _nutriStaticListenersBound = true;
+
+      db.ref('nutri_v2/shopping_needed').on('value', snap => {
+        const val = snap.val();
+        if (val && typeof val === 'object' && ('items' in val)) {
+          shoppingNeeded = val.items || {};
+          localStorage.setItem('mn_shopping_needed', JSON.stringify(shoppingNeeded));
+          renderShoppingChecklist();
+        } else if (val === null && Object.keys(shoppingNeeded).length > 0) {
+          db.ref('nutri_v2/shopping_needed').set({ items: shoppingNeeded, updatedAt: Date.now() }).catch(() => {});
         }
       });
 
@@ -2152,6 +2133,13 @@ REGLAS ESTRICTAS DE FOCO (CERO MEZCLA DE TEMAS):
     window.addEventListener('DOMContentLoaded', () => {
       renderAllNutri();
       initNutriSync();
+
+      MaleCore.watchDayChange((newKey) => {
+        todayKey = newKey;
+        dailyLog = JSON.parse(localStorage.getItem('mn_daily_' + todayKey) || '{"meals":{},"vegs":{},"victories":{}}');
+        initNutriSync();
+        renderAllNutri();
+      });
     });
   </script>
 </body>
