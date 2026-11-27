@@ -18,6 +18,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
+  <!-- Shared Male 360 Core & Tokens -->
+  <link rel="stylesheet" href="./shared/male-tokens.css">
+  <script src="./shared/male-core.js"></script>
+
   <style>
     /* Estilos nativos para celular y tipografía suave */
     :root {
@@ -81,7 +85,7 @@
     </div>
 
     <!-- TOP SUITE SWITCHER + HEADER -->
-    <header class="shrink-0 bg-white/95 backdrop-blur-md border-b border-rose-100/80 px-3.5 pt-2.5 pb-2.5 z-30">
+    <header class="shrink-0 bg-white/95 backdrop-blur-md border-b border-rose-100/80 px-3.5 pt-2.5 pb-2.5 z-30 mc-safe-top">
       <!-- Ecosystem Switcher -->
       <div class="flex items-center justify-between gap-2 mb-2">
         <div class="inline-flex items-center bg-rose-50/80 p-0.5 rounded-full border border-rose-200/80 text-[11px] font-bold">
@@ -836,7 +840,7 @@
     <!-- ============================================== -->
     <!-- BOTTOM NAVIGATION BAR (BARRA FLOTANTE PILL)    -->
     <!-- ============================================== -->
-    <nav class="absolute bottom-3 left-4 right-4 z-40 bg-white/90 backdrop-blur-xl border border-rose-200/80 p-1.5 rounded-3xl flex items-center justify-around shadow-lg shadow-rose-950/5">
+    <nav class="absolute bottom-3 left-4 right-4 z-40 bg-white/90 backdrop-blur-xl border border-rose-200/80 p-1.5 rounded-3xl flex items-center justify-around shadow-lg shadow-rose-950/5 mc-safe-float-bottom">
       <button onclick="switchView('chat')" id="nav-btn-chat" class="nav-item flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-2xl text-rose-600 font-bold transition">
         <span class="text-lg">💬</span>
         <span class="text-[10px]">Coach</span>
@@ -889,83 +893,6 @@
 
         <button onclick="closeCalmaModal()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.02] active:scale-98 transition">
           Cerrar con una sonrisa 🤍
-        </button>
-      </div>
-    </div>
-
-    <!-- WIDGET FLOTANTE: TEMPORIZADOR DE DESCANSO -->
-    <div id="floating-rest-timer" class="fixed bottom-20 right-4 z-40 bg-white/95 backdrop-blur-md border border-rose-200 shadow-xl rounded-full px-3.5 py-1.5 hidden flex items-center gap-2.5">
-      <span class="text-xs">⏱️</span>
-      <div class="flex flex-col">
-        <span class="text-[8px] font-bold uppercase text-slate-400">Descanso</span>
-        <span id="rest-timer-display" class="text-xs font-extrabold text-rose-600 font-mono leading-none">01:30</span>
-      </div>
-      <button onclick="stopRestTimer()" class="w-5 h-5 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 text-[10px] font-bold flex items-center justify-center">✕</button>
-    </div>
-
-    <!-- MODAL DE DEVOLUCIÓN DE ENTRENAMIENTO -->
-    <div id="modal-gym-feedback" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
-      <div class="bg-white rounded-3xl p-5 max-w-sm w-full border border-rose-100 shadow-2xl space-y-3.5 text-center transform transition-all max-h-[90vh] overflow-y-auto">
-        <div class="flex items-center justify-between pb-2 border-b border-rose-50">
-          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-0.5 rounded-full border border-emerald-100 flex items-center gap-1">
-            <span>🏆</span> Entrenamiento Liquidado
-          </span>
-          <button onclick="closeGymFeedbackModal()" class="text-slate-400 hover:text-slate-600 text-base font-bold w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center">
-            ✕
-          </button>
-        </div>
-
-        <div class="w-16 h-16 mx-auto rounded-3xl bg-gradient-to-tr from-rose-400 via-pink-400 to-purple-400 flex items-center justify-center text-3xl shadow-md shadow-rose-200 animate-gentle">
-          🏋️‍♀️
-        </div>
-
-        <div>
-          <h3 class="text-sm font-extrabold text-slate-900" id="gym-feedback-title">¡Gran laburo hoy, Caritas! 🚀</h3>
-          <p class="text-[11px] text-slate-500 font-medium" id="gym-feedback-subtitle">Mesociclo 1 • Semana 3 activa</p>
-        </div>
-
-        <!-- RESUMEN DE MÉTRICAS RÁPIDAS -->
-        <div class="grid grid-cols-3 gap-2 py-1 text-center" id="gym-feedback-metrics">
-          <!-- Renderizado dinámico -->
-        </div>
-
-        <!-- DEVOLUCIÓN DEL COACH -->
-        <div class="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-100/90 text-left space-y-1.5">
-          <div class="flex items-center gap-1.5">
-            <span class="text-sm">🌸</span>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-700">Devolución de tu Coach</span>
-          </div>
-          <div id="gym-feedback-content" class="text-xs text-slate-700 leading-relaxed font-medium space-y-1">
-            <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
-              <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-              <span class="text-xs italic">El Coach está analizando tu entrenamiento...</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ALERTA PROTEICA POST-ENTRENO (FACULTAD / CLÍNICA) -->
-        <div class="bg-gradient-to-br from-amber-50/90 to-orange-50/70 p-3 rounded-2xl border border-amber-200/90 text-left space-y-2 shadow-2xs">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm">🥪</span>
-              <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800">
-                ¿Salís directo a la facu? ¡Proteína en la mochila!
-              </span>
-            </div>
-            <button type="button" onclick="cambiarIdeaSnackPostGym()" class="text-[10px] text-amber-800 hover:text-amber-950 font-bold bg-amber-200/70 hover:bg-amber-200 px-2 py-0.5 rounded-full border border-amber-300 transition flex items-center gap-1 shadow-2xs active:scale-95">
-              <span>🔄</span> Otra idea
-            </button>
-          </div>
-          <p class="text-[11px] text-slate-700 leading-relaxed font-normal">
-            Si terminás tipo 9:00 hs y esperás hasta el mediodía para almorzar, pasan casi 5 horas sin nutrientes. En las mujeres, ese ayuno largo post-gym sube el cortisol y frena el crecimiento del glúteo. ¡Meté algo casero en la mochila para no gastar de más en el kiosco!
-          </p>
-          <div id="snack-post-gym-card" class="bg-white/95 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
-            <!-- Renderizado dinámico de snacks caseros económicos -->
-          </div>
-        </div>
-
-        <button onclick="closeGymFeedbackModal()" class="w-full py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl text-xs font-bold shadow-md hover:scale-[1.02] active:scale-98 transition">
-          ¡A descansar y comer rico! 🥑
         </button>
       </div>
     </div>
@@ -1677,66 +1604,15 @@
 
   <script>
     // ==========================================
-    // REGISTRO DE SERVICE WORKER PARA NOTIFICACIONES NATIVAS EN ANDROID PWA
+    // REGISTRO DE SERVICE WORKER, FIREBASE & UTILIDADES (VÍA MaleCore)
     // ==========================================
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => {
-            console.log('SW registrado para notificaciones:', reg.scope);
-            if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-          })
-          .catch(err => {
-            console.warn('Registro sw.js falló, probando ./sw.js:', err);
-            navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW error:', e));
-          });
-      });
-    }
+    MaleCore.registerSW('./sw.js');
+    const db = MaleCore.db;
+    const getTodayDateKey = MaleCore.getTodayKey;
+    const getCreatineDay = MaleCore.getCreatineDay;
 
-    // ==========================================
-    // CONFIGURACIÓN DE FIREBASE Y GEMINI
-    // ==========================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFUAfIjjff9Luw2-1uaznN7bK0ZuHmGEk",
-      authDomain: "male-app.firebaseapp.com",
-      databaseURL: "https://male-app-default-rtdb.firebaseio.com",
-      projectId: "male-app",
-      storageBucket: "male-app.firebasestorage.app",
-      messagingSenderId: "82609798929",
-      appId: "1:82609798929:web:ddb6851a1894fb652fd6b0",
-      measurementId: "G-TYSRXXCY3Y"
-    };
-
-    // Inicializar Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // Clave de API de Gemini 3.6 Flash (ofuscada en Base64 para protección)
-    const GEMINI_KEY = atob("QVEuQWI4Uk42SlVnMkZaQmd5THlkMWRSTkNJRGhmN0pRZTE1bU9iY2RIRDA3WWVUNC1wekE=");
-
-    // ==========================================
-    // UTILIDADES DE FECHA, CREATINA Y RESET DIARIO
-    // ==========================================
-    function getTodayDateKey(d = new Date()) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
-    }
-
-    function getCreatineDay(date = new Date()) {
-      // Ancla: Martes 22 de Septiembre de 2026 fue Día 18
-      const anchor = new Date(2026, 8, 22); // Septiembre = mes 8 (0-indexed)
-      anchor.setHours(0, 0, 0, 0);
-      const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      const diffTime = target.getTime() - anchor.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      return Math.max(1, 18 + diffDays);
-    }
-
-    // ESTADO LOCAL DE LA APLICACIÓN
+    // ESTADO LOCAL DE LA APLICACIÓN (SINCRONIZADO CON FIREBASE)
     let activeRole = 'male'; // 'male' o 'naza'
-    let currentGymDay = 'dia1';
     let waterMl = 0; // Se inicializa y resetea dinámicamente con checkAndApplyDailyReset
     let waterRemindersEnabled = localStorage.getItem('water_reminders_enabled') !== 'false'; // Activo por defecto
     let waterReminderIntervalMin = parseInt(localStorage.getItem('water_reminder_interval') || '90'); // 90 min sugerido
@@ -1795,400 +1671,6 @@
         toggleHabitoCelular(isFar, false);
       }
     }
-
-    // DATOS DE GYM (MESOCICLO 1 — SEMANA 3: RIR 1) CON SOBRECARGA REAL & PROTOCOLO DE ENTRADA EN CALOR
-    const GYM_ROUTINE = {
-      dia1: [
-        {
-          id: "dia1_rdl",
-          nombre: "Peso Muerto Rumano (RDL)",
-          musculo: "Glúteo mayor e isquios",
-          series: 3,
-          cargaSugerida: "16 kg x mano (¡Récord Conquistado!)",
-          metaReps: [10, 10, 10],
-          calentamiento: "2 a 3 series de aproximación progresivas: 1x10 sin peso o con 8kg ➔ 1x6 con 12kg ➔ 1x3 con 14kg (primer ejercicio de isquios/cadena posterior)",
-          defaultLogged: [
-            { kg: "16 kg x mano", reps: 10, completed: true },
-            { kg: "16 kg x mano", reps: 9, completed: true },
-            { kg: "16 kg x mano", reps: 9, completed: true }
-          ],
-          tip: "Cadera bien atrás, rodillas en semiflexión fija y espalda neutra sintiendo cómo estiran los glúteos a RIR 1.",
-          alternativas: [
-            {
-              nombre: "RDL con barra corta / hexagonal",
-              pesoEquiv: "28 - 30 kg totales",
-              repsEquiv: "11 - 12 reps @ RIR 1",
-              notaRP: "Equivale exactamente a los 14 kg x mano en mancuernas. Mantiene la misma bisagra de cadera."
-            },
-            {
-              nombre: "Hiperextensiones a 45°",
-              pesoEquiv: "Disco 15 kg al pecho",
-              repsEquiv: "12 - 14 reps @ RIR 1",
-              notaRP: "Gran estímulo en estiramiento de glúteo e isquios sin fatigar el agarre de las manos."
-            }
-          ]
-        },
-        {
-          id: "dia1_sumo",
-          nombre: "Sentadilla Sumo con Mancuerna",
-          musculo: "Glúteo & aductores",
-          series: 2,
-          cargaSugerida: "30 kg",
-          metaReps: [9, 9],
-          calentamiento: "1 serie previa con mancuerna de 18-20kg x 6 reps (apertura y aductores). Glúteo ya caliente por RDL.",
-          defaultLogged: [
-            { kg: "30", reps: 9, completed: true },
-            { kg: "30", reps: 9, completed: true }
-          ],
-          tip: "Puntas hacia afuera 45°, rodillas alineadas con los pies, tronco erguido.",
-          alternativas: [
-            {
-              nombre: "Prensa 45° (pies altos y separados)",
-              pesoEquiv: "80 - 90 kg en prensa",
-              repsEquiv: "10 reps @ RIR 1",
-              notaRP: "Simula la misma apertura de aductores y glúteo de la sumo con apoyo lumbar súper seguro."
-            },
-            {
-              nombre: "Sentadilla Goblet sobre cajón",
-              pesoEquiv: "28 - 30 kg con mancuerna",
-              repsEquiv: "9 - 10 reps @ RIR 1",
-              notaRP: "Controla la profundidad para activar al máximo los glúteos en la fase baja."
-            }
-          ]
-        },
-        {
-          id: "dia1_hipthrust",
-          nombre: "Hip Thrust en Máquina",
-          musculo: "Máxima contracción de glúteo",
-          series: 3,
-          cargaSugerida: "25 kg",
-          metaReps: [12, 11, 10],
-          calentamiento: "Sin calentamiento previo (glúteos 100% calientes por RDL y Sumo). Directo a series efectivas.",
-          defaultLogged: [
-            { kg: "25", reps: 12, completed: true },
-            { kg: "25", reps: 11, completed: true },
-            { kg: "25", reps: 10, completed: true }
-          ],
-          tip: "Pausa estricta de 1 segundo arriba apretando fuerte con 25 kg a RIR 1, mentón pegado al pecho.",
-          alternativas: [
-            {
-              nombre: "Hip Thrust con barra libre y almohadilla",
-              pesoEquiv: "55 - 65 kg totales",
-              repsEquiv: "11 reps @ RIR 1",
-              notaRP: "Por la palanca de la barra libre, 25 kg en máquina equivalen a unos 60 kg en barra. Pausa de 1s arriba."
-            },
-            {
-              nombre: "Puente de glúteos en Smith",
-              pesoEquiv: "45 - 55 kg",
-              repsEquiv: "11 reps @ RIR 1",
-              notaRP: "Recorrido guiado muy estable y focalizado en glúteos."
-            }
-          ]
-        },
-        {
-          id: "dia1_hiperext",
-          nombre: "Hiperextensiones a 45°",
-          musculo: "Glúteos & erectores",
-          series: 3,
-          cargaSugerida: "Disco 10 - 15 kg",
-          metaReps: [16, 15, 15],
-          calentamiento: "Sin calentamiento previo (cadena posterior caliente). Directo a las 3 series efectivas a RIR 1.",
-          defaultLogged: [
-            { kg: "10", reps: 16, completed: true },
-            { kg: "10", reps: 15, completed: true },
-            { kg: "10", reps: 15, completed: true }
-          ],
-          tip: "Espalda alta ligeramente redondeada para inhibir lumbares y enfocar 100% en glúteos.",
-          alternativas: [
-            {
-              nombre: "Good Mornings con mancuerna al pecho",
-              pesoEquiv: "14 - 16 kg",
-              repsEquiv: "14 - 15 reps @ RIR 1",
-              notaRP: "Enfoca la bisagra de cadera con espalda alta redonda para anular lumbares."
-            },
-            {
-              nombre: "Pull-Through en polea baja con soga",
-              pesoEquiv: "22 - 27 kg",
-              repsEquiv: "15 reps @ RIR 1",
-              notaRP: "Tensión horizontal constante directo a los glúteos."
-            }
-          ]
-        },
-        {
-          id: "dia1_abductores",
-          nombre: "Abductores en Máquina",
-          musculo: "Glúteo medio",
-          series: 3,
-          cargaSugerida: "68 / 72 kg",
-          metaReps: [17, 16, 15],
-          calentamiento: "Sin calentamiento previo (glúteo medio activo). Directo a las 3 series efectivas a RIR 1.",
-          defaultLogged: [
-            { kg: "68", reps: 17, completed: true },
-            { kg: "72", reps: 16, completed: true },
-            { kg: "72", reps: 15, completed: true }
-          ],
-          tip: "Inclinarse levemente hacia adelante para activar fibras superiores del glúteo medio.",
-          alternativas: [
-            {
-              nombre: "Patada glúteo medio en polea (tobillera 30°)",
-              pesoEquiv: "6.8 - 9.1 kg",
-              repsEquiv: "15 reps x pierna @ RIR 1",
-              notaRP: "Equivale a los 68-72 kg de máquina por ser unilateral y de palanca pura."
-            },
-            {
-              nombre: "Caminatas laterales con banda elástica pesada",
-              pesoEquiv: "Banda pesada en rodillas",
-              repsEquiv: "20 pasos x lado",
-              notaRP: "Mantiene la tensión constante en el glúteo medio en abducción continua."
-            }
-          ]
-        }
-      ],
-      dia2: [
-        {
-          id: "dia2_prensa",
-          nombre: "Prensa Inclinada a 45°",
-          musculo: "Cuádriceps & Glúteo",
-          series: 3,
-          cargaSugerida: "100 kg",
-          metaReps: [11, 10, 10],
-          calentamiento: "2 a 3 series de aproximación progresivas: 1x10 con 50kg ➔ 1x5 con 80kg ➔ 1x2 con 90kg (primer ejercicio de cuádriceps)",
-          tip: "Bajar profundo y controlado sin despegar la pelvis del respaldo. Empuje con talones a RIR 1.",
-          alternativas: [
-            {
-              nombre: "Sentadilla Hack (pies en el medio)",
-              pesoEquiv: "15 kg x lado (30 kg en discos)",
-              repsEquiv: "10 - 11 reps @ RIR 1",
-              notaRP: "100 kg en prensa a 45° equivalen a unos 30 kg en discos en Hack por la inclinación del carro."
-            },
-            {
-              nombre: "Sentadilla Búlgara con mancuernas",
-              pesoEquiv: "12 kg x mano",
-              repsEquiv: "10 reps x pierna @ RIR 1",
-              notaRP: "Aislador masivo unilateral para cuádriceps y glúteo medio."
-            }
-          ]
-        },
-        {
-          id: "dia2_sldl",
-          nombre: "SLDL Mancuernas (Piernas Rígidas)",
-          musculo: "Isquiosurales altos",
-          series: 3,
-          cargaSugerida: "14 kg x mano",
-          metaReps: [11, 10, 10],
-          calentamiento: "2 series de aproximación progresivas: 1x8 con 8kg ➔ 1x4 con 10-12kg (primer ejercicio de isquios de la sesión)",
-          tip: "Semiflexión fija de rodilla, empujar cadera hacia la pared de atrás sintiendo estirar isquios a RIR 1.",
-          alternativas: [
-            {
-              nombre: "RDL clásico con mancuernas",
-              pesoEquiv: "14 kg x mano",
-              repsEquiv: "10 - 11 reps @ RIR 1",
-              notaRP: "Mismo estímulo en bisagra, permitiendo 5° más de flexión de rodilla."
-            },
-            {
-              nombre: "Buenos días con mancuerna al pecho",
-              pesoEquiv: "14 - 16 kg",
-              repsEquiv: "10 - 12 reps @ RIR 1",
-              notaRP: "Descarga los brazos y enfoca toda la bisagra en isquiosurales."
-            }
-          ]
-        },
-        {
-          id: "dia2_extension",
-          nombre: "Sillón de Extensión de Cuádriceps",
-          musculo: "Cuádriceps aislado",
-          series: 3,
-          cargaSugerida: "36 kg",
-          metaReps: [12, 11, 10],
-          calentamiento: "Sin calentamiento previo (cuádriceps ya calientes por la Prensa a 100 kg). Directo a las 3 series efectivas a RIR 1.",
-          tip: "Frenar la bajada 2 a 3 segundos para estimular el músculo sin golpear las rodillas a RIR 1.",
-          alternativas: [
-            {
-              nombre: "Prensa liviana (pies juntos y abajo)",
-              pesoEquiv: "55 - 65 kg",
-              repsEquiv: "12 - 14 reps @ RIR 1",
-              notaRP: "Aísla cuádriceps con menor tensión articular directa en el tendón rotuliano."
-            },
-            {
-              nombre: "Sentadilla Goblet con talones sobre disco",
-              pesoEquiv: "14 - 16 kg",
-              repsEquiv: "12 - 14 reps @ RIR 1",
-              notaRP: "La elevación de talones enfatiza el cuádriceps sin cargar la zona lumbar."
-            }
-          ]
-        },
-        {
-          id: "dia2_legcurl",
-          nombre: "Seated Leg Curl (o Camilla Isquios)",
-          musculo: "Isquiotibiales",
-          series: 2,
-          cargaSugerida: "23 - 27 kg",
-          metaReps: [12, 11],
-          calentamiento: "1 serie previa suave (16-18 kg x 6 reps) para ajustar asiento y lubricar rótula. Isquios ya calientes por SLDL.",
-          tip: "¡Cuidar rótula! Cadera bien pegada al respaldo, bajada lenta en 2-3s. A RIR 1.",
-          alternativas: [
-            {
-              nombre: "Lying Leg Curl (camilla tumbada)",
-              pesoEquiv: "22 - 27 kg",
-              repsEquiv: "11 - 12 reps @ RIR 1",
-              notaRP: "Equivale a 23-27 kg sentada. Mantener cadera pegada a la camilla."
-            },
-            {
-              nombre: "Curl femoral con mancuerna en banco",
-              pesoEquiv: "10 - 12 kg entre pies",
-              repsEquiv: "11 - 12 reps @ RIR 1",
-              notaRP: "Aislamiento en flexión de rodilla cuidando la articulación."
-            }
-          ]
-        },
-        {
-          id: "dia2_aductores",
-          nombre: "Máquina de Aductores",
-          musculo: "Aductores internos",
-          series: 2,
-          cargaSugerida: "36 kg",
-          metaReps: [16, 15],
-          calentamiento: "1 serie de aproximación: 20-25 kg x 8 reps (primer trabajo específico de aductores). Luego directo a series efectivas a RIR 1.",
-          tip: "Pausa de 1 segundo en máxima apertura y contracción controlada a RIR 1.",
-          alternativas: [
-            {
-              nombre: "Aductor en polea baja con tobillera",
-              pesoEquiv: "5 - 7.5 kg",
-              repsEquiv: "14 - 15 reps @ RIR 1",
-              notaRP: "Tensión constante en aducción medial con rango completo."
-            },
-            {
-              nombre: "Sentadilla Sumo con pausa isométrica (3s)",
-              pesoEquiv: "22 - 24 kg",
-              repsEquiv: "12 reps @ RIR 1",
-              notaRP: "Pausa abajo para elongar y contraer aductores con alta tensión mecánica."
-            }
-          ]
-        }
-      ],
-      dia3: [
-        {
-          id: "dia3_extension",
-          nombre: "Extensión de Cuádriceps",
-          musculo: "Cuádriceps (Aislamiento y bombeo)",
-          series: 2,
-          cargaSugerida: "32 - 36 kg",
-          metaReps: [14, 14],
-          calentamiento: "2 series de aproximación previa: 1x10 suave con 16kg ➔ 1x6 con 24kg (lubricar rótula y calentar cuádriceps antes de Hack/Prensa)",
-          tip: "Controlar la bajada 2 segundos. Estas 2 series efectivas lubrican y preparan la rótula antes de la Hack.",
-          alternativas: [
-            {
-              nombre: "Prensa a 45° liviana (pies abajo)",
-              pesoEquiv: "50 - 60 kg",
-              repsEquiv: "14 reps @ RIR 1",
-              notaRP: "Bombeo preparatorio para cuádriceps antes de la Hack."
-            },
-            {
-              nombre: "Sentadilla Goblet liviana y controlada",
-              pesoEquiv: "12 - 14 kg",
-              repsEquiv: "14 reps @ RIR 1",
-              notaRP: "Lubrica rodillas con tempo suave 3-0-1."
-            }
-          ]
-        },
-        {
-          id: "dia3_hack",
-          nombre: "Sentadilla Hack Inversa",
-          musculo: "Glúteo & Cuádriceps",
-          series: 3,
-          cargaSugerida: "15 kg x lado",
-          metaReps: [12, 12, 12],
-          calentamiento: "2 series de aproximación de carga: Hack sin discos (o Prensa con 50kg) x 8 reps ➔ 7.5kg/lado (o Prensa con 80kg) x 4-5 reps",
-          tip: "Mirando hacia la máquina, empuje firme con talones y recorrido profundo y seguro a RIR 1.",
-          alternativas: [
-            {
-              nombre: "Prensa inclinada a 45° (reemplazo oficial si no hay Hack)",
-              pesoEquiv: "100 kg",
-              repsEquiv: "12 - 14 reps @ RIR 1",
-              notaRP: "Reemplazo exacto que hizo Male. Descarga la columna y trabaja glúteo mayor y cuádriceps con 100 kg firmes."
-            },
-            {
-              nombre: "Sentadilla Hack tradicional de espaldas",
-              pesoEquiv: "15 kg x lado",
-              repsEquiv: "11 reps @ RIR 1",
-              notaRP: "Misma máquina, postura tradicional con pies adelantados."
-            }
-          ]
-        },
-        {
-          id: "dia3_stepup",
-          nombre: "Step Up Hack Inversa",
-          musculo: "Glúteo Unilateral",
-          series: 3,
-          cargaSugerida: "15 kg x lado",
-          metaReps: [10, 10, 10],
-          calentamiento: "Sin calentamiento previo (piernas y glúteos calientes de la Hack/Prensa). Directo a series efectivas a RIR 1.",
-          tip: "Todo el peso en la pierna delantera, sin impulsarse con el pie de atrás con 15 kg por lado.",
-          alternativas: [
-            {
-              nombre: "Step Up en cajón de madera con mancuernas",
-              pesoEquiv: "10 - 12 kg x mano",
-              repsEquiv: "10 reps x pierna @ RIR 1",
-              notaRP: "Empuje exclusivamente con el talón de la pierna superior."
-            },
-            {
-              nombre: "Estocadas estáticas hacia atrás en Smith",
-              pesoEquiv: "12.5 - 15 kg x lado",
-              repsEquiv: "10 reps x pierna @ RIR 1",
-              notaRP: "Carga guiada con inclinación de torso a 20° para glúteo."
-            }
-          ]
-        },
-        {
-          id: "dia3_goodmornings",
-          nombre: "Good Mornings Hack",
-          musculo: "Cadena Posterior",
-          series: 3,
-          cargaSugerida: "15 kg x lado",
-          metaReps: [11, 11, 11],
-          calentamiento: "1 serie de aproximación con carro/peso suave x 6 reps (bisagra de cadera guiada). Luego directo a series efectivas con 15kg/lado a RIR 1.",
-          tip: "Bisagra de cadera guiada, cuidando la zona lumbar sin arquear con 15 kg por lado.",
-          alternativas: [
-            {
-              nombre: "Buenos días con mancuerna al pecho",
-              pesoEquiv: "16 - 18 kg",
-              repsEquiv: "11 reps @ RIR 1",
-              notaRP: "Bisagra pura de cadera, rodillas suaves sin bloquear."
-            },
-            {
-              nombre: "Hiperextensiones a 45° con disco",
-              pesoEquiv: "Disco 15 kg",
-              repsEquiv: "12 - 14 reps @ RIR 1",
-              notaRP: "Excelente estímulo en elongación de cadena posterior."
-            }
-          ]
-        },
-        {
-          id: "dia3_patada",
-          nombre: "Patada de Glúteo en Polea (Atrás)",
-          musculo: "Glúteo Mayor Superior",
-          series: 2,
-          cargaSugerida: "6.8 / 9.1 kg",
-          metaReps: [16, 12],
-          calentamiento: "Sin calentamiento previo (glúteo 100% caliente por la Hack, Step Up y Good Mornings). Directo a 2 series efectivas a RIR 1.",
-          tip: "Extensión diagonal sin quebrar la cintura ni arquear lumbares a RIR 1.",
-          alternativas: [
-            {
-              nombre: "Máquina de abductores (inclinación frontal)",
-              pesoEquiv: "72 kg",
-              repsEquiv: "15 - 16 reps @ RIR 1",
-              notaRP: "Reemplazo exacto de máxima estabilidad para glúteo medio/superior."
-            },
-            {
-              nombre: "Patada de glúteo en banco con mancuerna en corva",
-              pesoEquiv: "8 kg",
-              repsEquiv: "14 - 15 reps @ RIR 1",
-              notaRP: "Extensión de cadera en cuadrupedia manteniendo abdomen firme."
-            }
-          ]
-        }
-      ]
-    };
 
     // ==========================================
     // RAG DE MEMORIA CON PARSEO TEMPORAL ESTRICTO (COFRE DE VICTORIAS)
@@ -2249,27 +1731,120 @@ ${formatted.join('\n')}
     let gymBridgeToday = null;
     let gymV2State = {};
     let gymV2Completed = {};
-    let gymV2Logs = {};
     let gymV2PainFlags = {};
     let nutriRecentLogs = {};
     let showNightlyPreviewManual = false;
+    let _activeBridgeDayKey = null;
+    let _activeHabitsDayKey = null;
+    let _activeMochilaDayKey = null;
+    let _staticListenersBound = false;
 
     function initGymBridgeListener() {
       const todayKey = getTodayDateKey();
-      db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
-        gymBridgeToday = snap.val();
-        renderGymBridgeCard();
-        renderDynamicDayFocusCard();
-        updateHeaderBridgeStatus();
-        renderWaterCups();
-        updateWaterUI();
-        updateWaterPacingUI();
-      });
-      db.ref('gym_v2/state').on('value', snap => { gymV2State = snap.val() || {}; renderDynamicDayFocusCard(); });
-      db.ref('gym_v2/completed').on('value', snap => { gymV2Completed = snap.val() || {}; renderDynamicDayFocusCard(); });
-      db.ref('gym_v2/logs').on('value', snap => { gymV2Logs = snap.val() || {}; });
-      db.ref('gym_v2/pain_flags').limitToLast(25).on('value', snap => { gymV2PainFlags = snap.val() || {}; });
-      db.ref('nutri_v2/daily_logs').limitToLast(14).on('value', snap => { nutriRecentLogs = snap.val() || {}; });
+      if (_activeBridgeDayKey !== todayKey) {
+        if (_activeBridgeDayKey) db.ref(`gym_v2/daily_bridge/${_activeBridgeDayKey}`).off();
+        _activeBridgeDayKey = todayKey;
+        db.ref(`gym_v2/daily_bridge/${todayKey}`).on('value', snap => {
+          gymBridgeToday = snap.val();
+          renderGymBridgeCard();
+          renderDynamicDayFocusCard();
+          updateHeaderBridgeStatus();
+          renderWaterCups();
+          updateWaterUI();
+          updateWaterPacingUI();
+        });
+      }
+      if (!_staticListenersBound) {
+        _staticListenersBound = true;
+        db.ref('gym_v2/state').on('value', snap => { gymV2State = snap.val() || {}; renderDynamicDayFocusCard(); });
+        db.ref('gym_v2/completed').on('value', snap => { gymV2Completed = snap.val() || {}; renderDynamicDayFocusCard(); });
+        db.ref('gym_v2/pain_flags').limitToLast(25).on('value', snap => { gymV2PainFlags = snap.val() || {}; });
+        db.ref('nutri_v2/daily_logs').limitToLast(14).on('value', snap => { nutriRecentLogs = snap.val() || {}; });
+      }
+    }
+
+    function persistDailyHabits(extraPatch = {}, dateKey = getTodayDateKey()) {
+      const payload = {
+        waterMl,
+        creatina: localStorage.getItem('creatina_hoy') === 'true',
+        celularLejos: localStorage.getItem('celular_lejos_hoy') === 'true',
+        mood: currentMood,
+        battery: currentBattery,
+        updatedAt: Date.now(),
+        ...extraPatch
+      };
+      try {
+        db.ref(`dia_v2/daily_habits/${dateKey}`).update(payload).catch(() => {});
+      } catch (e) {}
+    }
+
+    function initDailyHabitsSync(dateKey = getTodayDateKey()) {
+      const tomKey = MaleCore.getTomorrowKey();
+      if (_activeHabitsDayKey !== dateKey) {
+        if (_activeHabitsDayKey) db.ref(`dia_v2/daily_habits/${_activeHabitsDayKey}`).off();
+        _activeHabitsDayKey = dateKey;
+        db.ref(`dia_v2/daily_habits/${dateKey}`).on('value', snap => {
+          const val = snap.val();
+          if (val) {
+            if (typeof val.waterMl === 'number') {
+              waterMl = val.waterMl;
+              localStorage.setItem('water_ml', String(waterMl));
+              localStorage.setItem('water_last_date', dateKey);
+            }
+            if (typeof val.creatina === 'boolean') {
+              localStorage.setItem('creatina_hoy', val.creatina ? 'true' : 'false');
+              localStorage.setItem('creatina_last_date', dateKey);
+              const chkC = document.getElementById('chk-habito-creatina');
+              if (chkC) chkC.checked = val.creatina;
+              toggleHabitoCreatina(val.creatina, false);
+            }
+            if (typeof val.celularLejos === 'boolean') {
+              localStorage.setItem('celular_lejos_hoy', val.celularLejos ? 'true' : 'false');
+              localStorage.setItem('celular_last_date', dateKey);
+              const chkCel = document.getElementById('chk-habito-celular');
+              if (chkCel) chkCel.checked = val.celularLejos;
+              toggleHabitoCelular(val.celularLejos, false);
+            }
+            if (val.mood) {
+              currentMood = val.mood;
+              localStorage.setItem('current_mood', val.mood);
+            }
+            if (val.battery) {
+              currentBattery = val.battery;
+              localStorage.setItem('user_battery', val.battery);
+            }
+            renderWaterCups();
+            updateWaterUI();
+            updateWaterPacingUI();
+            renderDynamicDayFocusCard();
+          } else {
+            const hasLocalProgress = waterMl > 0 ||
+              localStorage.getItem('creatina_hoy') === 'true' ||
+              localStorage.getItem('celular_lejos_hoy') === 'true';
+            if (hasLocalProgress) persistDailyHabits({}, dateKey);
+          }
+        });
+      }
+
+      if (_activeMochilaDayKey !== tomKey) {
+        if (_activeMochilaDayKey) db.ref(`dia_v2/mochila_checks/${_activeMochilaDayKey}`).off();
+        _activeMochilaDayKey = tomKey;
+        db.ref(`dia_v2/mochila_checks/${tomKey}`).on('value', snap => {
+          const val = snap.val();
+          const storageKey = 'mochila_checks_' + tomKey;
+          if (val && typeof val === 'object') {
+            const cleaned = { ...val };
+            delete cleaned.updatedAt;
+            localStorage.setItem(storageKey, JSON.stringify(cleaned));
+            renderDynamicDayFocusCard();
+          } else {
+            const localSaved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            if (Object.keys(localSaved).length > 0) {
+              db.ref(`dia_v2/mochila_checks/${tomKey}`).set({ ...localSaved, updatedAt: Date.now() }).catch(() => {});
+            }
+          }
+        });
+      }
     }
 
     function updateHeaderBridgeStatus() {
@@ -2391,8 +1966,8 @@ PERFIL DE MALE:
   * Male Gym (RP App): 5 días de hipertrofia a RIR (prioridad N° 1 actual: agrandar y redondear caderas laterales / glúteo medio y proyección Forma de P manteniendo cintura chica).
   * Male Nutri: hasta el 13/12 (casamiento) mantiene déficit suave (1.500-1.550 kcal, 110g P) para llegar cómoda y desinflamada; desde el 14/12 (post-casamiento) pasa automático a mantenimiento limpio / crecimiento glúteo (1.580-1.700 kcal) + Permitidos 80/20.
 - HÁBITOS SAGRADOS:
-  * 5g de creatina monohidrato diarios (hoy es Día \${getCreatineDay()} con saturación al 100%).
-  * Meta de agua: 2.2 a 2.5 litros diarios.
+  * 5g de creatina monohidrato diarios (hoy es Día ${getCreatineDay()} con saturación al 100%).
+  * Meta de agua: ${getWaterTargetToday().litersStr} litros diarios.
 
 ARQUITECTURA DE PERSONALIDAD: "SOCIO TÁCTICO + DISCIPLINA PROTECTORA"
 Tu balance sagrado es: 50% abrazo y escucha activa, 50% claridad mental, datos y estructura.
@@ -2403,7 +1978,6 @@ Tu balance sagrado es: 50% abrazo y escucha activa, 50% claridad mental, datos y
 - CERO positividad tóxica, cero trato infantil y lectura ágil con emojis sutiles (🌸, ✨, 🤍, 🥑, 🏋️‍♀️).
 `;
     }
-    const COACH_SYSTEM_PROMPT = getCoachSystemPrompt();
 
     // CRONOGRAMA SEMANAL COMPLETO DE NOVIEMBRE (7 DÍAS)
     const WEEK_SCHEDULE = {
@@ -2618,9 +2192,30 @@ REGLAS DE COHERENCIA NOVIEMBRE:
       const todayKey = dayKeysMap[new Date().getDay()];
       renderDaySchedule(todayKey);
 
-      // Inicializar Puente en Vivo con Male Gym (gym_v2)
+      // Inicializar Puente en Vivo con Male Gym (gym_v2) y Hábitos diarios en Firebase
       initGymBridgeListener();
+      initDailyHabitsSync(getTodayDateKey());
       updateVictoriasCounter();
+
+      db.ref('user_battery').on('value', snap => {
+        const val = snap.val();
+        if (val && val.level) {
+          currentBattery = val.level;
+          localStorage.setItem('user_battery', val.level);
+          renderDynamicDayFocusCard();
+        }
+      });
+
+      MaleCore.watchDayChange((newKey) => {
+        checkAndApplyDailyReset();
+        initGymBridgeListener();
+        initDailyHabitsSync(newKey);
+        updateGreetingHeader();
+        updateLiveDate();
+        renderDynamicDayFocusCard();
+        renderFechasClaveUI();
+        renderPacientesPreview();
+      });
 
       // Escuchar victorias en Firebase en tiempo real
       db.ref('victorias_male').on('value', snap => {
@@ -2920,13 +2515,13 @@ REGLAS DE COHERENCIA NOVIEMBRE:
         level: level,
         updatedAt: Date.now()
       }).catch(err => console.log('Firebase battery sync error:', err));
+      persistDailyHabits({ battery: level });
       renderDynamicDayFocusCard();
       if (navigator.vibrate) navigator.vibrate(35);
     }
 
     function getTomorrowDateKey(now = new Date()) {
-      const tom = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-      return getTodayDateKey(tom);
+      return MaleCore.getTomorrowKey(now);
     }
 
     function computeTomorrowGymPlan(now = new Date()) {
@@ -3013,6 +2608,9 @@ REGLAS DE COHERENCIA NOVIEMBRE:
       const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
       saved[itemId] = !saved[itemId];
       localStorage.setItem(storageKey, JSON.stringify(saved));
+      try {
+        db.ref(`dia_v2/mochila_checks/${dateKey}`).set({ ...saved, updatedAt: Date.now() }).catch(() => {});
+      } catch (e) {}
       renderDynamicDayFocusCard();
     }
 
@@ -3276,6 +2874,7 @@ REGLAS DE COHERENCIA NOVIEMBRE:
     function setMood(moodKey, messageText) {
       currentMood = moodKey;
       localStorage.setItem('current_mood', moodKey);
+      persistDailyHabits({ mood: moodKey });
       
       const label = document.getElementById('mood-status-label');
       if (label) label.innerText = "¡Anotado! Hablando con Coach...";
@@ -3421,13 +3020,6 @@ REGLAS DE COHERENCIA NOVIEMBRE:
     async function callGeminiCoach(userMessage) {
       const typingIndicator = showTypingIndicator();
 
-      const candidateModels = [
-        "gemini-3.5-flash-lite",
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.6-flash"
-      ];
-
       const batteryNotice = currentBattery === 'reserva'
         ? "AVISO: Male siente su batería de energía en nivel bajo hoy (20%) por la exigencia de la facultad. Sé muy cálido y empático, aconsejale cenar rico y dormir temprano, pero NUNCA le digas que afloje, baje los pesos o haga series suaves en el gimnasio: el entrenamiento se mantiene con constancia para no cortar su progreso."
         : currentBattery === 'media'
@@ -3493,86 +3085,16 @@ REGLAS DE COHERENCIA NOVIEMBRE:
         ? "AVISO CRÍTICO DE FLUIDEZ (CHAT ACTIVO): Ya están conversando de corrido. ESTÁ TOTALMENTE PROHIBIDO saludar de nuevo (no digas '¡Hola Caritas!', '¡Hola Male!' ni 'Buen día'). Respondé directamente al contenido de su mensaje con tono natural, relajado y espontáneo, como en WhatsApp."
         : "";
 
-      const payload = {
-        contents: [
-          {
-            role: "user",
-            parts: [
-              { text: `${getCoachSystemPrompt()}\n\n${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${topesContext}\n\n${victoriasContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"` }
-            ]
-          }
-        ],
-        generationConfig: {
-          maxOutputTokens: 1200
-        }
-      };
+      const userContextMsg = `${temporalContext}\n\n${gymStatusContext}\n\n${pacientesContext}\n\n${topesContext}\n\n${victoriasContext}\n\n${agendaNotice}${conversationHistoryContext}Estado actual de Male: ${currentMood}\n${batteryNotice}\n${antiGreetingNotice}\nCaritas dice: "${userMessage}"`;
 
       let replyText = null;
-      let lastApiError = null;
-
       try {
-        for (const model of candidateModels) {
-          try {
-            const controller = new AbortController();
-            const timeoutMs = model === "gemini-3.6-flash" ? 12000 : 8000;
-            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-
-            if (!res.ok) {
-              const errBody = await res.text().catch(() => '');
-              lastApiError = new Error(`HTTP ${res.status} (${model}): ${errBody}`);
-              console.error(`🚨 GEMINI API ERROR (${model} - HTTP ${res.status}):`, errBody);
-              continue;
-            }
-
-            const data = await res.json();
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
-              replyText = data.candidates[0].content.parts[0].text;
-              break; // ¡Respuesta exitosa!
-            }
-          } catch (e) {
-            lastApiError = e;
-            console.error(`🚨 GEMINI API ERROR (${model}):`, e, e.message);
-          }
-        }
-
-        // Reintento silencioso final con gemini-flash-lite-latest si ocurrió micro-corte
-        if (!replyText) {
-          try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 8000);
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${GEMINI_KEY}`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-            if (!res.ok) {
-              const errBody = await res.text().catch(() => '');
-              lastApiError = new Error(`HTTP ${res.status} (retry gemini-3.6-flash): ${errBody}`);
-              console.error(`🚨 GEMINI API ERROR (retry gemini-3.6-flash - HTTP ${res.status}):`, errBody);
-            } else {
-              const data = await res.json();
-              if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                replyText = data.candidates[0].content.parts[0].text;
-              }
-            }
-          } catch (e) {
-            lastApiError = e;
-            console.error("🚨 GEMINI API ERROR (retry):", e, e.message);
-          }
-        }
-      } catch (error) {
-        lastApiError = error;
-        console.error("🚨 GEMINI API ERROR:", error, error.message);
+        replyText = await MaleCore.callGemini({
+          systemPrompt: getCoachSystemPrompt(),
+          messages: [{ role: 'user', text: userContextMsg }],
+          timeoutMs: 12000,
+          maxOutputTokens: 1200
+        });
       } finally {
         removeTypingIndicator(typingIndicator);
       }
@@ -3609,11 +3131,7 @@ REGLAS DE COHERENCIA NOVIEMBRE:
       }
 
       if (!replyText) {
-        if (lastApiError) {
-          console.error("🚨 GEMINI API ERROR:", lastApiError, lastApiError.message);
-        } else {
-          console.error("🚨 GEMINI API ERROR: Fallaron todos los modelos candidatos. Timeout agotado sin respuesta.");
-        }
+        console.warn("MaleCore.callGemini: todos los modelos fallaron sin respuesta en Chat Día.");
         replyText = "Acá estoy con vos, Caritas hermosa 🌸 Justo se me entrecortó la señal un segundo. Decime de nuevo lo que me contabas y charlamos ✨";
       }
 
@@ -3849,43 +3367,13 @@ REGLAS DE TONO Y ESTILO:
 10. PROTOCOLO SINUSITIS / SALUD Y ORGULLO DE NAZA: Si anoche o recientemente Male estuvo angustiada o con sinusitis/congestión, priorizá preguntarle con infinito cariño cómo se siente. Recordale que no está sola en este tirón: Naza pensó esta app para cuidarle la espalda en cada momento y está profundamente orgulloso de ella. Con los números de Cirugía y Estomato los tiempos dan de sobra y el foco es desinflamar la cabeza sin culpa.
 `;
 
-      let briefingText = null;
-      const candidateModels = [
-        "gemini-3.5-flash-lite",
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.6-flash"
-      ];
-
-      for (const model of candidateModels) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 18000);
-
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ role: "user", parts: [{ text: `${getCoachSystemPrompt()}\n\n${prompt}` }] }]
-            }),
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) {
-            const errBody = await res.text().catch(() => '');
-            console.error(`🚨 GEMINI API ERROR Daily Briefing (${model} - HTTP ${res.status}):`, errBody);
-            continue;
-          }
-          const data = await res.json();
-          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-            briefingText = data.candidates[0].content.parts[0].text;
-            break;
-          }
-        } catch (e) {
-          console.warn(`Error silencioso generando saludo con ${model}:`, e);
-        }
-      }
+      const briefingTextInitial = await MaleCore.callGemini({
+        systemPrompt: getCoachSystemPrompt(),
+        messages: [{ role: 'user', text: prompt }],
+        timeoutMs: 12000,
+        maxOutputTokens: 900
+      });
+      let briefingText = briefingTextInitial;
 
       // Fallbacks cuidados por día y franja horaria si no hay conexión
       if (!briefingText) {
@@ -4005,11 +3493,11 @@ REGLAS DE TONO Y ESTILO:
       const notasVal = document.getElementById('fecha-input-notas').value.trim();
 
       if (!titulo) {
-        alert('Por favor escribí qué tenés ese día (materia o motivo).');
+        MaleCore.toast('Escribí qué tenés ese día (materia o motivo) 📅', { variant: 'rose' });
         return;
       }
       if (!dateVal) {
-        alert('Por favor seleccioná la fecha.');
+        MaleCore.toast('Seleccioná la fecha primero 📅', { variant: 'rose' });
         return;
       }
 
@@ -4288,11 +3776,11 @@ REGLAS DE TONO Y ESTILO:
       const indicaciones = document.getElementById('paciente-input-indicaciones')?.value.trim() || '';
 
       if (!nombre) {
-        alert('Por favor ingresá el nombre y apellido del paciente.');
+        MaleCore.toast('Ingresá el nombre y apellido del paciente 🩺', { variant: 'rose' });
         return;
       }
       if (!fecha) {
-        alert('Por favor elegí la fecha de la clínica.');
+        MaleCore.toast('Elegí la fecha de la clínica 📅', { variant: 'rose' });
         return;
       }
 
@@ -4668,7 +4156,7 @@ REGLAS DE TONO Y ESTILO:
 
       if (!p) return;
       if (!p.telefono) {
-        alert('Este paciente no tiene número de teléfono cargado. Podés copiar el texto para enviárselo por otro medio.');
+        MaleCore.toast('Sin teléfono cargado: usá "Copiar texto" para enviárselo 📋', { variant: 'amber' });
         return;
       }
 
@@ -4713,8 +4201,8 @@ REGLAS DE TONO Y ESTILO:
             btn.classList.remove('bg-emerald-100', 'text-emerald-800');
           }, 2000);
         }
-      }).catch(err => {
-        alert('Copiado: ' + textarea.value);
+      }).catch(() => {
+        MaleCore.toast('No se pudo copiar automático; seleccioná el texto arriba 📋', { variant: 'amber' });
       });
     }
 
@@ -5487,844 +4975,26 @@ REGLAS DE TONO Y ESTILO:
     }
 
     // ==========================================
-    // SISTEMA INTERACTIVO DE GYM & LOGGING DE SERIES
+    // PUENTE DE REGISTRO RÁPIDO DESDE COACH DÍA (GYM V2)
     // ==========================================
-    const CURRENT_GYM_WEEK = 'sem2';
-    let gymLogs = JSON.parse(localStorage.getItem('gym_logs_' + CURRENT_GYM_WEEK) || '{}');
-    let gymActiveReplacements = JSON.parse(localStorage.getItem('gym_active_replacements') || '{}');
-
-    function getExerciseLog(dayKey, exerciseId, setIdx, defaultKg, defaultReps) {
-      if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
-      if (!gymLogs[dayKey][exerciseId]) {
-        const ej = GYM_ROUTINE[dayKey]?.find(e => e.id === exerciseId);
-        if (ej && ej.defaultLogged && ej.defaultLogged[setIdx]) {
-          return ej.defaultLogged[setIdx];
-        }
-        return { kg: defaultKg || "", reps: defaultReps || "", completed: false };
-      }
-      return gymLogs[dayKey][exerciseId][setIdx] || { kg: defaultKg || "", reps: defaultReps || "", completed: false };
-    }
-
-    function updateGymDayButtonsUI() {
-      const completed = getGymCompletedDays();
-      let completedCount = 0;
-      if (completed.dia1) completedCount++;
-      if (completed.dia2) completedCount++;
-      if (completed.dia3) completedCount++;
-
-      const nextDayKey = completedCount === 0 ? 'dia1' : (completedCount === 1 ? 'dia2' : 'dia3');
-
-      const labels = {
-        dia1: completed.dia1 ? 'Día 1 (Hecho ✔️)' : ('Día 1' + (nextDayKey === 'dia1' ? ' (Próximo 🔥)' : '')),
-        dia2: completed.dia2 ? 'Día 2 (Hecho ✔️)' : ('Día 2' + (nextDayKey === 'dia2' ? ' (Próximo 🔥)' : '')),
-        dia3: completed.dia3 ? 'Día 3 (Hecho ✔️)' : ('Día 3' + (nextDayKey === 'dia3' ? ' (Próximo 🔥)' : ' (Finde)'))
-      };
-
-      ['dia1', 'dia2', 'dia3'].forEach(d => {
-        const btn = document.getElementById(`btn-gym-${d}`);
-        if (!btn) return;
-        btn.innerText = labels[d];
-        if (d === currentGymDay) {
-          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-rose-500 text-white shadow-sm transition';
-        } else if (completed[d]) {
-          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition';
-        } else {
-          btn.className = 'py-2 px-1 rounded-2xl text-xs font-bold bg-white text-slate-600 hover:bg-rose-50 border border-rose-100 transition';
-        }
-      });
-    }
-
     async function executeCoachLogWorkout(command) {
       try {
-        const dayNum = parseInt(command.day) || (command.day === 'dia2' ? 2 : (command.day === 'dia3' ? 3 : 1));
-        const dayKey = 'dia' + dayNum;
-        const dayTitles = {
-          dia1: "Día 1: Glúteo & Cadena Posterior",
-          dia2: "Día 2: Cuádriceps, Isquios & Aductores",
-          dia3: "Día 3: Hack Inversa en Pareja"
-        };
-
-        const activeWeekKey = CURRENT_GYM_WEEK;
-
-        // 1. Registrar series completadas en gymLogs con los pesos reales reportados o especificados
-        if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
-        const exercises = GYM_ROUTINE[dayKey] || [];
-        let totalSetsCount = 0;
-
-        const omittedList = Array.isArray(command.omitted) ? command.omitted : [];
-        const hasReportedWeights = command.weights && typeof command.weights === 'object' && Object.keys(command.weights).length > 0;
-
-        exercises.forEach(ej => {
-          // Si el ejercicio fue omitido conscientemente por Male, no registrarlo como completado
-          if (omittedList.includes(ej.id) || omittedList.includes(ej.nombre)) {
-            return;
-          }
-
-          const customData = command.weights?.[ej.id] || command.weights?.[ej.nombre];
-
-          // Si Male reportó pesos específicos de su sesión y este ejercicio NO fue reportado ni tiene datos, NO inventarlo ni autocompletarlo con defaults:
-          if (hasReportedWeights && !customData) {
-            return;
-          }
-
-          if (!gymLogs[dayKey][ej.id]) gymLogs[dayKey][ej.id] = [];
-          const customKg = (typeof customData === 'object' ? customData.kg : customData) || ej.cargaSugerida;
-          const customReps = typeof customData === 'object' ? customData.reps : null;
-
-          for (let s = 0; s < ej.series; s++) {
-            const targetRep = (Array.isArray(customReps) ? customReps[s] : customReps) || ej.metaReps[s] || ej.metaReps[0];
-            gymLogs[dayKey][ej.id][s] = {
-              set: s + 1,
-              kg: customKg,
-              reps: targetRep,
-              completed: true,
-              targetRep: targetRep,
-              time: Date.now()
-            };
-            totalSetsCount++;
-          }
-        });
-
-        // 2. Solo marcar la sesión como completada si efectivamente se registraron series
-        if (totalSetsCount > 0) {
-          if (!gymCompletedDays) gymCompletedDays = {};
-          gymCompletedDays[dayKey] = true;
-          localStorage.setItem('gym_completed_days_' + activeWeekKey, JSON.stringify(gymCompletedDays));
-          db.ref(`gym_completed_days/${activeWeekKey}/${dayKey}`).set({
-            completed: true,
-            completedAt: Date.now(),
-            source: 'coach_tool_call',
-            notes: command.notes || ''
-          }).catch(e => console.log('Firebase sync error:', e));
-
-          // Guardar logs
-          localStorage.setItem('gym_logs_' + activeWeekKey, JSON.stringify(gymLogs));
-          db.ref(`gym_logs/${activeWeekKey}/${dayKey}`).set(gymLogs[dayKey]).catch(e => console.log(e));
-
-          // Registrar sesión completada en gym_completed_sessions
-          const sessionPayload = {
-            dayKey: dayKey,
-            dayTitle: dayTitles[dayKey] || dayKey,
-            isConsultation: false,
-            totalSets: totalSetsCount,
-            userNotes: command.notes || 'Completado y registrado por el Coach IA vía Chat',
-            source: 'coach_tool_call',
-            timestamp: Date.now(),
-            dateStr: new Date().toLocaleDateString('es-ES')
-          };
-          db.ref(`gym_completed_sessions/${dayKey}_${Date.now()}`).set(sessionPayload).catch(e => console.log(e));
-
-          // 3. Determinar próximo día y actualizar la interfaz de la pestaña Gym
-          const nextDayKey = dayNum === 1 ? 'dia2' : (dayNum === 2 ? 'dia3' : 'dia3');
-          currentGymDay = nextDayKey;
-          renderGymRoutine(nextDayKey);
-          updateGymDayButtonsUI();
-
-          // 4. Mostrar feedback sutil si está en pantalla
-          showGymToast(`✨ ¡${dayTitles[dayKey]} registrado con éxito en tu ficha de Gym!`);
-        }
+        const dayNum = parseInt(command?.day, 10) || (command?.day === 'dia2' ? 2 : (command?.day === 'dia3' ? 3 : 1));
+        const dayKey = 'dia' + Math.max(1, Math.min(5, dayNum));
+        const todayKey = getTodayDateKey();
+        const isLower = ['dia1', 'dia3', 'dia5'].includes(dayKey);
+        db.ref(`gym_v2/daily_bridge/${todayKey}`).update({
+          trainedToday: true,
+          isLowerBody: isLower,
+          dayKey,
+          dayTitle: `Día ${dayNum} registrado desde Chat`,
+          summary: command?.notes || 'Completado vía Coach Male 360',
+          timestamp: Date.now()
+        }).catch(() => {});
+        MaleCore.toast(`✨ ¡Día ${dayNum} sincronizado en Male Gym!`, { variant: 'emerald' });
       } catch (err) {
         console.error('Error ejecutando executeCoachLogWorkout:', err);
       }
-    }
-
-    function showGymToast(msg) {
-      let toast = document.getElementById('gym-sync-toast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'gym-sync-toast';
-        toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl z-50 flex items-center gap-2 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-xs';
-        document.body.appendChild(toast);
-      }
-      toast.innerText = msg;
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 3500);
-    }
-
-    function renderGymRoutine(dayKey) {
-      currentGymDay = dayKey;
-      updateGymDayButtonsUI();
-
-      const list = document.getElementById('gym-exercise-list');
-      if (!list) return;
-      list.innerHTML = '';
-
-      GYM_ROUTINE[dayKey].forEach((ej, idx) => {
-        const item = document.createElement('div');
-        item.className = 'bg-white border border-rose-100/90 p-4 rounded-3xl space-y-3 shadow-sm';
-
-        // Verificar si hay un reemplazo activo para este ejercicio
-        const replKey = `${dayKey}_${ej.id}`;
-        const activeReplacement = gymActiveReplacements[replKey];
-        const isReplaced = !!activeReplacement;
-
-        const currentName = isReplaced ? activeReplacement.nombre : ej.nombre;
-        const currentTargetWeight = isReplaced ? activeReplacement.pesoEquiv : ej.cargaSugerida;
-        const currentTargetRepsDesc = isReplaced ? activeReplacement.repsEquiv : `[${ej.metaReps.join(', ')} reps @ RIR 1]`;
-
-        // 1. Banner de Calentamiento previo si corresponde (solo si no fue reemplazado)
-        let calentamientoHtml = '';
-        if (ej.calentamiento && !isReplaced) {
-          calentamientoHtml = `
-            <div class="text-[11px] text-amber-800 bg-amber-50/90 px-3 py-1.5 rounded-2xl border border-amber-200/70 flex items-center gap-2 font-medium">
-              <span>🔥</span>
-              <span><strong>Calentamiento:</strong> ${ej.calentamiento}</span>
-            </div>
-          `;
-        }
-
-        // 2. Filas de Series Interactivas
-        let setsHtml = '';
-        for (let s = 0; s < ej.series; s++) {
-          const targetRep = ej.metaReps[s] || ej.metaReps[ej.metaReps.length - 1];
-          const log = getExerciseLog(dayKey, ej.id, s, currentTargetWeight, targetRep);
-
-          // Evaluar estado visual vs objetivo
-          let statusBadge = '';
-          const repsNum = parseInt(log.reps);
-          if (log.completed && !isNaN(repsNum)) {
-            if (repsNum > targetRep) {
-              statusBadge = `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">🚀 +${repsNum - targetRep}</span>`;
-            } else if (repsNum === targetRep) {
-              statusBadge = `<span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">🎯 Meta</span>`;
-            } else {
-              statusBadge = `<span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">💪 Hecho</span>`;
-            }
-          }
-
-          setsHtml += `
-            <div class="flex items-center gap-2 bg-[#FAF7F5] p-2 rounded-2xl border ${log.completed ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-100'} transition">
-              <span class="text-[11px] font-bold text-slate-700 w-8 shrink-0">S${s + 1}</span>
-              
-              <div class="flex-1 flex items-center gap-1">
-                <input type="text" id="input-kg-${ej.id}-${s}" value="${log.kg || ''}" placeholder="${currentTargetWeight}"
-                  class="w-full bg-white border border-rose-200/80 rounded-xl px-2 py-1 text-xs text-slate-800 font-bold text-center focus:outline-none focus:border-rose-400">
-                <span class="text-[10px] text-slate-400 font-medium shrink-0">kg</span>
-              </div>
-
-              <div class="flex-1 flex items-center gap-1">
-                <input type="number" id="input-reps-${ej.id}-${s}" value="${log.reps || ''}" placeholder="${targetRep}"
-                  class="w-full bg-white border border-rose-200/80 rounded-xl px-2 py-1 text-xs text-slate-800 font-bold text-center focus:outline-none focus:border-rose-400">
-                <span class="text-[10px] text-slate-400 font-medium shrink-0">reps</span>
-              </div>
-
-              <div class="flex items-center gap-1 shrink-0">
-                ${statusBadge}
-                <button onclick="saveGymSet('${dayKey}', '${ej.id}', ${s}, ${targetRep})" 
-                  class="px-2.5 py-1 rounded-xl text-xs font-bold transition shadow-xs ${
-                    log.completed 
-                      ? 'bg-emerald-500 text-white hover:bg-emerald-600' 
-                      : 'bg-rose-500 text-white hover:bg-rose-600'
-                  }">
-                  ${log.completed ? '✔️' : 'Guardar'}
-                </button>
-              </div>
-            </div>
-          `;
-        }
-
-        // 3. Tarjetas de alternativas estructuradas con cálculo de equivalencias
-        let alternativasCardsHtml = '';
-        if (ej.alternativas && ej.alternativas.length > 0) {
-          alternativasCardsHtml = ej.alternativas.map((alt, altIdx) => `
-            <div class="bg-white/95 p-3 rounded-2xl border border-rose-200/80 shadow-2xs space-y-1.5">
-              <div class="flex items-start justify-between gap-1">
-                <span class="font-extrabold text-slate-900 text-xs">⚡ ${alt.nombre}</span>
-                <span class="text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full shrink-0">
-                  ${alt.pesoEquiv}
-                </span>
-              </div>
-              <div class="text-[10px] text-slate-600 bg-[#FAF7F5] p-2 rounded-xl border border-rose-100/70 space-y-0.5">
-                <p>🎯 <strong>Objetivo:</strong> ${alt.repsEquiv}</p>
-                <p class="text-slate-500 italic">💡 ${alt.notaRP}</p>
-              </div>
-              <button onclick="applyExerciseReplacement('${dayKey}', '${ej.id}', ${altIdx})"
-                class="w-full py-1.5 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl text-[11px] font-bold shadow-xs hover:scale-[1.01] active:scale-98 transition flex items-center justify-center gap-1">
-                <span>⚡</span> Aplicar este reemplazo a mi sesión
-              </button>
-            </div>
-          `).join('');
-        }
-
-        // Header ejercicio (con indicador de reemplazo si está activo)
-        let headerTitleHtml = '';
-        if (isReplaced) {
-          headerTitleHtml = `
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500">${ej.musculo}</span>
-                <span class="text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">🔄 Reemplazo Activo</span>
-              </div>
-              <h4 class="font-extrabold text-slate-900 text-xs">${idx + 1}. ${currentName}</h4>
-              <div class="flex items-center gap-2 mt-0.5">
-                <span class="text-[10px] text-slate-400 line-through font-normal">Original: ${ej.nombre}</span>
-                <button onclick="resetExerciseReplacement('${dayKey}', '${ej.id}')" class="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full hover:bg-rose-100 transition">
-                  ↺ Restaurar original
-                </button>
-              </div>
-            </div>
-          `;
-        } else {
-          headerTitleHtml = `
-            <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500 block">${ej.musculo}</span>
-              <h4 class="font-extrabold text-slate-900 text-xs">${idx + 1}. ${ej.nombre}</h4>
-            </div>
-          `;
-        }
-
-        item.innerHTML = `
-          <!-- HEADER EJERCICIO -->
-          <div class="flex items-start justify-between gap-2">
-            ${headerTitleHtml}
-            <span class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 px-2.5 py-0.5 rounded-full shrink-0">
-              ${ej.series} series
-            </span>
-          </div>
-
-          ${calentamientoHtml}
-
-          <!-- OBJETIVO DE LA SESIÓN -->
-          <div class="flex items-center justify-between text-[11px] bg-rose-50/50 px-3 py-1.5 rounded-2xl border border-rose-100/70">
-            <span class="text-slate-600">🎯 <strong>Objetivo:</strong> ${currentTargetWeight}</span>
-            <span class="text-rose-700 font-bold">${currentTargetRepsDesc}</span>
-          </div>
-
-          <!-- BARRA DE ACCIÓN: REEMPLAZOS & TIMER DE DESCANSO -->
-          <div class="flex items-center justify-between pt-0.5 text-xs">
-            <button onclick="toggleExerciseHelp('${ej.id}')" class="text-[11px] font-medium text-slate-600 hover:text-rose-600 flex items-center gap-1 transition">
-              <span>💡</span> <span class="underline">${isReplaced ? 'Cambiar / Ver opciones' : 'Reemplazos / Duda'}</span>
-            </button>
-            <div class="flex items-center gap-1 text-[11px]">
-              <span class="text-slate-400 font-medium">⏱️ Descanso:</span>
-              <button onclick="startRestTimer(60)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">60s</button>
-              <button onclick="startRestTimer(90)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">90s</button>
-              <button onclick="startRestTimer(120)" class="px-2 py-0.5 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg font-bold text-slate-700 shadow-2xs">120s</button>
-            </div>
-          </div>
-
-          <!-- CAJÓN DE ASISTENCIA INTELIGENTE & REEMPLAZOS -->
-          <div id="help-${ej.id}" class="hidden bg-gradient-to-br from-rose-50/90 via-white to-pink-50/80 p-3.5 rounded-2xl border border-rose-200/90 space-y-2.5 text-xs">
-            <div class="flex items-center justify-between">
-              <h5 class="text-[11px] font-extrabold text-slate-800 flex items-center gap-1">
-                <span>🔄</span> Asistente Inteligente de Reemplazo
-              </h5>
-              <button onclick="toggleExerciseHelp('${ej.id}')" class="text-slate-400 hover:text-slate-600 text-xs">✕</button>
-            </div>
-
-            <!-- PASO 1: CHEQUEO DE 1 PERSONA -->
-            <div class="bg-blue-50/90 p-2.5 rounded-2xl border border-blue-200/80 space-y-1 text-slate-700">
-              <div class="flex items-center gap-1.5 text-blue-900 font-bold text-[11px]">
-                <span>👥</span> Paso 1: ¿Hay solo una persona usando la máquina o polea?
-              </div>
-              <p class="text-[11px] leading-snug">
-                <strong>Pedile turnarse:</strong> <em>"¿Intercalamos series mientras descansás?"</em>. La gran mayoría dice que sí con la mejor onda, y así mantenés tu rutina planificada sin vueltas.
-              </p>
-            </div>
-
-            <!-- PASO 2: SI HAY 2 O MÁS PERSONAS -->
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1">
-                  <span>⚡</span> Paso 2: Si está muy ocupada (Reemplazo con pesos equivalentes)
-                </span>
-              </div>
-              ${alternativasCardsHtml}
-            </div>
-
-            <!-- PASO 3: NOTA DE SOBRECARGA PROGRESIVA RP -->
-            <div class="bg-amber-50/90 p-2.5 rounded-2xl border border-amber-200/80 space-y-1 text-amber-900">
-              <div class="flex items-center gap-1.5 font-bold text-[11px]">
-                <span>📌</span> Paso 3: Regla RP para la próxima semana
-              </div>
-              <p class="text-[11px] leading-snug">
-                Al usar un reemplazo hoy, el músculo recibe el estímulo necesario. <strong>La semana próxima cuando vuelvas a ${ej.nombre}</strong>, retomás con el <strong>mismo peso de la Semana 1</strong> buscando sumar <strong>1 o 2 repes @ RIR 2</strong>. ¡Cero retrocesos ni saltos bruscos!
-              </p>
-            </div>
-
-            <!-- PREGUNTAR AL COACH -->
-            <div class="pt-1.5 border-t border-rose-100 flex items-center justify-between">
-              <span class="text-[10px] text-slate-500">¿Duda técnica o sobre el ejercicio?</span>
-              <button onclick="askCoachAboutExercise('${ej.nombre}', 'reemplazo')" class="text-[11px] text-rose-600 hover:underline font-bold flex items-center gap-1">
-                <span>💬</span> Preguntar al Coach
-              </button>
-            </div>
-          </div>
-
-          <!-- LISTA DE SERIES INTERACTIVAS -->
-          <div class="space-y-1.5 pt-0.5">
-            ${setsHtml}
-          </div>
-
-          <!-- TIP TÉCNICO RP -->
-          <p class="text-[11px] text-slate-500 italic bg-rose-50/40 p-2.5 rounded-2xl border border-rose-100/50">
-            💡 <strong>Tip RP:</strong> ${ej.tip}
-          </p>
-        `;
-
-        list.appendChild(item);
-      });
-    }
-
-    function applyExerciseReplacement(dayKey, exerciseId, altIndex) {
-      const ej = GYM_ROUTINE[dayKey]?.find(e => e.id === exerciseId);
-      if (!ej || !ej.alternativas || !ej.alternativas[altIndex]) return;
-
-      const alt = ej.alternativas[altIndex];
-      gymActiveReplacements[`${dayKey}_${exerciseId}`] = {
-        originalId: exerciseId,
-        originalNombre: ej.nombre,
-        originalCarga: ej.cargaSugerida,
-        nombre: alt.nombre,
-        pesoEquiv: alt.pesoEquiv,
-        repsEquiv: alt.repsEquiv,
-        notaRP: alt.notaRP,
-        timestamp: Date.now()
-      };
-
-      localStorage.setItem('gym_active_replacements', JSON.stringify(gymActiveReplacements));
-      renderGymRoutine(dayKey);
-
-      const el = document.getElementById(`help-${exerciseId}`);
-      if (el) el.classList.remove('hidden');
-
-      if (navigator.vibrate) navigator.vibrate(40);
-    }
-
-    function resetExerciseReplacement(dayKey, exerciseId) {
-      delete gymActiveReplacements[`${dayKey}_${exerciseId}`];
-      localStorage.setItem('gym_active_replacements', JSON.stringify(gymActiveReplacements));
-      renderGymRoutine(dayKey);
-    }
-
-    function toggleExerciseHelp(exerciseId) {
-      const el = document.getElementById(`help-${exerciseId}`);
-      if (!el) return;
-      el.classList.toggle('hidden');
-    }
-
-    function askCoachAboutExercise(exerciseName, queryType) {
-      switchView('chat');
-      const input = document.getElementById('chat-user-input');
-      if (!input) return;
-
-      if (queryType === 'reemplazo') {
-        input.value = `Coach, estoy en el gimnasio y la máquina para ${exerciseName} está ocupada. ¿Por qué otro ejercicio puedo reemplazarlo y con qué peso/repes?`;
-      } else {
-        input.value = `Coach, tengo una duda con la técnica de ${exerciseName} para sentir el músculo y no lastimarme articulaciones. ¿Qué puntos clave cuido?`;
-      }
-      input.focus();
-    }
-
-    function saveGymSet(dayKey, exerciseId, setIdx, targetRep) {
-      const kgInput = document.getElementById(`input-kg-${exerciseId}-${setIdx}`);
-      const repsInput = document.getElementById(`input-reps-${exerciseId}-${setIdx}`);
-      if (!kgInput || !repsInput) return;
-
-      const kgVal = kgInput.value.trim();
-      const repsVal = parseInt(repsInput.value.trim());
-
-      if (isNaN(repsVal)) {
-        alert("Por favor completá cuántas repeticiones hiciste ✨");
-        repsInput.focus();
-        return;
-      }
-
-      if (!gymLogs[dayKey]) gymLogs[dayKey] = {};
-      if (!gymLogs[dayKey][exerciseId]) gymLogs[dayKey][exerciseId] = [];
-
-      gymLogs[dayKey][exerciseId][setIdx] = {
-        set: setIdx + 1,
-        kg: kgVal,
-        reps: repsVal,
-        completed: true,
-        targetRep: targetRep,
-        time: Date.now()
-      };
-
-      // Guardar en localStorage
-      localStorage.setItem('gym_logs_' + CURRENT_GYM_WEEK, JSON.stringify(gymLogs));
-
-      // Guardar en Firebase en tiempo real
-      db.ref(`gym_logs/${CURRENT_GYM_WEEK}/${dayKey}/${exerciseId}/${setIdx}`).set({
-        set: setIdx + 1,
-        kg: kgVal,
-        reps: repsVal,
-        completed: true,
-        targetRep: targetRep,
-        updatedAt: Date.now()
-      }).catch(err => console.log('Firebase sync error:', err));
-
-      // Vibración suave si está en el móvil
-      if (navigator.vibrate) navigator.vibrate(50);
-
-      // Re-renderizar rutina para actualizar badges de estado
-      renderGymRoutine(dayKey);
-    }
-
-    // ==========================================
-    // TEMPORIZADOR DE DESCANSO FLOTANTE
-    // ==========================================
-    let restTimerInterval = null;
-    let restSecondsRemaining = 0;
-
-    function startRestTimer(seconds) {
-      if (restTimerInterval) clearInterval(restTimerInterval);
-      restSecondsRemaining = seconds;
-
-      const timerEl = document.getElementById('floating-rest-timer');
-      const displayEl = document.getElementById('rest-timer-display');
-      if (timerEl) timerEl.classList.remove('hidden');
-
-      function updateTimer() {
-        const mins = Math.floor(restSecondsRemaining / 60);
-        const secs = restSecondsRemaining % 60;
-        if (displayEl) {
-          displayEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        if (restSecondsRemaining <= 0) {
-          clearInterval(restTimerInterval);
-          restTimerInterval = null;
-          if (displayEl) displayEl.innerText = "¡A darle! 💪";
-          playTimerBeep();
-          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-          setTimeout(() => {
-            if (timerEl) timerEl.classList.add('hidden');
-          }, 3500);
-        } else {
-          restSecondsRemaining--;
-        }
-      }
-
-      updateTimer();
-      restTimerInterval = setInterval(updateTimer, 1000);
-    }
-
-    function stopRestTimer() {
-      if (restTimerInterval) clearInterval(restTimerInterval);
-      restTimerInterval = null;
-      const timerEl = document.getElementById('floating-rest-timer');
-      if (timerEl) timerEl.classList.add('hidden');
-    }
-
-    function playTimerBeep() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.5);
-      } catch (e) {
-        console.log('Audio not supported');
-      }
-    }
-
-    // ==========================================
-    // FINALIZACIÓN & FEEDBACK DEL COACH (AI)
-    // ==========================================
-    async function finishGymWorkout() {
-      const dayKey = currentGymDay;
-      const exercises = GYM_ROUTINE[dayKey];
-      const notesEl = document.getElementById('gym-session-notes');
-      const userNotes = notesEl ? notesEl.value.trim() : '';
-
-      // Compilar reporte de series REALMENTE registradas por el usuario
-      let totalCompletedSets = 0;
-      let totalPlannedSets = 0;
-      let prCount = 0;
-      let summaryLines = [];
-
-      exercises.forEach(ej => {
-        totalPlannedSets += ej.series;
-        const loggedSets = gymLogs[dayKey]?.[ej.id] || [];
-        let setDetails = [];
-
-        for (let s = 0; s < ej.series; s++) {
-          const sLog = loggedSets[s]; // Solo sets explícitamente guardados por Male
-          if (sLog && sLog.completed) {
-            totalCompletedSets++;
-            const repsNum = parseInt(sLog.reps);
-            const targetRep = ej.metaReps[s] || ej.metaReps[0];
-            if (repsNum > targetRep) prCount++;
-            setDetails.push(`${sLog.kg || ej.cargaSugerida} x ${sLog.reps} reps`);
-          }
-        }
-
-        if (setDetails.length > 0) {
-          summaryLines.push(`• ${ej.nombre}: ${setDetails.join(', ')}`);
-        }
-      });
-
-      // Detección inteligente: ¿Es una consulta, duda o aviso de salteo/cansancio, o realmente entrenó hoy?
-      const isConsultationOrMissed = totalCompletedSets === 0 || 
-        /no\s+(fui|pude|entrene|voy|hice|hacer|llegue)|salte[eo]|rendi|examen|examenes|qu[eé]\s+(hago|entreno|hacer)|mañana|duda|d[ií]a\s*[123]\s*o\s*d[ií]a\s*[123]|pregunta|descanso/i.test(userNotes);
-
-      const dayTitles = { dia1: "Día 1: Glúteo & Cadena Posterior", dia2: "Día 2: Cuádriceps, Isquios & Aductores", dia3: "Día 3: Hack Inversa en Pareja" };
-
-      // Abrir modal de feedback
-      const modal = document.getElementById('modal-gym-feedback');
-      const titleEl = document.getElementById('gym-feedback-title');
-      const subtitleEl = document.getElementById('gym-feedback-subtitle');
-      const metricsEl = document.getElementById('gym-feedback-metrics');
-      const contentEl = document.getElementById('gym-feedback-content');
-
-      if (modal) modal.classList.remove('hidden');
-      renderSnackPostGym();
-
-      if (isConsultationOrMissed) {
-        if (titleEl) titleEl.innerText = `💬 Consejo de tu Coach de Gym`;
-        if (subtitleEl) subtitleEl.innerText = `Planificación & Dudas de Entrenamiento`;
-        if (metricsEl) {
-          metricsEl.innerHTML = `
-            <div class="bg-blue-50/80 p-2.5 rounded-2xl border border-blue-200 col-span-3 text-center">
-              <span class="text-[11px] font-bold text-blue-900">📋 Planificación y Criterio Deportivo para tu Semana</span>
-            </div>
-          `;
-        }
-      } else {
-        if (titleEl) titleEl.innerText = `¡Entrenamiento Liquidado, Caritas! 🏆`;
-        if (subtitleEl) subtitleEl.innerText = `${dayTitles[dayKey] || dayKey} • RIR 1 Cumplido`;
-        if (metricsEl) {
-          metricsEl.innerHTML = `
-            <div class="bg-rose-50/70 p-2 rounded-2xl border border-rose-100">
-              <span class="text-[9px] font-bold text-slate-500 uppercase block">Series</span>
-              <span class="text-xs font-extrabold text-rose-700">${totalCompletedSets}/${totalPlannedSets}</span>
-            </div>
-            <div class="bg-emerald-50/70 p-2 rounded-2xl border border-emerald-100">
-              <span class="text-[9px] font-bold text-slate-500 uppercase block">Reps Récord</span>
-              <span class="text-xs font-extrabold text-emerald-700">+${prCount} PRs</span>
-            </div>
-            <div class="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
-              <span class="text-[9px] font-bold text-slate-500 uppercase block">Esfuerzo</span>
-              <span class="text-xs font-extrabold text-purple-700">RIR 1 ✔️</span>
-            </div>
-          `;
-        }
-      }
-
-      if (contentEl) {
-        contentEl.innerHTML = `
-          <div class="flex items-center justify-center py-4 text-rose-500 gap-2">
-            <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-            <span class="text-xs italic font-semibold">Tu Coach está redactando tu respuesta...</span>
-          </div>
-        `;
-      }
-
-      // Contexto de día y hora actual
-      const now = new Date();
-      const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-      const currentDayName = dayNames[now.getDay()];
-      const currentTimeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-      let gymPrompt = '';
-      if (isConsultationOrMissed) {
-        gymPrompt = `
-Eres el Coach personal y Preparador Físico de confianza de Male (Caritas).
-MOMENTO ACTUAL: Hoy es ${currentDayName} a las ${currentTimeStr} hs.
-\${getGymStatusSummary()}
-
-SITUACIÓN REAL:
-Male NO está finalizando una sesión de pesas en este momento.
-Te está escribiendo una consulta, duda o contándote cómo viene su semana/días:
-MENSAJE / CONSULTA DE MALE: "\${userNotes}"
-
-MOTOR DE DECISIÓN DEPORTIVA Y PERIODIZACIÓN AUTÓNOMA:
-1. ESTÁ TERMINANTEMENTE PROHIBIDO felicitarla por haber entrenado hoy o inventar que hizo series si no las completó.
-2. Contención y Cero Culpa: Si menciona cansancio por Odonto, lluvia, exámenes o días salteados, valida su descanso con mucho cariño. Explicale que el descanso protege sus articulaciones y sistema nervioso, y que la masa muscular no se pierde.
-3. DECISIÓN DEPORTIVA AUTÓNOMA Y PROACTIVA:
-   - Toma la decisión técnica por ella de forma clara y sin titubear.
-   - Si la semana fue incompleta (menos de 3 días hechos): Indicale que NO se avanza a la siguiente semana ni a la descarga. Se ejecuta la SEMANA 3 COMPLETA A RIR 1.
-   - Explicale qué es RIR 1 ("cortar la serie cuando sientas que te queda exactamente 1 repetición en el tanque antes de fallar").
-   - Dale su hoja de ruta exacta: Martes Día 1 (Glúteo & Cadena Posterior), Jueves Día 2 (Cuádriceps, Isquios & Aductores), Fin de semana Día 3 (Hack Inversa en Fiter con Naza).
-   - REGLA DE ORO: Prohibido compensar entrenando piernas dos días seguidos.
-4. Cero sermones descolgados sobre comidas de las 9 AM ni cursadas de odontología si te escribe de noche o en fin de semana.
-5. Tono: Muy cálido, motivador, cómplice, protector y natural ("Caritas" o "Male").
-`;
-      } else {
-        gymPrompt = `
-Eres el Coach personal y de confianza de Male (Caritas).
-Acaba de completar su entrenamiento de gimnasio (${dayTitles[dayKey] || dayKey}).
-MOMENTO: ${currentDayName} ${currentTimeStr} hs.
-DATOS REALES DE LAS SERIES COMPLETADAS HOY:
-${summaryLines.join('\n')}
-SENSACIONES / NOTAS DE MALE: "${userNotes || 'Entrenamiento completado.'}"
-
-DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
-1. Reconoce y festeja sus logros reales de sobrecarga progresiva y constancia con orgullo y disciplina de entrenamiento (cuidado articular en rodillas/lumbares, RIR 1). Llámala "Caritas" o "Male".
-2. Si dejó notas de sensaciones, respóndelas directamente con empatía y criterio deportivo.
-3. Si entrenó a la mañana en día de semana y va directo a cursar a Odontología, recordale comer algo proteico en la primera hora para no pasar 4-5 horas en ayuno; si entrenó a la tarde/noche o fin de semana, adapta el consejo al horario real (merienda rica o cena reparadora).
-4. NUNCA uses frases forzadas como "te lo digo con amor" o "mensaje con amor".
-`;
-      }
-
-      // Generar devolución con Gemini
-      const candidateModels = [
-        "gemini-3.5-flash-lite",
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.6-flash"
-      ];
-
-      let feedbackText = null;
-
-      for (const model of candidateModels) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 18000);
-
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ role: "user", parts: [{ text: gymPrompt }] }]
-            }),
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) {
-            const errBody = await res.text().catch(() => '');
-            console.error(`🚨 GEMINI API ERROR Gym Feedback (${model} - HTTP ${res.status}):`, errBody);
-            continue;
-          }
-          const data = await res.json();
-          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-            feedbackText = data.candidates[0].content.parts[0].text;
-            break;
-          }
-        } catch (e) {
-          console.error(`🚨 GEMINI API ERROR Gym Feedback (${model}):`, e, e.message);
-        }
-      }
-
-      if (!feedbackText) {
-        if (isConsultationOrMissed) {
-          feedbackText = `¡Tranqui, Caritas! 🌸 Hiciste súper bien en descansar si la facultad y los exámenes te dejaron agotada. La carrera es prioridad y tu masa muscular está intacta.\n\nPara mañana domingo: **¡Hacé de una el Día 3 en el gym que te gusta con Naza!** 🚀 La motivación y las ganas son lo más importante. ¡A disfrutar esa Hack Inversa y a romperla juntos!`;
-        } else {
-          feedbackText = `¡Excelente sesión liquidada, Caritas! 🌸 Superaste el volumen objetivo manteniendo el RIR 1 y cuidando impecable la técnica.\n\n🍫 **Tip clave post-entreno:** Aportá proteína y carbohidratos ricos para frenar el catabolismo y alimentar ese glúteo. ¡Muy orgulloso de tu constancia! 🚀`;
-        }
-      }
-
-      if (contentEl) {
-        contentEl.innerHTML = `<div class="leading-relaxed text-xs">${formatMessageText(feedbackText)}</div>`;
-      }
-
-      // Guardar sesión finalizada o consulta en Firebase
-      const sessionPayload = {
-        dayKey: dayKey,
-        dayTitle: dayTitles[dayKey] || dayKey,
-        isConsultation: isConsultationOrMissed,
-        totalSets: totalCompletedSets,
-        userNotes: userNotes,
-        feedback: feedbackText,
-        timestamp: Date.now(),
-        dateStr: new Date().toLocaleDateString('es-ES')
-      };
-
-      db.ref(`gym_completed_sessions/${dayKey}_${Date.now()}`).set(sessionPayload).catch(e => console.log(e));
-
-      // Sincronizar estado de sesiones completadas si fue un entrenamiento real
-      if (!isConsultationOrMissed) {
-        if (!gymCompletedDays) gymCompletedDays = {};
-        gymCompletedDays[dayKey] = true;
-        localStorage.setItem('gym_completed_days_' + CURRENT_GYM_WEEK, JSON.stringify(gymCompletedDays));
-        db.ref(`gym_completed_days/${CURRENT_GYM_WEEK}/${dayKey}`).set({
-          completed: true,
-          completedAt: Date.now(),
-          source: 'manual_finish'
-        }).catch(e => console.log(e));
-        updateGymDayButtonsUI();
-      }
-
-      // Publicar resumen en el chat para que quede en el historial de la conversación
-      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const chatTitle = isConsultationOrMissed 
-        ? `💬 **Consejo de tu Coach sobre el Gym:**` 
-        : `🏆 **Devolución de Entrenamiento (${dayTitles[dayKey]}):**`;
-
-      db.ref('chat_messages').push({
-        sender: 'Coach',
-        text: `${chatTitle}\n\n${feedbackText}`,
-        time: timeStr,
-        timestamp: Date.now()
-      }).catch(e => console.log(e));
-    }
-
-    function closeGymFeedbackModal() {
-      const modal = document.getElementById('modal-gym-feedback');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    // ==========================================
-    // SNACKS POST-GYM CASEROS & ECONÓMICOS
-    // ==========================================
-    const SNACKS_POST_GYM_CASEROS = [
-      {
-        titulo: "🥪 Sánguche de huevo revuelto y queso",
-        costo: "Súper económico (~$1.200)",
-        preparacion: "2 min a la mañana en sartén o huevo duro de la noche anterior.",
-        detalle: "Pan (común o integral) + 1 o 2 huevos + queso cremoso o magro. Te da ~18g de proteína limpia para frenar el catabolismo de raíz."
-      },
-      {
-        titulo: "🥚 Tuppercito express: 2 huevos duros + fruta",
-        costo: "Económico y noble (~$800)",
-        preparacion: "Hervís 2 o 3 huevos la noche anterior y los dejás con cáscara.",
-        detalle: "Los pelás en 1 minuto en la facultad con una manzana o banana. Cero gasto de kiosco, saciedad total y energía limpia."
-      },
-      {
-        titulo: "🥛 Yogur bebible + puñado de avena o frutos secos",
-        costo: "Fresco y rápido (~$1.400)",
-        preparacion: "Llevar la botellita y una bolsita en la mochila.",
-        detalle: "Ideal para tomar en el recreo entre clínica y teóricos. Aporta calcio, proteína láctea y carbohidratos para el cerebro."
-      },
-      {
-        titulo: "🐟 Pancito o galletitas con atún y queso",
-        costo: "Cero cocción y proteico (~$1.600)",
-        preparacion: "Mezclás medio tarrito de atún con una cucharada de queso en un tupper.",
-        detalle: "Aporta casi 20g de proteína de máxima calidad sin prender el fuego. Rápido, fresco y nutritivo."
-      },
-      {
-        titulo: "🧀 Rollitos de queso y jamón cocido / pastón",
-        costo: "Rápido y al paso (~$1.300)",
-        preparacion: "1 minuto antes de salir de casa.",
-        detalle: "3 o 4 fetas envueltas en papel aluminio. Entran en cualquier bolsillo de la cartera/mochila y te salvan la mañana."
-      },
-      {
-        titulo: "🍫 Barrita proteica limpia (Opción Kiosco)",
-        costo: "Para cuando andás a las apuradas",
-        preparacion: "Comprar en el kiosco camino a Odonto.",
-        detalle: "Es el comodín de emergencia si te quedaste dormida o no llegaste a preparar nada en la cocina."
-      }
-    ];
-
-    let currentSnackIndex = 0;
-    function renderSnackPostGym() {
-      const card = document.getElementById('snack-post-gym-card');
-      if (!card) return;
-      const snack = SNACKS_POST_GYM_CASEROS[currentSnackIndex % SNACKS_POST_GYM_CASEROS.length];
-      card.innerHTML = `
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-xs font-bold text-slate-800">${snack.titulo}</span>
-          <span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 shrink-0">${snack.costo}</span>
-        </div>
-        <p class="text-[10.5px] text-slate-600 leading-snug font-medium">${snack.detalle}</p>
-        <span class="text-[9.5px] text-slate-400 block pt-0.5 italic">⏱️ ${snack.preparacion}</span>
-      `;
-    }
-
-    function cambiarIdeaSnackPostGym() {
-      currentSnackIndex++;
-      renderSnackPostGym();
     }
 
     // ==========================================
@@ -6384,10 +5054,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
     ];
 
     function getWaterTargetToday() {
-      const trained = !!(gymBridgeToday && gymBridgeToday.trainedToday);
-      return trained
-        ? { ml: 3000, litersStr: '3.0', cups: 12, isBoost: true }
-        : { ml: 2500, litersStr: '2.5', cups: 10, isBoost: false };
+      return MaleCore.getWaterTarget(!!(gymBridgeToday && gymBridgeToday.trainedToday));
     }
 
     function getRecommendedCupsAtCurrentTime(now = new Date()) {
@@ -6430,6 +5097,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       waterMl = index * 250;
       localStorage.setItem('water_ml', waterMl);
       localStorage.setItem('water_last_date', getTodayDateKey());
+      persistDailyHabits({ waterMl });
       updateWaterUI();
       renderWaterCups();
       updateWaterPacingUI();
@@ -6441,6 +5109,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
         waterMl = Math.min(target.ml, waterMl + 250);
         localStorage.setItem('water_ml', waterMl);
         localStorage.setItem('water_last_date', getTodayDateKey());
+        persistDailyHabits({ waterMl });
         updateWaterUI();
         renderWaterCups();
         updateWaterPacingUI();
@@ -6452,6 +5121,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       waterMl = 0;
       localStorage.setItem('water_ml', 0);
       localStorage.setItem('water_last_date', getTodayDateKey());
+      persistDailyHabits({ waterMl: 0 });
       updateWaterUI();
       renderWaterCups();
       updateWaterPacingUI();
@@ -6852,6 +5522,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       if (save) {
         localStorage.setItem('creatina_hoy', checked ? 'true' : 'false');
         localStorage.setItem('creatina_last_date', getTodayDateKey());
+        persistDailyHabits({ creatina: !!checked });
       }
       const label = document.getElementById('label-chk-creatina');
       if (label) {
@@ -6868,6 +5539,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       if (save) {
         localStorage.setItem('celular_lejos_hoy', checked ? 'true' : 'false');
         localStorage.setItem('celular_last_date', getTodayDateKey());
+        persistDailyHabits({ celularLejos: !!checked });
       }
       const label = document.getElementById('label-chk-celular');
       if (label) {
@@ -6880,27 +5552,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
     // PARSER DE MARKDOWN PARA MENSAJES DE CHAT
     // ==========================================
     function formatMessageText(text) {
-      if (!text) return '';
-      // 1. Escapar HTML base para evitar inyección
-      let safe = escapeHtml(text);
-
-      // 2. Negritas: **texto** o __texto__
-      safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
-      safe = safe.replace(/__(.*?)__/g, '<strong class="font-bold text-slate-900">$1</strong>');
-
-      // 3. Cursivas: *texto* (evitando viñetas)
-      safe = safe.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, '$1<em class="italic">$2</em>$3');
-
-      // 4. Viñetas limpias: líneas que comiencen con - , * o •
-      safe = safe.replace(/^[\*\-\•]\s+(.+)$/gm, '<div class="flex items-start gap-2 my-1 ml-0.5"><span class="text-rose-500 font-bold shrink-0 leading-tight">•</span><span class="leading-relaxed font-medium">$1</span></div>');
-
-      // 5. Listas numeradas: 1. , 2.
-      safe = safe.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="flex items-start gap-2 my-1 ml-0.5"><span class="text-purple-600 font-bold shrink-0 leading-tight">$1.</span><span class="leading-relaxed font-medium">$2</span></div>');
-
-      // 6. Saltos de línea
-      safe = safe.replace(/\n/g, '<br>');
-
-      return safe;
+      return MaleCore.formatMarkdown(text, { dark: false });
     }
 
     // ==========================================
@@ -7003,7 +5655,7 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
       const ventText = input ? input.value.trim() : '';
 
       if (!ventText) {
-        alert("Elegí una opción o escribí unas palabritas sobre qué pasó para que el Coach pueda acompañarte 🤍");
+        MaleCore.toast("Elegí una opción o escribí unas palabritas para acompañarte 🤍", { variant: 'rose' });
         if (input) input.focus();
         return;
       }
@@ -7027,67 +5679,11 @@ DALE UNA DEVOLUCIÓN DE SU ENTRENAMIENTO:
         `;
       }
 
-      const candidateModels = [
-        "gemini-3.5-flash-lite",
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.6-flash"
-      ];
-
-      const sosPrompt = `
-Sos el Coach personal y protector de Male (Malena, de 22 años, estudiante de Odontología).
-Su novio se llama Naza y le dice "Caritas". Llámala "Caritas" o "Male" con inmenso cariño, ternura y respeto.
-NUNCA la llames "reina" ni uses frases clichés como "mensaje con amor".
-Male acaba de tocar el botón de emergencia "SOS: Día Difícil en Odonto" porque le pasó lo siguiente:
-"${ventText}"
-
-Instrucciones para tu respuesta:
-1. Validá su frustración/angustia con empatía real: Odontología es muy demandante física y mentalmente (clínicas largas, profesores difíciles, pacientes impredecibles, instrumental).
-2. Poné perspectiva serena: En la vida hay problemas infinitamente más graves. Un mal día en la facultad, una nota o un paciente cancelado NO definen su inteligencia, su futuro brillante ni su enorme valor como persona.
-3. Indicación somática inmediata: Decile con dulzura que baje los hombros, relaje la mandíbula, tome un vaso de agua fresca y respire hondo.
-4. Plan de autocuidado para la tarde/noche: Ya dio su 100% hoy. Ahora toca soltar, ducha tibia, comer algo rico y descansar.
-5. Longitud: 2 a 3 párrafos cálidos, fluidos y reconfortantes.
-`;
-
-      const payload = {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: sosPrompt }]
-          }
-        ]
-      };
-
-      let replyText = null;
-
-      for (const model of candidateModels) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 18000);
-
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) {
-            const errBody = await res.text().catch(() => '');
-            console.error(`🚨 GEMINI API ERROR SOS (${model} - HTTP ${res.status}):`, errBody);
-            continue;
-          }
-
-          const data = await res.json();
-          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-            replyText = data.candidates[0].content.parts[0].text;
-            break;
-          }
-        } catch (e) {
-          console.warn(`Error llamando a ${model} en SOS:`, e);
-        }
-      }
+      const replyText = (await MaleCore.callGemini({
+        messages: [{ role: 'user', text: sosPrompt }],
+        timeoutMs: 12000,
+        maxOutputTokens: 900
+      })) || `Caritas hermosa, respirá profundo. Odonto es muy demandante y hoy fue un día pesado, pero esto no define en absoluto tu capacidad ni tu futuro. Bajá los hombros, tomá un vasito de agua fresca y permitite soltar. En la vida hay cosas mucho más importantes y todo esto se acomoda. Ya diste lo mejor hoy, ahora regalate descansar 🤍`;
 
       if (btn) btn.disabled = false;
       if (btnText) btnText.innerText = 'Recibir contención y calma del Coach';
@@ -7095,10 +5691,6 @@ Instrucciones para tu respuesta:
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       if (timeEl) timeEl.innerText = timeStr;
-
-      if (!replyText) {
-        replyText = `Caritas hermosa, respirá profundo. Odonto es muy demandante y hoy fue un día pesado, pero esto no define en absoluto tu capacidad ni tu futuro. Bajá los hombros, tomá un vasito de agua fresca y permitite soltar. En la vida hay cosas mucho más importantes y todo esto se acomoda. Ya diste lo mejor hoy, ahora regalate descansar 🤍`;
-      }
 
       lastSosResponse = { vent: ventText, reply: replyText, time: timeStr };
 
@@ -7187,7 +5779,7 @@ Instrucciones para tu respuesta:
       const texto = textInput ? textInput.value.trim() : '';
 
       if (!texto) {
-        alert("Escribí unas palabritas sobre qué hiciste hoy para que podamos festejarlo juntas, Caritas ✨");
+        MaleCore.toast("Escribí unas palabritas sobre qué hiciste hoy para festejarlo ✨", { variant: 'amber' });
         if (textInput) textInput.focus();
         return;
       }
@@ -7211,74 +5803,11 @@ Instrucciones para tu respuesta:
         `;
       }
 
-      const candidateModels = [
-        "gemini-3.5-flash-lite",
-        "gemini-flash-lite-latest",
-        "gemini-3.1-flash-lite",
-        "gemini-3.6-flash"
-      ];
-
-      const victoriaPrompt = `
-Sos el Coach personal de Male (Malena, de 22 años, estudiante de Odontología en Buenos Aires).
-Su novio es Naza y le dice con todo su amor "Caritas".
-REGLAS DE TRATO FUNDAMENTALES:
-- Llámala siempre "Caritas" o "Male" con inmenso cariño, empatía, dulzura y admiración sincera.
-- NUNCA uses la palabra "reina" ni frases artificiales tipo "mensaje con amor" o "tip amoroso". Hablá de forma totalmente natural, cercana y humana.
-
-Male acaba de registrar una VICTORIA en su "Rincón de Victorias & Cofre de Logros":
-Etiqueta/Área: "${selectedVictoriaCategoryText}"
-Relato detallado de Male:
-"""
-${texto}
-"""
-
-INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
-1. ENTENDIMIENTO TÉCNICO PROFUNDO: Male suele describir procedimientos clínicos y quirúrgicos con gran nivel de detalle técnico (ej: endodoncia, conductometría, limas, localizador apical, instrumentación rotatoria o manual, aislamiento absoluto con goma dique, clamps y arco de Young, restauraciones de resina compuesta estratificada con grabado ácido y adhesivo, anatomía de cúspides y surcos, tallado protésico, toma de impresiones con silicona por adición o condensación, anestesia infiltrativa o troncular de Spix sin dolor, cirugías con elevadores, fórceps, hemostasia y sutura cuidadosa, etc.).
-   Comprendé con total exactitud lo que describe en su relato, demostrá que entendés la maniobra clínica y validá lo técnico y complejo que es ese procedimiento y lo meritorio que es resolverlo con esa prolijidad.
-2. TALENTO INNATO Y DEXTREZA: Naza siempre le dice y tiene la certeza absoluta de que Male tiene un "talento innato" para la odontología: una delicadeza manual, una visión estética impecable, un pulso firme y una empatía natural enorme para contener al paciente y hacerlo sentir cuidado y tranquilo. Mencioná con ternura y convicción ese talento innato que la hace destacar.
-3. RECONOCIMIENTO Y ORGULLO: Festejá su logro de manera vibrante, motivadora y sincera. Que esta devolución sea un abrazo reconfortante y una inyección de confianza que atesore en su cofre de logros.
-4. Extensión: 2 a 3 párrafos cálidos, vibrantes, profesionales pero cercanos y cariñosos.
-`;
-
-      const payload = {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: victoriaPrompt }]
-          }
-        ]
-      };
-
-      let replyText = null;
-
-      for (const model of candidateModels) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 18000);
-
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) {
-            const errBody = await res.text().catch(() => '');
-            console.error(`🚨 GEMINI API ERROR GuardarVictoria (${model} - HTTP ${res.status}):`, errBody);
-            continue;
-          }
-
-          const data = await res.json();
-          if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-            replyText = data.candidates[0].content.parts[0].text;
-            break;
-          }
-        } catch (e) {
-          console.warn(`Error llamando a ${model} en guardarVictoria:`, e);
-        }
-      }
+      const replyText = (await MaleCore.callGemini({
+        messages: [{ role: 'user', text: victoriaPrompt }],
+        timeoutMs: 12000,
+        maxOutputTokens: 900
+      })) || `¡Qué orgullo gigante, Caritas! Tenés una sensibilidad, una delicadeza en las manos y un talento innato extraordinario para la odontología. No cualquiera resuelve una maniobra clínica con esa precisión y dedicación. Guardá este recuerdo bien adentro en tu cofre, porque demostrás una vez más la profesional brillante que sos ✨🤍`;
 
       if (btn) btn.disabled = false;
       if (btnText) btnText.innerText = 'Celebrar y guardar en mi Cofre';
@@ -7287,10 +5816,6 @@ INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const dateStr = now.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
       if (timeEl) timeEl.innerText = `${dateStr} • ${timeStr}`;
-
-      if (!replyText) {
-        replyText = `¡Qué orgullo gigante, Caritas! Tenés una sensibilidad, una delicadeza en las manos y un talento innato extraordinario para la odontología. No cualquiera resuelve una maniobra clínica con esa precisión y dedicación. Guardá este recuerdo bien adentro en tu cofre, porque demostrás una vez más la profesional brillante que sos ✨🤍`;
-      }
 
       const nuevaVictoria = {
         id: 'vic_' + Date.now(),
@@ -7626,28 +6151,40 @@ INSTRUCCIONES CLÍNICAS Y DE CELEBRACIÓN:
       try {
         const res = await fetch('https://male-app-default-rtdb.firebaseio.com/.json');
         const data = await res.json();
+        const todayKey = getTodayDateKey();
+        const tomKey = getTomorrowDateKey();
         const backupObj = {
           backupDate: new Date().toISOString(),
           ecosystem: 'Male 360',
+          localSnapshot: {
+            todayKey,
+            waterMl,
+            creatinaHoy: localStorage.getItem('creatina_hoy') === 'true',
+            celularLejosHoy: localStorage.getItem('celular_lejos_hoy') === 'true',
+            mood: currentMood,
+            battery: currentBattery,
+            mochilaTomorrow: JSON.parse(localStorage.getItem('mochila_checks_' + tomKey) || '{}'),
+            nutriShoppingNeeded: JSON.parse(localStorage.getItem('mn_shopping_needed') || '{}')
+          },
           data
         };
         const blob = new Blob([JSON.stringify(backupObj, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `male-360-backup-${getTodayDateKey()}.json`;
+        a.download = `male-360-backup-${todayKey}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        MaleCore.toast('💾 Backup JSON descargado', { variant: 'emerald' });
       } catch (e) {
-        alert('No pude descargar el backup en este momento: ' + e.message);
+        MaleCore.toast('No pude descargar el backup: ' + (e?.message || 'error'), { variant: 'rose' });
       }
     }
 
     function escapeHtml(string) {
-      const entityMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+      return MaleCore.escapeHtml(string);
     }
   </script>
 </body>
