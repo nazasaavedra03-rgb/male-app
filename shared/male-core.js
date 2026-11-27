@@ -449,6 +449,148 @@
     }
   }
 
+  // Global Floating Rest Timer Mini-Pill (synced with Gym's mg_active_rest_v1)
+  const REST_STORAGE_KEY = 'mg_active_rest_v1';
+  let _globalRestPillInterval = null;
+
+  function _resolveGymHref() {
+    if (typeof document === 'undefined') return './gym/index.html';
+    const link = document.querySelector('a[href*="gym/index.html"]');
+    return link ? link.getAttribute('href') : './gym/index.html';
+  }
+
+  function syncGlobalRestPill() {
+    if (typeof document === 'undefined' || !document.body) return false;
+    // Skip on Gym app itself (which renders the full rest timer bar)
+    if (document.getElementById('rest-timer-bar')) return false;
+
+    let saved = null;
+    try {
+      const raw = localStorage.getItem(REST_STORAGE_KEY);
+      if (raw) saved = JSON.parse(raw);
+    } catch (e) {}
+
+    let pill = document.getElementById('mc-global-rest-pill');
+    const now = Date.now();
+    if (saved && Number(saved.endAt) > now) {
+      if (!pill) {
+        pill = document.createElement('a');
+        pill.id = 'mc-global-rest-pill';
+        pill.className = 'mc-rest-pill';
+        pill.href = _resolveGymHref();
+        document.body.appendChild(pill);
+      } else {
+        pill.href = _resolveGymHref();
+      }
+      const rem = Math.max(0, Math.ceil((Number(saved.endAt) - now) / 1000));
+      const m = Math.floor(rem / 60);
+      const s = String(rem % 60).padStart(2, '0');
+      pill.innerHTML = `<span>⏱️ Descanso <strong class="tabular-nums text-rose-300">${m}:${s}</strong></span><span class="opacity-50">·</span><span class="text-emerald-300">Volver a Gym ➔</span>`;
+      pill.classList.add('mc-rest-pill--show');
+
+      if (!_globalRestPillInterval) {
+        _globalRestPillInterval = setInterval(syncGlobalRestPill, 500);
+      }
+      return true;
+    }
+
+    if (saved && Number(saved.endAt) <= now) {
+      try { localStorage.removeItem(REST_STORAGE_KEY); } catch (e) {}
+    }
+    if (pill) pill.classList.remove('mc-rest-pill--show');
+    if (_globalRestPillInterval) {
+      clearInterval(_globalRestPillInterval);
+      _globalRestPillInterval = null;
+    }
+    return false;
+  }
+
+  if (typeof global !== 'undefined' && typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => syncGlobalRestPill());
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') syncGlobalRestPill();
+    });
+    global.addEventListener('pageshow', () => syncGlobalRestPill());
+    global.addEventListener('storage', (ev) => {
+      if (!ev || ev.key === REST_STORAGE_KEY) syncGlobalRestPill();
+    });
+  }
+
+  // Reusable Web Speech API Dictation Helper (es-AR)
+  let _activeSpeechRec = null;
+  let _activeSpeechBtnId = null;
+  let _activeSpeechIdleClass = '';
+
+  function toggleVoiceDictation(opts = {}) {
+    const SR = global.SpeechRecognition || global.webkitSpeechRecognition;
+    if (!SR) {
+      toast('Usá el micrófono de tu teclado para dictar 🎙️', { variant: 'amber' });
+      return false;
+    }
+
+    if (_activeSpeechRec) {
+      try { _activeSpeechRec.stop(); } catch (e) {}
+      return false;
+    }
+
+    const btn = opts.btnId ? document.getElementById(opts.btnId) : null;
+    const inp = opts.inputId ? document.getElementById(opts.inputId) : null;
+    const idleClass = opts.idleClass || (btn ? btn.className : '');
+    const activeClass = opts.activeClass || idleClass;
+
+    const rec = new SR();
+    rec.lang = opts.lang || 'es-AR';
+    rec.interimResults = true;
+    rec.continuous = false;
+
+    let finalTranscript = '';
+    _activeSpeechRec = rec;
+    _activeSpeechBtnId = opts.btnId || null;
+    _activeSpeechIdleClass = idleClass;
+
+    if (btn) {
+      btn.className = activeClass;
+      btn.textContent = '🔴';
+    }
+    toast('🎙️ Escuchando... hablá tranquila');
+
+    const resetBtn = () => {
+      const curBtn = _activeSpeechBtnId ? document.getElementById(_activeSpeechBtnId) : null;
+      if (curBtn) {
+        curBtn.className = _activeSpeechIdleClass;
+        curBtn.textContent = '🎤';
+      }
+      _activeSpeechRec = null;
+      _activeSpeechBtnId = null;
+    };
+
+    rec.onresult = (ev) => {
+      let interim = '';
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) finalTranscript += t + ' ';
+        else interim += t;
+      }
+      if (inp) inp.value = (finalTranscript + interim).trim();
+    };
+
+    rec.onerror = () => resetBtn();
+    rec.onend = () => {
+      resetBtn();
+      if (inp && inp.value.trim().length > 1 && typeof opts.onSubmit === 'function') {
+        opts.onSubmit();
+      }
+    };
+
+    try {
+      rec.start();
+      return true;
+    } catch (e) {
+      resetBtn();
+      return false;
+    }
+  }
+
   function registerSW(swPath = './sw.js') {
     if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return;
     if (typeof location !== 'undefined' && location.protocol !== 'https:' && location.protocol !== 'http:') return;
@@ -489,6 +631,8 @@
     closeSheet,
     confirmSheet,
     promptSheet,
+    syncGlobalRestPill,
+    toggleVoiceDictation,
     registerSW
   };
 })(window);

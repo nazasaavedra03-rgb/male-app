@@ -181,3 +181,59 @@ html, body {
   background: rgba(6, 78, 59, 0.95) !important;
 }
 
+/* ==========================================================================
+   Smooth Cross-App Transitions & Global Floating Rest Timer Mini-Pill
+   ========================================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 160ms;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes mcFadeIn {
+    from { opacity: 0.92; }
+    to { opacity: 1; }
+  }
+
+  body {
+    animation: mcFadeIn 0.16s ease-out;
+  }
+}
+
+.mc-rest-pill {
+  position: fixed;
+  left: 50%;
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%) translateY(8px);
+  z-index: 45;
+  background: rgba(24, 24, 27, 0.95);
+  color: #f4f4f5;
+  border: 1px solid rgba(244, 63, 94, 0.55);
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.mc-rest-pill.mc-rest-pill--show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
