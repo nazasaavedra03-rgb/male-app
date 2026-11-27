@@ -2024,6 +2024,20 @@
     function toggleGymBranch(forceBranch = null) {
       activeBranch = forceBranch || (activeBranch === 'almagro' ? 'cid' : 'almagro');
       localStorage.setItem('mg_branch', activeBranch);
+      // Clear draft (uncompleted) inputs on active day so all unlogged sets immediately recalibrate to the selected branch
+      const dayLogs = allLogs?.[activeWeek]?.[activeDay];
+      if (dayLogs && typeof dayLogs === 'object') {
+        Object.values(dayLogs).forEach(setsArr => {
+          if (Array.isArray(setsArr)) {
+            setsArr.forEach(s => {
+              if (s && !s.completed) {
+                s.kg = '';
+                s.reps = '';
+              }
+            });
+          }
+        });
+      }
       renderAll();
       showToast(activeBranch === 'cid' ? '📍 Sede Fiter Cid Campeador activa (pesos calibrados)' : '📍 Sede Fiter Almagro activa (pesos calibrados)');
     }
